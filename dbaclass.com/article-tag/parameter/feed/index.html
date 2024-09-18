@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>parameter Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/parameter/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/parameter/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 21 Mar 2019 14:28:09 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>DEFERRED_SEGMENT_CREATION parameter in oracle</title>
+		<link>https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/</link>
+					<comments>https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 21 Mar 2019 14:25:55 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=4164</guid>
+
+					<description><![CDATA[<p>DEFERRED_SEGMENT_CREATION parameter  specifies how segments will be created for the table and its objects like index. &#160; DEFERRED_SEGMENT_CREATION=TRUE     &#8212;&#8211;&#62;&#62; segments for tables and their dependent objects (indexes) will not be created until the first row is inserted into the table. DEFERRED_SEGMENT_CREATION=FALSE  &#8212;&#8212;-&#62;&#62; As soon as table/index is created, segments will be created (even [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/">DEFERRED_SEGMENT_CREATION parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em><strong>DEFERRED_SEGMENT_CREATION</strong></em> parameter  specifies how segments will be created for the table and its objects like index.</p>
+<p>&nbsp;</p>
+<table style="width: 100%; height: 140px; border-color: #120e0e; background-color: #f3f7eb;" border="1" cellpadding="1">
+<tbody>
+<tr style="height: 48px;">
+<td style="width: 448.046875px; border-color: #080707; height: 48px;"><span style="font-size: 12px;"><strong>DEFERRED_SEGMENT_CREATION=TRUE     &#8212;&#8211;&gt;&gt;</strong></span></td>
+<td style="width: 448.046875px; border-color: #080707; height: 48px;"><span style="font-size: 12px;">segments for tables and their dependent objects (indexes) will not be created until the first row is inserted into the table.</span></td>
+</tr>
+<tr style="height: 48px;">
+<td style="width: 448.046875px; border-color: #080707; height: 48px;"><span style="font-size: 12px;"><strong>DEFERRED_SEGMENT_CREATION=FALSE  &#8212;&#8212;-&gt;&gt;</strong></span></td>
+<td style="width: 448.046875px; border-color: #080707; height: 48px;"><span style="font-size: 12px;">As soon as table/index is created, segments will be created (even though no data is present) </span></td>
+</tr>
+</tbody>
+</table>
+<p>Setting this parameter to true will save disk space, if we expect lot of empty tables in the database.</p>
+<h3>Lets see the below example:-&gt;</h3>
+<p><strong>When DEFERRED_SEGMENT_CREATION=TRUE( THIS IS THE DEFAULT ONE)</strong></p>
+<pre>QL&gt; show parameter DEFERRED_SEGMENT_CREATION
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------
+deferred_segment_creation            boolean     TRUE
+SQL&gt;
+SQL&gt;
+
+SQL&gt; create table DEF_TABLE ( class_name VARCHAR2(100), SECTION NUMBER);
+
+Table created.
+
+
+
+SQL&gt;  create index DEF_IDX on DEF_TABLE (SECTION);
+
+Index created.
+
+
+SQL&gt;  select segment_name,segment_type from dba_segments where OWNER='DBACLASS';
+
+no rows selected.
+
+</pre>
+<p>We can see, it haven&#8217;t created the segments. So if you expect lot of empty tables in your database, setting this parameter to TRUE, will save lot of disk space.</p>
+<p><strong>Now set to FALSE, do the same test:</strong></p>
+<p>&nbsp;</p>
+<pre>SQL&gt; alter system set deferred_segment_creation=FALSE scope=both;
+
+System altered.
+
+
+SQL&gt; show parameter DEFERRED_SEGMENT_CREATION
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------
+deferred_segment_creation            boolean     FALSE
+
+SQL&gt;  create table DEF_TABLE_2 ( class_name VARCHAR2(100), SECTION NUMBER);
+
+Table created.
+
+
+
+SQL&gt;  create index DEF_IDX2 on DEF_TABLE_2(SECTION);
+
+Index created.
+
+
+
+
+
+SQL&gt;  select segment_name,segment_type from dba_segments where OWNER='DBACLASS';
+
+SEGMENT_NAME                                                            SEGMENT_TYPE
+---------------------------------------------------------------------- ------------------
+DEF_IDX2                                                               INDEX
+DEF_TABLE_2                                                            TABLE
+
+</pre>
+<p>We can see, as soon as we create the table and and index, the segment got created ,despite it does not   contain any data.</p>
+<p>The post <a href="https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/">DEFERRED_SEGMENT_CREATION parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

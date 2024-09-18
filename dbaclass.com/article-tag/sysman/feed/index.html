@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>sysman Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/sysman/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/sysman/</link>
+	<description>database administration</description>
+	<lastBuildDate>Mon, 02 Nov 2015 13:21:02 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>ORA-06512: at &#8220;SYSMAN.EM_SELF_UPDATE&#8221;  while installation 12c cloud control</title>
+		<link>https://dbaclass.com/article/ora-06512-at-sysman-em_self_update-while-installation-12c-cloud-control/</link>
+					<comments>https://dbaclass.com/article/ora-06512-at-sysman-em_self_update-while-installation-12c-cloud-control/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 02 Nov 2015 13:18:28 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=507</guid>
+
+					<description><![CDATA[<p>           We got below error while installing OEM 12c cloud  control. Error: &#160; INFO: oracle.sysman.top.oms:ORA-06512: at "SYSMAN.EM_SELF_UPDATE", line 1547 INFO: oracle.sysman.top.oms:ORA-06512: at "SYSMAN.EM_SELF_UPDATE", line 1547 INFO: oracle.sysman.top.oms:Caused by: oracle.sysman.emInternalSDK.core.selfupdate.integration.OperationFailedException: ORA-14400: inserted partition key does not map to any partition INFO: oracle.sysman.top.oms:ORA-06512: at "SYSMAN.EM_SELF_UPDATE", line 1547 INFO: oracle.sysman.top.oms:ORA-06512: at line 1 INFO: [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/ora-06512-at-sysman-em_self_update-while-installation-12c-cloud-control/">ORA-06512: at &#8220;SYSMAN.EM_SELF_UPDATE&#8221;  while installation 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">           We got below error while installing OEM 12c cloud  control.</span></p>
+<p><span style="text-decoration: underline;"><strong><span style="color: #000000; text-decoration: underline;">Error:</span></strong></span></p>
+<blockquote><p>&nbsp;</p></blockquote>
+<pre>INFO: oracle.sysman.top.oms:ORA-06512: at "SYSMAN.EM_SELF_UPDATE", line 1547
+INFO: oracle.sysman.top.oms:ORA-06512: at "SYSMAN.EM_SELF_UPDATE", line 1547
+INFO: oracle.sysman.top.oms:Caused by: oracle.sysman.emInternalSDK.core.selfupdate.integration.OperationFailedException: ORA-14400: inserted partition key does not map to any partition
+INFO: oracle.sysman.top.oms:ORA-06512: at "SYSMAN.EM_SELF_UPDATE", line 1547
+INFO: oracle.sysman.top.oms:ORA-06512: at line 1
+INFO: oracle.sysman.top.oms:
+INFO: oracle.sysman.top.oms: at oracle.sysman.emInternalSDK.core.selfupdate.InventoryManager.registerOutOfBoxEntity(InventoryManager.java:847)
+INFO: oracle.sysman.top.oms: at oracle.sysman.core.selfupdate.EntityInstRegistration.parse(EntityInstRegistration.java:185)
+INFO: oracle.sysman.top.oms: ... 5 more
+</pre>
+<p><strong><span style="text-decoration: underline;"><span style="color: #000000; text-decoration: underline;">Solution:</span></span></strong></p>
+<p><span style="color: #000000;">Login to repository database and execute below commands.</span></p>
+<pre class="">SQL&gt; exec gc_interval_partition_mgr.partition_maintenance;
+
+PL/SQL procedure successfully completed.
+
+SQL&gt; exec mgmt_audit_admin.add_audit_partition;
+
+PL/SQL procedure successfully completed.
+
+</pre>
+<p><span style="color: #000000;">Now retry the installation, It should completed successfully.</span></p>
+<p>Reference metalink id 1663277.1</p>
+<p>The post <a href="https://dbaclass.com/article/ora-06512-at-sysman-em_self_update-while-installation-12c-cloud-control/">ORA-06512: at &#8220;SYSMAN.EM_SELF_UPDATE&#8221;  while installation 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/ora-06512-at-sysman-em_self_update-while-installation-12c-cloud-control/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

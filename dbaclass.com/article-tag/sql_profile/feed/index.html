@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>sql_profile Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/sql_profile/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/sql_profile/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 07 Dec 2017 09:42:53 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>WHAT IS SQL PROFILE IN ORACLE</title>
+		<link>https://dbaclass.com/article/sql-profile-oracle/</link>
+					<comments>https://dbaclass.com/article/sql-profile-oracle/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 05 Dec 2017 08:46:22 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3514</guid>
+
+					<description><![CDATA[<p>You might have heard of SQL profile and SQL baselines in performance tuning chapters. Lets today go through details about sql profile. What is SQL profile: SQL profile is a collection of additional statistical information stored in the data dictionary that helps the optimizer to generate the best plan for the query. SQL profile is [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/sql-profile-oracle/">WHAT IS SQL PROFILE IN ORACLE</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>You might have heard of SQL profile and SQL baselines in performance tuning chapters. Lets today go through details about sql profile.</p>
+<p><strong>What is SQL profile:</strong></p>
+<p>SQL profile is a collection of additional statistical information stored in the data dictionary that helps the optimizer to generate the best plan for the query. SQL profile is managed through SQL_TUNE package of SQL tuning advisor. i.e when we run SQL tuning advisor against a query, The tuning optimizer creates a profile for an SQL statement called SQL profile which consists additional statistical information about that statement, and it gives the recommendation to accept that profile.</p>
+<p>NOTE &#8211; It is important to note that the SQL Profile does not freeze the execution plan of a SQL statement, as done by stored outlines. As tables grow or indexes are created or dropped, the execution plan can change with the same SQL Profile. The information stored in it continues to be relevant even as the data distribution or access path of the corresponding statement change.</p>
+<p><strong>SQL PROFILE can be applied to below statements.</strong></p>
+<p><span style="font-family: 'andale mono', monospace;">SELECT statements</span><br />
+<span style="font-family: 'andale mono', monospace;">UPDATE statements</span><br />
+<span style="font-family: 'andale mono', monospace;">INSERT statements (only with a SELECT clause)</span><br />
+<span style="font-family: 'andale mono', monospace;">DELETE statements</span><br />
+<span style="font-family: 'andale mono', monospace;">CREATE TABLE statements (only with the AS SELECT clause)</span><br />
+<span style="font-family: 'andale mono', monospace;">MERGE statements (the update or insert operations)</span></p>
+<p><strong>EXAMPLE:</strong></p>
+<p>In this example, first we will run SQL tuning advisor against an sql_id , and then will do different operations on sql profile.</p>
+<p>1. Run sql tuning advisor for sql_id=5dkrnbx1z8gcb</p>
+<pre>set long 1000000000
+Col recommendations for a200
+DECLARE
+  l_sql_tune_task_id  VARCHAR2(100);
+BEGIN
+  l_sql_tune_task_id := DBMS_SQLTUNE.create_tuning_task (
+                          sql_id      =&gt; '5dkrnbx1z8gcb',
+                          scope       =&gt; DBMS_SQLTUNE.scope_comprehensive,
+                          time_limit  =&gt; 500,
+                          task_name   =&gt; '5dkrnbx1z8gcb_tuning_task_1',
+                          description =&gt; 'Tuning task for statement 5dkrnbx1z8gcb');
+  DBMS_OUTPUT.put_line('l_sql_tune_task_id: ' || l_sql_tune_task_id);
+END;
+/
+
+
+EXEC DBMS_SQLTUNE.execute_tuning_task(task_name =&gt; '5dkrnbx1z8gcb_tuning_task_1');
+
+
+SET LONG 10000000;
+SET PAGESIZE 100000000
+SET LINESIZE 200
+SELECT DBMS_SQLTUNE.report_tuning_task('5dkrnbx1z8gcb_tuning_task_1') AS recommendations FROM dual;
+SET PAGESIZE 24
+</pre>
+<p><strong>2. Go through the profile recommendation part of the report:</strong></p>
+<p><code>DBMS_SQLTUNE.report_tuning_task</code> will generate the completed output of the advisory. If you go through the profile recommendation part, it will be as below.</p>
+<pre>  Recommendation (estimated benefit: 96.57%)
+  ------------------------------------------
+  - Consider accepting the recommended SQL profile.
+ 
+    execute dbms_sqltune.accept_sql_profile(task_name =&gt; '5dkrnbx1z8gcb_tuning_task_1', task_owner =&gt; 'SYS', replace =&gt;TRUE);
+</pre>
+<p><strong>2. Accept profile:</strong></p>
+<pre class="">    execute dbms_sqltune.accept_sql_profile(task_name =&gt; '5dkrnbx1z8gcb_tuning_task_1', task_owner =&gt; 'SYS', replace =&gt;TRUE);
+</pre>
+<p><strong>3. Find the name of the sql_profile:</strong></p>
+<p>in the accept_sql_profile package we didn&#8217;t specify a sql_profile name, So we need to find the sql_profile from the task_name.<br />
+Use the below query.</p>
+<pre>select name,status,force_matching from dba_sql_profiles  where task_id in ( select task_id from DBA_ADVISOR_TASKS where task_name ='5dkrnbx1z8gcb_tuning_task_1')
+
+set pagesize 299
+set lines 299
+col name for a45
+NAME                               STATUS   FOR
+---------------------------------- -------- ---
+SYS_SQLPROF_01601b64332e0000       ENABLED  NO
+
+</pre>
+<p><strong>4. Alter a profile,</strong></p>
+<p>You can disable a sql_profile using steps.</p>
+<pre>BEGIN
+DBMS_SQLTUNE.ALTER_SQL_PROFILE(
+name =&gt; 'SYS_SQLPROF_01601b64332e0000', 
+attribute_name =&gt; 'STATUS', 
+value =&gt; 'DISABLED');
+END;
+/
+
+To enable to changed the value from DISABLED to ENABLED.
+
+</pre>
+<p><strong>5. Dropping an SQL profile:</strong></p>
+<pre>begin
+DBMS_SQLTUNE.DROP_SQL_PROFILE(name =&gt; 'SYS_SQLPROF_01601b64332e0000');
+end;
+/
+</pre>
+<p>The post <a href="https://dbaclass.com/article/sql-profile-oracle/">WHAT IS SQL PROFILE IN ORACLE</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/sql-profile-oracle/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

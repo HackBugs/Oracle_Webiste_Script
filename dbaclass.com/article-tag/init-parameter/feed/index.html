@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>init parameter Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/init-parameter/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/init-parameter/</link>
+	<description>database administration</description>
+	<lastBuildDate>Mon, 24 Feb 2020 07:39:29 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>sec_case_sensitive_logon parameter in oracle</title>
+		<link>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/</link>
+					<comments>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 24 Feb 2020 07:39:29 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4842</guid>
+
+					<description><![CDATA[<p>         sec_case_sensitive_logon &#8211; &#62; This initialisation(init) parameter enables or disabled password case sensitivity in the database. when sec_case_sensitive_logon is TRUE &#8211; -&#62; t he database use login passwords are case sensitive. when sec_case_sensitive_logon is FALSE &#8211; -&#62; means database use login passwords are case insensitive. DEFAULT VALUE IS TRUE . Lets see [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/">sec_case_sensitive_logon parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>         sec_case_sensitive_logon</strong> &#8211; &gt; This initialisation(init) parameter enables or disabled password case sensitivity in the database.</p>
+<p><span style="font-family: 'andale mono', monospace;"><strong>when sec_case_sensitive_logon is TRUE</strong></span> &#8211; -&gt; t he database use login passwords are case sensitive.</p>
+<p><strong><span style="font-family: 'andale mono', monospace;">when sec_case_sensitive_logon is FALSE</span></strong> &#8211; -&gt; means database use login passwords are case insensitive.</p>
+<p>DEFAULT VALUE IS TRUE .</p>
+<p>Lets see below DEMO:</p>
+<p><strong>DEMO:</strong></p>
+<p><strong>1. When sec_case_sensitive_logon is TRUE.</strong></p>
+<pre>
+SQL&gt; show parameter sec_case
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sec_case_sensitive_logon             boolean     TRUE
+
+
+
+SQL&gt; alter user DBACLASS identified by DBAclass;
+
+User altered.
+
+
+
+SQL&gt; connect DBACLASS/dbaclass
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+
+
+
+SQL&gt; connect  DBACLASS/DBAclass
+Connected.
+
+
+</pre>
+<p>We can see the the password is case sensitive.</p>
+<p><strong>2. When sec_case_sensitive_logon is FALSE.</strong></p>
+<p>Lets make the parameter to false:</p>
+<pre>
+
+SQL&gt; ALTER SYSTEM SET sec_case_sensitive_logon=FALSE scope=both;
+
+database altered.
+
+
+SQL&gt; show parameter sec_case
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sec_case_sensitive_logon             boolean     FALSE
+
+SQL&gt; alter user DBACLASS identified by DBAclass;
+
+User altered.
+
+
+Now try to connect with any case(small or caps)  
+
+SQL&gt;
+SQL&gt; connect DBACLASS/dbaclass
+Connected.
+SQL&gt;  connect DBACLASS/DBACLASS
+Connected.
+
+</pre>
+<p>We can see password is case insensitive.</p>
+<p>The post <a href="https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/">sec_case_sensitive_logon parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>resumable_timeout parameter in oracle database</title>
+		<link>https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/</link>
+					<comments>https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 29 May 2017 09:37:55 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2935</guid>
+
+					<description><![CDATA[<p>resumable_timeout is an initialization parameter introduced in Oracle 9i.  This parameter defines the duration in seconds, for which the statements will be suspended if there is no space available in the tablespace for that operation. Once we add space to that tablespace, those transactions will resume their operation. Let&#8217;s see the below example: SQL&#62; show [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/">resumable_timeout parameter in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>resumable_timeout is an initialization parameter introduced in Oracle 9i.  This parameter defines the duration in seconds, for which the statements will be suspended if there is no space available in the tablespace for that operation. Once we add space to that tablespace, those transactions will resume their operation.</p>
+<p>Let&#8217;s see the below example:</p>
+<pre class="">SQL&gt; show parameter resumable_timeout                    
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+resumable_timeout                    integer     0
+
+</pre>
+<p>The parameter is set to  ZERO. Let&#8217;s create a table.</p>
+<pre class="">SQL&gt; create table DBACLASS.TEST_TAB as select * from dba_objects;
+create table DBACLASS.TEST_TAB as select * from dba_objects
+*
+ERROR at line 1:
+ORA-01652: unable to extend temp segment by 128 in tablespace TEST2
+</pre>
+<p>As soon as the transaction couldn&#8217;t find any space, it terminated the process instantly( Because resumable_timeout is set to 0).</p>
+<p><strong>The alert log also:</strong></p>
+<pre>Mon May 29 11:59:29 2017
+ORA-1652: unable to extend temp segment by 128 in tablespace TEST2
+
+</pre>
+<p><strong>Lets set resumable_timeout to a higher value:</strong></p>
+<pre class="">SQL&gt; alter system set resumable_timeout=900 scope=both;
+
+System altered.
+
+</pre>
+<p><strong>Create the table again:</strong></p>
+<pre class="">SQL&gt; create table DBACLASS.TEST_TAB as select * from dba_objects;
+..
+..
+
+</pre>
+<p>Now the query is stuck, let&#8217;s <strong>check the alert log:</strong></p>
+<pre>Mon May 29 11:59:59 2017
+ORA-1652: unable to extend temp segment by 128 in tablespace TEST2
+statement in resumable session 'User SYS(0), Session 1103, Instance 1' was suspended due to
+    ORA-01652: unable to extend temp segment by 128 in tablespace TEST2
+Mon May 29 12:00:35 2017
+
+</pre>
+<p>It clearly states that, the statement in suspended.</p>
+<p><strong>We can check dba_resumables also:</strong></p>
+<pre>SQL&gt; select name, status, timeout, sql_text, error_msg from dba_resumable where status='SUSPENDED';
+
+NAME                           STATUS       TIMEOUT SQL_TEXT
+------------------------------ --------- ---------- ------------------------------
+ERROR_MSG
+-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+User SYS(0), Session 1160, Ins SUSPENDED        900 create table DBACLASS.TEST_TAB
+tance 1                                              as select * from dba_objects
+ORA-01652: unable to extend temp segment by 128 in tablespace TEST2
+
+</pre>
+<p>Now we will add some space to that tablespace,</p>
+<pre>SQL&gt; alter database datafile '/SIBIP16/SBIP18DB/SBIP18DB/test02.dbf' resize 1G;
+
+Database altered.
+
+</pre>
+<p><strong>Alert log now:</strong></p>
+<pre>Completed: alter database datafile '/SIBIP16/SBIP18DB/SBIP18DB/test02.dbf' resize 1G
+Mon May 29 12:00:40 2017
+statement in resumable session 'User SYS(0), Session 1103, Instance 1' was resumed
+
+</pre>
+<p><strong>DBA_RESUMABLES:</strong></p>
+<pre>SQL&gt; select name, status, timeout, sql_text, error_msg from dba_resumable where status='SUSPENDED';
+
+no rows selected
+
+</pre>
+<p>We can see, as soon as space is available, the statement resumed its transaction</p>
+<pre class="">SQL&gt; create table DBACLASS.TEST_TAB as select * from dba_objects;
+
+Table created.
+</pre>
+<p>The post <a href="https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/">resumable_timeout parameter in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

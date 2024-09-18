@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>CONTROLFILE Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/controlfile/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/controlfile/</link>
+	<description>database administration</description>
+	<lastBuildDate>Wed, 15 Feb 2017 12:00:02 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to recreate physical standby controlfile</title>
+		<link>https://dbaclass.com/article/how-to-recreate-physical-standby-controlfile/</link>
+					<comments>https://dbaclass.com/article/how-to-recreate-physical-standby-controlfile/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 15 Feb 2017 11:58:57 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=1804</guid>
+
+					<description><![CDATA[<p>     Below are the steps for recreating physical standby controlfile. 1. Get the controlfile location [STANDBY] SQL&#62; show parameter control_files NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ control_files string /archive/NONPLUG/NONCDB/contro l01.ctl, /archive/NONPLUG/NONC DB/control02.ctl 2. Cancel recovery [STANDBY] alter database recover managed standby database cancel; 3. Shutdown standby [ STANDBY] SQL&#62; SHUTDOWN IMMEDIATE Database closed. Database [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-recreate-physical-standby-controlfile/">How to recreate physical standby controlfile</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">     Below are the steps for recreating physical standby </span>controlfile<span style="color: #000000;">.</span></p>
+<p><strong><span style="color: #000000;">1. Get the </span></strong>controlfile<strong><span style="color: #000000;"> location [STANDBY]</span></strong></p>
+<pre>SQL&gt; show parameter control_files
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+control_files                        string      /archive/NONPLUG/NONCDB/contro
+                                                 l01.ctl, /archive/NONPLUG/NONC
+                                                 DB/control02.ctl
+</pre>
+<p><strong><span style="color: #000000;">2. Cancel recovery [STANDBY]</span></strong></p>
+<pre>alter database recover managed standby database cancel;
+</pre>
+<p><strong><span style="color: #000000;">3. Shutdown standby [ STANDBY]</span></strong></p>
+<pre>SQL&gt; SHUTDOWN IMMEDIATE
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+</pre>
+<p><strong><span style="color: #000000;">4. Create standby </span></strong>controlfile<strong><span style="color: #000000;"> in primary [ PRIMARY]</span></strong></p>
+<pre>alter database create standby controlfile as '/export/home/oracle/standby_ctrl.ctl';
+</pre>
+<p><strong><span style="color: #000000;">5. copy the </span></strong>controlfile<strong><span style="color: #000000;"> to standby server.</span></strong></p>
+<pre>scp /export/home/oracle/standby_ctrl.ctl oracle@host2.com:/export/stdby/home/
+</pre>
+<p><strong><span style="color: #000000;">6.Replace the existing </span></strong>controlfile<strong><span style="color: #000000;"> with the new </span></strong>controlfile<strong><span style="color: #000000;"> [ STANDBY]</span></strong></p>
+<pre>rm -rf /archive/NONPLUG/NONCDB/control01.ctl
+rm -rf /archive/NONPLUG/NONCDB/control02.ctl
+
+cp /export/stdby/home/standby_ctrl.ctl /archive/NONPLUG/NONCDB/control01.ctl
+cp /export/stdby/home/standby_ctrl.ctl /archive/NONPLUG/NONCDB/control02.ctl
+
+</pre>
+<p><strong><span style="color: #000000;">7. Mount standby database [ STANDBY]</span></strong></p>
+<pre>SQL&gt; startup mount
+ORACLE instance started.
+Total System Global Area 1.1107E+10 bytes
+Fixed Size 7644464 bytes
+Variable Size 9294584528 bytes
+Database Buffers 1711276032 bytes
+Redo Buffers 93011968 bytes
+Database mounted.
+</pre>
+<p><strong><span style="color: #000000;">8. Start MRP recovery process [ STANDBY]</span></strong></p>
+<pre>alter database recover managed standby database disconnect from session;
+</pre>
+<p>The post <a href="https://dbaclass.com/article/how-to-recreate-physical-standby-controlfile/">How to recreate physical standby controlfile</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-recreate-physical-standby-controlfile/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

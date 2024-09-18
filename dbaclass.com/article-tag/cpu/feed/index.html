@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>CPU Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/cpu/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/cpu/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 20 Jul 2017 13:22:00 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Find sessions consuming lot of CPU</title>
+		<link>https://dbaclass.com/article/find-sessions-consuming-lot-cpu/</link>
+					<comments>https://dbaclass.com/article/find-sessions-consuming-lot-cpu/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 20 Jul 2017 13:22:00 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3117</guid>
+
+					<description><![CDATA[<p>Use below query to find the sessions using a lot of CPU. col program form a30 heading "Program" col CPUMins form 99990 heading "CPU in Mins" select rownum as rank, a.* from ( SELECT v.sid, program, v.value / (100 * 60) CPUMins FROM v$statname s , v$sesstat v, v$session sess WHERE s.name = 'CPU used [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/find-sessions-consuming-lot-cpu/">Find sessions consuming lot of CPU</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Use below query to find the sessions using a lot of CPU.</p>
+<pre>col program form a30 heading "Program" 
+col CPUMins form 99990 heading "CPU in Mins" 
+select rownum as rank, a.* 
+from ( 
+SELECT v.sid, program, v.value / (100 * 60) CPUMins 
+FROM v$statname s , v$sesstat v, v$session sess 
+WHERE s.name = 'CPU used by this session' 
+and sess.sid = v.sid 
+and v.statistic#=s.statistic# 
+and v.value&gt;0 
+ORDER BY v.value DESC) a 
+where rownum &lt; 11;
+</pre>
+<p>The post <a href="https://dbaclass.com/article/find-sessions-consuming-lot-cpu/">Find sessions consuming lot of CPU</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-sessions-consuming-lot-cpu/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

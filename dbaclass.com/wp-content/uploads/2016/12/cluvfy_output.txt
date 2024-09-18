@@ -1,0 +1,673 @@
+Performing pre-checks for cluster services setup
+
+Checking node reachability...
+
+Check: Node reachability from node "sec60-2"
+  Destination Node                      Reachable?
+  ------------------------------------  ------------------------
+  sec60-2                               yes
+  sec61-2                               yes
+Result: Node reachability check passed from node "sec60-2"
+
+
+Checking user equivalence...
+
+Check: User equivalence for user "oracle"
+  Node Name                             Status
+  ------------------------------------  ------------------------
+  sec61-2                               passed
+  sec60-2                               passed
+Result: User equivalence check passed for user "oracle"
+
+Check: Grid Infrastructure home writeability of path /crsapp/app/oracle/product/grid12c
+Grid Infrastructure home check passed
+
+Checking CRS user consistency
+Result: CRS user consistency check successful
+Checking network configuration consistency.
+Result: Check for network configuration consistency passed.
+Checking ASM disk size consistency
+All ASM disks are correctly sized
+Checking if ASM parameter file is in use by an ASM instance on the local node
+Result: ASM instance is using parameter file "+CRMOCRVOT/crmpre/asmparameterfile/registry.253.806497273" on node "sec60-2" on which upgrade is requested.
+
+Checking OLR integrity...
+Check of existence of OLR configuration file "/var/opt/oracle/olr.loc" passed
+Check of attributes of OLR configuration file "/var/opt/oracle/olr.loc" passed
+
+WARNING:
+This check does not verify the integrity of the OLR contents. Execute 'ocrcheck -local' as a privileged user to verify the contents of OLR.
+
+OLR integrity check passed
+
+Checking node connectivity...
+
+Checking hosts config file...
+  Node Name                             Status
+  ------------------------------------  ------------------------
+  sec60-2                               passed
+  sec61-2                               passed
+
+Verification of the hosts config file successful
+
+
+Interface information for node "sec60-2"
+ Name   IP Address      Subnet          Gateway         Def. Gateway    HW Address        MTU
+ ------ --------------- --------------- --------------- --------------- ----------------- ------
+ nxge8  172.20.179.79   172.20.179.64   172.20.179.79   172.20.179.124  00:10:E0:1F:35:0C 1500
+ ibd4   192.168.1.1     192.168.1.0     192.168.1.1     172.20.179.124  00:00:00:00:00:00 2044
+ ibd4   169.254.6.212   169.254.0.0     169.254.6.212   172.20.179.124  00:00:00:00:00:00 2044
+ ibd5   192.168.2.1     192.168.2.0     192.168.2.1     172.20.179.124  00:00:00:00:00:00 2044
+ ibd5   169.254.243.238 169.254.128.0   169.254.243.238 172.20.179.124  00:00:00:00:00:00 2044
+
+
+Interface information for node "sec61-2"
+ Name   IP Address      Subnet          Gateway         Def. Gateway    HW Address        MTU
+ ------ --------------- --------------- --------------- --------------- ----------------- ------
+ nxge8  172.20.179.81   172.20.179.64   172.20.179.81   172.20.179.124  00:10:E0:1F:37:CC 1500
+ ibd4   192.168.1.2     192.168.1.0     192.168.1.2     172.20.179.124  00:00:00:00:00:00 2044
+ ibd4   169.254.52.8    169.254.0.0     169.254.52.8    172.20.179.124  00:00:00:00:00:00 2044
+ ibd5   192.168.2.2     192.168.2.0     192.168.2.2     172.20.179.124  00:00:00:00:00:00 2044
+ ibd5   169.254.187.48  169.254.128.0   169.254.187.48  172.20.179.124  00:00:00:00:00:00 2044
+
+
+Check: Node connectivity using interfaces on subnet "172.20.179.64"
+
+Check: Node connectivity of subnet "172.20.179.64"
+  Source                          Destination                     Connected?
+  ------------------------------  ------------------------------  ----------------
+  sec60-2[172.20.179.79]          sec61-2[172.20.179.81]          yes
+Result: Node connectivity passed for subnet "172.20.179.64" with node(s) sec60-2,sec61-2
+
+
+Check: TCP connectivity of subnet "172.20.179.64"
+  Source                          Destination                     Connected?
+  ------------------------------  ------------------------------  ----------------
+  sec60-2 : 172.20.179.79         sec60-2 : 172.20.179.79         passed
+  sec61-2 : 172.20.179.81         sec60-2 : 172.20.179.79         passed
+  sec60-2 : 172.20.179.79         sec61-2 : 172.20.179.81         passed
+  sec61-2 : 172.20.179.81         sec61-2 : 172.20.179.81         passed
+Result: TCP connectivity check passed for subnet "172.20.179.64"
+
+
+Check: Node connectivity using interfaces on subnet "192.168.1.0"
+
+Check: Node connectivity of subnet "192.168.1.0"
+  Source                          Destination                     Connected?
+  ------------------------------  ------------------------------  ----------------
+  sec60-2[192.168.1.1]            sec61-2[192.168.1.2]            yes
+Result: Node connectivity passed for subnet "192.168.1.0" with node(s) sec60-2,sec61-2
+
+
+Check: TCP connectivity of subnet "192.168.1.0"
+  Source                          Destination                     Connected?
+  ------------------------------  ------------------------------  ----------------
+  sec60-2 : 192.168.1.1           sec60-2 : 192.168.1.1           passed
+  sec61-2 : 192.168.1.2           sec60-2 : 192.168.1.1           passed
+  sec60-2 : 192.168.1.1           sec61-2 : 192.168.1.2           passed
+  sec61-2 : 192.168.1.2           sec61-2 : 192.168.1.2           passed
+Result: TCP connectivity check passed for subnet "192.168.1.0"
+
+
+Check: Node connectivity using interfaces on subnet "192.168.2.0"
+
+Check: Node connectivity of subnet "192.168.2.0"
+  Source                          Destination                     Connected?
+  ------------------------------  ------------------------------  ----------------
+  sec61-2[192.168.2.2]            sec60-2[192.168.2.1]            yes
+Result: Node connectivity passed for subnet "192.168.2.0" with node(s) sec61-2,sec60-2
+
+
+Check: TCP connectivity of subnet "192.168.2.0"
+  Source                          Destination                     Connected?
+  ------------------------------  ------------------------------  ----------------
+  sec61-2 : 192.168.2.2           sec61-2 : 192.168.2.2           passed
+  sec60-2 : 192.168.2.1           sec61-2 : 192.168.2.2           passed
+  sec61-2 : 192.168.2.2           sec60-2 : 192.168.2.1           passed
+  sec60-2 : 192.168.2.1           sec60-2 : 192.168.2.1           passed
+Result: TCP connectivity check passed for subnet "192.168.2.0"
+
+Checking subnet mask consistency...
+Subnet mask consistency check passed for subnet "172.20.179.64".
+Subnet mask consistency check passed for subnet "192.168.1.0".
+Subnet mask consistency check passed for subnet "192.168.2.0".
+Subnet mask consistency check passed.
+
+Result: Node connectivity check passed
+
+Checking multicast communication...
+
+Checking subnet "192.168.1.0" for multicast communication with multicast group "224.0.0.251"...
+Check of subnet "192.168.1.0" for multicast communication with multicast group "224.0.0.251" passed.
+
+Checking subnet "192.168.2.0" for multicast communication with multicast group "224.0.0.251"...
+Check of subnet "192.168.2.0" for multicast communication with multicast group "224.0.0.251" passed.
+
+Check of multicast communication passed.
+Task ASM Integrity check started...
+
+
+Starting check to see if ASM is running on all cluster nodes...
+
+ASM Running check passed. ASM is running on all specified nodes
+
+Confirming that at least one ASM disk group is configured...
+Disk Group Check passed. At least one Disk Group configured
+
+Task ASM Integrity check passed...
+
+Checking OCR integrity...
+Disks "+CRMOCRVOT" are managed by ASM.
+
+OCR integrity check passed
+
+Check: Total memory
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       768GB (8.05306368E8KB)    4GB (4194304.0KB)         passed
+  sec60-2       768GB (8.05306368E8KB)    4GB (4194304.0KB)         passed
+Result: Total memory check passed
+
+Check: Available memory
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       93.7501GB (9.8304112E7KB)  50MB (51200.0KB)          passed
+  sec60-2       89.3501GB (9.3690344E7KB)  50MB (51200.0KB)          passed
+Result: Available memory check passed
+
+Check: Swap space
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       1024GB (1.073741816E9KB)  16GB (1.6777216E7KB)      passed
+  sec60-2       1024GB (1.073741816E9KB)  16GB (1.6777216E7KB)      passed
+Result: Swap space check passed
+
+Check: Free disk space for "sec61-2:/usr,sec61-2:/var,sec61-2:/etc,sec61-2:/sbin,sec61-2:/var/tmp/"
+  Path              Node Name     Mount point   Available     Required      Status
+  ----------------  ------------  ------------  ------------  ------------  ------------
+  /usr              sec61-2       /             375.2278GB    1.0635GB      passed
+  /var              sec61-2       /             375.2278GB    1.0635GB      passed
+  /etc              sec61-2       /             375.2278GB    1.0635GB      passed
+  /sbin             sec61-2       /             375.2278GB    1.0635GB      passed
+  /var/tmp/         sec61-2       /             375.2278GB    1.0635GB      passed
+Result: Free disk space check passed for "sec61-2:/usr,sec61-2:/var,sec61-2:/etc,sec61-2:/sbin,sec61-2:/var/tmp/"
+
+Check: Free disk space for "sec60-2:/usr,sec60-2:/var,sec60-2:/etc,sec60-2:/sbin,sec60-2:/var/tmp/"
+  Path              Node Name     Mount point   Available     Required      Status
+  ----------------  ------------  ------------  ------------  ------------  ------------
+  /usr              sec60-2       /             141.0418GB    1.0635GB      passed
+  /var              sec60-2       /             141.0418GB    1.0635GB      passed
+  /etc              sec60-2       /             141.0418GB    1.0635GB      passed
+  /sbin             sec60-2       /             141.0418GB    1.0635GB      passed
+  /var/tmp/         sec60-2       /             141.0418GB    1.0635GB      passed
+Result: Free disk space check passed for "sec60-2:/usr,sec60-2:/var,sec60-2:/etc,sec60-2:/sbin,sec60-2:/var/tmp/"
+
+Check: Free disk space for "sec61-2:/crsapp/app/oracle/product/grid11204"
+  Path              Node Name     Mount point   Available     Required      Status
+  ----------------  ------------  ------------  ------------  ------------  ------------
+  /crsapp/app/oracle/product/grid11204  sec61-2       /crsapp       9.1384GB      6.9GB         passed
+Result: Free disk space check passed for "sec61-2:/crsapp/app/oracle/product/grid11204"
+
+Check: Free disk space for "sec60-2:/crsapp/app/oracle/product/grid11204"
+  Path              Node Name     Mount point   Available     Required      Status
+  ----------------  ------------  ------------  ------------  ------------  ------------
+  /crsapp/app/oracle/product/grid11204  sec60-2       /crsapp       24.1094GB     6.9GB         passed
+Result: Free disk space check passed for "sec60-2:/crsapp/app/oracle/product/grid11204"
+
+Check: User existence for "oracle"
+  Node Name     Status                    Comment
+  ------------  ------------------------  ------------------------
+  sec61-2       passed                    exists(300)
+  sec60-2       passed                    exists(300)
+
+Checking for multiple users with UID value 300
+Result: Check for multiple users with UID value 300 passed
+Result: User existence check passed for "oracle"
+
+Check: Group existence for "oinstall"
+  Node Name     Status                    Comment
+  ------------  ------------------------  ------------------------
+  sec61-2       passed                    exists
+  sec60-2       passed                    exists
+Result: Group existence check passed for "oinstall"
+
+Check: Group existence for "dba"
+  Node Name     Status                    Comment
+  ------------  ------------------------  ------------------------
+  sec61-2       passed                    exists
+  sec60-2       passed                    exists
+Result: Group existence check passed for "dba"
+
+Check: Membership of user "oracle" in group "oinstall" [as Primary]
+  Node Name         User Exists   Group Exists  User in Group  Primary       Status
+  ----------------  ------------  ------------  ------------  ------------  ------------
+  sec61-2           yes           yes           yes           yes           passed
+  sec60-2           yes           yes           yes           yes           passed
+Result: Membership check for user "oracle" in group "oinstall" [as Primary] passed
+
+Check: Membership of user "oracle" in group "dba"
+  Node Name         User Exists   Group Exists  User in Group  Status
+  ----------------  ------------  ------------  ------------  ----------------
+  sec61-2           yes           yes           yes           passed
+  sec60-2           yes           yes           yes           passed
+Result: Membership check for user "oracle" in group "dba" passed
+
+Check: Run level
+  Node Name     run level                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       3                         3                         passed
+  sec60-2       3                         3                         passed
+Result: Run level check passed
+
+Check: Hard limits for "maximum open file descriptors"
+  Node Name         Type          Available     Required      Status
+  ----------------  ------------  ------------  ------------  ----------------
+  sec61-2           hard          65536         65536         passed
+  sec60-2           hard          65536         65536         passed
+Result: Hard limits check passed for "maximum open file descriptors"
+
+Check: Soft limits for "maximum open file descriptors"
+  Node Name         Type          Available     Required      Status
+  ----------------  ------------  ------------  ------------  ----------------
+  sec61-2           soft          65536         1024          passed
+  sec60-2           soft          65536         1024          passed
+Result: Soft limits check passed for "maximum open file descriptors"
+
+Check: Hard limits for "maximum user processes"
+  Node Name         Type          Available     Required      Status
+  ----------------  ------------  ------------  ------------  ----------------
+  sec61-2           hard          29995         16384         passed
+  sec60-2           hard          29995         16384         passed
+Result: Hard limits check passed for "maximum user processes"
+
+Check: Soft limits for "maximum user processes"
+  Node Name         Type          Available     Required      Status
+  ----------------  ------------  ------------  ------------  ----------------
+  sec61-2           soft          29995         2047          passed
+  sec60-2           soft          29995         2047          passed
+Result: Soft limits check passed for "maximum user processes"
+
+There are no oracle patches required for home "/crsapp/app/oracle/product/grid11204".
+
+There are no oracle patches required for home "/crsapp/app/oracle/product/grid11204".
+
+Checking for suitability of source home "/crsapp/app/oracle/product/grid11204" for upgrading to version "12.1.0.2.0".
+Result: Source home "/crsapp/app/oracle/product/grid11204" is suitable for upgrading to version "12.1.0.2.0".
+
+Check: System architecture
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       64-bit sparcv9 kernel modules  64-bit sparcv9 kernel modules  passed
+  sec60-2       64-bit sparcv9 kernel modules  64-bit sparcv9 kernel modules  passed
+Result: System architecture check passed
+
+Check: Kernel version
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       5.10-2013.1               5.10-2011.8               passed
+  sec60-2       5.10-2013.1               5.10-2011.8               passed
+Result: Kernel version check passed
+
+Check: Kernel parameter for "project.max-sem-ids"
+  Node Name         Current       Required      Status        Comment
+  ----------------  ------------  ------------  ------------  ----------------
+  sec60-2       128                       100                       passed
+  sec61-2       128                       100                       passed
+Result: Kernel parameter check passed for "project.max-sem-ids"
+
+Check: Kernel parameter for "process.max-sem-nsems"
+  Node Name         Current       Required      Status        Comment
+  ----------------  ------------  ------------  ------------  ----------------
+  sec60-2       512                       256                       passed
+  sec61-2       512                       256                       passed
+Result: Kernel parameter check passed for "process.max-sem-nsems"
+
+Check: Kernel parameter for "project.max-shm-memory"
+  Node Name         Current       Required      Status        Comment
+  ----------------  ------------  ------------  ------------  ----------------
+  sec60-2       697932185600              8589934592                passed
+  sec61-2       697932185600              8589934592                passed
+Result: Kernel parameter check passed for "project.max-shm-memory"
+
+Check: Kernel parameter for "project.max-shm-ids"
+  Node Name         Current       Required      Status        Comment
+  ----------------  ------------  ------------  ------------  ----------------
+  sec60-2       128                       100                       passed
+  sec61-2       128                       100                       passed
+Result: Kernel parameter check passed for "project.max-shm-ids"
+
+Check: Kernel parameter for "tcp_smallest_anon_port"
+  Node Name         Current       Required      Status        Comment
+  ----------------  ------------  ------------  ------------  ----------------
+  sec60-2       9000                      at least 9000             passed
+  sec61-2       9000                      at least 9000             passed
+Result: Kernel parameter check passed for "tcp_smallest_anon_port"
+
+Check: Kernel parameter for "tcp_largest_anon_port"
+  Node Name         Current       Required      Status        Comment
+  ----------------  ------------  ------------  ------------  ----------------
+  sec60-2       65535                     at most 65535             passed
+  sec61-2       65535                     at most 65535             passed
+Result: Kernel parameter check passed for "tcp_largest_anon_port"
+
+Check: Kernel parameter for "udp_smallest_anon_port"
+  Node Name         Current       Required      Status        Comment
+  ----------------  ------------  ------------  ------------  ----------------
+  sec60-2       9000                      at least 9000             passed
+  sec61-2       9000                      at least 9000             passed
+Result: Kernel parameter check passed for "udp_smallest_anon_port"
+
+Check: Kernel parameter for "udp_largest_anon_port"
+  Node Name         Current       Required      Status        Comment
+  ----------------  ------------  ------------  ------------  ----------------
+  sec60-2       65500                     at most 65535             passed
+  sec61-2       65500                     at most 65535             passed
+Result: Kernel parameter check passed for "udp_largest_anon_port"
+
+Check: Package existence for "SUNWarc"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWarc                   SUNWarc                   passed
+  sec60-2       SUNWarc                   SUNWarc                   passed
+Result: Package existence check passed for "SUNWarc"
+
+Check: Package existence for "SUNWbtool"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWbtool                 SUNWbtool                 passed
+  sec60-2       SUNWbtool                 SUNWbtool                 passed
+Result: Package existence check passed for "SUNWbtool"
+
+Check: Package existence for "SUNWhea"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWhea                   SUNWhea                   passed
+  sec60-2       SUNWhea                   SUNWhea                   passed
+Result: Package existence check passed for "SUNWhea"
+
+Check: Package existence for "SUNWlibm"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWlibm                  SUNWlibm                  passed
+  sec60-2       SUNWlibm                  SUNWlibm                  passed
+Result: Package existence check passed for "SUNWlibm"
+
+Check: Package existence for "SUNWlibms"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWlibms                 SUNWlibms                 passed
+  sec60-2       SUNWlibms                 SUNWlibms                 passed
+Result: Package existence check passed for "SUNWlibms"
+
+Check: Package existence for "SUNWsprot"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWsprot                 SUNWsprot                 passed
+  sec60-2       SUNWsprot                 SUNWsprot                 passed
+Result: Package existence check passed for "SUNWsprot"
+
+Check: Package existence for "SUNWtoo"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWtoo                   SUNWtoo                   passed
+  sec60-2       SUNWtoo                   SUNWtoo                   passed
+Result: Package existence check passed for "SUNWtoo"
+
+Check: Package existence for "SUNWi1of"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWi1of                  SUNWi1of                  passed
+  sec60-2       SUNWi1of                  SUNWi1of                  passed
+Result: Package existence check passed for "SUNWi1of"
+
+Check: Package existence for "SUNWi1cs"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWi1cs                  SUNWi1cs                  passed
+  sec60-2       SUNWi1cs                  SUNWi1cs                  passed
+Result: Package existence check passed for "SUNWi1cs"
+
+Check: Package existence for "SUNWi15cs"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWi15cs                 SUNWi15cs                 passed
+  sec60-2       SUNWi15cs                 SUNWi15cs                 passed
+Result: Package existence check passed for "SUNWi15cs"
+
+Check: Package existence for "SUNWeu8os"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWeu8os                 SUNWeu8os                 passed
+  sec60-2       SUNWeu8os                 SUNWeu8os                 passed
+Result: Package existence check passed for "SUNWeu8os"
+
+Check: Package existence for "SUNWxwfnt"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWxwfnt                 SUNWxwfnt                 passed
+  sec60-2       SUNWxwfnt                 SUNWxwfnt                 passed
+Result: Package existence check passed for "SUNWxwfnt"
+
+Check: Package existence for "SUNWlibC"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWlibC                  SUNWlibC                  passed
+  sec60-2       SUNWlibC                  SUNWlibC                  passed
+Result: Package existence check passed for "SUNWlibC"
+
+Check: Package existence for "SUNWcsl"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWcsl                   SUNWcsl                   passed
+  sec60-2       SUNWcsl                   SUNWcsl                   passed
+Result: Package existence check passed for "SUNWcsl"
+
+Check: Package existence for "SUNWdtrc"
+  Node Name     Available                 Required                  Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       SUNWdtrc                  SUNWdtrc                  passed
+  sec60-2       SUNWdtrc                  SUNWdtrc                  passed
+Result: Package existence check passed for "SUNWdtrc"
+
+Checking for multiple users with UID value 0
+Result: Check for multiple users with UID value 0 passed
+
+Check: Current group ID
+Result: Current group ID check passed
+
+Starting check for consistency of primary group of root user
+  Node Name                             Status
+  ------------------------------------  ------------------------
+  sec61-2                               passed
+  sec60-2                               passed
+
+Check for consistency of root user's primary group passed
+
+Starting Clock synchronization checks using Network Time Protocol(NTP)...
+
+Checking existence of NTP configuration file "/etc/inet/ntp.conf" across nodes
+  Node Name                             File exists?
+  ------------------------------------  ------------------------
+  sec61-2                               yes
+  sec60-2                               yes
+The NTP configuration file "/etc/inet/ntp.conf" is available on all nodes
+NTP configuration file "/etc/inet/ntp.conf" existence check passed
+
+Checking daemon liveness...
+
+Check: Liveness for "xntpd"
+  Node Name                             Running?
+  ------------------------------------  ------------------------
+  sec61-2                               yes
+  sec60-2                               yes
+Result: Liveness check passed for "xntpd"
+Check for NTP daemon or service alive passed on all nodes
+
+Checking whether NTP daemon or service is using UDP port 123 on all nodes
+
+Check for NTP daemon or service using UDP port 123
+  Node Name                             Port Open?
+  ------------------------------------  ------------------------
+  sec61-2                               yes
+  sec60-2                               yes
+
+NTP common Time Server Check started...
+NTP Time Server "0.0.0.0" is common to all nodes on which the NTP daemon is running
+NTP Time Server ".GPS." is common to all nodes on which the NTP daemon is running
+NTP Time Server "172.20.236.19" is common to all nodes on which the NTP daemon is running
+Check of common NTP Time Server passed
+
+Clock time offset check from NTP Time Server started...
+Checking on nodes "[sec61-2, sec60-2]"...
+Check: Clock time offset from NTP Time Server
+
+Time Server: 0.0.0.0
+Time Offset Limit: 1000.0 msecs
+  Node Name     Time Offset               Status
+  ------------  ------------------------  ------------------------
+  sec61-2       0.0                       passed
+  sec60-2       0.0                       passed
+Time Server "0.0.0.0" has time offsets that are within permissible limits for nodes "[sec61-2, sec60-2]".
+
+Time Server: .GPS.
+Time Offset Limit: 1000.0 msecs
+  Node Name     Time Offset               Status
+  ------------  ------------------------  ------------------------
+  sec61-2       0.464                     passed
+  sec60-2       0.506                     passed
+Time Server ".GPS." has time offsets that are within permissible limits for nodes "[sec61-2, sec60-2]".
+
+Time Server: 172.20.236.19
+Time Offset Limit: 1000.0 msecs
+  Node Name     Time Offset               Status
+  ------------  ------------------------  ------------------------
+  sec61-2       -0.348                    passed
+  sec60-2       -0.152                    passed
+Time Server "172.20.236.19" has time offsets that are within permissible limits for nodes "[sec61-2, sec60-2]".
+Clock time offset check passed
+
+Result: Clock synchronization check using Network Time Protocol(NTP) passed
+
+Checking Core file name pattern consistency...
+Core file name pattern consistency check passed.
+
+Checking to make sure user "oracle" is not in "root" group
+  Node Name     Status                    Comment
+  ------------  ------------------------  ------------------------
+  sec61-2       passed                    does not exist
+  sec60-2       passed                    does not exist
+Result: User "oracle" is not part of "root" group. Check passed
+
+Check default user file creation mask
+  Node Name     Available                 Required                  Comment
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       0022                      0022                      passed
+  sec60-2       0022                      0022                      passed
+Result: Default user file creation mask check passed
+Checking integrity of file "/etc/resolv.conf" across nodes
+
+Checking the file "/etc/resolv.conf" to make sure only one of 'domain' and 'search' entries is defined
+"domain" and "search" entries do not coexist in any "/etc/resolv.conf" file
+Checking if 'domain' entry in file "/etc/resolv.conf" is consistent across the nodes...
+Checking file "/etc/resolv.conf" to make sure that only one 'domain' entry is defined
+More than one "domain" entry does not exist in any "/etc/resolv.conf" file
+All nodes have same "domain" entry defined in file "/etc/resolv.conf"
+Checking if 'search' entry in file "/etc/resolv.conf" is consistent across the nodes...
+"search" entry does not exist in any "/etc/resolv.conf" file
+Checking DNS response time for an unreachable node
+  Node Name                             Status
+  ------------------------------------  ------------------------
+  sec60-2                               passed
+  sec61-2                               passed
+The DNS response time for an unreachable node is within acceptable limit on all nodes
+checking DNS response from all servers in "/etc/resolv.conf"
+checking response for name "sec60-2" from each of the name servers specified in "/etc/resolv.conf"
+  Node Name     Source                    Comment                   Status
+  ------------  ------------------------  ------------------------  ----------
+  sec60-2       10.32.4.39                IPv4                      passed
+  sec60-2       10.32.4.40                IPv4                      passed
+checking response for name "sec61-2" from each of the name servers specified in "/etc/resolv.conf"
+  Node Name     Source                    Comment                   Status
+  ------------  ------------------------  ------------------------  ----------
+  sec61-2       10.32.4.39                IPv4                      passed
+  sec61-2       10.32.4.40                IPv4                      passed
+
+Check for integrity of file "/etc/resolv.conf" passed
+
+Check: Time zone consistency
+Result: Time zone consistency check passed
+Checking VIP configuration.
+Checking VIP Subnet configuration.
+Check for VIP Subnet configuration passed.
+Checking VIP reachability
+Check for VIP reachability passed.
+
+Checking Oracle Cluster Voting Disk configuration...
+
+Oracle Cluster Voting Disk configuration check passed
+
+Clusterware version consistency passed.
+
+Checking integrity of name service switch configuration file "/etc/nsswitch.conf" ...
+Checking if "hosts" entry in file "/etc/nsswitch.conf" is consistent across nodes...
+Checking file "/etc/nsswitch.conf" to make sure that only one "hosts" entry is defined
+More than one "hosts" entry does not exist in any "/etc/nsswitch.conf" file
+All nodes have same "hosts" entry defined in file "/etc/nsswitch.conf"
+Check for integrity of name service switch configuration file "/etc/nsswitch.conf" passed
+
+
+
+Checking the consistency of current public and private network classifications with IPMP group fail-over dependency
+  Node Name     Status                    Comment
+  ------------  ------------------------  ------------------------
+  sec61-2       passed                    matched
+  sec60-2       passed                    matched
+Result:  IPMP group configuration is consistent with current public and private network classifications
+
+Checking daemon liveness...
+
+Check: Liveness for "in.mpathd"
+  Node Name                             Running?
+  ------------------------------------  ------------------------
+  sec61-2                               yes
+  sec60-2                               yes
+Result: Liveness check passed for "in.mpathd"
+Check for "in.mpathd" daemon or process alive passed on all nodes
+
+Checking for existence of NIC configuration files for IPMP interfaces
+  Node Name     Status                    Comment
+  ------------  ------------------------  ------------------------
+  sec61-2       exists                    passed
+  sec60-2       exists                    passed
+Check for existence of NIC configuration files for IPMP interfaces passed on all nodes
+
+Checking deprecated flag status for the IPMP interfaces
+  Node Name     Status                    Comment
+  ------------  ------------------------  ------------------------
+  sec61-2       passed                    passed
+  sec60-2       passed                    passed
+Check for deprecated flag status of IPMP interfaces passed on all nodes
+
+checking whether all the IPMP interfaces have unique MAC or hardware address.
+  Node Name                             Status
+  ------------------------------------  ------------------------
+  sec61-2                               passed
+  sec60-2                               passed
+Check for unique MAC or hardware address for IPMP interfaces passed on all nodes
+
+checking whether IPMP interfaces classified as public network interfaces belong to the public subnet "172.20.179.64"
+  Node Name                             Status
+  ------------------------------------  ------------------------
+  sec61-2                               passed
+  sec60-2                               passed
+
+
+Starting check for Multiuser services check ...
+Multiuser services are "online" on node "sec61-2"
+Multiuser services are "online" on node "sec61-2"
+Multiuser services are "online" on node "sec60-2"
+Multiuser services are "online" on node "sec60-2"
+
+Check for Multiuser services check passed
+
+Pre-check for cluster services setup was successful on all the nodes.

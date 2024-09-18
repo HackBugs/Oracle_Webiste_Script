@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>EMCTL Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/emctl/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/emctl/</link>
+	<description>database administration</description>
+	<lastBuildDate>Tue, 17 Oct 2017 19:05:41 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to change http port of EM dbconsole</title>
+		<link>https://dbaclass.com/article/change-http-port-em-dbconsole/</link>
+					<comments>https://dbaclass.com/article/change-http-port-em-dbconsole/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 17 Oct 2017 19:02:09 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3416</guid>
+
+					<description><![CDATA[<p>By default , when we setup enterprise Manager database console(dbconsole), 1158 port will be configured. But we can change this port easily using emca utility. In the below example, we will change the port from 1158 to 7100 1. Check the current dbconsole details: ./emctl status dbconsole Oracle Enterprise Manager 11g Database Control Release 11.2.0.4.0 [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/change-http-port-em-dbconsole/">How to change http port of EM dbconsole</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>By default , when we setup enterprise Manager database console(dbconsole), 1158 port will be configured.</p>
+<p>But we can change this port easily using emca utility.</p>
+<p>In the below example, we will change the port from 1158 to 7100<br />
+<strong>1. Check the current dbconsole details:</strong></p>
+<pre>./emctl status dbconsole
+Oracle Enterprise Manager 11g Database Control Release 11.2.0.4.0
+Copyright (c) 1996, 2013 Oracle Corporation.  All rights reserved.
+https://prdeaidb2:1158/em/console/aboutApplication
+Oracle Enterprise Manager 11g is running.
+------------------------------------------------------------------
+Logs are generated in directory /oracle/app/oracle/product/11.2.0/dbhome_1/prd/sysman/log
+</pre>
+<p>Currently the port is 1158 . https://prodb:1158/em/console/aboutApplication</p>
+<p><strong>2. Invoke emca command as below</strong></p>
+<p><em><strong>./emca &#8211;</strong><strong>reconfig</strong><strong> ports -DBCONTROL_HTTP_PORT</strong></em></p>
+<pre>STARTED EMCA at Oct 1, 2017 7:00:51 PM
+EM Configuration Assistant, Version 11.2.0.3.0 Production
+Copyright (c) 2003, 2011, Oracle.  All rights reserved.
+
+Enter the following information:
+Database SID: ecnmprod
+Password for SYS user:
+
+Do you wish to continue? [yes(Y)/no(N)]: Y
+Oct 1, 2017 7:01:15 PM oracle.sysman.emcp.EMConfig perform
+INFO: This operation is being logged at /oracle/app/oracle/cfgtoollogs/emca/prddb/emca_2017_10_01_19_00_51.log.
+Oct 1, 2017 7:01:15 PM oracle.sysman.emcp.util.DBControlUtil stopOMS
+INFO: Stopping Database Control (this may take a while) ...
+Oct 1, 2017 7:01:37 PM oracle.sysman.emcp.util.DBControlUtil startOMS
+INFO: Starting Database Control (this may take a while) ...
+Oct 1, 2017 7:01:53 PM oracle.sysman.emcp.EMDBPostConfig performReconfiguration
+INFO: Database Control started successfully
+Oct 1, 2017 7:01:53 PM oracle.sysman.emcp.EMDBPostConfig performReconfiguration
+INFO: &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; The Database Control URL is https://prddb:7100/em &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+Enterprise Manager configuration completed successfully
+FINISHED EMCA at Oct 1, 2017 7:01:53 PM
+</pre>
+<p><strong>3. Check the status again:</strong></p>
+<pre>./emctl status dbconsole
+Oracle Enterprise Manager 11g Database Control Release 11.2.0.4.0
+Copyright (c) 1996, 2013 Oracle Corporation.  All rights reserved.
+https://prdeaidb2:7100/em/console/aboutApplication
+Oracle Enterprise Manager 11g is running.
+------------------------------------------------------------------
+Logs are generated in directory /oracle/app/oracle/product/11.2.0/dbhome_1/prddb/sysman/log
+
+</pre>
+<p>We have successfully changed the http port of the database console.</p>
+<p>The post <a href="https://dbaclass.com/article/change-http-port-em-dbconsole/">How to change http port of EM dbconsole</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/change-http-port-em-dbconsole/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to restart Agents in oracle 12c cloud control</title>
+		<link>https://dbaclass.com/article/how-to-restart-agents-in-oracle-12c-cloud-control/</link>
+					<comments>https://dbaclass.com/article/how-to-restart-agents-in-oracle-12c-cloud-control/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 11 Dec 2015 08:15:44 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=546</guid>
+
+					<description><![CDATA[<p>Agents are deployed on the target servers which are being monitored from 12c cloud control . Use below command to start the agent. Checking the agent status: oracle@test:…oracle/agent12c/agent_inst/bin$. /emctl status agent Oracle Enterprise Manager Cloud Control 12c Release 5 Copyright (c) 1996, 2015 Oracle Corporation. All rights reserved. --------------------------------------------------------------- Agent is Not Running Starting the [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-restart-agents-in-oracle-12c-cloud-control/">How to restart Agents in oracle 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">Agents are deployed on the target servers which are being monitored from 12c cloud </span>control .<span style="color: #000000;"> Use below command to start the agent.</span></p>
+<h5>Checking the agent status:</h5>
+<pre>oracle@test:…oracle/agent12c/agent_inst/bin$. /emctl status agent
+
+Oracle Enterprise Manager Cloud Control 12c Release 5
+Copyright (c) 1996, 2015 Oracle Corporation.	All rights reserved.
+
+---------------------------------------------------------------
+Agent is Not Running
+
+</pre>
+<h5><span style="color: #000000;">Starting the Agent</span></h5>
+<pre>oracle@test:…oracle/agent12c/agent_inst/bin$ ./emctl start agent
+
+Oracle Enterprise Manager Cloud Control 12c Release 5
+
+Copyright (c) 1996, 2015 Oracle Corporation.	All rights reserved.
+Starting agent .............................. started.
+
+
+</pre>
+<h5><span style="color: #000000;">Check the status:</span></h5>
+<pre class="">oracle@test:…oracle/agent12c/agent_inst/bin$ ./emctl status agent
+
+Oracle Enterprise Manager Cloud Control 12c Release 5
+Copyright (c) 1996, 2015	Oracle Corporation.  All rights reserved.
+---------------------------------------------------------------
+Agent Version	: 12.1.0.5.0
+OMS Version	: 12.1.0.5.0
+Protocol Version	: 12.1.0.1.0
+Agent Home	: /oracle/agent12c/agent_inst
+Agent Log Directory	: /oracle/agent12c/agent_inst/sysman/log
+Agent Binaries	: /oracle/agent12c/core/12.1.0.5.0
+Agent Process ID	:	11952
+Parent Process ID	:	11938
+Agent URL	:	https://192.20.204.64:3872/emd/main/
+Local Agent URL in NAT	:	https://192.20.204.64:3872/emd/main/
+Repository URL	:	https://test.test.com.sa:1159/empbs/upload
+Started at	:	2015-11-19 09:46:09
+Started by user	:	oracle
+Operating System	:	SunOS version 5.11 (sparcv9)
+Last Reload	:	(none)
+
+Last successful upload	:	2015-11-19 09:46:30
+Last attempted upload	:	2015 -11-19 09:46:30
+Total Megabytes of XML files uploaded so far :	0.02
+Number of XML files pending upload	:	0
+Size of XML files pending upload(MB)	:	0
+Available disk space on upload filesystem	: 57.38%
+Collection Status	: Collections enabled
+Heartbeat Status	: Ok	
+Last attempted heartbeat to OMS	:	2015 -11-19	09:46:27
+Last successful heartbeat to OMS	: 2015-11-19	09:46:27
+Next scheduled heartbeat to OMS	:	2015 -11-19	09:47:28
+
+---------------------------------------------------------------
+Agent is Running and Ready
+
+</pre>
+<h5><span style="color: #000000;">To stop the agent </span>use :</h5>
+<h5></h5>
+<p>emctl<span style="color: #000000;"> stop agent</span></p>
+<p>The post <a href="https://dbaclass.com/article/how-to-restart-agents-in-oracle-12c-cloud-control/">How to restart Agents in oracle 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-restart-agents-in-oracle-12c-cloud-control/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to restart OMS in oracle 12c cloud</title>
+		<link>https://dbaclass.com/article/how-to-restart-oms-in-oracle-12c-cloud/</link>
+					<comments>https://dbaclass.com/article/how-to-restart-oms-in-oracle-12c-cloud/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 11 Dec 2015 07:58:49 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=544</guid>
+
+					<description><![CDATA[<p>                     OMS service runs on the server, where oracle 12c cloud control is installed. We can use EMCTL utility to stop and restart OMS service. &#160; cd $OMS_HOME/bin Stopping OMS: &#160; oracle@test:…ta/app/oracle/oms12cr5/oms/bin$ ./emctl stop oms Oracle Enterprise Manager Cloud Control 12c Release 5 Copyright (c) 1996, [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-restart-oms-in-oracle-12c-cloud/">How to restart OMS in oracle 12c cloud</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">                     OMS service runs on the server, where oracle 12c cloud control is installed. We can use EMCTL utility to stop and restart OMS service.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">cd $OMS_HOME/bin</span></p>
+<h5><span style="color: #000000;">Stopping OMS:</span></h5>
+<p>&nbsp;</p>
+<pre> oracle@test:…ta/app/oracle/oms12cr5/oms/bin$ ./emctl stop oms
+
+Oracle Enterprise Manager Cloud Control 12c Release 5
+
+Copyright (c) 1996, 2015 Oracle Corporation. All rights reserved. Stopping WebTier...
+
+WebTier Successfully Stopped Stopping Oracle Management Server...
+
+Oracle Management Server Successfully Stopped
+Oracle Management Server is Down
+
+</pre>
+<h5><span style="color: #000000;">Starting OMS:</span></h5>
+<pre class=""> 
+oracle@test:…ta/app/oracle/oms12cr5/oms/bin$ ./emctl start oms
+
+Oracle Enterprise Manager Cloud Control 12c Release 5
+
+Copyright (c) 1996, 2015 Oracle Corporation. All rights reserved. Starting Oracle Management Server...
+
+Starting WebTier...
+WebTier Successfully Started
+
+Oracle Management Server Successfully Started
+Oracle Management Server is Up
+
+
+</pre>
+<h5><span style="color: #000000;">Checking the OMS status:</span></h5>
+<pre>oracle@test:…ta/app/oracle/oms12cr5/oms/bin$ ./emctl status oms
+
+Oracle Enterprise Manager Cloud Control 12c Release 5
+Copyright (c) 1996, 2015 Oracle Corporation.	All rights reserved.
+WebTier is Up
+Oracle Management Server is Up
+
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/how-to-restart-oms-in-oracle-12c-cloud/">How to restart OMS in oracle 12c cloud</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-restart-oms-in-oracle-12c-cloud/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

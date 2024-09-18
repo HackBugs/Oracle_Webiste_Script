@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>scripts Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/scripts/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/scripts/</link>
+	<description>database administration</description>
+	<lastBuildDate>Fri, 26 May 2017 08:47:28 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Find High water mark of a table</title>
+		<link>https://dbaclass.com/article/find-high-water-mark-of-a-table/</link>
+					<comments>https://dbaclass.com/article/find-high-water-mark-of-a-table/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 26 May 2017 08:47:28 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2878</guid>
+
+					<description><![CDATA[<p>Below is the script for finding high water mark of a table. -- -- Show the High Water Mark for a given table, or all tables if ALL is specified for Table_Name. -- SET LINESIZE 300 SET SERVEROUTPUT ON SET VERIFY OFF DECLARE CURSOR cu_tables IS SELECT a.owner, a.table_name FROM all_tables a WHERE a.table_name = [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/find-high-water-mark-of-a-table/">Find High water mark of a table</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below is the script for finding high water mark of a table.</p>
+<pre class="">--
+-- Show the High Water Mark for a given table, or all tables if ALL is specified for Table_Name.
+--
+
+SET LINESIZE 300
+SET SERVEROUTPUT ON
+SET VERIFY OFF
+
+DECLARE
+CURSOR cu_tables IS
+SELECT a.owner,
+a.table_name
+FROM all_tables a
+WHERE a.table_name = Decode(Upper('&amp;&amp;Table_Name'),'ALL',a.table_name,Upper('&amp;&amp;Table_Name'))
+AND a.owner = Upper('&amp;&amp;Table_Owner')
+AND a.partitioned='NO'
+AND a.logging='YES'
+order by table_name;
+
+op1 NUMBER;
+op2 NUMBER;
+op3 NUMBER;
+op4 NUMBER;
+op5 NUMBER;
+op6 NUMBER;
+op7 NUMBER;
+BEGIN
+
+Dbms_Output.Disable;
+Dbms_Output.Enable(1000000);
+Dbms_Output.Put_Line('TABLE UNUSED BLOCKS TOTAL BLOCKS HIGH WATER MARK');
+Dbms_Output.Put_Line('------------------------------ --------------- --------------- ---------------');
+FOR cur_rec IN cu_tables LOOP
+Dbms_Space.Unused_Space(cur_rec.owner,cur_rec.table_name,'TABLE',op1,op2,op3,op4,op5,op6,op7);
+Dbms_Output.Put_Line(RPad(cur_rec.table_name,30,' ') ||
+LPad(op3,15,' ') ||
+LPad(op1,15,' ') ||
+LPad(Trunc(op1-op3-1),15,' '));
+END LOOP;
+
+END;
+</pre>
+<p>The post <a href="https://dbaclass.com/article/find-high-water-mark-of-a-table/">Find High water mark of a table</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-high-water-mark-of-a-table/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to find current running sqls in oracle</title>
+		<link>https://dbaclass.com/article/how-to-find-current-running-sqls-in-oracle/</link>
+					<comments>https://dbaclass.com/article/how-to-find-current-running-sqls-in-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 03 Nov 2015 06:53:54 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=515</guid>
+
+					<description><![CDATA[<p>Use below script to get the current running sql details. &#160; select sesion.sid, sesion.username, optimizer_mode, hash_value, address, cpu_time, elapsed_time, sql_text from v$sqlarea sqlarea, v$session sesion where sesion.sql_hash_value = sqlarea.hash_value and sesion.sql_address = sqlarea.address and sesion.username is not null; &#160; Output: SID USERNAME OPTIMIZER_ HASH_VALUE ADDRESS ---------- ------------------------------ ---------- ---------- ---------------- CPU_TIME ELAPSED_TIME ---------- ------------ SQL_TEXT [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-find-current-running-sqls-in-oracle/">How to find current running sqls in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">Use below script to get the current running sql details.</span></p>
+<p>&nbsp;</p>
+<pre class="">  select sesion.sid,
+       sesion.username,
+       optimizer_mode,
+       hash_value,
+       address,
+       cpu_time,
+       elapsed_time,
+       sql_text
+  from v$sqlarea sqlarea, v$session sesion
+ where sesion.sql_hash_value = sqlarea.hash_value
+   and sesion.sql_address    = sqlarea.address
+   and sesion.username is not null;
+</pre>
+<p>&nbsp;</p>
+<p><strong><span style="text-decoration: underline;"><span style="color: #000000; text-decoration: underline;">Output:</span></span></strong></p>
+<pre>
+       SID USERNAME                       OPTIMIZER_ HASH_VALUE ADDRESS
+---------- ------------------------------ ---------- ---------- ----------------
+  CPU_TIME ELAPSED_TIME
+---------- ------------
+SQL_TEXT
+--------------------------------------------------------------------------------
+      1993 SYS                            ALL_ROWS   3727742172 000000041AE77AD8
+    817728       817753
+  select sesion.sid,        sesion.username,        optimizer_mode,        hash_
+value,        address,        cpu_time,        elapsed_time,        sql_text   f
+rom v$sqlarea sqlarea, v$session sesion  where sesion.sql_hash_value = sqlarea.h
+ash_value    and sesion.sql_address    = sqlarea.address    and sesion.username
+is not null
+</pre>
+<p>The post <a href="https://dbaclass.com/article/how-to-find-current-running-sqls-in-oracle/">How to find current running sqls in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-find-current-running-sqls-in-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Top 5 cached sql statements by elapsed time in oracle</title>
+		<link>https://dbaclass.com/article/top-5-cached-sql-statements-by-elapsed-time-in-oracle/</link>
+					<comments>https://dbaclass.com/article/top-5-cached-sql-statements-by-elapsed-time-in-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 24 Aug 2015 07:24:14 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=357</guid>
+
+					<description><![CDATA[<p>Get the Top 10 cached sql statements details SELECT sql_id,child_number,sql_text, elapsed_time FROM (SELECT sql_id, child_number, sql_text, elapsed_time, cpu_time, disk_reads, RANK () OVER (ORDER BY elapsed_time DESC) AS elapsed_rank FROM v$sql) WHERE elapsed_rank</p>
+<p>The post <a href="https://dbaclass.com/article/top-5-cached-sql-statements-by-elapsed-time-in-oracle/">Top 5 cached sql statements by elapsed time in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Get the Top 10 cached sql statements details</p>
+<pre>
+
+SELECT sql_id,child_number,sql_text, elapsed_time 
+  FROM (SELECT sql_id, child_number, sql_text, elapsed_time, cpu_time,
+               disk_reads,
+               RANK () OVER (ORDER BY elapsed_time DESC) AS elapsed_rank
+          FROM v$sql)
+ WHERE elapsed_rank <= 5
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/top-5-cached-sql-statements-by-elapsed-time-in-oracle/">Top 5 cached sql statements by elapsed time in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/top-5-cached-sql-statements-by-elapsed-time-in-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

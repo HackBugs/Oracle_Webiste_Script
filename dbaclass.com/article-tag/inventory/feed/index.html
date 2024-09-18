@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>inventory Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/inventory/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/inventory/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 17 Jun 2021 03:39:01 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to create host configuration report using ansible-cmdb</title>
+		<link>https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/</link>
+					<comments>https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 16 Jun 2021 17:31:43 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=6935</guid>
+
+					<description><![CDATA[<p>ansible-cmdb tool can be used to create system configuration report of your host inventory in different formats like html,csv, json,sql etc.  Let&#8217;s go through the below demonstration . Lets say you have hundreds of servers and you can want to generate a report that has server overview details like cpu,mem,disk usage,server type,cpu type etc of [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/">How to create host configuration report using ansible-cmdb</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><code>ansible-cmdb</code> tool can be used to create system configuration report of your host inventory in different formats like html,csv, json,sql etc.  Let&#8217;s go through the below demonstration . Lets say you have hundreds of servers and you can want to generate a report that has server overview details like cpu,mem,disk usage,server type,cpu type etc of all your servers. In that case ansible-cmdb tool can be used to achieve that target.</p>
+<h3>Install ansible-cmdb tool:</h3>
+<p>Download link &#8211; &gt; <a href="https://github.com/fboender/ansible-cmdb/releases" target="_blank" rel="noopener noreferrer">https://github.com/fboender/ansible-cmdb/releases</a></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/screenshot-2021-06-16-at-10-10-49-pm-2/" rel="attachment wp-att-6937"><img fetchpriority="high" decoding="async" class="aligncenter size-full wp-image-6937" src="https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.10.49-PM-1.png" alt="" width="1127" height="329" srcset="https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.10.49-PM-1.png 1127w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.10.49-PM-1-300x88.png 300w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.10.49-PM-1-1024x299.png 1024w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.10.49-PM-1-768x224.png 768w" sizes="(max-width: 1127px) 100vw, 1127px" /></a></p>
+<p>&nbsp;</p>
+<pre><code class="language-">
+[root@DBHOST ansible-cmdb_rpm]# <span style="color: #ff0000;"><strong>tar -vxzf ansible-cmdb-1.28.tar.gz</strong></span>
+ansible-cmdb-1.28/
+ansible-cmdb-1.28/.gitignore
+ansible-cmdb-1.28/LICENSE
+ansible-cmdb-1.28/Makefile
+ansible-cmdb-1.28/README.md
+ansible-cmdb-1.28/contrib/
+ansible-cmdb-1.28/contrib/ansible-cmdb.man.1
+ansible-cmdb-1.28/contrib/debian/
+ansible-cmdb-1.28/contrib/debian/DEBIAN/
+ansible-cmdb-1.28/contrib/debian/DEBIAN/control
+ansible-cmdb-1.28/contrib/debian/changelog
+ansible-cmdb-1.28/contrib/debian/copyright
+ansible-cmdb-1.28/contrib/release_Makefile
+ansible-cmdb-1.28/contrib/screenshot-detail.png
+ansible-cmdb-1.28/contrib/screenshot-overview.png
+ansible-cmdb-1.28/docs/
+ansible-cmdb-1.28/docs/dev.md
+ansible-cmdb-1.28/docs/faq.md
+ansible-cmdb-1.28/docs/index.md
+ansible-cmdb-1.28/docs/installation.md
+ansible-cmdb-1.28/docs/usage.md
+ansible-cmdb-1.28/example/
+ansible-cmdb-1.28/example/ansible.cfg
+ansible-cmdb-1.28/example/dyninv_test.py
+ansible-cmdb-1.28/example/dyninv_vbox.py
+.
+.
+.
+.
+ansible-cmdb-1.28/test/f_inventory/mixeddir/dyninv.py
+ansible-cmdb-1.28/test/f_inventory/mixeddir/hosts
+ansible-cmdb-1.28/test/f_inventory/out/
+ansible-cmdb-1.28/test/f_inventory/out/db.dev.local
+ansible-cmdb-1.28/test/test.py
+ansible-cmdb-1.28/test/test.sh
+
+
+[root@DBHOST ansible-cmdb_rpm]# <span style="color: #ff0000;"><strong>cd ansible-cmdb-1.28/</strong></span>
+
+
+[root@DBHOST ansible-cmdb-1.28]# <span style="color: #ff0000;"><strong>make install</strong></span>
+umask 0022 &amp;&amp; mkdir -p /usr/local/lib/ansible-cmdb
+umask 0022 &amp;&amp; mkdir -p /usr/local/man/man1
+umask 0022 &amp;&amp; cp -a src/* /usr/local/lib/ansible-cmdb
+umask 0022 &amp;&amp; cp -r lib/* /usr/local/lib/ansible-cmdb
+umask 0022 &amp;&amp; cp LICENSE /usr/local/lib/ansible-cmdb
+umask 0022 &amp;&amp; cp README.md /usr/local/lib/ansible-cmdb
+umask 0022 &amp;&amp; gzip -9 -c contrib/ansible-cmdb.man.1 &gt; /usr/local/man/man1/ansible-cmdb.man.1.gz
+umask 0022 &amp;&amp; ln -s /usr/local/lib/ansible-cmdb/ansible-cmdb /usr/local/bin/ansible-cmdb
+
+[root@DBHOST ansible-cmdb-1.28]# <span style="color: #ff0000;"><strong>which ansible-cmdb</strong></span>
+/usr/local/bin/ansible-cmdb
+
+
+</code></pre>
+<h3>Create inventory file</h3>
+<pre><code class="language-"><span style="color: #ff0000;"><strong>
+cat /home/ansible/ansible-scipts/dbaclass_inventory
+</strong></span>
+linux_host1 ansible_host=182.34.86.60 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host2 ansible_host=182.34.86.61 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host3 ansible_host=182.34.86.62 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host4 ansible_host=182.34.86.63 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host5 ansible_host=182.34.86.64 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host6 ansible_host=182.34.86.65 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host7 ansible_host=182.34.86.40 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host8 ansible_host=182.34.86.41 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host9 ansible_host=182.34.86.42 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host10 ansible_host=182.34.86.43 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host11 ansible_host=182.34.86.44 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host12 ansible_host=182.34.86.45 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host13 ansible_host=182.34.86.46 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host14 ansible_host=182.34.86.47 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host15 ansible_host=182.34.86.48 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host16 ansible_host=182.35.36.114 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+
+</code></pre>
+<h3>Generate report:</h3>
+<p>Before generating report, first step is to collect the facts gathering details of all hosts.</p>
+<pre><span style="color: #ff0000;"><strong><code class="language-"><span style="color: #ff0000;">mkdir out</span> 
+
+<span style="color: #ff0000;">ansible -i /home/ansible/ansible-scipts/dbaclass_inventory  -m setup --tree out/ all
+</span></code></strong></span></pre>
+<p>this command will create unique file for each host in out directory .</p>
+<p><code>ansible-cmdb</code> provides different templates to generate report. Most popular and default one is the html template.</p>
+<ol>
+<li>
+<h4><strong>Generate html report:</strong></h4>
+</li>
+</ol>
+<pre><code class="language-">
+root#<span style="color: #ff0000;"><strong> ansible-cmdb -i /home/ansible/ansible-scipts/dbaclass_inventory -t html_fancy out/ &gt; dbaclass_inventory.html
+
+</strong></span></code></pre>
+<p>&nbsp;</p>
+<p>Now view the dbaclass_inventory.html report in your browser. You can select different columns and view the updated reports.</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/screenshot-2021-06-16-at-10-26-07-pm/" rel="attachment wp-att-6938"><img decoding="async" class="aligncenter size-full wp-image-6938" src="https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.07-PM.png" alt="" width="1440" height="599" srcset="https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.07-PM.png 1440w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.07-PM-300x125.png 300w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.07-PM-1024x426.png 1024w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.07-PM-768x319.png 768w" sizes="(max-width: 1440px) 100vw, 1440px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/screenshot-2021-06-16-at-10-26-34-pm/" rel="attachment wp-att-6939"><img decoding="async" class="aligncenter size-full wp-image-6939" src="https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.34-PM.png" alt="" width="1440" height="662" srcset="https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.34-PM.png 1440w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.34-PM-300x138.png 300w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.34-PM-1024x471.png 1024w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.26.34-PM-768x353.png 768w" sizes="(max-width: 1440px) 100vw, 1440px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4><strong>       3. Generate csv report:</strong></h4>
+<p>You can generate the inventory overview report in csv format also.</p>
+<pre><code class="language-"> [ansible@DBHOST ansible-scipts]$ <span style="color: #ff0000;"><strong>ansible-cmdb  -i /home/ansible/ansible-scipts/dbaclass_inventory   -t csv out &gt; hostinv.csv
+
+</strong></span></code></pre>
+<p><a href="https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/screenshot-2021-06-16-at-10-44-42-pm/" rel="attachment wp-att-6941"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6941" src="https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.44.42-PM.png" alt="" width="1425" height="420" srcset="https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.44.42-PM.png 1425w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.44.42-PM-300x88.png 300w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.44.42-PM-1024x302.png 1024w, https://dbaclass.com/wp-content/uploads/2021/06/Screenshot-2021-06-16-at-10.44.42-PM-768x226.png 768w" sizes="(max-width: 1425px) 100vw, 1425px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4>       3. Generate text output on command prompt:</h4>
+<pre><code class="language-">
+[ansible@DBHOST ansible-scipts]$ <span style="color: #ff0000;"><strong> ansible-cmdb  -i /home/ansible-scipts/dbaclass_inventory  -t txt_table --columns ip,os,mem,cpus,memfree,memused out/
+</strong></span>
+OS            IP              Mem   MemFree  MemUsed  CPUs
+------------  --------------  ----  -------  -------  ----
+RedHat 6.10   182.34.86.41    32g   29g      3g       1
+RedHat 6.10   182.34.86.42    64g   61g      3g       2
+RedHat 7.9    182.34.86.65    64g   60g      4g       2
+RedHat 7.7    182.34.86.40    161g  45g      116g     4
+RedHat 7.9    182.34.86.63    64g   18g      46g      2
+RedHat 7.9    182.34.86.64    64g   59g      6g       2
+RedHat 6.10   182.34.86.61    32g   29g      3g       1
+RedHat 7.9    182.34.86.62    64g   30g      34g      2
+RedHat 6.10   182.34.86.60    161g  27g      135g     4
+RedHat 6.10   182.35.62.68    32g   26g      6g       2
+RedHat 6.10   182.35.62.67    32g   23g      9g       2
+
+</code></pre>
+<h4>      4. Generate a sql file:</h4>
+<p>You can generate a sql file, which can be run on any sql database to create a host table and load the inventory data.</p>
+<pre><code class="language-">[ansible@DBHOST ansible-scipts]$ <span style="color: #ff0000;"><strong> ansible-cmdb  -i /home/ansible-scipts/dbaclass_inventory  -t sql out &gt; hostinv.sql
+</strong>
+<strong>cat hostinv.sql
+</strong></span>
+DROP TABLE IF EXISTS hosts;
+CREATE TABLE hosts (
+    name VARCHAR(255),
+    fqdn VARCHAR(255),
+    main_ip VARCHAR(15),
+    os_name VARCHAR(80),
+    os_version VARCHAR(40),
+    system VARCHAR(40),
+    kernel VARCHAR(40),
+    arch_hardware VARCHAR(12),
+    arch_userspace VARCHAR(12),
+    virt_type VARCHAR(20),
+    virt_role VARCHAR(20),
+    cpu_type VARCHAR(60),
+    vcpus INT,
+    ram FLOAT,
+    disk_total FLOAT,
+    disk_free FLOAT
+);
+
+    INSERT INTO hosts (
+        name,
+        fqdn,
+        main_ip,
+        os_name,
+        os_version,
+        system,
+        kernel,
+        arch_hardware,
+        arch_userspace,
+        virt_type,
+        virt_role,
+        cpu_type,
+        vcpus,
+        ram,
+        disk_total,
+        disk_free
+    ) VALUES (
+        "linux_host8",
+.
+.
+.
+.
+.
+
+</code></pre>
+<p>&nbsp;</p>
+<blockquote><p><span style="font-size: 20px;">NOTE &#8211; &gt; For more information regarding ansible-cmd visit <a href="https://ansible-cmdb.readthedocs.io/en/latest/usage/" target="_blank" rel="noopener noreferrer">https://ansible-cmdb.readthedocs.io/en/latest/usage/</a></span></p></blockquote>
+<p>The post <a href="https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/">How to create host configuration report using ansible-cmdb</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-create-host-configuration-report-using-ansible-cmdb/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

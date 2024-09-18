@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>DATABASE SCRIPTS Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-category/database-scripts/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-category/database-scripts/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 15 Feb 2018 12:43:33 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to get tablespace quota details of an user in oracle</title>
+		<link>https://dbaclass.com/article/get-tablespace-quota-details-user-oracle/</link>
+					<comments>https://dbaclass.com/article/get-tablespace-quota-details-user-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 15 Feb 2018 12:43:33 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3572</guid>
+
+					<description><![CDATA[<p>This script reports the tablespace quota allocated for each database user and the amount of tablespace consumed by that user. TABLESPACE QUOTA DETAILS OF ALL THE USERS: set pagesize 200 set lines 200 col ownr format a20 justify c heading 'Owner' col name format a20 justify c heading 'Tablespace' trunc col qota format a12 justify [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/get-tablespace-quota-details-user-oracle/">How to get tablespace quota details of an user in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>This script reports the tablespace quota allocated for each database user and the amount of tablespace consumed by that user.</p>
+<p><strong>TABLESPACE QUOTA DETAILS OF ALL THE USERS:</strong></p>
+<pre>set pagesize 200
+set lines 200
+col ownr format a20         justify c heading 'Owner' 
+col name format a20         justify c heading 'Tablespace' trunc 
+col qota format a12         justify c heading 'Quota (KB)' 
+col used format 999,999,990 justify c heading 'Used (KB)' 
+set colsep '|'
+select 
+  username          ownr, 
+  tablespace_name   name, 
+  decode(greatest(max_bytes, -1), 
+    -1, 'UNLIMITED', 
+    to_char(max_bytes/1024, '999,999,990') 
+  )                 qota, 
+  bytes/1024        used 
+from 
+  dba_ts_quotas 
+where 
+  max_bytes!=0 
+    or 
+  bytes!=0 
+order by 
+  1,2 
+/ 
+</pre>
+<p><strong>TABLESPAE QUOTA DETAILS FOR A PARTICULAR USER:</strong></p>
+<pre>set pagesize 200
+set lines 200
+col ownr format a20         justify c heading 'Owner' 
+col name format a20         justify c heading 'Tablespace' trunc 
+col qota format a12         justify c heading 'Quota (KB)' 
+col used format 999,999,990 justify c heading 'Used (KB)' 
+set colsep '|'
+select 
+  username          ownr, 
+  tablespace_name   name, 
+  decode(greatest(max_bytes, -1), 
+    -1, 'UNLIMITED', 
+    to_char(max_bytes/1024, '999,999,990') 
+  )                 qota, 
+  bytes/1024        used 
+from 
+  dba_ts_quotas 
+where 
+ ( max_bytes!=0 
+    or 
+  bytes!=0) and username='&amp;USERNAME'
+order by 
+  1,2 
+/ 
+</pre>
+<p>OUTPUT:</p>
+<pre>Enter value for username: AKHEHIFA
+old  14:   bytes!=0) and username='&amp;USERNAME'
+new  14:   bytes!=0) and username='AKHEHIFA'
+
+       Owner        |     Tablespace     | Quota (KB) | Used (KB)
+--------------------|--------------------|------------|------------
+AKHEHIFA            |USERS               |   1,048,576|           0
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/get-tablespace-quota-details-user-oracle/">How to get tablespace quota details of an user in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/get-tablespace-quota-details-user-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to monitor parallel queries in oracle db</title>
+		<link>https://dbaclass.com/article/monitor-parallel-queries-oracle-db/</link>
+					<comments>https://dbaclass.com/article/monitor-parallel-queries-oracle-db/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 19 Nov 2017 15:08:54 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3467</guid>
+
+					<description><![CDATA[<p>Use below query to monitor currently running queries with parallel threads. col username for a9 col sid for a8 set lines 299 select s.inst_id, decode(px.qcinst_id,NULL,s.username, ' - '&#124;&#124;lower(substr(s.program,length(s.program)-4,4) ) ) "Username", decode(px.qcinst_id,NULL, 'QC', '(Slave)') "QC/Slave" , to_char( px.server_set) "Slave Set", to_char(s.sid) "SID", decode(px.qcinst_id, NULL ,to_char(s.sid) ,px.qcsid) "QC SID", px.req_degree "Requested DOP", px.degree "Actual DOP", p.spid [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/monitor-parallel-queries-oracle-db/">How to monitor parallel queries in oracle db</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Use below query to monitor currently running queries with parallel threads.</p>
+<pre>
+col username for a9
+col sid for a8
+set lines 299
+select
+      s.inst_id,
+      decode(px.qcinst_id,NULL,s.username,
+            ' - '||lower(substr(s.program,length(s.program)-4,4) ) ) "Username",
+      decode(px.qcinst_id,NULL, 'QC', '(Slave)') "QC/Slave" ,
+      to_char( px.server_set) "Slave Set",
+      to_char(s.sid) "SID",
+      decode(px.qcinst_id, NULL ,to_char(s.sid) ,px.qcsid) "QC SID",
+      px.req_degree "Requested DOP",
+     px.degree "Actual DOP", p.spid
+   from
+     gv$px_session px,
+     gv$session s, gv$process p
+   where
+     px.sid=s.sid (+) and
+     px.serial#=s.serial# and
+     px.inst_id = s.inst_id
+     and p.inst_id = s.inst_id
+     and p.addr=s.paddr
+  order by 5 , 1 desc
+/
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/monitor-parallel-queries-oracle-db/">How to monitor parallel queries in oracle db</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/monitor-parallel-queries-oracle-db/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Find pending distributed pending transactions in oracle</title>
+		<link>https://dbaclass.com/article/find-pending-distributed-pending-transactions-oracle/</link>
+					<comments>https://dbaclass.com/article/find-pending-distributed-pending-transactions-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 19 Nov 2017 15:07:39 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3465</guid>
+
+					<description><![CDATA[<p>Below script will display information about the distributed pending transactions in oracle. COL local_tran_id FORMAT a13 COL in_out FORMAT a6 COL database FORMAT a25 COL dbuser_owner FORMAT a15 COL interface FORMAT a3 SELECT local_tran_id, in_out, database, dbuser_owner, interface FROM dba_2pc_neighbors /</p>
+<p>The post <a href="https://dbaclass.com/article/find-pending-distributed-pending-transactions-oracle/">Find pending distributed pending transactions in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below script will display information about the distributed pending transactions in oracle. </p>
+<pre class="">COL local_tran_id FORMAT a13
+COL in_out FORMAT a6
+COL database FORMAT a25
+COL dbuser_owner FORMAT a15
+COL interface FORMAT a3
+SELECT local_tran_id, in_out, database, dbuser_owner, interface
+FROM dba_2pc_neighbors
+/
+</pre>
+<p>The post <a href="https://dbaclass.com/article/find-pending-distributed-pending-transactions-oracle/">Find pending distributed pending transactions in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-pending-distributed-pending-transactions-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to find execution history of an sql_id</title>
+		<link>https://dbaclass.com/article/find-execution-history-sql_id/</link>
+					<comments>https://dbaclass.com/article/find-execution-history-sql_id/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 19 Nov 2017 15:04:52 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3463</guid>
+
+					<description><![CDATA[<p>Below script will display execution history of an sql_id from AWR. It will join dba_hist_sqlstat and dba_hist_sqlsnapshot table to get the required information. select a.instance_number inst_id, a.snap_id,a.plan_hash_value, to_char(begin_interval_time,'dd-mon-yy hh24:mi') btime, abs(extract(minute from (end_interval_time-begin_interval_time)) + extract(hour from (end_interval_time-begin_interval_time))*60 + extract(day from (end_interval_time-begin_interval_time))*24*60) minutes, executions_delta executions, round(ELAPSED_TIME_delta/1000000/greatest(executions_delta,1),4) "avg duration (sec)" from dba_hist_SQLSTAT a, dba_hist_snapshot b where sql_id='&#38;sql_id' [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/find-execution-history-sql_id/">How to find execution history of an sql_id</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below script will display execution history of an sql_id from AWR. It will join dba_hist_sqlstat and dba_hist_sqlsnapshot table to get the required information.</p>
+<pre class="">select a.instance_number inst_id, a.snap_id,a.plan_hash_value, to_char(begin_interval_time,'dd-mon-yy hh24:mi') btime, abs(extract(minute from (end_interval_time-begin_interval_time)) + extract(hour from (end_interval_time-begin_interval_time))*60 + extract(day from (end_interval_time-begin_interval_time))*24*60) minutes,
+executions_delta executions, round(ELAPSED_TIME_delta/1000000/greatest(executions_delta,1),4) "avg duration (sec)" from dba_hist_SQLSTAT a, dba_hist_snapshot b
+where sql_id='&amp;sql_id' and a.snap_id=b.snap_id
+and a.instance_number=b.instance_number
+order by snap_id desc, a.instance_number;
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/find-execution-history-sql_id/">How to find execution history of an sql_id</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-execution-history-sql_id/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Script to get cpu usage and wait event information in oracle database</title>
+		<link>https://dbaclass.com/article/script-get-cpu-usage-wait-event-information-oracle-database/</link>
+					<comments>https://dbaclass.com/article/script-get-cpu-usage-wait-event-information-oracle-database/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 14 Nov 2017 07:27:05 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3453</guid>
+
+					<description><![CDATA[<p>Below script will give information about the CPU usage and wait events class information of every minute for last 2 hours. As this query uses gv$active_session_history, so make sure you have TUNING license pack of oracle, before using this. set lines 288 col sample_time for a14 col CONFIGURATION head "CONFIG" for 99.99 col ADMINISTRATIVE head [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/script-get-cpu-usage-wait-event-information-oracle-database/">Script to get cpu usage and wait event information in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below script will give information about the CPU usage and wait events class information of every minute for last 2 hours. As this query uses gv$active_session_history, so make sure you have TUNING license pack of oracle, before using this.</p>
+<pre class="">set lines 288
+col sample_time for a14
+col CONFIGURATION head "CONFIG" for 99.99
+col ADMINISTRATIVE head "ADMIN" for 99.99
+col OTHER for 99.99
+
+SELECT TO_CHAR(SAMPLE_TIME, 'HH24:MI ') AS SAMPLE_TIME,
+       ROUND(OTHER / 60, 3) AS OTHER,
+       ROUND(CLUST / 60, 3) AS CLUST,
+       ROUND(QUEUEING / 60, 3) AS QUEUEING,
+       ROUND(NETWORK / 60, 3) AS NETWORK,
+       ROUND(ADMINISTRATIVE / 60, 3) AS ADMINISTRATIVE,
+       ROUND(CONFIGURATION / 60, 3) AS CONFIGURATION,
+       ROUND(COMMIT / 60, 3) AS COMMIT,
+       ROUND(APPLICATION / 60, 3) AS APPLICATION,
+       ROUND(CONCURRENCY / 60, 3) AS CONCURRENCY,
+       ROUND(SIO / 60, 3) AS SYSTEM_IO,
+       ROUND(UIO / 60, 3) AS USER_IO,
+       ROUND(SCHEDULER / 60, 3) AS SCHEDULER,
+       ROUND(CPU / 60, 3) AS CPU,
+       ROUND(BCPU / 60, 3) AS BACKGROUND_CPU
+  FROM (SELECT TRUNC(SAMPLE_TIME, 'MI') AS SAMPLE_TIME,
+               DECODE(SESSION_STATE,
+                      'ON CPU',
+                      DECODE(SESSION_TYPE, 'BACKGROUND', 'BCPU', 'ON CPU'),
+                      WAIT_CLASS) AS WAIT_CLASS
+          FROM V$ACTIVE_SESSION_HISTORY
+         WHERE SAMPLE_TIME &gt; SYSDATE - INTERVAL '2'
+         HOUR
+           AND SAMPLE_TIME &lt;= TRUNC(SYSDATE, 'MI')) ASH PIVOT(COUNT(*)
+  FOR WAIT_CLASS IN('ON CPU' AS CPU,'BCPU' AS BCPU,
+'Scheduler' AS SCHEDULER,
+'User I/O' AS UIO,
+'System I/O' AS SIO,
+'Concurrency' AS CONCURRENCY,
+'Application' AS  APPLICATION,
+'Commit' AS  COMMIT,
+'Configuration' AS CONFIGURATION,
+'Administrative' AS   ADMINISTRATIVE,
+'Network' AS  NETWORK,
+'Queueing' AS   QUEUEING,
+'Cluster' AS   CLUST,
+'Other' AS  OTHER))
+</pre>
+<p><strong>OUTPUT WILL LOOK AS BELOW:</strong></p>
+<pre>SAMPLE_TIME     OTHER      CLUST   QUEUEING    NETWORK  ADMIN CONFIG     COMMIT APPLICATION CONCURRENCY  SYSTEM_IO    USER_IO  SCHEDULER        CPU BACKGROUND_CPU
+-------------- ------ ---------- ---------- ---------- ------ ------ ---------- ----------- ----------- ---------- ---------- ---------- ---------- --------------
+10:13            1.60       .033          0          0    .00    .00        1.2           0        .017       .617       .017          0      2.567           .317
+10:14            2.08       .033          0          0    .00    .00        1.9        .067           0       .783       .217          0      3.433           .417
+10:15            2.83          0          0          0    .00    .00        1.6        .017        .033         .9         .5          0       4.05           .767
+10:16            3.15        .05          0       .033    .00    .00      2.033           0        .033         .9       .617          0        4.7            .75
+10:17            3.18          0          0       .017    .00    .00      1.883           0           0       .717       .467          0       4.65           .683
+10:18            2.78          0          0          0    .00    .00      1.417           0           0        .65       .067          0      3.867            .65
+10:19            3.30          0          0          0    .00    .00      1.233           0        .083       .533       .033          0      4.533             .9
+10:20            4.18       .033          0       .033    .00    .00        1.3           0        .017       .933       .117          0        5.5           .817
+10:21            2.85       .033          0          0    .00    .00       1.15           0           0       .783        .05          0        4.1            .75
+10:22            3.32       .017          0       .017    .00    .00      4.133           0        .017         .9       .033          0      5.317          1.033
+</pre>
+<p>The post <a href="https://dbaclass.com/article/script-get-cpu-usage-wait-event-information-oracle-database/">Script to get cpu usage and wait event information in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/script-get-cpu-usage-wait-event-information-oracle-database/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to find cpu and memory information of oracle database server</title>
+		<link>https://dbaclass.com/article/find-cpu-memory-information-oracle-database-server/</link>
+					<comments>https://dbaclass.com/article/find-cpu-memory-information-oracle-database-server/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 13 Nov 2017 09:03:12 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3445</guid>
+
+					<description><![CDATA[<p>Below script is useful in getting CPU, memory and core, socket information of a database server from SQL prompt. SCRIPT: set pagesize 299 set lines 299 select STAT_NAME,to_char(VALUE) as VALUE ,COMMENTS from v$osstat where stat_name IN ('NUM_CPUS','NUM_CPU_CORES','NUM_CPU_SOCKETS') union select STAT_NAME,VALUE/1024/1024/1024 &#124;&#124; ' GB' ,COMMENTS from v$osstat where stat_name IN ('PHYSICAL_MEMORY_BYTES') OUTPUT: STAT_NAME VALUE COMMENTS -------------------------------- [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/find-cpu-memory-information-oracle-database-server/">How to find cpu and memory information of oracle database server</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below script is useful in getting CPU, memory and core, socket information of a database server from SQL prompt.</p>
+<p><strong>SCRIPT:</strong></p>
+<pre class="">set pagesize 299
+set lines 299
+select STAT_NAME,to_char(VALUE) as VALUE  ,COMMENTS from v$osstat where stat_name  IN ('NUM_CPUS','NUM_CPU_CORES','NUM_CPU_SOCKETS')
+union
+select STAT_NAME,VALUE/1024/1024/1024 || ' GB'  ,COMMENTS from v$osstat where stat_name  IN ('PHYSICAL_MEMORY_BYTES')
+</pre>
+<p><strong>OUTPUT:</strong></p>
+<pre>STAT_NAME                        VALUE                                       COMMENTS
+-------------------------------- ------------------------------------------- --------------------------------------------------------
+NUM_CPUS                         256                                         Number of active CPUs
+NUM_CPU_CORES                    32                                          Number of CPU cores
+NUM_CPU_SOCKETS                  4                                           Number of physical CPU sockets
+PHYSICAL_MEMORY_BYTES            255.5 GB                                    Physical memory size in bytes
+</pre>
+<p>The post <a href="https://dbaclass.com/article/find-cpu-memory-information-oracle-database-server/">How to find cpu and memory information of oracle database server</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-cpu-memory-information-oracle-database-server/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Find user commits per minute in oracle database</title>
+		<link>https://dbaclass.com/article/find-user-commits-per-minute-oracle-database/</link>
+					<comments>https://dbaclass.com/article/find-user-commits-per-minute-oracle-database/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 12 Nov 2017 11:35:48 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3435</guid>
+
+					<description><![CDATA[<p>Below script is useful in getting user commit statistics information in the oracle database. user commits is the number of commits happening the database. It will be helpful in tracking the number of transactions in the database. &#160; col STAT_NAME for a20 col VALUE_DIFF for 9999,999,999 col STAT_PER_MIN for 9999,999,999 set lines 200 pages 1500 [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/find-user-commits-per-minute-oracle-database/">Find user commits per minute in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below script is useful in getting user commit statistics information in the oracle database. user commits is the number of commits happening the database. It will be helpful in tracking the number of transactions in the database.</p>
+<p>&nbsp;</p>
+<pre>col STAT_NAME for a20
+col VALUE_DIFF for 9999,999,999
+col STAT_PER_MIN for 9999,999,999
+set lines 200 pages 1500 long 99999999
+col BEGIN_INTERVAL_TIME for a30
+col END_INTERVAL_TIME for a30
+set pagesize 40
+set pause on
+
+
+select hsys.SNAP_ID,
+       hsnap.BEGIN_INTERVAL_TIME,
+       hsnap.END_INTERVAL_TIME,
+           hsys.STAT_NAME,
+           hsys.VALUE,
+           hsys.VALUE - LAG(hsys.VALUE,1,0) OVER (ORDER BY hsys.SNAP_ID) AS "VALUE_DIFF",
+           round((hsys.VALUE - LAG(hsys.VALUE,1,0) OVER (ORDER BY hsys.SNAP_ID)) /
+           round(abs(extract(hour from (hsnap.END_INTERVAL_TIME - hsnap.BEGIN_INTERVAL_TIME))*60 +
+           extract(minute from (hsnap.END_INTERVAL_TIME - hsnap.BEGIN_INTERVAL_TIME)) +
+           extract(second from (hsnap.END_INTERVAL_TIME - hsnap.BEGIN_INTERVAL_TIME))/60),1)) "STAT_PER_MIN"
+from dba_hist_sysstat hsys, dba_hist_snapshot hsnap
+ where hsys.snap_id = hsnap.snap_id
+ and hsnap.instance_number in (select instance_number from v$instance)
+ and hsnap.instance_number = hsys.instance_number
+ and hsys.STAT_NAME='user commits'
+ order by 1;
+</pre>
+<p>OUTPUT:</p>
+<pre>
+   SNAP_ID BEGIN_INTERVAL_TIME            END_INTERVAL_TIME              STAT_NAME                 VALUE    VALUE_DIFF  STAT_PER_MIN
+---------- ------------------------------ ------------------------------ -------------------- ---------- ------------- -------------
+      6626 11-NOV-17 05.00.13.272 PM      11-NOV-17 06.00.29.527 PM      user commits          350001525     1,147,017        19,022
+      6627 11-NOV-17 06.00.29.527 PM      11-NOV-17 07.00.14.759 PM      user commits          351130223     1,128,698        18,875
+      6628 11-NOV-17 07.00.14.759 PM      11-NOV-17 08.00.02.845 PM      user commits          351987886       857,663        14,342
+      6629 11-NOV-17 08.00.02.845 PM      11-NOV-17 09.00.22.109 PM      user commits          352829839       841,953        13,963
+      6630 11-NOV-17 09.00.22.109 PM      11-NOV-17 10.00.07.076 PM      user commits          353478483       648,644        10,865
+      6631 11-NOV-17 10.00.07.076 PM      11-NOV-17 11.00.24.303 PM      user commits          353939928       461,445         7,652
+      6632 11-NOV-17 11.00.24.303 PM      12-NOV-17 12.00.11.904 AM      user commits          354335275       395,347         6,611
+      6633 12-NOV-17 12.00.11.904 AM      12-NOV-17 01.00.29.406 AM      user commits          354604745       269,470         4,469
+      6634 12-NOV-17 01.00.29.406 AM      12-NOV-17 02.00.17.332 AM      user commits          354955934       351,189         5,873
+      6635 12-NOV-17 02.00.17.332 AM      12-NOV-17 03.00.03.228 AM      user commits          356918293     1,962,359        32,815
+      6636 12-NOV-17 03.00.03.228 AM      12-NOV-17 04.00.20.577 AM      user commits          357821672       903,379        14,981
+      6637 12-NOV-17 04.00.20.577 AM      12-NOV-17 05.00.09.204 AM      user commits          358154880       333,208         5,572
+      6638 12-NOV-17 05.00.09.204 AM      12-NOV-17 06.00.25.507 AM      user commits          358296694       141,814         2,352
+      6639 12-NOV-17 06.00.25.507 AM      12-NOV-17 07.00.09.734 AM      user commits          358692156       395,462         6,624
+      6640 12-NOV-17 07.00.09.734 AM      12-NOV-17 08.00.01.047 AM      user commits          359373748       681,592        11,379
+      6641 12-NOV-17 08.00.01.047 AM      12-NOV-17 09.00.17.981 AM      user commits          360418586     1,044,838        17,327
+      6642 12-NOV-17 09.00.17.981 AM      12-NOV-17 10.00.04.542 AM      user commits          362476024     2,057,438        34,405
+      6643 12-NOV-17 10.00.04.542 AM      12-NOV-17 11.00.22.732 AM      user commits          364469092     1,993,068        33,053
+      6644 12-NOV-17 11.00.22.732 AM      12-NOV-17 12.00.09.693 PM      user commits          365611444     1,142,352        19,103
+      6645 12-NOV-17 12.00.09.693 PM      12-NOV-17 01.00.27.672 PM      user commits          366866479     1,255,035        20,813
+      6646 12-NOV-17 01.00.27.672 PM      12-NOV-17 02.00.14.537 PM      user commits          368466462     1,599,983        26,756
+
+</pre>
+<p>STAT_PER_MIN -Number of commits per minutes, during that snap time</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/find-user-commits-per-minute-oracle-database/">Find user commits per minute in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-user-commits-per-minute-oracle-database/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Find the active transactions in  oracle database</title>
+		<link>https://dbaclass.com/article/find-active-transactions-database/</link>
+					<comments>https://dbaclass.com/article/find-active-transactions-database/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sat, 21 Oct 2017 15:38:45 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3427</guid>
+
+					<description><![CDATA[<p>Below script can be used to find the active transactions in the oracle database. col name format a10 col username format a8 col osuser format a8 col start_time format a17 col status format a12 tti 'Active transactions' select s.sid,username,t.start_time, r.name, t.used_ublk "USED BLKS", decode(t.space, 'YES', 'SPACE TX', decode(t.recursive, 'YES', 'RECURSIVE TX', decode(t.noundo, 'YES', 'NO UNDO [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/find-active-transactions-database/">Find the active transactions in  oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below script can be used to find the active transactions in the oracle database.</p>
+<pre>
+col name format a10 
+col username format a8 
+col osuser format a8 
+col start_time format a17 
+col status format a12 
+tti 'Active transactions' 
+
+select s.sid,username,t.start_time, r.name, t.used_ublk "USED BLKS", 
+decode(t.space, 'YES', 'SPACE TX', 
+decode(t.recursive, 'YES', 'RECURSIVE TX', 
+decode(t.noundo, 'YES', 'NO UNDO TX', t.status) 
+)) status 
+from sys.v_$transaction t, sys.v_$rollname r, sys.v_$session s 
+where t.xidusn = r.usn 
+and t.ses_addr = s.saddr 
+/
+</pre>
+<p>The post <a href="https://dbaclass.com/article/find-active-transactions-database/">Find the active transactions in  oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-active-transactions-database/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Find sessions consuming lot of CPU</title>
+		<link>https://dbaclass.com/article/find-sessions-consuming-lot-cpu/</link>
+					<comments>https://dbaclass.com/article/find-sessions-consuming-lot-cpu/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 20 Jul 2017 13:22:00 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3117</guid>
+
+					<description><![CDATA[<p>Use below query to find the sessions using a lot of CPU. col program form a30 heading "Program" col CPUMins form 99990 heading "CPU in Mins" select rownum as rank, a.* from ( SELECT v.sid, program, v.value / (100 * 60) CPUMins FROM v$statname s , v$sesstat v, v$session sess WHERE s.name = 'CPU used [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/find-sessions-consuming-lot-cpu/">Find sessions consuming lot of CPU</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Use below query to find the sessions using a lot of CPU.</p>
+<pre>col program form a30 heading "Program" 
+col CPUMins form 99990 heading "CPU in Mins" 
+select rownum as rank, a.* 
+from ( 
+SELECT v.sid, program, v.value / (100 * 60) CPUMins 
+FROM v$statname s , v$sesstat v, v$session sess 
+WHERE s.name = 'CPU used by this session' 
+and sess.sid = v.sid 
+and v.statistic#=s.statistic# 
+and v.value&gt;0 
+ORDER BY v.value DESC) a 
+where rownum &lt; 11;
+</pre>
+<p>The post <a href="https://dbaclass.com/article/find-sessions-consuming-lot-cpu/">Find sessions consuming lot of CPU</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-sessions-consuming-lot-cpu/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Get sid from ospid</title>
+		<link>https://dbaclass.com/article/get-sid-ospid/</link>
+					<comments>https://dbaclass.com/article/get-sid-ospid/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 20 Jul 2017 12:01:40 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3114</guid>
+
+					<description><![CDATA[<p>Below is the script to find the respective sid of an server proccess id. col sid format 999999  col username format a20  col osuser format a15  select b.spid,a.sid, a.serial#,a.username, a.osuser  from v$session a, v$process b  where a.paddr= b.addr  and b.spid='&#38;spid'  order by b.spid; SEE ALSO &#8211; Get ospid from sid</p>
+<p>The post <a href="https://dbaclass.com/article/get-sid-ospid/">Get sid from ospid</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below is the script to find the respective sid of an server proccess id.</p>
+<pre class="">col sid format 999999 
+col username format a20 
+col osuser format a15 
+select b.spid,a.sid, a.serial#,a.username, a.osuser 
+from v$session a, v$process b 
+where a.paddr= b.addr 
+and b.spid='&amp;spid' 
+order by b.spid;
+</pre>
+<p><em><strong>SEE ALSO</strong></em> &#8211; <a href="https://dbaclass.com/article/get-ospid-sid/" target="_blank" rel="noopener noreferrer">Get ospid from sid</a></p>
+<p>The post <a href="https://dbaclass.com/article/get-sid-ospid/">Get sid from ospid</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/get-sid-ospid/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

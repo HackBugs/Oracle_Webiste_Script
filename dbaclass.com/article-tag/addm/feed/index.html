@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>addm Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/addm/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/addm/</link>
+	<description>database administration</description>
+	<lastBuildDate>Mon, 26 Feb 2018 09:41:08 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to generate ADDM report</title>
+		<link>https://dbaclass.com/article/generate-addm-report/</link>
+					<comments>https://dbaclass.com/article/generate-addm-report/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 26 Feb 2018 08:59:11 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3606</guid>
+
+					<description><![CDATA[<p>Automatic Database Diagnostic Monitor(ADDM) can analyze performance issues during a particular period and provide suggestion. An ADDM analysis is performed on a set of awr snapshots. addmrpt.sql script is used to generate addm report. Generate ADDM report: cd $ORACLE_HOME/rdbms/admin SQL&#62; @addmrpt.sql It will ask for begin snap_id and end snap_id SQL&#62; @addmrpt.sql Current Instance ~~~~~~~~~~~~~~~~ DB [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/generate-addm-report/">How to generate ADDM report</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Automatic Database Diagnostic Monitor(ADDM) can analyze performance issues during a particular period and provide suggestion. An ADDM analysis is performed on a set of awr snapshots. addmrpt.sql script is used to generate addm report.</p>
+<h3>Generate ADDM report:</h3>
+<p><span style="font-family: 'andale mono', monospace;">cd $ORACLE_HOME/rdbms/admin</span></p>
+<p><span style="font-family: 'andale mono', monospace;">SQL&gt; @addmrpt.sql</span></p>
+<p>It will ask for begin snap_id and end snap_id</p>
+<pre>SQL&gt; @addmrpt.sql
+
+Current Instance
+~~~~~~~~~~~~~~~~
+
+   DB Id    DB Name      Inst Num Instance
+----------- ------------ -------- ------------
+  936252554 POCD                1 POCD
+
+
+
+
+
+Instances in this Workload Repository schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  DB Id      Inst Num   DB Name      Instance     Host
+------------ ---------- ---------    ----------   ------
+* 936252554      1      POCD         POCD         mac60-1
+
+Using  936252554 for database Id
+Using          1 for instance number
+
+
+Specify the number of days of snapshots to choose from
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Entering the number of days (n) will result in the most recent
+(n) days of snapshots being listed.  Pressing  without
+specifying a number lists all completed snapshots.
+
+
+
+Listing the last 3 days of Completed Snapshots
+Instance     DB Name      Snap Id       Snap Started    Snap Level
+------------ ------------ ---------- ------------------ ----------
+POCD         POCD              1052  26 Feb 2018 08:00    1
+                               1053  26 Feb 2018 08:30    1
+                               1054  26 Feb 2018 09:00    1
+                               1055  26 Feb 2018 09:30    1
+                               1056  26 Feb 2018 10:00    1
+                               1057  26 Feb 2018 10:30    1
+                               1058  26 Feb 2018 11:00    1
+                               1059  26 Feb 2018 11:30    1
+Specify the Begin and End Snapshot Ids
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enter value for begin_snap: 1058
+Begin Snapshot Id specified: 1058
+
+Enter value for end_snap: 1059
+End   Snapshot Id specified: 1059
+
+
+
+Specify the Report Name
+~~~~~~~~~~~~~~~~~~~~~~~
+The default report file name is addmrpt_1_1058_1059.txt.  To use this name,
+press  to continue, otherwise enter an alternative.
+
+Enter value for report_name: addm_recent.txt
+
+</pre>
+<h3>Privileges required for non-sys users to generate addm report:</h3>
+<pre>sqlplus / as sysdba
+GRANT ADVISOR TO REPORT_USER;
+GRANT SELECT_CATALOG_ROLE TO REPORT_USER;
+GRANT EXECUTE ON dbms_workload_repository TO REPORT_USER;
+</pre>
+<blockquote><p><strong>From 12c onward, awr report contains addm output also</strong></p></blockquote>
+<p>The post <a href="https://dbaclass.com/article/generate-addm-report/">How to generate ADDM report</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/generate-addm-report/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

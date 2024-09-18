@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>tempfile Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/tempfile/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/tempfile/</link>
+	<description>database administration</description>
+	<lastBuildDate>Sat, 27 May 2017 12:37:12 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to find the I/O usage of tempfiles</title>
+		<link>https://dbaclass.com/article/find-io-usage-tempfiles/</link>
+					<comments>https://dbaclass.com/article/find-io-usage-tempfiles/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sat, 27 May 2017 12:36:51 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2894</guid>
+
+					<description><![CDATA[<p>Below scripts are useful to find the i/o usage of tempfiles SELECT SUBSTR(t.name,1,50) AS file_name, f.phyblkrd AS blocks_read, f.phyblkwrt AS blocks_written, f.phyblkrd + f.phyblkwrt AS total_io FROM v$tempstat f,v$tempfile t WHERE t.file# = f.file# ORDER BY f.phyblkrd + f.phyblkwrt DESC; select * from (SELECT u.tablespace, s.username, s.sid, s.serial#, s.logon_time, program, u.extents, ((u.blocks*8)/1024) as MB, i.inst_id,i.host_name [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/find-io-usage-tempfiles/">How to find the I/O usage of tempfiles</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below scripts are useful to find the <strong>i/o usage of </strong>tempfiles</p>
+<pre>SELECT SUBSTR(t.name,1,50) AS file_name,
+f.phyblkrd AS blocks_read,
+f.phyblkwrt AS blocks_written,
+f.phyblkrd + f.phyblkwrt AS total_io
+FROM v$tempstat f,v$tempfile t
+WHERE t.file# = f.file#
+ORDER BY f.phyblkrd + f.phyblkwrt DESC;
+</pre>
+<pre class="">select * from (SELECT u.tablespace, s.username, s.sid, s.serial#, s.logon_time, program, u.extents, ((u.blocks*8)/1024) as MB,
+i.inst_id,i.host_name
+FROM gv$session s, gv$sort_usage u ,gv$instance i
+WHERE s.saddr=u.session_addr and u.inst_id=i.inst_id order by MB DESC) a where rownum&lt;10;
+</pre>
+<p>The post <a href="https://dbaclass.com/article/find-io-usage-tempfiles/">How to find the I/O usage of tempfiles</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/find-io-usage-tempfiles/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

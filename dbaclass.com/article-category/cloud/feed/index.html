@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>CLOUD Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-category/cloud/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-category/cloud/</link>
+	<description>database administration</description>
+	<lastBuildDate>Mon, 29 May 2017 08:33:49 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Generate custom report from OEM cloud control</title>
+		<link>https://dbaclass.com/article/generate-custom-report-from-oem-cloud-control/</link>
+					<comments>https://dbaclass.com/article/generate-custom-report-from-oem-cloud-control/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 17 Mar 2017 10:20:45 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2312</guid>
+
+					<description><![CDATA[<p>REPORTING module can be used in oem cloud control to generate custom reports like , database status report of all target databases. Repository database contains all the target details and metric information . So best way is to run query against the repository database. Here we have provided steps for generating database consolidation report ENTERPRISE [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/generate-custom-report-from-oem-cloud-control/">Generate custom report from OEM cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>REPORTING module can be used in oem cloud control to generate custom reports like , database status report of all target databases.</p>
+<p>Repository database contains all the target details and metric information . So best way is to run query against the repository database.</p>
+<p>Here we have provided steps for generating database consolidation report</p>
+<p><strong>ENTERPRISE -&gt; REPORT -&gt; INFORMATION PUBLISHER REPORT</strong></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/custom1.jpg"><img fetchpriority="high" decoding="async" class=" size-full wp-image-2313 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/custom1.jpg" alt="custom1" width="941" height="382" srcset="https://dbaclass.com/wp-content/uploads/2017/03/custom1.jpg 941w, https://dbaclass.com/wp-content/uploads/2017/03/custom1-300x122.jpg 300w" sizes="(max-width: 941px) 100vw, 941px" /></a></p>
+<p>&nbsp;</p>
+<p><strong>Click on CREATE:</strong><br />
+<a href="https://dbaclass.com/wp-content/uploads/2017/03/custom2.jpg"><img decoding="async" class=" size-full wp-image-2314 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/custom2.jpg" alt="custom2" width="598" height="401" srcset="https://dbaclass.com/wp-content/uploads/2017/03/custom2.jpg 598w, https://dbaclass.com/wp-content/uploads/2017/03/custom2-300x201.jpg 300w" sizes="(max-width: 598px) 100vw, 598px" /></a></p>
+<p>&nbsp;</p>
+<p><strong>ON GENERAL TAB:</strong></p>
+<p><strong>CATEGORY</strong> &#8211; Compliance</p>
+<p><strong>SUBCATEGORY</strong> &#8211; Database Targets</p>
+<p><strong>TARGETS</strong> &#8211;   Select the repository database</p>
+<p><strong>PRIVILEGES</strong> &#8211; Run with SYSMAN privilege<br />
+<a href="https://dbaclass.com/wp-content/uploads/2017/03/custom3.jpg"><img decoding="async" class=" size-full wp-image-2315 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/custom3.jpg" alt="custom3" width="818" height="581" srcset="https://dbaclass.com/wp-content/uploads/2017/03/custom3.jpg 818w, https://dbaclass.com/wp-content/uploads/2017/03/custom3-300x213.jpg 300w" sizes="(max-width: 818px) 100vw, 818px" /></a></p>
+<p><strong>ELEMENTS TAB:</strong></p>
+<p><strong>Select ADD :</strong><br />
+<a href="https://dbaclass.com/wp-content/uploads/2017/03/custom4.jpg.png"><img loading="lazy" decoding="async" class=" size-full wp-image-2316 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/custom4.jpg.png" alt="custom4.jpg" width="995" height="210" srcset="https://dbaclass.com/wp-content/uploads/2017/03/custom4.jpg.png 995w, https://dbaclass.com/wp-content/uploads/2017/03/custom4.jpg-300x63.png 300w" sizes="(max-width: 995px) 100vw, 995px" /></a></p>
+<p>SELECT TABLE FROM SQL:<br />
+<a href="https://dbaclass.com/wp-content/uploads/2017/03/custom51.jpg"><img loading="lazy" decoding="async" class="alignleft size-full wp-image-2318" src="https://dbaclass.com/wp-content/uploads/2017/03/custom51.jpg" alt="custom5" width="1324" height="449" srcset="https://dbaclass.com/wp-content/uploads/2017/03/custom51.jpg 1324w, https://dbaclass.com/wp-content/uploads/2017/03/custom51-300x102.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/custom51-1024x347.jpg 1024w" sizes="(max-width: 1324px) 100vw, 1324px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/custom62.jpg"><br />
+<img loading="lazy" decoding="async" class=" size-full wp-image-2323 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/custom62.jpg" alt="custom6" width="1573" height="189" srcset="https://dbaclass.com/wp-content/uploads/2017/03/custom62.jpg 1573w, https://dbaclass.com/wp-content/uploads/2017/03/custom62-300x36.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/custom62-1024x123.jpg 1024w" sizes="(max-width: 1573px) 100vw, 1573px" /></a></p>
+<p>&nbsp;</p>
+<p>Here paste the sql query,<br />
+<a href="https://dbaclass.com/wp-content/uploads/2017/03/custom7.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2319 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/custom7.jpg" alt="custom7" width="824" height="513" srcset="https://dbaclass.com/wp-content/uploads/2017/03/custom7.jpg 824w, https://dbaclass.com/wp-content/uploads/2017/03/custom7-300x187.jpg 300w" sizes="(max-width: 824px) 100vw, 824px" /></a></p>
+<p>COMPLETE QUERY:</p>
+<pre> SELECT A.HOST_NAME,
+        A.DATABASE_NAME,
+		TO_CHAR(A.STARTUP_TIME,'DD-MON-YYYY') "STARTUP_DATE" ,
+        TO_CHAR(A.creation_date,'DD-MON-YYYY') "CREATION_DATE",
+        A.LOG_MODE,A.CHARACTERSET,A.DBVERSION,
+        AVAILABILITY_STATUS,E.SGASIZE,
+		G.HOME_LOCATION "ORACLE_HOME",
+		F.property_value "PORT",
+		C.cpu_count,
+		C.CPU_CORE_COUNT,
+		SUBSTR(D.OS_SUMMARY,1,40) "OS PLATFORM" 
+		FROM  SYSMAN.MGMT$DB_DBNINSTANCEINFO A, 
+				SYSMAN.MGMT$AVAILABILITY_CURRENT B,
+				SYSMAN.MGMT$DB_CPU_USAGE C ,  
+				sysman.mgmt$os_hw_summary D,
+				sysman.mgmt$db_sga_all E ,
+				SYSMAN.MGMT$TARGET_PROPERTIES F  , 
+				SYSMAN.MGMT$ORACLE_SW_ENT_TARGETS G 
+	WHERE B.TARGET_TYPE='oracle_database' and
+	A.TARGET_NAME=B.TARGET_NAME AND
+	A.TARGET_NAME=C.TARGET_NAME AND 
+	A.HOST_NAME=D.HOST_NAME and 
+	a.target_name=E.target_name  AND 
+	E.SGANAME='Total SGA (MB)'  AND
+   A.TARGET_NAME=F.TARGET_NAME AND
+   a.target_name=G.TARGET_NAME and  
+   F.PROPERTY_NAME='Port' 
+ORDER BY host_name desc;
+</pre>
+<p>&nbsp;</p>
+<p>This query you can customize as per your requirement:</p>
+<p>&nbsp;</p>
+<p>Now schedule it:</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/custom83.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2327 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/custom83.jpg" alt="custom8" width="1252" height="721" srcset="https://dbaclass.com/wp-content/uploads/2017/03/custom83.jpg 1252w, https://dbaclass.com/wp-content/uploads/2017/03/custom83-300x173.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/custom83-1024x590.jpg 1024w" sizes="(max-width: 1252px) 100vw, 1252px" /></a></p>
+<p>You can preview the report also. Once the preview is fine, you can save it. HTML formatted report will be sent the the mentioned email addresses.</p>
+<p>The post <a href="https://dbaclass.com/article/generate-custom-report-from-oem-cloud-control/">Generate custom report from OEM cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/generate-custom-report-from-oem-cloud-control/feed/</wfw:commentRss>
+			<slash:comments>15</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Apply database patch from OEM Cloud control</title>
+		<link>https://dbaclass.com/article/apply-database-patch-from-oem-12c13c/</link>
+					<comments>https://dbaclass.com/article/apply-database-patch-from-oem-12c13c/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 10 Mar 2017 20:05:52 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2277</guid>
+
+					<description><![CDATA[<p>With help of OEM cloud control, we can apply patch on multiple databases easily. No need to download the patch and copy that to the database server, OEM will download the patch if require and do the rest of patching activities. Below are the steps for applying patch using OEM Cloud control. ENTERPRISE &#8211; &#62; [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/apply-database-patch-from-oem-12c13c/">Apply database patch from OEM Cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>With help of OEM cloud control, we can apply patch on multiple databases easily. No need to download the patch and copy that to the database server, OEM will download the patch if require and do the rest of patching activities.</p>
+<p>Below are the steps for applying patch using OEM Cloud control.</p>
+<p><strong>ENTERPRISE &#8211; &gt; PATCHES &amp; UPDATES -&gt; RECOMMENDED PATCH</strong></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch1.jpg"><img loading="lazy" decoding="async" class="alignleft size-full wp-image-2278" src="https://dbaclass.com/wp-content/uploads/2017/03/patch1.jpg" alt="patch1" width="1577" height="562" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch1.jpg 1577w, https://dbaclass.com/wp-content/uploads/2017/03/patch1-300x107.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch1-1024x365.jpg 1024w" sizes="(max-width: 1577px) 100vw, 1577px" /></a></p>
+<p><strong>Select the respective platform and database.</strong></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch2.jpg"><img loading="lazy" decoding="async" class="aligncenter wp-image-2279 size-full" src="https://dbaclass.com/wp-content/uploads/2017/03/patch2.jpg" alt="patch2" width="1032" height="467" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch2.jpg 1032w, https://dbaclass.com/wp-content/uploads/2017/03/patch2-300x136.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch2-1024x463.jpg 1024w" sizes="(max-width: 1032px) 100vw, 1032px" /></a></p>
+<p><strong>Select the Patch which you are planning to apply</strong></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch3.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2280 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch3.jpg" alt="patch3" width="1553" height="407" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch3.jpg 1553w, https://dbaclass.com/wp-content/uploads/2017/03/patch3-300x79.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch3-1024x268.jpg 1024w" sizes="(max-width: 1553px) 100vw, 1553px" /></a><br />
+<strong>Create the patch plan:</strong></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch4.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2281 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch4.jpg" alt="patch4" width="1519" height="562" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch4.jpg 1519w, https://dbaclass.com/wp-content/uploads/2017/03/patch4-300x111.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch4-1024x379.jpg 1024w" sizes="(max-width: 1519px) 100vw, 1519px" /></a></p>
+<p><strong>Give a new to the PATCH PLAN:</strong></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch5.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2282 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch5.jpg" alt="patch5" width="724" height="345" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch5.jpg 724w, https://dbaclass.com/wp-content/uploads/2017/03/patch5-300x143.jpg 300w" sizes="(max-width: 724px) 100vw, 724px" /></a></p>
+<p>&nbsp;</p>
+<p><strong>Select the database targets. You can select multiple databases at a time.</strong></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch6.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2283 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch6.jpg" alt="patch6" width="724" height="555" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch6.jpg 724w, https://dbaclass.com/wp-content/uploads/2017/03/patch6-300x230.jpg 300w" sizes="(max-width: 724px) 100vw, 724px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch7.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2284 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch7.jpg" alt="patch7" width="727" height="343" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch7.jpg 727w, https://dbaclass.com/wp-content/uploads/2017/03/patch7-300x142.jpg 300w" sizes="(max-width: 727px) 100vw, 727px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch8.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2285 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch8.jpg" alt="patch8" width="1011" height="363" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch8.jpg 1011w, https://dbaclass.com/wp-content/uploads/2017/03/patch8-300x108.jpg 300w" sizes="(max-width: 1011px) 100vw, 1011px" /></a><br />
+<a href="https://dbaclass.com/wp-content/uploads/2017/03/patch9jpg.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2286 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch9jpg.jpg" alt="patch9jpg" width="1588" height="663" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch9jpg.jpg 1588w, https://dbaclass.com/wp-content/uploads/2017/03/patch9jpg-300x125.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch9jpg-1024x428.jpg 1024w" sizes="(max-width: 1588px) 100vw, 1588px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch10.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2287 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch10.jpg" alt="patch10" width="1576" height="674" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch10.jpg 1576w, https://dbaclass.com/wp-content/uploads/2017/03/patch10-300x128.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch10-1024x438.jpg 1024w, https://dbaclass.com/wp-content/uploads/2017/03/patch10-665x285.jpg 665w" sizes="(max-width: 1576px) 100vw, 1576px" /></a></p>
+<p><strong>This is screen is very important.</strong></p>
+<p>&nbsp;</p>
+<p><strong>There are two types of patching mode</strong>.</p>
+<p>&#8211; <strong>Out of place</strong> &#8211; In this option, A new Oracle binary will be created and the patch will be applied on top of that. And database will started from the new Oracle home. This is recommended method, because, it reduced DB downtime and also during patching to binary if some issue happens, then also the old ORACLE_HOME is intact.</p>
+<p><strong>&#8211; In place</strong> &#8211; Here the database and listeners running from that home will be shut down , Then patch will be applied to that ORACLE_HOME, once done database will be started with post patch.</p>
+<p>Here I have selected In place.</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch11.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2288 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch11.jpg" alt="patch11" width="1578" height="670" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch11.jpg 1578w, https://dbaclass.com/wp-content/uploads/2017/03/patch11-300x127.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch11-1024x435.jpg 1024w" sizes="(max-width: 1578px) 100vw, 1578px" /></a></p>
+<p>&nbsp;</p>
+<p><strong>Set the ORACLE_HOME </strong>credentials ,<strong> If not then use override and set the database server host username and password.</strong><br />
+<a href="https://dbaclass.com/wp-content/uploads/2017/03/patch12.jpg"><img loading="lazy" decoding="async" class="alignleft size-full wp-image-2289" src="https://dbaclass.com/wp-content/uploads/2017/03/patch12.jpg" alt="patch12" width="1578" height="669" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch12.jpg 1578w, https://dbaclass.com/wp-content/uploads/2017/03/patch12-300x127.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch12-1024x434.jpg 1024w" sizes="(max-width: 1578px) 100vw, 1578px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch13.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2290 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch13.jpg" alt="patch13" width="1576" height="669" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch13.jpg 1576w, https://dbaclass.com/wp-content/uploads/2017/03/patch13-300x127.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch13-1024x435.jpg 1024w" sizes="(max-width: 1576px) 100vw, 1576px" /></a></p>
+<p>&nbsp;</p>
+<p><strong>Now run the validation, to check the conflicts. This validation shouldn&#8217;t show any errors.</strong><br />
+<a href="https://dbaclass.com/wp-content/uploads/2017/03/patch14.jpg"><img loading="lazy" decoding="async" class="alignleft size-full wp-image-2291" src="https://dbaclass.com/wp-content/uploads/2017/03/patch14.jpg" alt="patch14" width="1576" height="670" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch14.jpg 1576w, https://dbaclass.com/wp-content/uploads/2017/03/patch14-300x128.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch14-1024x435.jpg 1024w" sizes="(max-width: 1576px) 100vw, 1576px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch15.jpg"><img loading="lazy" decoding="async" class="alignleft size-full wp-image-2292" src="https://dbaclass.com/wp-content/uploads/2017/03/patch15.jpg" alt="patch15" width="1571" height="678" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch15.jpg 1571w, https://dbaclass.com/wp-content/uploads/2017/03/patch15-300x129.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch15-1024x442.jpg 1024w" sizes="(max-width: 1571px) 100vw, 1571px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch16.jpg"><img loading="lazy" decoding="async" class="alignleft size-full wp-image-2293" src="https://dbaclass.com/wp-content/uploads/2017/03/patch16.jpg" alt="patch16" width="1573" height="665" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch16.jpg 1573w, https://dbaclass.com/wp-content/uploads/2017/03/patch16-300x127.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch16-1024x433.jpg 1024w" sizes="(max-width: 1573px) 100vw, 1573px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch17.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2294 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch17.jpg" alt="patch17" width="1406" height="695" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch17.jpg 1406w, https://dbaclass.com/wp-content/uploads/2017/03/patch17-300x148.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch17-1024x506.jpg 1024w" sizes="(max-width: 1406px) 100vw, 1406px" /></a></p>
+<p>Now the validation is successful, Now go for <strong>DEPLOYMENT</strong>.</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2017/03/patch18.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2295 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch18.jpg" alt="patch18" width="1569" height="669" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch18.jpg 1569w, https://dbaclass.com/wp-content/uploads/2017/03/patch18-300x128.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch18-1024x437.jpg 1024w, https://dbaclass.com/wp-content/uploads/2017/03/patch18-665x285.jpg 665w" sizes="(max-width: 1569px) 100vw, 1569px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch19.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2296 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch19.jpg" alt="patch19" width="1575" height="677" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch19.jpg 1575w, https://dbaclass.com/wp-content/uploads/2017/03/patch19-300x129.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch19-1024x440.jpg 1024w, https://dbaclass.com/wp-content/uploads/2017/03/patch19-665x285.jpg 665w" sizes="(max-width: 1575px) 100vw, 1575px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch20.jpg"><img loading="lazy" decoding="async" class="alignleft size-full wp-image-2297" src="https://dbaclass.com/wp-content/uploads/2017/03/patch20.jpg" alt="patch20" width="966" height="174" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch20.jpg 966w, https://dbaclass.com/wp-content/uploads/2017/03/patch20-300x54.jpg 300w" sizes="(max-width: 966px) 100vw, 966px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch21.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2298 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch21.jpg" alt="patch21" width="1577" height="677" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch21.jpg 1577w, https://dbaclass.com/wp-content/uploads/2017/03/patch21-300x129.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch21-1024x440.jpg 1024w, https://dbaclass.com/wp-content/uploads/2017/03/patch21-665x285.jpg 665w" sizes="(max-width: 1577px) 100vw, 1577px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch22.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2299 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch22.jpg" alt="patch22" width="1578" height="671" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch22.jpg 1578w, https://dbaclass.com/wp-content/uploads/2017/03/patch22-300x128.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch22-1024x435.jpg 1024w" sizes="(max-width: 1578px) 100vw, 1578px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch23.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2300 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch23.jpg" alt="patch23" width="1581" height="676" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch23.jpg 1581w, https://dbaclass.com/wp-content/uploads/2017/03/patch23-300x128.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch23-1024x438.jpg 1024w, https://dbaclass.com/wp-content/uploads/2017/03/patch23-665x285.jpg 665w" sizes="(max-width: 1581px) 100vw, 1581px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2017/03/patch26.jpg"><img loading="lazy" decoding="async" class=" size-full wp-image-2301 aligncenter" src="https://dbaclass.com/wp-content/uploads/2017/03/patch26.jpg" alt="patch26" width="1580" height="756" srcset="https://dbaclass.com/wp-content/uploads/2017/03/patch26.jpg 1580w, https://dbaclass.com/wp-content/uploads/2017/03/patch26-300x144.jpg 300w, https://dbaclass.com/wp-content/uploads/2017/03/patch26-1024x490.jpg 1024w" sizes="(max-width: 1580px) 100vw, 1580px" /></a></p>
+<p><strong>With this patching has been completed. Now you can log </strong>in to<strong> the database and check the patch registry.</strong></p>
+<pre>SQL&gt; SET LINES 200
+SQL&gt; select patch_Id,status,description from dba_registry_sqlpatch;
+
+  PATCH_ID STATUS          DESCRIPTION
+---------- --------------- -------------------------------------------------------------------------------------------------
+  24917972 SUCCESS         Database PSU 12.1.0.2.170117, Oracle JavaVM Component (JAN2017)
+  24732082 SUCCESS         DATABASE PATCH SET UPDATE 12.1.0.2.170117
+</pre>
+<p>The post <a href="https://dbaclass.com/article/apply-database-patch-from-oem-12c13c/">Apply database patch from OEM Cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/apply-database-patch-from-oem-12c13c/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>EMCLI command &#8211; OEM 12C</title>
+		<link>https://dbaclass.com/article/emcli-command-oem-12c/</link>
+					<comments>https://dbaclass.com/article/emcli-command-oem-12c/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 07 Mar 2017 20:03:32 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2254</guid>
+
+					<description><![CDATA[<p>EMCLI &#8211; Enterprise Command Line Interface . Though Managing OEM cloud control from GUI is easy. Few people like to use emcli command line tool. Here i have listed few useful commands. &#160; 1. Login to syman ./emcli login -username=SYSMAN 2. SYNC OMS REPOSITORY: ./emcli login -username=SYSMAN ./emcli sync 3. Get THE LIST OF TARGETS [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/emcli-command-oem-12c/">EMCLI command &#8211; OEM 12C</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>EMCLI &#8211; Enterprise Command Line Interface . Though Managing OEM cloud control from GUI is easy. Few people like to use emcli command line tool.</p>
+<p>Here i have listed few useful commands.</p>
+<p>&nbsp;</p>
+<h3>1. Login to syman</h3>
+<pre class="">./emcli login -username=SYSMAN
+</pre>
+<h3>2. SYNC OMS REPOSITORY:</h3>
+<pre>./emcli login -username=SYSMAN
+./emcli sync
+</pre>
+<h3>3. Get THE LIST OF TARGETS</h3>
+<pre> ./emcli get_targets
+</pre>
+<p>For listing only the oracle_database</p>
+<pre> ./emcli get_targets -targets="oracle_database"
+</pre>
+<h3>4. Delete a target from OEM cloud control:</h3>
+<pre> ./emcli delete_target -name="B2BOMT2" -type="oracle_database"
+Target "B2BOMT2:oracle_database" deleted successfully
+</pre>
+<h3>5. Run autodiscovery on a target host</h3>
+<p>You can configure autodiscover from GUI also, after a target host is added. Below is for doing using EMCLI</p>
+<p>Create a property file:</p>
+<pre> ./emcli describe_job_type -job_type=RunAutoDiscovery &gt; inputs.prop
+</pre>
+<p>Update the property file:( It will look as below)</p>
+<pre># Description: (Optional) The user specified name of the job
+name=AUTO_DISC
+
+# Description: (Optional) The job type for this job
+type=RunAutoDiscovery
+
+# Description: (Optional) The user specified description of the job
+description=
+
+# Description: The job owner. The job owner is the user who creates the job.
+# Default: the logged in user
+# The job owner information displayed here is for documentation only and user is not expected to change it.
+owner=
+
+# Description: (Optional) The kind of job
+# Legal Values: active, library
+kind=
+
+
+# Fill in the target list before submitting.
+# For Example:
+#     target_list=MyTarget:cluster
+target_list=172.20.294.137:host
+
+
+# Description: The type of targets to use for this job
+targetType=host
+
+
+# Description: (Optional) Notify the job owner when a selected state occurs
+# Allowed Values:  SCHEDULED, RUNNING, ACTION_REQUIRED, SUSPENDED, SUCCEEDED, PROBLEMS
+notification=
+
+# Description: (Optional) The run time properties for the job
+properties=
+</pre>
+<p>Create a job:</p>
+<pre> ./emcli create_job -input_file=property_file:inputs.prop
+
+Creation of job "AUTO_DISC" was successful.
+The following properties were not set to any value and were ignored: description, owner, kind, notification, properties
+</pre>
+<p>Get the job status:</p>
+<pre>emcli get_jobs -name=AUTO_DISC
+
+Name       Type              Job ID                            Execution ID                      Scheduled            Completed  TZ Offset  Status   Status ID  Owner   Target Type  Target Name
+AUTO_DISC  RunAutoDiscovery  4A115DB150B74968E0540010E01F328C  4A115DB150BA4968E0540010E01F328C  2017-03-06 17:03:55  none       GMT+03:00  Running  2          SYSMAN  host         172.20.294.137
+</pre>
+<p>Alternatively we can see the execution detail as :</p>
+<pre> ./emcli get_job_execution_detail -execution=4A115DB150BA4968E0540010E01F328C -xml -showOutput
+<!--?xml version = '1.0' encoding = 'UTF-8'?-->
+
+   
+      
+   
+   
+      
+         
+      
+   
+
+
+</pre>
+<pre>emcli get_jobs -name=AUTO_DISC
+Name       Type              Job ID                            Execution ID                      Scheduled            Completed            TZ Offset  Status     Status ID  Owner   Target Type  Target Name
+AUTO_DISC  RunAutoDiscovery  4A115DB150B74968E0540010E01F328C  4A115DB150BA4968E0540010E01F328C  2017-03-06 17:03:55  2017-03-06 17:05:22  GMT+03:00  Succeeded  5          SYSMAN  host         172.20.204.137
+</pre>
+<h3>6 . Add target database to OEM cloud:</h3>
+<p>SYNTAX:</p>
+<pre>./emcli add_target -name=”ORACLE_SID” -type=”oracle_database” -host=”$oemhost” -credentials=”UserName:dbsnmp;password:dbsnmp_password;Role:Normal” -properties=”SID:ORACLE_SID;Port:1521;OracleHome:;MachineName:\”
+</pre>
+<p>EXAMPLE:</p>
+<pre> ./emcli add_target -name="CRMB2RT" -type="oracle_database" -host="172.29.284.137" -credentials="UserName:dbsnmp;password:oracle4u;Role:Normal" -properties="SID:CRMB2RT;Port:1543;OracleHome:/oracle/app/oracle/product/12.1.0.2_B2R/dbhome_1;MachineName:dbac61-1"
+
+Target "CRMB2RT:oracle_database" added successfully
+</pre>
+<h3>7. Get list of plugins installed on OMS server:</h3>
+<pre class="">./emcli list_plugins_on_server
+
+OMS name is dbadev64.dba.com.sa:4889_Management_Service
+Plug-in Name                                 Plugin-id                     Version [revision]
+
+Oracle Audit Vault                           oracle.em.soav                12.1.0.4.0
+Oracle GoldenGate                            oracle.fmw.gg                 13.1.1.0.0
+Oracle Cloud Framework                       oracle.sysman.cfw             13.2.1.0.0
+Oracle Database                              oracle.sysman.db              13.2.1.0.0
+Oracle Fusion Middleware                     oracle.sysman.emas            13.2.1.0.0
+Oracle Fusion Applications                   oracle.sysman.emfa            13.2.1.0.0
+Oracle Siebel                                oracle.sysman.empa            13.1.1.0.0
+Oracle ORAchk Healthchecks                   oracle.sysman.orhc            13.1.1.0.0
+Systems Infrastructure                       oracle.sysman.si              13.2.1.0.0
+Oracle Exadata                               oracle.sysman.xa              13.2.1.0.0
+
+</pre>
+<h3>8 . Get list of plugins installed on a Management Agent:</h3>
+<pre>./emcli list_plugins_on_agent -agent_names="172.25.224.2:3872"
+The Agent URL is https://172.20.204.2:3872/emd/main/ -
+Plug-in Name                                 Plugin-id                     Version [revision]
+
+Oracle Home                                  oracle.sysman.oh              13.2.0.0.0
+Oracle Database                              oracle.sysman.db              13.2.1.0.0
+</pre>
+<h3>9 . Create BLACKOUT:</h3>
+<p><strong>Creating blackout for single database</strong><br />
+DBNAME &#8211; DBATEST<br />
+BLACKOUT DUATION &#8211; 30 MIN<br />
+SCHEDULE- START IMMEDIATELY</p>
+<pre>./emcli create_blackout -name="db_blackout_phase1" -reason="patching" -add_targets="DBATEST:oracle_database" -schedule="duration:30"
+Blackout "db_blackout_phase1" created successfully
+</pre>
+<p><strong>For multiple databases:</strong><br />
+DB NAME &#8211; DBATEST1,DBATEST2</p>
+<pre>emcli create_blackout -name="DBACLASS_MULTDB_BLACKOUT" -reason="psu patchcing" -add_targets="DBATEST1:oracle_database;DBATEST2:oracle_database" -schedule="duration:30"
+
+</pre>
+<p><strong>Create blackout for a host(target agent) and all this services/database runnin on that server</strong></p>
+<p>TARGET AGENT HOST &#8211; localhost.dbaclass.com<br />
+DURATIO &#8211; 30 MIN<br />
+START IMMEDIATELY</p>
+<pre> ./emcli create_blackout -name="DBACLASS_HOST_BLACKOUT" -reason="OS PATCHING OUTAGE" -add_targets="localhost.dbaclass.com:host" -schedule="duration:60" -propagate_targets
+Blackout "DBACLASS_HOST_BLACKOUT" created successfully
+</pre>
+<p><strong>Create blackout for RAC database:</strong></p>
+<pre>emcli create_blackout -name="DBACLASS_RAC_BLACKOUT" -reason="Mainteneance" -add_targets="instance_name:oracle_database;cluster_name:rac_database" -schedule="duration:60"
+</pre>
+<p><strong>Get status of a blackout:</strong></p>
+<p>SYNTAX</p>
+<pre>./emcli get_blackout_details  -name="BLACK_OUT_NAME"
+</pre>
+<p>EXAMPLE:</p>
+<pre>./emcli get_blackout_details  -name="db_blackout_phase1"
+</pre>
+<p><strong>Stop a BLACKOUT:</strong></p>
+<pre> ./emcli stop_blackout -name="db_blackout_phase1"
+Blackout "db_blackout_phase1" stopped successfully
+</pre>
+<p><strong>Delete a blackout:</strong></p>
+<pre>./emcli delete_blackout -name="db_blackout_phase1"
+Blackout "db_blackout_phase1" deleted successfully
+</pre>
+<h3>10 . Decommission an agent and delete the respective targets:</h3>
+<pre>./emcli delete_target -name="dbahost-local:3872"  -type="oracle_emd" -delete_monitored_targets
+
+Target "dbahost-local:3872:oracle_emd" deleted successfully
+
+</pre>
+<h3>11. Stop and start an agent from OMS server</h3>
+<p><strong>STOP AN AGENT:</strong></p>
+<pre>/data/app/oracle/oms13c/bin$ ./emcli stop_agent -agent_name="dbahost-local:3872" -host_username=oracle
+Host User password:
+The Shut Down operation is in progress for the Agent: dbahost-local:3872
+The Agent "dbahost-local:3872" has been stopped successfully.
+---------------------
+Operation Output
+---------------------
+Oracle Enterprise Manager Cloud Control 13c Release 2
+Copyright (c) 1996, 2016 Oracle Corporation.  All rights reserved.Stopping agent ... stopped.
+</pre>
+<p><strong>START AN AGENT:</strong></p>
+<pre>./emcli start_agent -agent_name="dbahost-local:3872" -host_username=oracle
+Host User password:
+The Start Up operation is in progress for the Agent: dbahost-local:3872
+The Agent "dbahost-local:3872" has been started successfully.
+---------------------
+Operation Output
+---------------------
+Oracle Enterprise Manager Cloud Control 13c Release 2
+Copyright (c) 1996, 2016 Oracle Corporation.  All rights reserved.Starting agent ..................................... started.
+
+</pre>
+<h3>12. Change password for dbsnmp user of target database</h3>
+<p>This will prompt for old password and new password.</p>
+<pre>./emcli update_db_password -target_name="B2CCRMT2" -target_type="oracle_database" -user_name="dbsnmp" -change_at_target=yes
+
+Enter value for old_password :
+Enter value for new_password :
+Enter value for retype_new_password :
+Successfully submitted a job to change the password in Enterprise Manager and on the target database: "B2CCRMT2"
+Execute "emcli get_jobs -job_id=50A66C2EF0EB6E7AE0540010E01F328C" to check the status of the job.
+Search for job name "CHANGE_PWD_JOB_1496046676449" on the Jobs home page to check job execution details.
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/emcli-command-oem-12c/">EMCLI command &#8211; OEM 12C</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/emcli-command-oem-12c/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Change dbsnmp password for target db in oem 12c</title>
+		<link>https://dbaclass.com/article/change-dbsnmp-password-for-target-db-in-oem-12c/</link>
+					<comments>https://dbaclass.com/article/change-dbsnmp-password-for-target-db-in-oem-12c/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 01 Mar 2017 10:02:07 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2235</guid>
+
+					<description><![CDATA[<p>  Update_db_password command can be used to updates DBNSMP password of the target in the Enterprise Manager Credential sub-system and change the password on the target database as well. The command need to be run from OMS home. SYNTAX: emcli login -username=sysman -password= emcli update_db_password -target_name="" -target_type="oracle_database" -user_name="dbsnmp" -change_at_target=yes -old_password="" -new_password="" -retype_new_password="" For standalone database:(TESTDB) 1. [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/change-dbsnmp-password-for-target-db-in-oem-12c/">Change dbsnmp password for target db in oem 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>  Update_db_password</strong> command can be used to updates DBNSMP password of the target in the Enterprise Manager Credential sub-system and change the password on the target database as well.</p>
+<p>The command need to be run from OMS home.</p>
+<p><strong>SYNTAX:</strong></p>
+<pre>emcli login -username=sysman -password=
+
+emcli update_db_password -target_name="" -target_type="oracle_database" -user_name="dbsnmp" -change_at_target=yes -old_password="" -new_password="" -retype_new_password=""
+</pre>
+<h3><strong>For standalone database:(TESTDB)</strong></h3>
+<p><strong>1. login to </strong>sysman<strong> user in OMS</strong></p>
+<pre>cd $OMS_HOME/bin
+
+./emcli login -username=sysman -password=oracle1234
+Login successful
+</pre>
+<p><strong>2. Check the target </strong>staus<strong>:</strong></p>
+<pre>./emcli get_targets -target="oracle_database" | grep TESTDB
+1       Up               oracle_database       TESTDB
+</pre>
+<p><strong>3. Update the </strong>dbsnmp<strong> password</strong></p>
+<pre>./emcli update_db_password -target_name="TESTDB" -target_type="oracle_database" -user_name="dbsnmp" -change_at_target=yes -old_password="dbsnmp" -new_password="oracle" -retype_new_password="oracle"
+
+Successfully submitted a job to change the password in Enterprise Manager and on the target database: "TESTDB"
+Execute "emcli get_jobs -job_id=49A8A308BB280CAFE0540010E01F328C" to check the status of the job.
+Search for job name "CHANGE_PWD_JOB_1488359226974" on the Jobs home page to check job execution details.
+
+</pre>
+<p><strong>4. Check the job status:</strong></p>
+<pre>./emcli get_jobs -job_id=49A8A308BB280CAFE0540010E01F328C
+Name                          Type                Job ID                            Execution ID                      Scheduled            Completed            TZ Offset  Status     Status ID  Owner   Target Type      Target Name
+CHANGE_PWD_JOB_1488359226974  dbUpdateDBPassword  49A8A308BB280CAFE0540010E01F328C  49A8A308BB2B0CAFE0540010E01F328C  2017-03-01 12:07:07  2017-03-01 12:07:11  GMT+03:00  Succeeded  5          SYSMAN  oracle_database  TESTDB
+</pre>
+<p>&nbsp;</p>
+<h3><strong>FOR RAC DATABASE USE BELOW SYNTAX:</strong></h3>
+<pre>emcli update_db_password -target_name="" -user_name= -target_type=rac_database -change_all_references=yes -change_at_target=yes -old_password= -new_password= -retype_new_password=
+
+emcli set_monitoring_credential -target_type="rac_database" -target_name="" -set_name="DBCredsMonitoring" -cred_type="DBCreds" -attributes="DBUserName:;DBPassword:;DBRole:"
+</pre>
+<p>The post <a href="https://dbaclass.com/article/change-dbsnmp-password-for-target-db-in-oem-12c/">Change dbsnmp password for target db in oem 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/change-dbsnmp-password-for-target-db-in-oem-12c/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Upgrade database using OEM 12C cloud control</title>
+		<link>https://dbaclass.com/article/upgrade-database-using-oem-12c-cloud-control/</link>
+					<comments>https://dbaclass.com/article/upgrade-database-using-oem-12c-cloud-control/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 06 Jul 2016 13:36:22 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=956</guid>
+
+					<description><![CDATA[<p> We can upgrade an oracle database using OEM 12c cloud control also.  Here I will show how to upgrade database from 12.1.0.1 to 12.1.0.2 .  Note &#8211; Make sure that 12.1.0.2 ORACLE_HOME is installed.  SOURCE ORACLE_HOME(12.1.0.1) &#8211; /oracle/app/oracle/product/12.1.0 TARGET ORACLE_HOME(12.1.0.2)  &#8211; /oracle/app/oracle/product/12.1.0.2_CRM/dbhome_1 &#160; Enable Flashback: Before starting the upgrade, Enable flashback in the database, so [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/upgrade-database-using-oem-12c-cloud-control/">Upgrade database using OEM 12C cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;"> We can upgrade an oracle database using OEM 12c cloud control also. </span></p>
+<p><span style="color: #000000;">Here I will show how to upgrade database from 12.1.0.1 to 12.1.0.2 . </span></p>
+<p><span style="color: #000000;"><strong><em>Note &#8211; Make sure that 12.1.0.2 ORACLE_HOME is installed. </em></strong></span></p>
+<p><span style="color: #000000;">SOURCE ORACLE_HOME(12.1.0.1) &#8211; /oracle/app/oracle/product/12.1.0</span></p>
+<p><span style="color: #000000;">TARGET ORACLE_HOME(12.1.0.2)  &#8211; /oracle/app/oracle/product/12.1.0.2_CRM/dbhome_1</span></p>
+<p>&nbsp;</p>
+<h5><strong><span style="color: #000000;">Enable Flashback:</span></strong></h5>
+<p><span style="color: #000000;">Before starting the upgrade, Enable flashback in the database, so that we can create a restore point during the upgrade, And if upgrade fails, we will be able to restore the database to before upgrade stage.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">SQL&gt; alter system set db_recovery_file_dest_size=10G scope=both;</span></p>
+<p><span style="color: #000000;">System altered.</span></p>
+<p><span style="color: #000000;">SQL&gt; alter system set db_recovery_file_dest=&#8217;/archive/oradata/B2BCRMT3/arch/FRA&#8217; scope=both;</span></p>
+<p><span style="color: #000000;">System altered.</span></p>
+<p><span style="color: #000000;">SQL&gt; alter database flashback on;</span></p>
+<p><span style="color: #000000;">Database altered</span></p>
+<p>Go to the HOMEPAGE of the database, which need to be upgraded.</p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><strong><em>ORACLE DATABASE -&gt; PROVISIONING &#8211; &gt; UPGRADE DATABASE</em></strong></span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-957" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_1.jpg" alt="UPG_1" width="809" height="404" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_1.jpg 809w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_1-300x150.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_1-600x300.jpg 600w" sizes="(max-width: 809px) 100vw, 809px" /></a></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Provide sys password and select the NEW <strong>ORACLE_HOME</strong>:</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-958" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_2.jpg" alt="UPG_2" width="1082" height="360" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_2.jpg 1082w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_2-300x100.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_2-1024x341.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_2-600x200.jpg 600w" sizes="(max-width: 1082px) 100vw, 1082px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_3.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-959" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_3.jpg" alt="UPG_3" width="1249" height="426" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_3.jpg 1249w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_3-300x102.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_3-1024x349.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_3-600x205.jpg 600w" sizes="(max-width: 1249px) 100vw, 1249px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_4.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-960" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_4.jpg" alt="UPG_4" width="629" height="356" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_4.jpg 629w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_4-300x170.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_4-600x340.jpg 600w" sizes="(max-width: 629px) 100vw, 629px" /></a></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_5.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-961" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_5.jpg" alt="UPG_5" width="1349" height="567" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_5.jpg 1349w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_5-300x126.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_5-1024x430.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_5-600x252.jpg 600w" sizes="(max-width: 1349px) 100vw, 1349px" /></a></p>
+<p><span style="color: #000000;">This step will do the precheck . Please take necessary action for the Validation results and retry the precheck.</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_6.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-962" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_6.jpg" alt="UPG_6" width="824" height="505" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_6.jpg 824w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_6-300x184.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_6-600x368.jpg 600w" sizes="(max-width: 824px) 100vw, 824px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_7.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-963" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_7.jpg" alt="UPG_7" width="817" height="501" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_7.jpg 817w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_7-300x184.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_7-600x368.jpg 600w" sizes="(max-width: 817px) 100vw, 817px" /></a></p>
+<p><span style="color: #000000;">As precheck is cleared, lets proceed with upgrade settings</span></p>
+<p><em><span style="color: #000000;">1. DEGREE OF UPGRADE PARALLELISM &#8211; 4</span></em></p>
+<p><em><span style="color: #000000;">2. DIAGNOSTIC DESTINATION &#8211; /oracle/app/oraclec</span></em></p>
+<p><em><span style="color: #000000;">3. AUDIT_FILE_DEST=/oracle/app/oracle/admin/B2BCRMD1/adump</span></em></p>
+<p><em><span style="color: #000000;">4. In Backup Restore section, select Use of guarantee restore point</span></em></p>
+<p><em><span style="color: #000000;">5. De-select compilation of invalid object , as we will run utlrp.sql, once upgrade is completed.</span></em></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_8.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-964" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_8.jpg" alt="UPG_8" width="1553" height="646" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_8.jpg 1553w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_8-300x125.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_8-1024x426.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_8-600x250.jpg 600w" sizes="(max-width: 1553px) 100vw, 1553px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_9.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-965" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_9.jpg" alt="UPG_9" width="1547" height="226" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_9.jpg 1547w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_9-300x44.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_9-1024x150.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_9-600x88.jpg 600w" sizes="(max-width: 1547px) 100vw, 1547px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_10.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-966" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_10.jpg" alt="UPG_10" width="502" height="321" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_10.jpg 502w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_10-300x192.jpg 300w" sizes="(max-width: 502px) 100vw, 502px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_11.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-967" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_11.jpg" alt="UPG_11" width="1205" height="182" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_11.jpg 1205w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_11-300x45.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_11-1024x155.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_11-600x91.jpg 600w" sizes="(max-width: 1205px) 100vw, 1205px" /></a></p>
+<p><span style="color: #000000;">We can start the upgrade Immediately or schedule it for Later. </span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_12.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-968" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_12.jpg" alt="UPG_12" width="1523" height="349" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_12.jpg 1523w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_12-300x69.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_12-1024x235.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_12-600x137.jpg 600w" sizes="(max-width: 1523px) 100vw, 1523px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_13.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-969" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_13.jpg" alt="UPG_13" width="1524" height="656" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_13.jpg 1524w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_13-300x129.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_13-1024x441.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_13-600x258.jpg 600w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_13-665x285.jpg 665w" sizes="(max-width: 1524px) 100vw, 1524px" /></a></p>
+<p><span style="color: #000000;">Submit the upgrade job</span><br />
+<a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_14.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-970" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_14.jpg" alt="UPG_14" width="1585" height="622" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_14.jpg 1585w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_14-300x118.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_14-1024x402.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_14-600x235.jpg 600w" sizes="(max-width: 1585px) 100vw, 1585px" /></a></p>
+<p><span style="color: #000000;">Monitor the upgrade job :</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_15.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-971" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_15.jpg" alt="UPG_15" width="1302" height="574" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_15.jpg 1302w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_15-300x132.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_15-1024x451.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_15-600x265.jpg 600w" sizes="(max-width: 1302px) 100vw, 1302px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_16.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-972" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_16.jpg" alt="UPG_16" width="1367" height="548" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_16.jpg 1367w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_16-300x120.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_16-1024x410.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_16-600x241.jpg 600w" sizes="(max-width: 1367px) 100vw, 1367px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_17.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-973" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_17.jpg" alt="UPG_17" width="1370" height="619" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_17.jpg 1370w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_17-300x136.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_17-1024x463.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_17-600x271.jpg 600w" sizes="(max-width: 1370px) 100vw, 1370px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/UPG_18.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-974" src="https://dbaclass.com/wp-content/uploads/2016/07/UPG_18.jpg" alt="UPG_18" width="1581" height="603" srcset="https://dbaclass.com/wp-content/uploads/2016/07/UPG_18.jpg 1581w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_18-300x114.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_18-1024x391.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/UPG_18-600x229.jpg 600w" sizes="(max-width: 1581px) 100vw, 1581px" /></a></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Upgrade has been completed succcessfully.</span></p>
+<p><span style="color: #000000;">Now run utlrp.sql script to compile all the object</span></p>
+<p><span style="color: #000000;">@$ORACLE_HOME/rdbms/admin/utlrp.sql</span></p>
+<p>&nbsp;</p>
+<h4><strong>SEE ALSO:</strong></h4>
+<h4><strong><a href="https://dbaclass.com/article/upgrade-database-from-11g-to-12c-manually/">Upgrade database from 11g to 12c manually</a></strong></h4>
+<p>The post <a href="https://dbaclass.com/article/upgrade-database-using-oem-12c-cloud-control/">Upgrade database using OEM 12C cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/upgrade-database-using-oem-12c-cloud-control/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Deinstall Management Agents Oracle 12c cloud control</title>
+		<link>https://dbaclass.com/article/deinstall-management-agents-oracle-12c-cloud-control/</link>
+					<comments>https://dbaclass.com/article/deinstall-management-agents-oracle-12c-cloud-control/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 05 Jul 2016 22:00:52 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=944</guid>
+
+					<description><![CDATA[<p>           Below are the steps for Deinstall/Decomission Management Agents in oracle 12c cloud control. &#160; Shutdown the Agent: SETUP &#8211; &#62; MANAGE CLOUD CONTROL -&#62; AGENTS  &#160; Select the HOST and click on SHUT DOWN &#160; &#160; Decommission Agent: Go to the Home page of the target host AGENT  &#8211; &#62; [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/deinstall-management-agents-oracle-12c-cloud-control/">Deinstall Management Agents Oracle 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">           Below are the steps for Deinstall/Decomission Management Agents in oracle 12c cloud control.</span></p>
+<p>&nbsp;</p>
+<h4><strong><span style="color: #000000;">Shutdown the Agent:</span></strong></h4>
+<p><strong><em><span style="color: #000000;">SETUP &#8211; &gt; MANAGE CLOUD CONTROL -&gt; AGENTS </span></em></strong></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_1_1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-946" src="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_1_1.jpg" alt="DEINS_1_1" width="470" height="538" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_1_1.jpg 470w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_1_1-262x300.jpg 262w" sizes="(max-width: 470px) 100vw, 470px" /></a></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Select the <strong><em>HOST</em></strong> and click on <strong><em>SHUT DOWN</em></strong></span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-948" src="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_2.jpg" alt="DEINS_2" width="930" height="575" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_2.jpg 930w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_2-300x185.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_2-600x371.jpg 600w" sizes="(max-width: 930px) 100vw, 930px" /></a></p>
+<p>&nbsp;</p>
+<h4><span style="color: #000000;">Decommission Agent:</span></h4>
+<p><span style="color: #000000;">Go to the Home page of the target host</span></p>
+<p><em><strong><span style="color: #000000;">AGENT  &#8211; &gt; TARGET SETUP &#8211; &gt; AGENT DECOMMISSION</span></strong></em></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_3.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-949" src="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_3.jpg" alt="DEINS_3" width="496" height="598" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_3.jpg 496w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_3-249x300.jpg 249w" sizes="(max-width: 496px) 100vw, 496px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_5.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-950" src="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_5.jpg" alt="DEINS_5" width="1593" height="599" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_5.jpg 1593w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_5-300x113.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_5-1024x385.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_5-600x226.jpg 600w" sizes="(max-width: 1593px) 100vw, 1593px" /></a></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_6.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-951" src="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_6.jpg" alt="DEINS_6" width="1166" height="587" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_6.jpg 1166w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_6-300x151.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_6-1024x516.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_6-600x302.jpg 600w" sizes="(max-width: 1166px) 100vw, 1166px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-947" src="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_.jpg" alt="DEINS_" width="1582" height="115" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DEINS_.jpg 1582w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_-300x22.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_-1024x74.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DEINS_-600x44.jpg 600w" sizes="(max-width: 1582px) 100vw, 1582px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Agent has been removed successfully.</span></p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/deinstall-management-agents-oracle-12c-cloud-control/">Deinstall Management Agents Oracle 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/deinstall-management-agents-oracle-12c-cloud-control/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Add database as target oracle 12c cloud control</title>
+		<link>https://dbaclass.com/article/add-database-as-target-oracle-12c-cloud-control/</link>
+					<comments>https://dbaclass.com/article/add-database-as-target-oracle-12c-cloud-control/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 05 Jul 2016 21:24:45 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=934</guid>
+
+					<description><![CDATA[<p>                             Once agents are deployed on target host, you can add the database and listeners  residing on the target host for monitoring by cloud control.   If you haven&#8217;t deployed Agents yet, click here First we need to configure Auto Discover the [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/add-database-as-target-oracle-12c-cloud-control/">Add database as target oracle 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">                              Once agents are deployed on target host, you can add the database and listeners  residing on the target host for monitoring by cloud control.  </span></p>
+<p><span style="color: #000000;">If you haven&#8217;t deployed Agents yet, <a href="https://dbaclass.com/article/how-to-deploy-agents-oracle-12c-cloud-control/" target="_blank">click here</a></span></p>
+<p><span style="color: #000000;">First we need to configure Auto Discover the target host.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><strong><em>SETUP -&gt; ADD TARGET -&gt; CONFIGURE AUTO DISCOVERY</em></strong></span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-935" src="https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_1.jpg" alt="DISC_1_1" width="1289" height="747" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_1.jpg 1289w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_1-300x174.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_1-1024x593.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_1-600x348.jpg 600w" sizes="(max-width: 1289px) 100vw, 1289px" /></a></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"> Click on the host,where the database resides and click on <em><strong>DISCOVER NOW</strong></em></span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-936" src="https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_2.jpg" alt="DISC_1_2" width="1295" height="613" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_2.jpg 1295w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_2-300x142.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_2-1024x485.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_1_2-600x284.jpg 600w" sizes="(max-width: 1295px) 100vw, 1295px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-937" src="https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_1.jpg" alt="DISC_2_1" width="1297" height="453" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_1.jpg 1297w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_1-300x105.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_1-1024x358.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_1-600x210.jpg 600w" sizes="(max-width: 1297px) 100vw, 1297px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-938" src="https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_2.jpg" alt="DISC_2_2" width="1295" height="390" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_2.jpg 1295w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_2-300x90.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_2-1024x308.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_2_2-600x181.jpg 600w" sizes="(max-width: 1295px) 100vw, 1295px" /></a></p>
+<p>&nbsp;</p>
+<p>Now Auto Discover is configured.  Lets check the results.</p>
+<p>&nbsp;</p>
+<p><em><strong><span style="color: #000000;">SETUP &#8211; &gt; ADD TARGET -&gt; AUTO DISCOVERY RESULTS</span></strong></em></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-939" src="https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_1.jpg" alt="DISC_3_1" width="1293" height="685" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_1.jpg 1293w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_1-300x159.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_1-1024x542.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_1-600x318.jpg 600w" sizes="(max-width: 1293px) 100vw, 1293px" /></a></p>
+<p><span style="color: #000000;">This will list down the list of databases and listeners, that can be promoted to cloud for monitoring.</span></p>
+<p><span style="color: #000000;">Select the database and click on <em><strong>PROMOTE</strong></em></span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-940" src="https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_2.jpg" alt="DISC_3_2" width="1303" height="753" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_2.jpg 1303w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_2-300x173.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_2-1024x592.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_3_2-600x347.jpg 600w" sizes="(max-width: 1303px) 100vw, 1303px" /></a></p>
+<p><span style="color: #000000;">Pass the <em><strong>dbsnmp password</strong></em> and click on <strong><em>TEST CONNECTION</em></strong>, to check whether you are able to ping to database or not.</span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-941" src="https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_1.jpg" alt="DISC_4_1" width="1294" height="314" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_1.jpg 1294w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_1-300x73.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_1-1024x248.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_1-600x146.jpg 600w" sizes="(max-width: 1294px) 100vw, 1294px" /></a></p>
+<p><span style="color: #000000;">Click on Next to confirm</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-942" src="https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_2.jpg" alt="DISC_4_2" width="1292" height="486" srcset="https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_2.jpg 1292w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_2-300x113.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_2-1024x385.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/DISC_4_2-600x226.jpg 600w" sizes="(max-width: 1292px) 100vw, 1292px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Now the database has been added to cloud for monitoring.</span></p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/add-database-as-target-oracle-12c-cloud-control/">Add database as target oracle 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/add-database-as-target-oracle-12c-cloud-control/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Blackout targets in OEM 12c cloud control</title>
+		<link>https://dbaclass.com/article/blackout-targets-in-oem-12c-cloud-control/</link>
+					<comments>https://dbaclass.com/article/blackout-targets-in-oem-12c-cloud-control/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 05 Jul 2016 16:56:40 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=919</guid>
+
+					<description><![CDATA[<p>  Before any planned outage on the target database or hot , we need to create blackout for that target, to avoid incident alerts. Blackouts allow Enterprise Manager Administrators to suspend all data collection activity. &#160; ORACLE DATABASE &#8211; &#62; MONITORING &#8211; &#62; BLACKOUTS &#160; Select the databases or services  which want to include in [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/blackout-targets-in-oem-12c-cloud-control/">Blackout targets in OEM 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">  Before any planned outage on the target database or hot , we need to create blackout for that target, to avoid incident alerts. Blackouts allow Enterprise Manager Administrators to suspend all data collection activity.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><strong><em>ORACLE DATABASE &#8211; &gt; MONITORING &#8211; &gt; BLACKOUTS</em></strong></span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-920" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_1.jpg" alt="BLACK_1" width="1307" height="496" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_1.jpg 1307w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_1-300x114.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_1-1024x389.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_1-600x228.jpg 600w" sizes="(max-width: 1307px) 100vw, 1307px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-921" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_2.jpg" alt="BLACK_2" width="1000" height="412" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_2.jpg 1000w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_2-300x124.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_2-600x247.jpg 600w" sizes="(max-width: 1000px) 100vw, 1000px" /></a></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Select the databases or services  which want to include in blackout.</span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_3.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-922" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_3.jpg" alt="BLACK_3" width="1309" height="443" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_3.jpg 1309w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_3-300x102.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_3-1024x347.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_3-600x203.jpg 600w" sizes="(max-width: 1309px) 100vw, 1309px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_4.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-923" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_4.jpg" alt="BLACK_4" width="1353" height="275" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_4.jpg 1353w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_4-300x61.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_4-1024x208.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_4-600x122.jpg 600w" sizes="(max-width: 1353px) 100vw, 1353px" /></a></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">You can select whether we need to initiate the blackout immediately or schedule it for future.</span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_5.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-924" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_5.jpg" alt="BLACK_5" width="1350" height="471" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_5.jpg 1350w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_5-300x105.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_5-1024x357.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_5-600x209.jpg 600w" sizes="(max-width: 1350px) 100vw, 1350px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_6.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-925" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_6.jpg" alt="BLACK_6" width="1311" height="513" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_6.jpg 1311w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_6-300x117.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_6-1024x401.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_6-600x235.jpg 600w" sizes="(max-width: 1311px) 100vw, 1311px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_7.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-926" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_7.jpg" alt="BLACK_7" width="1328" height="434" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_7.jpg 1328w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_7-300x98.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_7-1024x335.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_7-600x196.jpg 600w" sizes="(max-width: 1328px) 100vw, 1328px" /></a></p>
+<p>&nbsp;</p>
+<h5><span style="color: #000000;">Removing BLACKOUT:</span></h5>
+<p><span style="color: #000000;">Once target maintenance is done, we need to remove the targets from Blackout, to enable the incident and notification services.</span></p>
+<p><span style="color: #000000;"><strong><em>ENTERPRISE &#8211; &gt; MONITORING &#8211; &gt; BLACKOUTS</em></strong></span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_8.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-927" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_8.jpg" alt="BLACK_8" width="1301" height="482" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_8.jpg 1301w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_8-300x111.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_8-1024x379.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_8-600x222.jpg 600w" sizes="(max-width: 1301px) 100vw, 1301px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_9.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-928" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_9.jpg" alt="BLACK_9" width="1343" height="454" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_9.jpg 1343w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_9-300x101.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_9-1024x346.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_9-600x203.jpg 600w" sizes="(max-width: 1343px) 100vw, 1343px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_10.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-929" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_10.jpg" alt="BLACK_10" width="1346" height="315" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_10.jpg 1346w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_10-300x70.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_10-1024x240.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_10-600x140.jpg 600w" sizes="(max-width: 1346px) 100vw, 1346px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_11.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-930" src="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_11.jpg" alt="BLACK_11" width="1379" height="423" srcset="https://dbaclass.com/wp-content/uploads/2016/07/BLACK_11.jpg 1379w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_11-300x92.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_11-1024x314.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/BLACK_11-600x184.jpg 600w" sizes="(max-width: 1379px) 100vw, 1379px" /></a></p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/blackout-targets-in-oem-12c-cloud-control/">Blackout targets in OEM 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/blackout-targets-in-oem-12c-cloud-control/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Install oracle enterprise manager cloud control 12c</title>
+		<link>https://dbaclass.com/article/install-oracle-enterprise-manager-cloud-control-12c/</link>
+					<comments>https://dbaclass.com/article/install-oracle-enterprise-manager-cloud-control-12c/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 05 Jul 2016 12:24:23 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=860</guid>
+
+					<description><![CDATA[<p>                          Oracle Enterprise Manager Cloud control 12c Architecture Oracle enterprise Manager Cloud control 12c is used for managing and monitoring multiple oracle database and related targets from a single console.Although Enterprise Manager Cloud Control is viewed as single entity, It has below components. [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/install-oracle-enterprise-manager-cloud-control-12c/">Install oracle enterprise manager cloud control 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>                        <span style="color: #000000;">  Oracle Enterprise Manager Cloud control 12c Architecture</span></strong></p>
+<p><span style="color: #000000;">Oracle enterprise Manager Cloud control 12c is used for managing and monitoring multiple oracle database and related targets from a single console.</span><span style="color: #000000;">Although Enterprise Manager Cloud Control is viewed as single entity, It has below components.</span></p>
+<h5><span style="color: #000000;"><strong>Oracle Management Agent:</strong></span></h5>
+<p><span style="color: #000000;">Oracle Management Agent (Management Agent)  component is deployed on each monitored host. It is responsible for monitoring all of the targets running on those hosts, communicating that information to the middle-tier Oracle Management Service, and managing and maintaining the hosts and its targets.</span></p>
+<h5><span style="color: #000000;"><strong>Oracle Management Service:</strong></span></h5>
+<p><span style="color: #000000;">Oracle Management Service is a Web-based application that is connected with the Management Agents and the Management Plug-ins to discover targets, monitor and manage those targets, and dump the collected information in a repository . Oracle Management Service also  provide the user interface for Enterprise Manager Cloud Control.</span></p>
+<h5><span style="color: #000000;"><strong>Oracle Management Repository:</strong></span></h5>
+<p><span style="color: #000000;">The Oracle Management Repository is a storage location where all of the information collected by the Management Agent is stored. It is basically a database, Where Oracle Management Service uploads the monitoring data it receives from the Management Agents to the Management Repository.Oracle Management service retrieves the data from this repository database and display it in  the Enterprise Manager Cloud Control console.</span></p>
+<h5><span style="color: #000000;"><strong>Management Console:</strong></span></h5>
+<p><span style="color: #000000;">The OEM Cloud Control console is the web-based user interface for Enterprise Manager Cloud Control. With the help of the console, we can monitor and administer all the systems and services like databases, hosts, middleware application servers, listeners, and so on, are easily managed from one central location.</span></p>
+<p>Below is the simple Architectural Diagram:</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/ARCH_CLOUD_1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-861" src="https://dbaclass.com/wp-content/uploads/2016/07/ARCH_CLOUD_1.jpg" alt="ARCH_CLOUD_1" width="475" height="525" srcset="https://dbaclass.com/wp-content/uploads/2016/07/ARCH_CLOUD_1.jpg 475w, https://dbaclass.com/wp-content/uploads/2016/07/ARCH_CLOUD_1-271x300.jpg 271w" sizes="(max-width: 475px) 100vw, 475px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h5><span style="color: #000000;">Required Softwares:</span></h5>
+<p><span style="color: #000000;">1. Oracle database 12.1.0.2</span></p>
+<p><a href="http://www.oracle.com/technetwork/oem/enterprise-manager/downloads/index.html" target="_blank"><span style="color: #000000;">2. Oracle Enterprise Manager Cloud control 12C</span></a></p>
+<p><a href="http://www.oracle.com/technetwork/oem/enterprise-manager/downloads/db-templates-2205022.html" target="_blank"><span style="color: #000000;">3.Database Template for OEM</span></a></p>
+<p>&nbsp;</p>
+<h4><span style="color: #000000;">Installing OEM 12C cloud Control:</span></h4>
+<p><span style="color: #000000;">Before Installing OEM cloud control, We need to do below 2 steps.</span></p>
+<p><span style="text-decoration: underline;"><span style="color: #000000; text-decoration: underline;">Installing oracle database software 12c</span></span></p>
+<p><span style="color: #000000;">Install the oracle database software 12.1.0.2 on the server, where the cloud will be installed. This ORACLE_HOME will be used for creating the repository database.</span></p>
+<p><span style="color: #000000;"><strong><em>ORACLE_HOME : /oracle/app/oracle/product/12.1.0/dbhome_1</em></strong></span></p>
+<p><span style="text-decoration: underline; color: #000000;">Creating Repository database</span></p>
+<p><span style="color: #000000;">Now create a repository database by using dbca utility. Make sure to use template while creating db. Once database is created, add below entry in the oratab.</span></p>
+<p><span style="color: #000000;"><strong> </strong><strong><em>BSSCCNTL:/oracle/app/oracle/product/12.1.0/dbhome_1:N</em></strong></span></p>
+<p><span style="color: #000000;"><strong> </strong></span></p>
+<p><span style="color: #000000;">Now Unzip the cloud  software and execute runInstaller.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">cd /data/software/12cloud$ cd /data/software/12cloud</span></p>
+<p><span style="color: #000000;">unzip /data/software/12cloud$ unzip em12105_sol64_disk1.zip</span></p>
+<p><span style="color: #000000;">unzip /data/software/12cloud$ unzip em12105_sol64_disk2.zip</span></p>
+<p><span style="color: #000000;">unzip /data/software/12cloud$ unzip em12105_sol64_disk3.zip</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">./runInstaller</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-862" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_2.jpg" alt="INST_CLOUD_2" width="810" height="610" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_2.jpg 810w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_2-300x226.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_2-600x452.jpg 600w" sizes="(max-width: 810px) 100vw, 810px" /></a></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_3.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-863" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_3.jpg" alt="INST_CLOUD_3" width="810" height="606" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_3.jpg 810w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_3-300x224.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_3-600x449.jpg 600w" sizes="(max-width: 810px) 100vw, 810px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_4.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-880" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_4.jpg" alt="INST_CLOUD_4" width="1249" height="937" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_4.jpg 1249w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_4-300x225.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_4-1024x768.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_4-600x450.jpg 600w" sizes="(max-width: 1249px) 100vw, 1249px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_5.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-881" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_5.jpg" alt="INST_CLOUD_5" width="1243" height="929" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_5.jpg 1243w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_5-300x224.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_5-1024x765.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_5-600x448.jpg 600w" sizes="(max-width: 1243px) 100vw, 1243px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_6.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-882" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_6.jpg" alt="INST_CLOUD_6" width="1247" height="935" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_6.jpg 1247w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_6-300x225.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_6-1024x768.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_6-600x450.jpg 600w" sizes="(max-width: 1247px) 100vw, 1247px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_7.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-883" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_7.jpg" alt="INST_CLOUD_7" width="1249" height="940" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_7.jpg 1249w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_7-300x226.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_7-1024x771.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_7-600x452.jpg 600w" sizes="(max-width: 1249px) 100vw, 1249px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_8.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-884" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_8.jpg" alt="INST_CLOUD_8" width="1247" height="936" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_8.jpg 1247w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_8-300x225.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_8-1024x769.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_8-600x450.jpg 600w" sizes="(max-width: 1247px) 100vw, 1247px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_9.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-885" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_9.jpg" alt="INST_CLOUD_9" width="1249" height="937" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_9.jpg 1249w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_9-300x225.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_9-1024x768.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_9-600x450.jpg 600w" sizes="(max-width: 1249px) 100vw, 1249px" /></a></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Here, provide the REPOSITORY DATABASE details.</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_10.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-886" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_10.jpg" alt="INST_CLOUD_10" width="1251" height="938" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_10.jpg 1251w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_10-300x225.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_10-1024x768.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_10-600x450.jpg 600w" sizes="(max-width: 1251px) 100vw, 1251px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_11.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-887" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_11.jpg" alt="INST_CLOUD_11" width="1241" height="933" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_11.jpg 1241w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_11-300x226.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_11-1024x770.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_11-600x451.jpg 600w" sizes="(max-width: 1241px) 100vw, 1241px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_12.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-888" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_12.jpg" alt="INST_CLOUD_12" width="1243" height="944" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_12.jpg 1243w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_12-300x228.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_12-1024x778.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_12-600x456.jpg 600w" sizes="(max-width: 1243px) 100vw, 1243px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_13.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-889" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_13.jpg" alt="INST_CLOUD_13" width="1247" height="938" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_13.jpg 1247w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_13-300x226.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_13-1024x770.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_13-600x451.jpg 600w" sizes="(max-width: 1247px) 100vw, 1247px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_14.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-890" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_14.jpg" alt="INST_CLOUD_14" width="1249" height="933" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_14.jpg 1249w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_14-300x224.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_14-1024x765.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_14-600x448.jpg 600w" sizes="(max-width: 1249px) 100vw, 1249px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_15.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-891" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_15.jpg" alt="INST_CLOUD_15" width="1251" height="935" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_15.jpg 1251w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_15-300x224.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_15-1024x765.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_15-600x448.jpg 600w" sizes="(max-width: 1251px) 100vw, 1251px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_16.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-892" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_16.jpg" alt="INST_CLOUD_16" width="1247" height="935" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_16.jpg 1247w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_16-300x225.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_16-1024x768.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_16-600x450.jpg 600w" sizes="(max-width: 1247px) 100vw, 1247px" /></a> <a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_17.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-893" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_17.jpg" alt="INST_CLOUD_17" width="1245" height="942" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_17.jpg 1245w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_17-300x227.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_17-1024x775.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_17-600x454.jpg 600w" sizes="(max-width: 1245px) 100vw, 1245px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Run the above <strong><em>allroot.sh</em></strong> script as root user. And press ok.</span></p>
+<p><span style="color: #000000;">With this cloud installation has been completed. Now it will generate below url to access the cloud console.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><strong>https://172.20.204.67:7799/em</strong></span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_18.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-894" src="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_18.jpg" alt="INST_CLOUD_18" width="1293" height="622" srcset="https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_18.jpg 1293w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_18-300x144.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_18-1024x493.jpg 1024w, https://dbaclass.com/wp-content/uploads/2016/07/INST_CLOUD_18-600x289.jpg 600w" sizes="(max-width: 1293px) 100vw, 1293px" /></a></p>
+<p>&nbsp;</p>
+<h4><span style="color: #000000;">SEE ALSO:</span></h4>
+<p><a href="https://dbaclass.com/article/how-to-deploy-agents-oracle-12c-cloud-control/" target="_blank">How to deploy Management Agents in target host:</a></p>
+<p><a href="https://dbaclass.com/article/how-to-restart-agents-in-oracle-12c-cloud-control/" target="_blank">How to restart Agent in oracle 12c cloud control:</a></p>
+<p><a href="https://dbaclass.com/article/add-database-as-target-oracle-12c-cloud-control/" target="_blank">add database as target in oracle 12c cloud control:</a></p>
+<p><a href="https://dbaclass.com/article/blackout-targets-in-oem-12c-cloud-control/" target="_blank">Blackout targets in oracle 12c cloud control:</a></p>
+<p>The post <a href="https://dbaclass.com/article/install-oracle-enterprise-manager-cloud-control-12c/">Install oracle enterprise manager cloud control 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/install-oracle-enterprise-manager-cloud-control-12c/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to change sysman password for oracle 12c cloud control</title>
+		<link>https://dbaclass.com/article/how-to-change-sysman-password-for-oracle-12c-cloud-control/</link>
+					<comments>https://dbaclass.com/article/how-to-change-sysman-password-for-oracle-12c-cloud-control/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 03 Jun 2016 21:43:59 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=635</guid>
+
+					<description><![CDATA[<p>     Below are the steps for changing the sysman password for oracle 12c cloud control. 1. update the passwordn using emctl config   syntax &#8211;  ./emctl config oms -change_repos_pwd -use_sys_pwd -sys_pwd &#60;sys password&#62;  -new_pwd &#60; new sysman password&#62;  oracle@bttstdev64:...ta/app/oracle/oms12cr5/oms/bin$ ./emctl config oms -change_repos_pwd -use_sys_pwd -sys_pwd oracle1234 -new_pwd oracle1234 Oracle Enterprise Manager Cloud Control 12c [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-change-sysman-password-for-oracle-12c-cloud-control/">How to change sysman password for oracle 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">      Below are the steps for changing the sysman password for oracle 12c cloud control.</span></p>
+<h5><span style="color: #000000;">1. update the passwordn using emctl config</span></h5>
+<p><strong><em><span style="color: #000000;">  syntax &#8211;  ./emctl config oms -change_repos_pwd -use_sys_pwd -sys_pwd &lt;sys password&gt;  -new_pwd &lt; new sysman password&gt; </span></em></strong></p>
+<pre>oracle@bttstdev64:...ta/app/oracle/oms12cr5/oms/bin$ ./emctl config oms -change_repos_pwd -use_sys_pwd -sys_pwd oracle1234 -new_pwd oracle1234
+Oracle Enterprise Manager Cloud Control 12c Release 5
+Copyright (c) 1996, 2015 Oracle Corporation.  All rights reserved.
+
+Changing passwords in backend ...
+Passwords changed in backend successfully.
+Updating repository password in Credential Store...
+Successfully updated Repository password in Credential Store.
+Restart all the OMSs using 'emctl stop oms -all' and 'emctl start oms'.
+Successfully changed repository password.
+
+
+</pre>
+<h5><span style="color: #000000;">2. Stop the OMS</span></h5>
+<pre>oracle@bttstdev64:...ta/app/oracle/oms12cr5/oms/bin$ ./emctl stop oms -all
+Oracle Enterprise Manager Cloud Control 12c Release 5
+Copyright (c) 1996, 2015 Oracle Corporation.  All rights reserved.
+Stopping WebTier...
+WebTier Successfully Stopped
+Stopping Oracle Management Server...
+Oracle Management Server Successfully Stopped
+AdminServer Successfully Stopped
+Oracle Management Server is Down
+
+</pre>
+<h5></h5>
+<pre>oracle@bttstdev64:...ta/app/oracle/oms12cr5/oms/bin$ ./emctl start oms
+Oracle Enterprise Manager Cloud Control 12c Release 5
+Copyright (c) 1996, 2015 Oracle Corporation.  All rights reserved.
+Starting Oracle Management Server...
+Starting WebTier...
+WebTier Successfully Started
+Oracle Management Server Successfully Started
+Oracle Management Server is Up
+
+oracle@bttstdev64:...ta/app/oracle/oms12cr5/oms/bin$
+oracle@bttstdev64:...ta/app/oracle/oms12cr5/oms/bin$ ./emctl status oms
+Oracle Enterprise Manager Cloud Control 12c Release 5
+Copyright (c) 1996, 2015 Oracle Corporation.  All rights reserved.
+WebTier is Up
+
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/how-to-change-sysman-password-for-oracle-12c-cloud-control/">How to change sysman password for oracle 12c cloud control</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-change-sysman-password-for-oracle-12c-cloud-control/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

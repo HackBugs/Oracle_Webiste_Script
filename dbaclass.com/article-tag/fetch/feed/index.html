@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>fetch Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/fetch/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/fetch/</link>
+	<description>database administration</description>
+	<lastBuildDate>Sat, 15 Aug 2020 17:53:56 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Ansible script to run script on remote server and fetch the output</title>
+		<link>https://dbaclass.com/article/ansible-script-run-script-remote-server-fetch-output/</link>
+					<comments>https://dbaclass.com/article/ansible-script-run-script-remote-server-fetch-output/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sat, 15 Aug 2020 17:48:37 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=6020</guid>
+
+					<description><![CDATA[<p>REQUIREMENT: Write an ansible script ,that will 1. Copy the script collect_info.sh to all the hosts. 1. Run the shell script ( collect_info.sh ) , against the hosts mentioned in host file. 2. Script will be run as root user. 3. The output file of the script ( will be like collect*txt) need to be [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/ansible-script-run-script-remote-server-fetch-output/">Ansible script to run script on remote server and fetch the output</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h3><span style="text-decoration: underline; font-family: verdana, geneva, sans-serif;"><strong>REQUIREMENT:</strong></span></h3>
+<p><span style="font-family: terminal, monaco, monospace;"> Write an ansible script ,that will</span><br />
+<span style="font-size: 14px; font-family: terminal, monaco, monospace;"> 1. Copy the script collect_info.sh to all the hosts.</span><br />
+<span style="font-size: 14px; font-family: terminal, monaco, monospace;"> 1. Run the shell script ( collect_info.sh ) , against the hosts mentioned in host file.</span><br />
+<span style="font-size: 14px; font-family: terminal, monaco, monospace;"> 2. Script will be run as root user.</span><br />
+<span style="font-size: 14px; font-family: terminal, monaco, monospace;"> 3. The output file of the script ( will be like collect*txt) need to be copied to local host.</span></p>
+<h3><span style="text-decoration: underline; font-family: verdana, geneva, sans-serif;"><strong>Below is the ansible playbook script:</strong></span></h3>
+<p><span style="font-size: 14px;"><strong><span style="font-family: terminal, monaco, monospace;">cat collect_info.yml</span></strong></span></p>
+<p><span style="font-family: terminal, monaco, monospace; font-size: 14px;">&#8211; hosts: all</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">   strategy: free</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">   user: bvunix</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">   become: yes</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">   become_method: sudo</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">   become_user: root</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">   tasks:</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">     &#8211; name: Copy script collect_audit.sh</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">       copy: src=collect_audit.sh dest=/home/bvunix mode=0777</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">     &#8211; name: Run script for audit</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">       command: sh /home/bvunix/collect_audit.sh</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">     &#8211; name: find the output file</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">       shell: (cd /home/bvunix; find collect*.txt)</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">       register: files_to_copy</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">     &#8211; debug:</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">         var: files_to_copy</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">     &#8211; name: Fetch the file from remote to local</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">       fetch: src=/home/bvunix/{{ item }} dest=/home/bvunix/ mode=0777 flat=yes</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;">       with_items: &#8220;{{ files_to_copy.stdout_lines }}&#8221;</span></p>
+<h3><span style="font-family: verdana, geneva, sans-serif;"><strong>&#8211; Execute the playbook</strong></span></h3>
+<p><span style="font-family: terminal, monaco, monospace;">Ansible-playbook collect_info.yml -f 10</span></p>
+<p>&nbsp;</p>
+<h3><span style="font-family: verdana, geneva, sans-serif;"><strong>-HOSTFILE :</strong></span></h3>
+<p><span style="font-family: terminal, monaco, monospace; font-size: 14px;"><strong>&#8212; If password less ssh connectivity is established, then use the below simple hostfile</strong></span></p>
+<p><span style="font-family: terminal, monaco, monospace; font-size: 14px;">172.20.192.1</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;"> 172.20.192.2</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;"> 172.20.192.3</span></p>
+<p><span style="font-size: 14px; font-family: terminal, monaco, monospace;"><strong>&#8212; If no passwordless ssh setup is there, then hardcode the credentials as below:</strong></span></p>
+<p><span style="font-family: terminal, monaco, monospace; font-size: 14px;">linux1 ansible_host=172.20.192.1 ansible_connection=ssh ansible_user=bvunix ansible_ssh_pass=classic123</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;"> linux2 ansible_host=172.20.192.3 ansible_connection=ssh ansible_user=bvunix ansible_ssh_pass=classic123</span><br />
+<span style="font-family: terminal, monaco, monospace; font-size: 14px;"> linux3 ansible_host=172.20.192.3 ansible_connection=ssh ansible_user=bvunix ansible_ssh_pass=classic123</span></p>
+<p>&nbsp;</p>
+<p>In the later tutorial,  we will explain how to use ansible-vault to encrypt the host file.</p>
+<p>The post <a href="https://dbaclass.com/article/ansible-script-run-script-remote-server-fetch-output/">Ansible script to run script on remote server and fetch the output</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/ansible-script-run-script-remote-server-fetch-output/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

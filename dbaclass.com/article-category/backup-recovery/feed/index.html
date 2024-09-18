@@ -1,0 +1,1287 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>BACKUP &amp; RECOVERY Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-category/backup-recovery/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-category/backup-recovery/</link>
+	<description>database administration</description>
+	<lastBuildDate>Sun, 19 Sep 2021 12:10:12 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to duplicate database  using RMAN backup set</title>
+		<link>https://dbaclass.com/article/how-to-duplicate-database-using-rman-backup-set/</link>
+					<comments>https://dbaclass.com/article/how-to-duplicate-database-using-rman-backup-set/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 19 Sep 2021 12:10:12 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=7150</guid>
+
+					<description><![CDATA[<p>Though we can the active duplication method, to clone a database from live running database. But sometime we may need to clone a database from a RMAN backup set. Below example will cover the steps for that. STEPS: 1. Take full rman backup from source db If you already have any existing latest valid full [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-duplicate-database-using-rman-backup-set/">How to duplicate database  using RMAN backup set</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Though we can the active duplication method, to clone a database from live running database. But sometime we may need to clone a database from a RMAN backup set. Below example will cover the steps for that.</p>
+<h3>STEPS:</h3>
+<h3>1. Take full rman backup from source db</h3>
+<p>If you already have any existing latest valid full backup, then you can use that instead of taking fresh backup.</p>
+<pre><code class="language-">RMAN&gt; <span style="color: #993300;"><strong> configure controlfile autobackup format for device type disk to '/archive/RMAN_BKP/%F';
+</strong></span>
+new RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '/archive/RMAN_BKP/%F';
+new RMAN configuration parameters are successfully stored
+
+RMAN&gt; <span style="color: #993300;"><strong>run
+ {
+ allocate channel c1 type disk format '/archive/RMAN_BKP/%I-%Y%M%D-%U';
+ backup  as compressed backupset incremental level 0  check logical database plus archivelog;
+ release channel c1 ;
+ }</strong></span>
+
+
+
+allocated channel: c1
+channel c1: SID=23 device type=DISK
+
+Starting backup at 19-SEP-21
+current log archived
+channel c1: starting compressed archived log backup set
+channel c1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=457 RECID=453 STAMP=1083592832
+input archived log thread=1 sequence=458 RECID=454 STAMP=1083632441
+input archived log thread=1 sequence=459 RECID=455 STAMP=1083664917
+input archived log thread=1 sequence=460 RECID=456 STAMP=1083665067
+channel c1: starting piece 1 at 19-SEP-21
+channel c1: finished piece 1 at 19-SEP-21
+piece handle=/archive/RMAN_BKP/1307774653-20210919-0409eqlb_1_1 tag=TAG20210919T100427 comment=NONE
+channel c1: backup set complete, elapsed time: 00:00:15
+Finished backup at 19-SEP-21
+
+Starting backup at 19-SEP-21
+channel c1: starting compressed incremental level 0 datafile backup set
+channel c1: specifying datafile(s) in backup set
+input datafile file number=00002 name=/oradata/clsprod/SND_MAST_DATA_01.dbf
+input datafile file number=00008 name=/oradata/clsprod/SND_TRANS_DATA_01.dbf
+input datafile file number=00009 name=/oradata/clsprod/mbas_01.dbf
+input datafile file number=00010 name=/oradata/clsprod/sm_ts_01.dbf
+input datafile file number=00005 name=/oradata/clsprod/ts_prm_1.dbf
+input datafile file number=00003 name=/oradata/clsprod/sysaux01.dbf
+input datafile file number=00001 name=/oradata/clsprod/system01.dbf
+input datafile file number=00004 name=/oradata/clsprod/undotbs01.dbf
+input datafile file number=00007 name=/oradata/clsprod/users01.dbf
+channel c1: starting piece 1 at 19-SEP-21
+
+
+channel c1: finished piece 1 at 19-SEP-21
+piece handle=/archive/RMAN_BKP/1307774653-20210919-0509eqlq_1_1 tag=TAG20210919T100442 comment=NONE
+channel c1: backup set complete, elapsed time: 00:02:45
+Finished backup at 19-SEP-21
+
+Starting backup at 19-SEP-21
+current log archived
+channel c1: starting compressed archived log backup set
+channel c1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=461 RECID=457 STAMP=1083665247
+channel c1: starting piece 1 at 19-SEP-21
+channel c1: finished piece 1 at 19-SEP-21
+piece handle=/archive/RMAN_BKP/1307774653-20210919-0609eqr0_1_1 tag=TAG20210919T100727 comment=NONE
+channel c1: backup set complete, elapsed time: 00:00:01
+Finished backup at 19-SEP-21
+
+Starting Control File and SPFILE Autobackup at 19-SEP-21
+piece handle=/archive/RMAN_BKP/c-1307774653-20210919-00 comment=NONE
+Finished Control File and SPFILE Autobackup at 19-SEP-21
+
+released channel: c1
+
+</code></pre>
+<h4>2. Copy the backup pieces to the target host:If you are duplicating the database on a different host, then copy the backup pieces target  host.</h4>
+<pre><code class="language-">
+[oracle@RMAN_BKP]$ ls -ltr
+total 1120808
+-rw-r----- 1 oracle oinstall 155184640 Sep 19 10:04 1307774653-20210919-0409eqlb_1_1
+-rw-r----- 1 oracle oinstall 981581824 Sep 19 10:07 1307774653-20210919-0509eqlq_1_1
+-rw-r----- 1 oracle oinstall    218624 Sep 19 10:07 1307774653-20210919-0609eqr0_1_1
+-rw-r----- 1 oracle oinstall  10715136 Sep 19 10:07 c-1307774653-20210919-00
+
+[oracle@RMAN_BKP]$ scp * oracle@target-host.com:/archive/RMAN_BKP/
+
+
+</code></pre>
+<h4>3. Prepare pfile for the new db:</h4>
+<p>The new db_name is ckssdev.</p>
+<pre><code class="language-">cd $ORACLE_HOME/dbs
+
+vi initckssdev.ora
+
+*.audit_file_dest='/u01/app/oracle/admin/ckssdev/adump'
+*.audit_trail='db'
+*.compatible='19.0.0'
+*.control_files='/u01/app/oracle/oradata/ckssdev/control01.ctl','/u01/app/oracle/oradata/ckssdev/control02.ctl'
+*.db_block_size=8192
+*.db_name='ckssdev'
+*.diagnostic_dest='/u01/app/oracle'
+*.dispatchers='(PROTOCOL=TCP) (SERVICE=ckssdevXDB)'
+*.log_archive_dest_1='LOCATION=/u01/app/arch/ckssdev'
+*.nls_language='AMERICAN'
+*.nls_territory='AMERICA'
+*.open_cursors=300
+*.pga_aggregate_target=45174m
+*.processes=1500
+*.remote_login_passwordfile='EXCLUSIVE'
+*.sga_target=135520m
+*.undo_tablespace='UNDOTBS1'
+<em><strong><span style="color: #993300;">*.db_create_file_dest='/u01/app/oracle/oradata/ckssdev/'
+*.db_create_online_log_dest_1='/u01/app/oracle/oradata/ckssdev/'
+</span></strong></em></code></pre>
+<p>&nbsp;</p>
+<p><strong>NOTE &#8211; db_create_file_dest &#8211; &gt; In this location, all datafiles will be restored.</strong></p>
+<p><strong>              db_create_online_log_dest_1 -&gt; In this location, all online redolog files will be created/restored.</strong></p>
+<p>&nbsp;</p>
+<h4>4. Create required directory structure</h4>
+<pre><code class="language-">
+mkdir -p /u01/app/oracle/oradata/ckssdev/
+mkdir -p /u01/app/arch/ckssdev
+mkdir -p /u01/app/oracle/oradata/ckssdev/
+mkdir -p /u01/app/oracle/admin/ckssdev/adump
+
+</code><code class="language-"></code></pre>
+<h4>5. Start the database in noMount stage:</h4>
+<pre><code class="language-">SQL&gt; startup nomount
+ORACLE instance started.
+
+Total System Global Area 2.1475E+10 bytes
+Fixed Size                 19524688 bytes
+Variable Size            2550136832 bytes
+Database Buffers         1.8858E+10 bytes
+Redo Buffers               47583232 bytes
+SQL&gt; exit
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+</code></pre>
+<h4></h4>
+<h4>6. Run duplicate command</h4>
+<p>&nbsp;</p>
+<p><em><strong>SYNTAX &#8211; &gt;</strong> DUPLICATE DATABASE TO &lt;DB_NEW_NAME&gt; BACKUP LOCATION &#8216;&lt;&lt;BACKUP_LOC&gt;&#8217; NOFILENAMECHECK;</em></p>
+<p>&nbsp;</p>
+<pre><code class="language-">[oracle@dbhost-2 dbs]$ <span style="color: #993300;"><strong>rman auxiliary /</strong></span>
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Wed Sep 1 14:11:55 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to auxiliary database: ckssdev (not mounted)
+
+RMAN&gt; <span style="color: #993300;"><strong>DUPLICATE DATABASE TO ckssdev
+BACKUP LOCATION '/archive/RMAN_BKP/'
+NOFILENAMECHECK;</strong></span>2&gt; 3&gt;
+
+Starting Duplicate Db at 01-SEP-21
+searching for database ID
+found backup of database ID 2028559627
+
+contents of Memory Script:
+{
+   sql clone "create spfile from memory";
+}
+executing Memory Script
+
+sql statement: create spfile from memory
+
+contents of Memory Script:
+{
+   shutdown clone immediate;
+   startup clone nomount;
+}
+executing Memory Script
+
+Oracle instance shut down
+
+connected to auxiliary database (not started)
+Oracle instance started
+
+Total System Global Area   21474835536 bytes
+
+Fixed Size                    19524688 bytes
+Variable Size               2550136832 bytes
+Database Buffers           18857590784 bytes
+Redo Buffers                  47583232 bytes
+
+contents of Memory Script:
+{
+   sql clone "alter system set  db_name =
+ ''CLS21COM'' comment=
+ ''Modified by RMAN duplicate'' scope=spfile";
+   sql clone "alter system set  db_unique_name =
+ ''ckssdev'' comment=
+ ''Modified by RMAN duplicate'' scope=spfile";
+   shutdown clone immediate;
+   startup clone force nomount
+   restore clone primary controlfile from  '/u01/app/CLS_DONTDELETE/c-2028559627-20210901-00';
+   alter clone database mount;
+}
+executing Memory Script
+
+sql statement: alter system set  db_name =  ''CLS21COM'' comment= ''Modified by RMAN duplicate'' scope=spfile
+
+sql statement: alter system set  db_unique_name =  ''ckssdev'' comment= ''Modified by RMAN duplicate'' scope=spfile
+
+Oracle instance shut down
+
+Oracle instance started
+
+Total System Global Area   21474835536 bytes
+
+Fixed Size                    19524688 bytes
+Variable Size               2550136832 bytes
+Database Buffers           18857590784 bytes
+Redo Buffers                  47583232 bytes
+
+Starting restore at 01-SEP-21
+allocated channel: ORA_AUX_DISK_1
+channel ORA_AUX_DISK_1: SID=997 device type=DISK
+
+channel ORA_AUX_DISK_1: restoring control file
+channel ORA_AUX_DISK_1: restore complete, elapsed time: 00:00:01
+output file name=/u01/app/oracle/oradata/ckssdev/control01.ctl
+output file name=/u01/app/oracle/oradata/ckssdev/control02.ctl
+Finished restore at 01-SEP-21
+
+database mounted
+released channel: ORA_AUX_DISK_1
+allocated channel: ORA_AUX_DISK_1
+channel ORA_AUX_DISK_1: SID=997 device type=DISK
+allocated channel: ORA_AUX_DISK_2
+channel ORA_AUX_DISK_2: SID=1281 device type=DISK
+allocated channel: ORA_AUX_DISK_3
+channel ORA_AUX_DISK_3: SID=1423 device type=DISK
+allocated channel: ORA_AUX_DISK_4
+channel ORA_AUX_DISK_4: SID=1563 device type=DISK
+duplicating Online logs to Oracle Managed File (OMF) location
+duplicating Datafiles to Oracle Managed File (OMF) location
+
+contents of Memory Script:
+{
+   set until scn  42773496;
+   set newname for clone datafile  1 to new;
+   set newname for clone datafile  2 to new;
+   set newname for clone datafile  3 to new;
+   set newname for clone datafile  4 to new;
+   set newname for clone datafile  5 to new;
+   set newname for clone datafile  6 to new;
+   set newname for clone datafile  7 to new;
+   restore
+   clone database
+   ;
+}
+executing Memory Script
+
+executing command: SET until clause
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+
+Starting restore at 01-SEP-21
+using channel ORA_AUX_DISK_1
+using channel ORA_AUX_DISK_2
+using channel ORA_AUX_DISK_3
+using channel ORA_AUX_DISK_4
+
+channel ORA_AUX_DISK_1: starting datafile backup set restore
+channel ORA_AUX_DISK_1: specifying datafile(s) to restore from backup set
+channel ORA_AUX_DISK_1: restoring datafile 00001 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_system_%u_.dbf
+channel ORA_AUX_DISK_1: restoring datafile 00011 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_ecm_cbu_%u_.dbf
+channel ORA_AUX_DISK_1: restoring datafile 00012 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_ecm_cbu__%u_.dbf
+channel ORA_AUX_DISK_1: reading from backup piece /u01/app/CLS_DONTDELETE/2028559627-20210901-0307vpjo_1_1
+channel ORA_AUX_DISK_2: starting datafile backup set restore
+channel ORA_AUX_DISK_2: specifying datafile(s) to restore from backup set
+channel ORA_AUX_DISK_2: restoring datafile 00002 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_sysaux_%u_.dbf
+channel ORA_AUX_DISK_2: restoring datafile 00009 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_cbu_%u_.dbf
+channel ORA_AUX_DISK_2: restoring datafile 00010 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_cbu__%u_.dbf
+channel ORA_AUX_DISK_2: reading from backup piece /u01/app/CLS_DONTDELETE/2028559627-20210901-0207vpjo_1_1
+channel ORA_AUX_DISK_3: starting datafile backup set restore
+channel ORA_AUX_DISK_3: specifying datafile(s) to restore from backup set
+channel ORA_AUX_DISK_3: restoring datafile 00003 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_undotbs1_%u_.dbf
+channel ORA_AUX_DISK_3: restoring datafile 00005 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu_%u_.dbf
+channel ORA_AUX_DISK_3: restoring datafile 00006 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu__%u_.dbf
+channel ORA_AUX_DISK_3: reading from backup piece /u01/app/CLS_DONTDELETE/2028559627-20210901-0407vpjo_1_1
+channel ORA_AUX_DISK_4: starting datafile backup set restore
+channel ORA_AUX_DISK_4: specifying datafile(s) to restore from backup set
+channel ORA_AUX_DISK_4: restoring datafile 00004 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_users_%u_.dbf
+channel ORA_AUX_DISK_4: restoring datafile 00007 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_ecm_ebu_%u_.dbf
+channel ORA_AUX_DISK_3: restored backup piece 1
+channel ORA_AUX_DISK_3: restore complete, elapsed time: 00:03:06
+channel ORA_AUX_DISK_4: piece handle=/u01/app/CLS_DONTDELETE/2028559627-20210901-0507vpjo_1_1 tag=TAG20210901T135815
+channel ORA_AUX_DISK_2: restore complete, elapsed time: 00:03:46
+Finished restore at 01-SEP-21
+
+contents of Memory Script:
+{
+   switch clone datafile all;
+}
+executing Memory Script
+
+datafile 1 switched to datafile copy
+input datafile copy RECID=13 STAMP=1082125032 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_system_jlyr2q12_.dbf
+datafile 2 switched to datafile copy
+input datafile copy RECID=14 STAMP=1082125032 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_sysaux_jlyr2q0o_.dbf
+datafile 3 switched to datafile copy
+input datafile copy RECID=15 STAMP=1082125032 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_undotbs1_jlyr2q1k_.dbf
+datafile 4 switched to datafile copy
+input datafile copy RECID=16 STAMP=1082125032 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_users_jlyr2q24_.dbf
+datafile 5 switched to datafile copy
+input datafile copy RECID=17 STAMP=1082125032 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu_jlyr2py1_.dbf
+datafile 6 switched to datafile copy
+
+contents of Memory Script:
+{
+   set until scn  42773496;
+   recover
+   clone database
+    delete archivelog
+   ;
+}
+executing Memory Script
+
+executing command: SET until clause
+
+Starting recover at 01-SEP-21
+using channel ORA_AUX_DISK_1
+using channel ORA_AUX_DISK_2
+using channel ORA_AUX_DISK_3
+using channel ORA_AUX_DISK_4
+
+starting media recovery
+
+channel ORA_AUX_DISK_1: starting archived log restore to default destination
+channel ORA_AUX_DISK_1: restoring archived log
+archived log thread=1 sequence=939
+channel ORA_AUX_DISK_1: reading from backup piece /u01/app/CLS_DONTDELETE/2028559627-20210901-0607vplp_1_1
+channel ORA_AUX_DISK_1: piece handle=/u01/app/CLS_DONTDELETE/2028559627-20210901-0607vplp_1_1 tag=TAG20210901T135921
+channel ORA_AUX_DISK_1: restored backup piece 1
+channel ORA_AUX_DISK_1: restore complete, elapsed time: 00:00:01
+archived log file name=/u01/app/arch/ckssdev/1_939_1075569611.dbf thread=1 sequence=939
+channel clone_default: deleting archived log(s)
+archived log file name=/u01/app/arch/ckssdev/1_939_1075569611.dbf RECID=1 STAMP=1082125035
+media recovery complete, elapsed time: 00:00:01
+Finished recover at 01-SEP-21
+Oracle instance started
+
+Total System Global Area   21474835536 bytes
+
+Fixed Size                    19524688 bytes
+Variable Size               2550136832 bytes
+Database Buffers           18857590784 bytes
+Redo Buffers                  47583232 bytes
+
+contents of Memory Script:
+{
+   sql clone "alter system set  db_name =
+ ''ckssdev'' comment=
+ ''Reset to original value by RMAN'' scope=spfile";
+   sql clone "alter system reset  db_unique_name scope=spfile";
+}
+executing Memory Script
+
+sql statement: alter system set  db_name =  ''ckssdev'' comment= ''Reset to original value by RMAN'' scope=spfile
+
+sql statement: alter system reset  db_unique_name scope=spfile
+Oracle instance started
+
+Total System Global Area   21474835536 bytes
+
+Fixed Size                    19524688 bytes
+Variable Size               2550136832 bytes
+Database Buffers           18857590784 bytes
+Redo Buffers                  47583232 bytes
+sql statement: CREATE CONTROLFILE REUSE SET DATABASE "ckssdev" RESETLOGS ARCHIVELOG
+  MAXLOGFILES     16
+  MAXLOGMEMBERS      3
+  MAXDATAFILES      100
+  MAXINSTANCES     8
+  MAXLOGHISTORY      292
+ LOGFILE
+  GROUP     1  SIZE 200 M ,
+  GROUP     2  SIZE 200 M ,
+  GROUP     3  SIZE 200 M
+ DATAFILE
+  '/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_system_jlyr2q12_.dbf'
+ CHARACTER SET AL32UTF8
+
+
+contents of Memory Script:
+{
+   set newname for clone tempfile  1 to new;
+   switch clone tempfile all;
+   catalog clone datafilecopy  "/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_sysaux_jlyr2q0o_.dbf",
+ "/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_undotbs1_jlyr2q1k_.dbf",
+ "/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_users_jlyr2q24_.dbf",
+ "/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu_jlyr2py1_.dbf",
+ "/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu__jlyr2q08_.dbf",
+ "/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_ecm_ebu_jlyr2pyn_.dbf",
+   switch clone datafile all;
+}
+executing Memory Script
+
+executing command: SET NEWNAME
+
+renamed tempfile 1 to /u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_temp_%u_.tmp in control file
+
+cataloged datafile copy
+datafile copy file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_sysaux_jlyr2q0o_.dbf RECID=1 STAMP=1082125074
+cataloged datafile copy
+datafile copy file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_undotbs1_jlyr2q1k_.dbf RECID=2 STAMP=1082125074
+cataloged datafile copy
+datafile copy file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_users_jlyr2q24_.dbf RECID=3 STAMP=1082125074
+cataloged datafile copy
+datafile copy file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu_jlyr2py1_.dbf RECID=4 STAMP=1082125074
+cataloged datafile copy
+datafile copy file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu__jlyr2q08_.dbf RECID=5 STAMP=1082125074
+cataloged datafile copy
+
+datafile 2 switched to datafile copy
+input datafile copy RECID=1 STAMP=1082125074 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_sysaux_jlyr2q0o_.dbf
+datafile 3 switched to datafile copy
+input datafile copy RECID=2 STAMP=1082125074 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_undotbs1_jlyr2q1k_.dbf
+datafile 4 switched to datafile copy
+input datafile copy RECID=3 STAMP=1082125074 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_users_jlyr2q24_.dbf
+datafile 5 switched to datafile copy
+input datafile copy RECID=4 STAMP=1082125074 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu_jlyr2py1_.dbf
+datafile 6 switched to datafile copy
+input datafile copy RECID=5 STAMP=1082125074 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_CLS_ebu__jlyr2q08_.dbf
+datafile 7 switched to datafile copy
+input datafile copy RECID=6 STAMP=1082125074 file name=/u01/app/oracle/oradata/ckssdev/ckssdev/datafile/o1_mf_ecm_ebu_jlyr2pyn_.dbf
+datafile 8 switched to datafile copy
+
+
+contents of Memory Script:
+{
+   Alter clone database open resetlogs;
+}
+executing Memory Script
+
+database opened
+Cannot remove created server parameter file
+Finished Duplicate Db at 01-SEP-21
+
+</code></pre>
+<h3>SEE ALSO:</h3>
+<ul>
+<li><a href="https://dbaclass.com/article/rman-active-cloning-from-rac-to-rac/" target="_blank" rel="noopener noreferrer">RMAN Active Cloning From RAC TO RAC</a></li>
+<li><a href="https://dbaclass.com/article/clone-a-rac-database-to-standalone-database-using-rman-backup/" target="_blank" rel="noopener noreferrer">Clone A RAC Database To Standalone Database Using RMAN Backup</a></li>
+<li><a href="https://dbaclass.com/article/rman-active-cloning-in-oracle-12c/" target="_blank" rel="noopener noreferrer">RMAN Active Cloning In Oracle 12C</a></li>
+<li><a href="https://dbaclass.com/article/duplicate-database-rman-tape-backup/" target="_blank" rel="noopener noreferrer">Duplicate a database from RMAN TAPE BACKUP</a></li>
+<li><a href="https://dbaclass.com/article/database-cloning-using-hot-backup/" target="_blank" rel="noopener noreferrer">Database cloning using hot backup without RMAN</a></li>
+<li><a href="https://dbaclass.com/article/database-cloning-using-cold-backup/" target="_blank" rel="noopener noreferrer">Database cloning using cold backup</a></li>
+<li><a href="https://dbaclass.com/article/how-to-recover-a-dropped-user-using-flashback-oracle/" target="_blank" rel="noopener noreferrer">How To Recover A Dropped User Using Flashback Oracle</a></li>
+<li><a href="https://dbaclass.com/article/restoring-archivelogs-from-rman-tape-backup/" target="_blank" rel="noopener noreferrer">Restoring Archivelogs From RMAN Tape Backup</a></li>
+<li><a href="https://dbaclass.com/article/rman-backup-archives-two-sequences/" target="_blank" rel="noopener noreferrer">Rman backup of archives between two sequences</a></li>
+<li><a href="https://dbaclass.com/article/restore-lost-spfile-oracle/" target="_blank" rel="noopener noreferrer">How To Restore Lost Spfile In Oracle</a></li>
+<li><a href="https://dbaclass.com/article/point-in-time-restoring-rman-backup-from-tape/" target="_blank" rel="noopener noreferrer">Point In Time Restoring RMAN Backup From Tape</a></li>
+<li><a href="https://dbaclass.com/article/delete-old-archive-logs-using-rman/" target="_blank" rel="noopener noreferrer">Delete Old Archive Logs Using RMAN</a></li>
+<li><a href="https://dbaclass.com/article/how-to-enable-block_change_tracking-in-oracle/" target="_blank" rel="noopener noreferrer">How To Enable Block_change_tracking In Oracle</a></li>
+<li><a href="https://dbaclass.com/article/how-to-use-flashback-query-in-oracle-database/" target="_blank" rel="noopener noreferrer">How To Use Flashback Query In Oracle Database</a></li>
+<li><a href="https://dbaclass.com/article/how-to-enable-and-disable-flashback-in-oracle-database/" target="_blank" rel="noopener noreferrer">How To Enable And Disable Flashback In Oracle Database</a></li>
+<li><a href="https://dbaclass.com/article/rman-backup-in-multitenant-database-oracle-12c/" target="_blank" rel="noopener noreferrer">Rman Backup In Multitenant Database Oracle 12c</a></li>
+<li><a href="https://dbaclass.com/article/shell-script-delete-old-archives-using-rman/" target="_blank" rel="noopener noreferrer">Shell Script To Delete Old Archives Using RMAN</a></li>
+<li><a href="https://dbaclass.com/article/rman-backup-using-shell-script/" target="_blank" rel="noopener noreferrer">RMAN Backup Using Shell Script</a></li>
+</ul>
+<p>The post <a href="https://dbaclass.com/article/how-to-duplicate-database-using-rman-backup-set/">How to duplicate database  using RMAN backup set</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-duplicate-database-using-rman-backup-set/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Useful flashback related commands</title>
+		<link>https://dbaclass.com/article/useful-flashback-related-commands/</link>
+					<comments>https://dbaclass.com/article/useful-flashback-related-commands/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 14 Nov 2019 12:22:06 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4428</guid>
+
+					<description><![CDATA[<p>Below are the collection of useful flashback related commands. 1. How to check whether flashback is enabled or not: select flashback_on from v$database; 2. Enable flashback in database: --- make sure database is in archivelog mode: alter system set db_recovery_file_dest_size=10G scope=both; alter system set db_recovery_file_dest='/dumparea/FRA/B2PMT3' scope=both; alter database flashback on; 3. Disable flashback in database: [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/useful-flashback-related-commands/">Useful flashback related commands</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below are the collection of useful flashback related commands.</p>
+<p><strong>1. How to check whether flashback is enabled or not:</strong></p>
+<pre>select flashback_on from v$database;
+
+</pre>
+<p><strong>2. Enable flashback in database:</strong></p>
+<pre>
+--- make sure database is in archivelog mode:
+
+alter system set db_recovery_file_dest_size=10G scope=both;
+alter system set db_recovery_file_dest='/dumparea/FRA/B2PMT3' scope=both;
+alter database flashback on;
+
+</pre>
+<p><strong>3. Disable flashback in database:</strong></p>
+<pre>
+alter database flashback off;
+
+</pre>
+<p><strong>4. Create flashback restore point :</strong></p>
+<pre>
+create restore point FLASHBACK_PREP guarantee flashback database;
+
+</pre>
+<p><strong>5. Find the list of restore points:</strong></p>
+<pre>-- From SQL prompt:
+SQL&gt;Select * from v$restore_points:
+
+-- From RMAN prompt:
+RMAN&gt;LIST RESTORE POINT ALL;
+
+</pre>
+<p><strong>6. Drop restore point:</strong></p>
+<pre>
+drop restore point FLASHBACK_PREP;
+
+</pre>
+<p><strong>7. Flashback database to restore point:</strong></p>
+<pre>
+--- Below are the steps for flashback database to a guaranteed restore point;
+
+1. Get the restore point name:
+
+SQL&gt; select NAME,time from v$restore_point;
+
+NAME                                                            TIME
+--------------------------------          -----------------------------------------------
+FLASHBACK_PREP                             21-MAR-17 03.41.33.000000000 PM
+
+2. Shutdown database and start db in Mount stage:
+
+shutdown immediate;
+startup mount;
+
+3. flashback db to restore point:
+
+flashback database to restore point FLASHBACK_PREP;
+
+4. Open with resetlog:
+
+alter database open resetlogs;
+
+</pre>
+<p><strong>8. Flashback query as of timestamp:</strong></p>
+<pre>
+SELECT * FROM DBACLASS.EMP AS OF TIMESTAMP
+TO_TIMESTAMP('2017-01-07 10:00:00', 'YYYY-MM-DD HH:MI:SS');
+
+
+SELECT * FROM DBACLASS.EMP AS OF TIMESTAMP SYSDATE -1/24;
+
+</pre>
+<p><strong>9. Flashback database to particular SCN or timestamp:</strong></p>
+<pre>
+shutdown immediate;
+startup mount;
+--FLASHBACK DATABASE TO SCN 202381; -- Use this for particular scn
+--FLASHBACK DATABASE TO TIMESTAMP (SYSDATE-1/24); - Use for flashback to last one hour 
+--FLASHBACK DATABASE TO TIMESTAMP to_timestamp('2018-03-11 16:00:00', 'YYYY-MM-DD HH24:MI:SS');- to specific timestamp:
+
+alter database open resetlogs;
+
+</pre>
+<p><strong>10. Flashback a table from recyclebin:</strong></p>
+<pre>
+-- First get whether the table name exists in recyclebin or not:
+
+SELECT object_name, original_name, createtime FROM recyclebin where original_name='EMP';
+
+ -- restore the table as same name:
+FLASHBACK TABLE int_admin_emp TO BEFORE DROP;
+
+-- Restore that table to a new name:
+
+FLASHBACK TABLE int_admin_emp TO BEFORE DROP 
+   RENAME TO int2_admin_emp;
+
+</pre>
+<p><strong>11. Get flashback are usage info:</strong></p>
+<pre>SELECT * FROM V$FLASH_RECOVERY_AREA_USAGE; 
+
+
+</pre>
+<p><strong>12. How far can we flashback:</strong></p>
+<pre>--How Far Back Can We Flashback To (Time)
+
+select to_char(oldest_flashback_time,’dd-mon-yyyy hh24:mi:ss’) “Oldest Flashback Time”
+from v$flashback_database_log;
+
+--How Far Back Can We Flashback To (SCN)
+
+col oldest_flashback_scn format 99999999999999999999999999
+select oldest_flashback_scn from v$flashback_database_log;
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/useful-flashback-related-commands/">Useful flashback related commands</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/useful-flashback-related-commands/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>COMPRESSION in datapump oracle</title>
+		<link>https://dbaclass.com/article/compression-datapump-oracle/</link>
+					<comments>https://dbaclass.com/article/compression-datapump-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 11:42:17 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3957</guid>
+
+					<description><![CDATA[<p>COMPRESSION parameter is used with EXPDP, to compress the generated dump file. NOTE &#8211; For using compression parameter with datapump, we need to have Oracle advance compression license. &#160; COMPRESSION Reduce the size of a dump file. Valid keyword values are: ALL, DATA_ONLY, [METADATA_ONLY] and NONE. In this below demo, we will compare the dump [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/compression-datapump-oracle/">COMPRESSION in datapump oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em><strong>COMPRESSION</strong> </em>parameter is used with EXPDP, to compress the generated dump file.</p>
+<p>NOTE &#8211; For using compression parameter with datapump, we need to have Oracle advance compression license.</p>
+<p>&nbsp;</p>
+<blockquote><p><strong>COMPRESSION</strong><br />
+<strong>Reduce the size of a dump file.</strong><br />
+<strong>Valid keyword values are: ALL, DATA_ONLY, [METADATA_ONLY] and NONE.</strong></p></blockquote>
+<p>In this below demo, we will compare the dump size with or without compression parameter.</p>
+<p>&nbsp;</p>
+<p><span style="text-decoration: underline;"><strong>Get the DUMPSIZE without COMPRESSION parameter :</strong></span></p>
+<pre class="">cat exp_compress.par
+
+dumpfile=dbaclass_wo_compression.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+
+</pre>
+<pre> expdp parfile=exp_compress.par
+
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:56:14 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=exp_compress.par
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 29 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."OBJECT_LIST"                    24.69 MB  219456 rows ---- &gt;&gt;&gt; 25 MB AROUND
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/dbaclass__compression.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:56:19 2018 elapsed 0 00:00:03
+
+</pre>
+<p>So, without compression, the size is around 25 MB. Let&#8217;s do the export with compression.</p>
+<p><span style="text-decoration: underline;"><strong>EXPORT WITH COMPRESSION=ALL</strong></span></p>
+<pre class=""> cat exp_compress.par
+
+dumpfile=dbaclass_compression.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+compression=ALL
+</pre>
+<pre> expdp parfile=exp_compress.par
+
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:56:48 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=exp_compress.par
+Estimate in progress using BLOCKS method...
+ Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 29 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."OBJECT_LIST"                    2.922 MB  219456 rows --- &gt;&gt; 
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/dbaclass_compression.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:56:56 2018 elapsed 0 00:00:05
+
+</pre>
+<p>We can see, from 25 MB ,it came down to 2 MB :). It really saves a lot of disk space.</p>
+<p>However, there is a tradeoff. Use of compression will increase the time required for the export job.</p>
+<p>&nbsp;</p>
+<table class=" aligncenter" style="width: 833.25px; border-color: #000000;">
+<tbody>
+<tr style="height: 24px;">
+<td style="width: 160px; height: 24px; border-color: #000000;"></td>
+<td style="width: 160px; height: 24px; border-color: #000000;">W/O COMPRESSION</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">WITH COMPRESSION</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 160px; height: 24px; border-color: #000000;">SPACE REQUIRED</td>
+<td style="width: 160px; height: 24px; border-color: #000000;">25mb</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">3 mb</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 160px; height: 24px; border-color: #000000;">TIME TAKEN</td>
+<td style="width: 160px; height: 24px; border-color: #000000;">3 second</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">5 second</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 160px; height: 24px; border-color: #000000;">CPU USAGE</td>
+<td style="width: 160px; height: 24px; border-color: #000000;">NORMAL</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">bit more than w/o compression</td>
+</tr>
+<tr style="height: 24.375px;">
+<td style="width: 160px; height: 24px; border-color: #000000;">LICENSE?</td>
+<td style="width: 160px; height: 24px; border-color: #000000;">No additional license</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">Advance compression license required</td>
+</tr>
+</tbody>
+</table>
+<p><em><strong> </strong></em></p>
+<p><strong>COMPRESSION_ALGORITHM:</strong></p>
+<p>We can control the compression ratio using <em><strong>COMPRESSION_ALGORITHM</strong> </em>parameter. HIGH compression ratio will use more CPU and also increase export job time.</p>
+<p>&nbsp;</p>
+<blockquote><p><strong>COMPRESSION_ALGORITHM</strong><br />
+<strong>Specify the compression algorithm that should be used.</strong><br />
+<strong>Valid keyword values are: [BASIC], LOW, MEDIUM and HIGH.</strong></p></blockquote>
+<p>&nbsp;</p>
+<p><strong>PARFILE WILL LOOK AS BELOW:</strong></p>
+<pre class=""> cat exp_compress.par
+
+dumpfile=dbaclass_compression.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+compression=ALL
+COMPRESSION_ALGORITHM=HIGH</pre>
+<p>The post <a href="https://dbaclass.com/article/compression-datapump-oracle/">COMPRESSION in datapump oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/compression-datapump-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>REUSE_DUMPFILES parameter in EXPDP</title>
+		<link>https://dbaclass.com/article/reuse_dumpfiles-parameter-expdp/</link>
+					<comments>https://dbaclass.com/article/reuse_dumpfiles-parameter-expdp/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 11:25:58 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3954</guid>
+
+					<description><![CDATA[<p>If we try to export a dumpfile with the name, which is already present in that directory. then we will get error like ORA-27038: created file already exists ORA-39001: invalid argument value ORA-39000: bad dump file specification ORA-31641: unable to create dump file &#8220;/export/home/oracle/dbaclass_estim.dmp&#8220; ORA-27038: created file already exists Additional information: 1 So if the [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/reuse_dumpfiles-parameter-expdp/">REUSE_DUMPFILES parameter in EXPDP</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>If we try to export a dumpfile with the name, which is already present in that directory. then we will get error like <strong>ORA-27038: created file already exists</strong></p>
+<p><span style="font-family: 'andale mono', monospace; font-size: 14px;">ORA-39001: invalid argument value</span><br />
+<span style="font-family: 'andale mono', monospace; font-size: 14px;">ORA-39000: bad dump file specification</span><br />
+<span style="font-family: 'andale mono', monospace; font-size: 14px;">ORA-31641: unable to create dump file &#8220;/export/home/oracle/dbaclass_estim.</span>dmp<span style="font-family: 'andale mono', monospace; font-size: 14px;">&#8220;</span><br />
+<span style="font-family: 'andale mono', monospace; font-size: 14px;">ORA-27038: created file already exists</span><br />
+<span style="font-family: 'andale mono', monospace; font-size: 14px;">Additional information: 1</span></p>
+<p>So if the requirement is to overwrite the existing dumpfile, then REUSE_DUMPFILES parameter can be used with EXPDP.</p>
+<blockquote><p>REUSE_DUMPFILES<br />
+Overwrite destination dump file if it exists [NO].</p></blockquote>
+<h3>DEMO:</h3>
+<p><strong>PARFILE WITH REUSE_DUMPFILES=Y</strong></p>
+<pre>cat exp_reusedmp.par
+
+dumpfile=dbaclass_estim.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+REUSE_DUMPFILES=Y
+</pre>
+<p>At this point, we already have the dumpfile dbaclass_estim.dmp . So the EXPDP job should overwrite this dumpfile.</p>
+<pre class="">expdp parfile=exp_reusedmp.par
+
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:53:54 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=exp_reusedmp.par
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 29 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."OBJECT_LIST"                    24.69 MB  219456 rows
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/dbaclass_estim.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:54:01 2018 elapsed 0 00:00:03
+</pre>
+<p>As expected, we didnt received the error &#8211; ORA-27038: created file already exists.</p>
+<p>The post <a href="https://dbaclass.com/article/reuse_dumpfiles-parameter-expdp/">REUSE_DUMPFILES parameter in EXPDP</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/reuse_dumpfiles-parameter-expdp/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>SAMPLE parameter  in EXPDP to export subset of data</title>
+		<link>https://dbaclass.com/article/sample-parameter-expdp-export-subset-data/</link>
+					<comments>https://dbaclass.com/article/sample-parameter-expdp-export-subset-data/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 11:17:47 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3952</guid>
+
+					<description><![CDATA[<p>Let&#8217;s say we have a very big table, and for testing purpose, we need only a subset of data i.e to let&#8217;s say 10 percent of data from that table, then SAMPLE parameter can be used in EXPDP. We will explain its use in below demo. SAMPLE Percentage of data to be exported. DEMO: SQL&#62; [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/sample-parameter-expdp-export-subset-data/">SAMPLE parameter  in EXPDP to export subset of data</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Let&#8217;s say we have a very big table, and for testing purpose, we need only a subset of data i.e to let&#8217;s say 10 percent of data from that table, then SAMPLE parameter can be used in EXPDP. We will explain its use in below demo.</p>
+<blockquote><p><strong>SAMPLE</strong><br />
+<strong> Percentage of data to be exported.</strong></p></blockquote>
+<h3>DEMO:</h3>
+<pre>SQL&gt; select count(*) from DBACLASS.OBJECT_LIST;
+
+  COUNT(*)
+----------
+    219456
+
+</pre>
+<p>PARFILE WITH SAMPLE OF 10 PERCENT.</p>
+<pre> cat exp_sample.par
+
+dumpfile=dbaclass_estim.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+sample=10
+</pre>
+<pre>expdp parfile=exp_sample.par
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:52:01 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates. All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01": /******** AS SYSDBA parfile=exp_sample.par
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 2.899 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."OBJECT_LIST" 2.472 MB 21890 rows --- &gt;&gt;&gt;
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+/export/home/oracle/dbaclass_estim.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:52:07 2018 elapsed 0 00:00:04
+</pre>
+<p>It has exported around 21890 rows which are around 10 percent of actual rows in the table (219456).</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/sample-parameter-expdp-export-subset-data/">SAMPLE parameter  in EXPDP to export subset of data</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/sample-parameter-expdp-export-subset-data/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>ESTIMATE REQUIRED DISK SPACE FOR EXPORT USING estimate_only</title>
+		<link>https://dbaclass.com/article/estimate-required-disk-space-export-using-estimate_only/</link>
+					<comments>https://dbaclass.com/article/estimate-required-disk-space-export-using-estimate_only/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 11:09:26 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3950</guid>
+
+					<description><![CDATA[<p>ESTIMATE_ONLY parameter can be used in EXPDP command, to estimate the disk space required for the export job, without doing the actual export. So when we are not sure what will be the export dump size, then better to use this option first, before generating the export dump. By default ESTIMATE_OPTION=N DEMO: PARFILE WITH ESTIMATE [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/estimate-required-disk-space-export-using-estimate_only/">ESTIMATE REQUIRED DISK SPACE FOR EXPORT USING estimate_only</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em><strong>ESTIMATE_ONLY</strong> </em>parameter can be used in EXPDP command, to estimate the disk space required for the export job, without doing the actual export. So when we are not sure what will be the export dump size, then better to use this option first, before generating the export dump.</p>
+<p>By default <strong>ESTIMATE_OPTION=N</strong></p>
+<h3>DEMO:</h3>
+<p><strong>PARFILE WITH ESTIMATE OPTION:</strong></p>
+<pre>cat exp_estimate.par
+
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+ESTIMATE_ONLY=Y
+</pre>
+<p>EXPDP job:</p>
+<pre> expdp parfile=exp_estimate.par
+
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:49:59 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=exp_estimate.par
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+.  estimated "DBACLASS"."OBJECT_LIST"                       29 MB ---- &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; 
+Total estimation using BLOCKS method: 29 MB
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:50:03 2018 elapsed 0 00:00:02
+
+</pre>
+<p>As it shows the estimation is 29 MB.</p>
+<p>The post <a href="https://dbaclass.com/article/estimate-required-disk-space-export-using-estimate_only/">ESTIMATE REQUIRED DISK SPACE FOR EXPORT USING estimate_only</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/estimate-required-disk-space-export-using-estimate_only/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>FLASHBACK parameter in DATAPUMP(EXPDP)</title>
+		<link>https://dbaclass.com/article/flashback-parameter-datapumpexpdp/</link>
+					<comments>https://dbaclass.com/article/flashback-parameter-datapumpexpdp/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 10:25:47 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3947</guid>
+
+					<description><![CDATA[<p>We can use the flashback parameter ( FLASHBACK_SCN or FLASHBACK_TIMESTAMP) in expdp to take a consistent backup of the table as of a specific point in time. Flashback method depends upon undo data. So if we are trying to take an export of the table with the flashback for which data is not available in [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/flashback-parameter-datapumpexpdp/">FLASHBACK parameter in DATAPUMP(EXPDP)</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>We can use the flashback parameter ( <strong>FLASHBACK_SCN</strong> or <strong>FLASHBACK_TIMESTAMP</strong>) in expdp to take a consistent backup of the table as of a specific point in time. Flashback method depends upon undo data. So if we are trying to take an export of the table with the flashback for which data is not available in UNDO, then export will fail.</p>
+<h3><strong>DEMO:</strong></h3>
+<pre class="">SQL&gt; select count(*) from DBACLASS.OBJECT_LIST;
+COUNT(*)
+----------
+109728
+
+SQL&gt; SET numwidth 20
+
+SQL&gt; SELECT dbms_flashback.get_system_change_number FROM DUAL;
+
+GET_SYSTEM_CHANGE_NUMBER
+------------------------
+11837958118968 -- &gt;&gt;&gt; We will use this SCN value in expdp
+</pre>
+<p>Let&#8217;s insert some new data:</p>
+<pre>SQL&gt; insert into DBACLASS.OBJECT_LIST select * from DBACLASS.OBJECT_LIST;
+
+109728 rows created.
+
+SQL&gt; commit;
+
+SQL&gt; SQL&gt;  select count(*) from DBACLASS.OBJECT_LIST;
+
+  COUNT(*)
+----------
+    219456
+	
+	
+
+</pre>
+<p>Now prepare PARFILE with <strong>FLASHBACK_SCN</strong>: ( Use the SCN value from step 1)</p>
+<pre>cat exp_flash.par
+
+dumpfile=dbaclass.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+flashback_scn=11837958118968
+
+</pre>
+<pre>expdp parfile=exp_flash.par
+
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:40:59 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=exp_flash.par
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 29 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."OBJECT_LIST"                    12.35 MB  109728 rows --- &gt;&gt;&gt;&gt; 
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/dbaclass.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:41:38 2018 elapsed 0 00:00:31
+
+
+</pre>
+<p>We are able to take expdp of the table with specific SCN.</p>
+<p>Similarly, we can use <strong>FLASHBACK_TIME</strong> also:</p>
+<p><span style="text-decoration: underline;"><strong>Parfile with FLASHBACK_TIME:</strong></span></p>
+<pre class=""> 
+cat exp_flash.par
+
+dumpfile=dbaclass.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+FLASHBACK_TIME="TO_TIMESTAMP('19-11-2018 12:43:26', 'DD-MM-YYYY HH24:MI:SS')"
+
+</pre>
+<pre> expdp parfile=exp_flash.par
+
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:47:36 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=exp_flash.par
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 29 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."OBJECT_LIST"                    12.35 MB  109728 rows
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/dbaclass.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:47:41 2018 elapsed 0 00:00:04
+
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/flashback-parameter-datapumpexpdp/">FLASHBACK parameter in DATAPUMP(EXPDP)</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/flashback-parameter-datapumpexpdp/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>CONTENT parameter in datapump</title>
+		<link>https://dbaclass.com/article/content-parameter-datapump/</link>
+					<comments>https://dbaclass.com/article/content-parameter-datapump/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 08:16:00 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3942</guid>
+
+					<description><![CDATA[<p>CONTENT parameter is used in expdp or impdp, to load/unload data only, metadata only or both. CONTENT Specifies data to unload. Valid keyword values are: [ALL], DATA_ONLY and METADATA_ONLY. &#160; CONTENT=ALL is the default value CONTENT=METADATA_ONLY: It will take export only the metadata, i.e skeleton/DDL on the object/schema. It won&#8217;t export any of the data/rows. [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/content-parameter-datapump/">CONTENT parameter in datapump</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>CONTENT</strong> parameter is used in expdp or impdp, to load/unload data only, metadata only or both.</p>
+<p><em><span style="font-family: 'andale mono', monospace;">CONTENT</span></em><br />
+<em><span style="font-family: 'andale mono', monospace;">Specifies data to unload.</span></em><br />
+<em><span style="font-family: 'andale mono', monospace;">Valid keyword values are: [ALL], DATA_ONLY and METADATA_ONLY.</span></em></p>
+<p>&nbsp;</p>
+<p><strong>CONTENT=ALL</strong> is the default value</p>
+<p><strong>CONTENT=METADATA_ONLY:</strong></p>
+<p>It will take export only the metadata, i.e skeleton/DDL on the object/schema. It won&#8217;t export any of the data/rows.</p>
+<pre>dumpfile=emp_enc1.dmp 
+logfile=emp_enc.log 
+directory=VEN 
+tables=DBATEST.EMP_TAB 
+CONTENT=METADATA_ONLY
+</pre>
+<pre>Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+FLASHBACK automatically enabled to preserve database integrity.
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA dumpfile=emp_enc1.dmp logfile=emp_enc.log directory=VEN tables=DBATEST.EMP_TAB CONTENT=METADATA_ONLY
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+</pre>
+<p><strong>CONTENT=DATA_ONLY:</strong></p>
+<p>It will take export only the ROWS/DATA of the tables, by excluding the DDL(i.e metadata)</p>
+<pre>dumpfile=emp_enc2.dmp 
+logfile=emp_enc.log  
+directory=VEN 
+tables="DBATEST"."EMP_TAB" 
+CONTENT=DATA_ONLY
+</pre>
+<pre>FLASHBACK automatically enabled to preserve database integrity.
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA dumpfile=emp_enc2.dmp logfile=emp_enc.log directory=VEN tables=DBATEST.EMP_TAB CONTENT=DATA_ONLY
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 23 MB
+. . exported "DBATEST"."EMP_TAB"                         19.16 MB  175340 rows
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+</pre>
+<p>Before importing the dump into another database, make sure that the table exists in that table, as we have taken export using DATA_ONLY,<br />
+which don’t contain the DDL. Else import will fail with an error as below.</p>
+<p>Here we tried to load this dump into a database, where table doesn’t exist.</p>
+<pre>select table_name from dba_tables where table_name='EMP_TAB';
+ 
+no rows selected
+
+</pre>
+<pre>Master table "SYS"."SYS_IMPORT_FULL_01" successfully loaded/unloaded
+Starting "SYS"."SYS_IMPORT_FULL_01":  /******** AS SYSDBA dumpfile=emp_enc2.dmp logfile=emp_enc.log directory=VEN
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+ORA-39034: Table TABLE_DATA:"DBATEST"."EMP_TAB" does not exist. ---- &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  ERROR 
+Job "SYS"."SYS_IMPORT_FULL_01" completed with 1 error(s) at Tue Jan 24 14:45:01 2017 elapsed 0 00:00:54
+</pre>
+<p>So it failed.</p>
+<p><span style="text-decoration: underline;"><strong>NOTE</strong> </span>– NEVER USE TABLE_EXISTS_ACTION=REPLACE</p>
+<p>The post <a href="https://dbaclass.com/article/content-parameter-datapump/">CONTENT parameter in datapump</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/content-parameter-datapump/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Shell script to delete old archives using RMAN</title>
+		<link>https://dbaclass.com/article/shell-script-delete-old-archives-using-rman/</link>
+					<comments>https://dbaclass.com/article/shell-script-delete-old-archives-using-rman/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 07:54:38 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3940</guid>
+
+					<description><![CDATA[<p>If the requirement is to delete archive log backups automatically (without taking backup), then below shell script can be configured in crontab. prepare the shell script. cat rman_arch_del.sh #!/bin/bash export ORACLE_HOME=/oracle/app/oracle/product/12.1.0.2.0 export ORACLE_SID=PARIS12C export PATH=$ORACLE_HOME/bin:$PATH delBackup () { rman log=/home/oracle/arch_del.log &#60;&#60; EOF connect target / DELETE noprompt ARCHIVELOG ALL COMPLETED BEFORE &#8216;sysdate-1&#8217;; CROSSCHECK ARCHIVELOG ALL; [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/shell-script-delete-old-archives-using-rman/">Shell script to delete old archives using RMAN</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>If the requirement is to delete archive log backups automatically (without taking backup), then below shell script can be configured in crontab.</p>
+<p><span style="text-decoration: underline;"><strong>prepare the shell script.</strong></span></p>
+<p>cat rman_arch_del.sh</p>
+<p><span style="font-family: 'andale mono', monospace;"><em>#!/bin/bash</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>export ORACLE_HOME=/oracle/app/oracle/product/12.1.0.2.0</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>export ORACLE_SID=PARIS12C</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>export PATH=$ORACLE_HOME/bin:$PATH</em></span></p>
+<p><span style="font-family: 'andale mono', monospace;"><em>delBackup () {</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>rman log=/home/oracle/arch_del.log &lt;&lt; EOF</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>connect target /</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>DELETE noprompt ARCHIVELOG ALL COMPLETED BEFORE &#8216;sysdate-1&#8217;;</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>CROSSCHECK ARCHIVELOG ALL;</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>DELETE EXPIRED ARCHIVELOG ALL;</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>exit</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>EOF</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em>}</em></span><br />
+<span style="font-family: 'andale mono', monospace;"><em># Main</em></span></p>
+<p><span style="font-family: 'andale mono', monospace;"><em>delBackup</em></span></p>
+<p><span style="text-decoration: underline;"><strong>Now configure in crontab:</strong></span></p>
+<p><span style="font-family: 'andale mono', monospace;"><em> 00 22 * * * /u01/app/oracle/rman_arch_del.sh &gt; /tmp/rmanarch.log</em></span></p>
+<p>The post <a href="https://dbaclass.com/article/shell-script-delete-old-archives-using-rman/">Shell script to delete old archives using RMAN</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/shell-script-delete-old-archives-using-rman/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Query clause in oracle datapump expdp</title>
+		<link>https://dbaclass.com/article/query-clause-expdpimpdp/</link>
+					<comments>https://dbaclass.com/article/query-clause-expdpimpdp/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 07:45:32 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3936</guid>
+
+					<description><![CDATA[<p>             QUERY clause can be used in expdp or impdp to export/import subset of the data or data with specific conditions. DEMO: Export dump of a table from emp_tab WHERE created &#62; sysdate -40 . Filter can be added on any column depending upon the requirement. SQL&#62; select count(*) from [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/query-clause-expdpimpdp/">Query clause in oracle datapump expdp</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>             QUERY</strong> clause can be used in expdp or impdp to export/import subset of the data or data with specific conditions.</p>
+<h3><strong>DEMO:</strong></h3>
+<p>Export dump of a table from emp_tab WHERE created &gt; sysdate -40 . Filter can be added on any column depending upon the requirement.</p>
+<p><span style="font-family: 'andale mono', monospace;">SQL&gt; select count(*) from “DBACLASS”.”EMP_TAB” WHERE created &gt; sysdate -40;</span></p>
+<p><span style="font-family: 'andale mono', monospace;">COUNT(*)</span><br />
+<span style="font-family: 'andale mono', monospace;">———-</span><br />
+<span style="font-family: 'andale mono', monospace;">1384</span></p>
+<p>Create a parfile with query clause:</p>
+<pre>cat expdp_query.par
+
+dumpfile=test.dmp
+logfile=test1.log
+directory=TEST
+tables=dbaclass.EMP_TAB
+QUERY=dbaclass.EMP_TAB:"WHERE created &gt; sysdate -40"
+</pre>
+<p>Now run the expdp command with parfile. We can see, 1384 rows will be exported.</p>
+<pre>expdp parfile=expdp_query.par
+ 
+Export: Release 12.1.0.2.0 - Production on Mon Jan 23 14:52:07 2017
+ 
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+ 
+Username: / as sysdba
+ 
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=expdp_query.par
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 29 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."EMP_TAB"                        199.4 KB    1384 rows
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/test.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Jan 23 14:53:02 2017 elapsed 0 00:00:23
+
+</pre>
+<p>Same type of conditions can be used in IMPDP also.</p>
+<p>The post <a href="https://dbaclass.com/article/query-clause-expdpimpdp/">Query clause in oracle datapump expdp</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/query-clause-expdpimpdp/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

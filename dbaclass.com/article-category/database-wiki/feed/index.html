@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Database-Wiki Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-category/database-wiki/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-category/database-wiki/</link>
+	<description>database administration</description>
+	<lastBuildDate>Sat, 22 May 2021 18:22:47 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>sec_case_sensitive_logon parameter in oracle</title>
+		<link>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/</link>
+					<comments>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 24 Feb 2020 07:39:29 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4842</guid>
+
+					<description><![CDATA[<p>         sec_case_sensitive_logon &#8211; &#62; This initialisation(init) parameter enables or disabled password case sensitivity in the database. when sec_case_sensitive_logon is TRUE &#8211; -&#62; t he database use login passwords are case sensitive. when sec_case_sensitive_logon is FALSE &#8211; -&#62; means database use login passwords are case insensitive. DEFAULT VALUE IS TRUE . Lets see [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/">sec_case_sensitive_logon parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>         sec_case_sensitive_logon</strong> &#8211; &gt; This initialisation(init) parameter enables or disabled password case sensitivity in the database.</p>
+<p><span style="font-family: 'andale mono', monospace;"><strong>when sec_case_sensitive_logon is TRUE</strong></span> &#8211; -&gt; t he database use login passwords are case sensitive.</p>
+<p><strong><span style="font-family: 'andale mono', monospace;">when sec_case_sensitive_logon is FALSE</span></strong> &#8211; -&gt; means database use login passwords are case insensitive.</p>
+<p>DEFAULT VALUE IS TRUE .</p>
+<p>Lets see below DEMO:</p>
+<p><strong>DEMO:</strong></p>
+<p><strong>1. When sec_case_sensitive_logon is TRUE.</strong></p>
+<pre>
+SQL&gt; show parameter sec_case
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sec_case_sensitive_logon             boolean     TRUE
+
+
+
+SQL&gt; alter user DBACLASS identified by DBAclass;
+
+User altered.
+
+
+
+SQL&gt; connect DBACLASS/dbaclass
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+
+
+
+SQL&gt; connect  DBACLASS/DBAclass
+Connected.
+
+
+</pre>
+<p>We can see the the password is case sensitive.</p>
+<p><strong>2. When sec_case_sensitive_logon is FALSE.</strong></p>
+<p>Lets make the parameter to false:</p>
+<pre>
+
+SQL&gt; ALTER SYSTEM SET sec_case_sensitive_logon=FALSE scope=both;
+
+database altered.
+
+
+SQL&gt; show parameter sec_case
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sec_case_sensitive_logon             boolean     FALSE
+
+SQL&gt; alter user DBACLASS identified by DBAclass;
+
+User altered.
+
+
+Now try to connect with any case(small or caps)  
+
+SQL&gt;
+SQL&gt; connect DBACLASS/dbaclass
+Connected.
+SQL&gt;  connect DBACLASS/DBACLASS
+Connected.
+
+</pre>
+<p>We can see password is case insensitive.</p>
+<p>The post <a href="https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/">sec_case_sensitive_logon parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>DEFERRED_SEGMENT_CREATION parameter in oracle</title>
+		<link>https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/</link>
+					<comments>https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 21 Mar 2019 14:25:55 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=4164</guid>
+
+					<description><![CDATA[<p>DEFERRED_SEGMENT_CREATION parameter  specifies how segments will be created for the table and its objects like index. &#160; DEFERRED_SEGMENT_CREATION=TRUE     &#8212;&#8211;&#62;&#62; segments for tables and their dependent objects (indexes) will not be created until the first row is inserted into the table. DEFERRED_SEGMENT_CREATION=FALSE  &#8212;&#8212;-&#62;&#62; As soon as table/index is created, segments will be created (even [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/">DEFERRED_SEGMENT_CREATION parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em><strong>DEFERRED_SEGMENT_CREATION</strong></em> parameter  specifies how segments will be created for the table and its objects like index.</p>
+<p>&nbsp;</p>
+<table style="width: 100%; height: 140px; border-color: #120e0e; background-color: #f3f7eb;" border="1" cellpadding="1">
+<tbody>
+<tr style="height: 48px;">
+<td style="width: 448.046875px; border-color: #080707; height: 48px;"><span style="font-size: 12px;"><strong>DEFERRED_SEGMENT_CREATION=TRUE     &#8212;&#8211;&gt;&gt;</strong></span></td>
+<td style="width: 448.046875px; border-color: #080707; height: 48px;"><span style="font-size: 12px;">segments for tables and their dependent objects (indexes) will not be created until the first row is inserted into the table.</span></td>
+</tr>
+<tr style="height: 48px;">
+<td style="width: 448.046875px; border-color: #080707; height: 48px;"><span style="font-size: 12px;"><strong>DEFERRED_SEGMENT_CREATION=FALSE  &#8212;&#8212;-&gt;&gt;</strong></span></td>
+<td style="width: 448.046875px; border-color: #080707; height: 48px;"><span style="font-size: 12px;">As soon as table/index is created, segments will be created (even though no data is present) </span></td>
+</tr>
+</tbody>
+</table>
+<p>Setting this parameter to true will save disk space, if we expect lot of empty tables in the database.</p>
+<h3>Lets see the below example:-&gt;</h3>
+<p><strong>When DEFERRED_SEGMENT_CREATION=TRUE( THIS IS THE DEFAULT ONE)</strong></p>
+<pre>QL&gt; show parameter DEFERRED_SEGMENT_CREATION
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------
+deferred_segment_creation            boolean     TRUE
+SQL&gt;
+SQL&gt;
+
+SQL&gt; create table DEF_TABLE ( class_name VARCHAR2(100), SECTION NUMBER);
+
+Table created.
+
+
+
+SQL&gt;  create index DEF_IDX on DEF_TABLE (SECTION);
+
+Index created.
+
+
+SQL&gt;  select segment_name,segment_type from dba_segments where OWNER='DBACLASS';
+
+no rows selected.
+
+</pre>
+<p>We can see, it haven&#8217;t created the segments. So if you expect lot of empty tables in your database, setting this parameter to TRUE, will save lot of disk space.</p>
+<p><strong>Now set to FALSE, do the same test:</strong></p>
+<p>&nbsp;</p>
+<pre>SQL&gt; alter system set deferred_segment_creation=FALSE scope=both;
+
+System altered.
+
+
+SQL&gt; show parameter DEFERRED_SEGMENT_CREATION
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------
+deferred_segment_creation            boolean     FALSE
+
+SQL&gt;  create table DEF_TABLE_2 ( class_name VARCHAR2(100), SECTION NUMBER);
+
+Table created.
+
+
+
+SQL&gt;  create index DEF_IDX2 on DEF_TABLE_2(SECTION);
+
+Index created.
+
+
+
+
+
+SQL&gt;  select segment_name,segment_type from dba_segments where OWNER='DBACLASS';
+
+SEGMENT_NAME                                                            SEGMENT_TYPE
+---------------------------------------------------------------------- ------------------
+DEF_IDX2                                                               INDEX
+DEF_TABLE_2                                                            TABLE
+
+</pre>
+<p>We can see, as soon as we create the table and and index, the segment got created ,despite it does not   contain any data.</p>
+<p>The post <a href="https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/">DEFERRED_SEGMENT_CREATION parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/deferred_segment_creation-parameter-in-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>LOG_CHECKPOINTS_TO_ALERT parameter in oracle</title>
+		<link>https://dbaclass.com/article/log_checkpoints_to_alert-parameter-oracle/</link>
+					<comments>https://dbaclass.com/article/log_checkpoints_to_alert-parameter-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sat, 16 Mar 2019 07:06:32 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=4158</guid>
+
+					<description><![CDATA[<p>LOG_CHECKPOINTS_TO_ALERT  parameter indicates whether to log the checkpoint information in the alert log or not. LOG_CHECKPOINTS_TO_ALERT &#8211; &#62; FALSE( défault value) SQL&#62; show parameter LOG_CHECKPOINTS_TO_ALERT NAME TYPE VALUE ------------------------------------ ----------- ------------------------------ log_checkpoints_to_alert boolean FALSE SQL&#62; alter system checkpoint; System altered. ALERT LOG: Tue Feb 26 03:35:55 2019 Thread 1 advanced to log sequence 6066 (LGWR [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/log_checkpoints_to_alert-parameter-oracle/">LOG_CHECKPOINTS_TO_ALERT parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em><strong>LOG_CHECKPOINTS_TO_ALERT  parameter</strong></em> indicates whether to log the checkpoint information in the alert log or not.</p>
+<h4><span style="text-decoration: underline;">LOG_CHECKPOINTS_TO_ALERT</span> &#8211; &gt; FALSE( défault value)</h4>
+<pre class="">SQL&gt; show parameter LOG_CHECKPOINTS_TO_ALERT
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_checkpoints_to_alert             boolean     FALSE
+
+
+SQL&gt; alter system checkpoint;
+
+System altered.
+
+</pre>
+<p><strong>ALERT LOG:</strong><br />
+<span style="color: #000080; font-size: 14px; font-family: terminal, monaco, monospace;">Tue Feb 26 03:35:55 2019</span><br />
+<span style="color: #000080; font-size: 14px; font-family: terminal, monaco, monospace;"> Thread 1 advanced to log sequence 6066 (LGWR switch)</span><br />
+<span style="color: #000080; font-size: 14px; font-family: terminal, monaco, monospace;"> Current log# 3 seq# 6066 mem# 0: /B2CNSM/oradata/B2CNSM/onlinelog/redo03.log</span><br />
+<span style="color: #000080; font-size: 14px; font-family: terminal, monaco, monospace;"> Tue Feb 26 03:35:55 2019</span><br />
+<span style="color: #000080; font-size: 14px; font-family: terminal, monaco, monospace;"> Archived Log entry 6069 added for thread 1 sequence 6065 ID 0x54d5ee59 dest 1:</span></p>
+<p>We can see, despite doing checkpoint, <span style="text-decoration: underline;">no informations is written in alert log</span>.</p>
+<h4><strong><span style="text-decoration: underline;">LOG_CHECKPOINTS_TO_ALERT</span> &#8211; &gt; TRUE </strong></h4>
+<pre class="">SQL&gt; alter system set log_checkpoints_to_alert=TRUE scope=both;
+
+System altered.
+
+SQL&gt; show parameter LOG_CHECKPOINTS_TO_ALERT
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_checkpoints_to_alert             boolean     TRUE
+SQL&gt;  alter system checkpoint;
+
+System altered.
+
+</pre>
+<p><strong>ALERT LOG </strong></p>
+<p><span style="color: #000080; font-size: 14px; font-family: terminal, monaco, monospace;">Tue Feb 26 13:33:33 2019</span><br />
+<span style="color: #000080; font-size: 14px; font-family: terminal, monaco, monospace;"> ALTER SYSTEM SET log_checkpoints_to_alert=TRUE SCOPE=BOTH;</span><br />
+<span style="color: #000080; font-size: 14px; font-family: terminal, monaco, monospace;"> Tue Feb 26 13:33:40 2019</span><br />
+<span style="font-size: 14px; color: #000080;"> <strong><span style="font-family: terminal, monaco, monospace;"> Beginning global checkpoint up to RBA [0x17b2.126b2.10], SCN: 11904009889406</span></strong></span><br />
+<span style="font-size: 14px; color: #000080;"> <strong><span style="font-family: terminal, monaco, monospace;"> Completed checkpoint up to RBA [0x17b2.126b2.10], SCN: 11904009889406</span></strong></span></p>
+<p>Now <span style="text-decoration: underline;">checkpoint information is getting logged in the alert log .</span></p>
+<p>&nbsp;</p>
+<blockquote><p><strong>NOTE &#8211; &gt; This parameter has no impact on the database performance. It is just for additional checkpoint logging. </strong></p></blockquote>
+<p>The post <a href="https://dbaclass.com/article/log_checkpoints_to_alert-parameter-oracle/">LOG_CHECKPOINTS_TO_ALERT parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/log_checkpoints_to_alert-parameter-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>DBMS_PARALLEL_EXECUTE  in oracle PL/SQL</title>
+		<link>https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/</link>
+					<comments>https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 27 Mar 2018 15:10:48 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3701</guid>
+
+					<description><![CDATA[<p>From oracle 11gr2, DBMS_PARALLEL_EXECUTE package can be used for updating large tables in parallel using chunk option. Basically, it does two steps. 1. Divides the table data into small chunks. 2. Apply DML change on each chunk parallely. This method improves the performance the large DML operations, without consuming too much of rollback segment. Lets [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/">DBMS_PARALLEL_EXECUTE  in oracle PL/SQL</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>From oracle 11gr2, <code>DBMS_PARALLEL_EXECUTE</code> package can be used for updating large tables in parallel using chunk option.</p>
+<p>Basically, it does two steps.</p>
+<p><span style="font-family: 'andale mono', monospace;">1. Divides the table data into small chunks.</span><br />
+<span style="font-family: 'andale mono', monospace;"> 2. Apply DML change on each chunk parallely.</span></p>
+<p>This method improves the performance the large DML operations, without consuming too much of rollback segment.</p>
+<p>Lets check the below example.</p>
+<p><span style="font-family: 'andale mono', monospace;"><strong>TABLE_OWNER </strong>  -&gt; DBACLASS</span><br />
+<span style="font-family: 'andale mono', monospace;"><strong> TABLE_NAME </strong>   -&gt;  TEST100</span><br />
+<span style="font-family: 'andale mono', monospace;"><strong> DML STATEMENT</strong> -&gt; Update dbaclass.test100 set OBJECT_ID=10 where NAMESPACE=1;</span></p>
+<p><strong>1. Create one task:</strong></p>
+<pre> SQL&gt; execute DBMS_PARALLEL_EXECUTE.CREATE_TASK(TASK_NAME=&gt;'query_test100_update');
+
+PL/SQL procedure successfully completed.
+</pre>
+<p><strong>2. CHUNK the table by row_id:</strong></p>
+<pre>BEGIN
+    DBMS_PARALLEL_EXECUTE.CREATE_CHUNKS_BY_ROWID
+  (
+                TASK_NAME=&gt; 'query_test100_update',
+                TABLE_OWNER =&gt;'DBACLASS',
+                TABLE_NAME =&gt; 'TEST100',
+                BY_ROW=&gt; TRUE,
+                CHUNK_SIZE =&gt; 10000
+  );
+END;
+/
+
+</pre>
+<p><strong>3. Run the DML update procedure(RUN_TASK)</strong></p>
+<pre>SET SERVEROUTPUT ON
+DECLARE
+  l_sql_stmt VARCHAR2(32767);
+BEGIN 
+ -- DML to be execute in parallel
+  l_sql_stmt := 'Update dbaclass.test100 set OBJECT_ID=10 where NAMESPACE=1 and rowid BETWEEN :start_id AND :end_id';
+
+  -- Run the task
+  DBMS_PARALLEL_EXECUTE.RUN_TASK
+  (
+    TASK_NAME      =&gt; 'query_test100_update',
+    SQL_STMT       =&gt; l_sql_stmt,
+    LANGUAGE_FLAG  =&gt; DBMS_SQL.NATIVE,
+    PARALLEL_LEVEL =&gt; 10
+  );  
+END;
+/
+
+ 
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:00:21.07
+
+</pre>
+<p>DML completed successfully and it took 21 seconds only.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/">DBMS_PARALLEL_EXECUTE  in oracle PL/SQL</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>WHAT IS SQL PROFILE IN ORACLE</title>
+		<link>https://dbaclass.com/article/sql-profile-oracle/</link>
+					<comments>https://dbaclass.com/article/sql-profile-oracle/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 05 Dec 2017 08:46:22 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3514</guid>
+
+					<description><![CDATA[<p>You might have heard of SQL profile and SQL baselines in performance tuning chapters. Lets today go through details about sql profile. What is SQL profile: SQL profile is a collection of additional statistical information stored in the data dictionary that helps the optimizer to generate the best plan for the query. SQL profile is [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/sql-profile-oracle/">WHAT IS SQL PROFILE IN ORACLE</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>You might have heard of SQL profile and SQL baselines in performance tuning chapters. Lets today go through details about sql profile.</p>
+<p><strong>What is SQL profile:</strong></p>
+<p>SQL profile is a collection of additional statistical information stored in the data dictionary that helps the optimizer to generate the best plan for the query. SQL profile is managed through SQL_TUNE package of SQL tuning advisor. i.e when we run SQL tuning advisor against a query, The tuning optimizer creates a profile for an SQL statement called SQL profile which consists additional statistical information about that statement, and it gives the recommendation to accept that profile.</p>
+<p>NOTE &#8211; It is important to note that the SQL Profile does not freeze the execution plan of a SQL statement, as done by stored outlines. As tables grow or indexes are created or dropped, the execution plan can change with the same SQL Profile. The information stored in it continues to be relevant even as the data distribution or access path of the corresponding statement change.</p>
+<p><strong>SQL PROFILE can be applied to below statements.</strong></p>
+<p><span style="font-family: 'andale mono', monospace;">SELECT statements</span><br />
+<span style="font-family: 'andale mono', monospace;">UPDATE statements</span><br />
+<span style="font-family: 'andale mono', monospace;">INSERT statements (only with a SELECT clause)</span><br />
+<span style="font-family: 'andale mono', monospace;">DELETE statements</span><br />
+<span style="font-family: 'andale mono', monospace;">CREATE TABLE statements (only with the AS SELECT clause)</span><br />
+<span style="font-family: 'andale mono', monospace;">MERGE statements (the update or insert operations)</span></p>
+<p><strong>EXAMPLE:</strong></p>
+<p>In this example, first we will run SQL tuning advisor against an sql_id , and then will do different operations on sql profile.</p>
+<p>1. Run sql tuning advisor for sql_id=5dkrnbx1z8gcb</p>
+<pre>set long 1000000000
+Col recommendations for a200
+DECLARE
+  l_sql_tune_task_id  VARCHAR2(100);
+BEGIN
+  l_sql_tune_task_id := DBMS_SQLTUNE.create_tuning_task (
+                          sql_id      =&gt; '5dkrnbx1z8gcb',
+                          scope       =&gt; DBMS_SQLTUNE.scope_comprehensive,
+                          time_limit  =&gt; 500,
+                          task_name   =&gt; '5dkrnbx1z8gcb_tuning_task_1',
+                          description =&gt; 'Tuning task for statement 5dkrnbx1z8gcb');
+  DBMS_OUTPUT.put_line('l_sql_tune_task_id: ' || l_sql_tune_task_id);
+END;
+/
+
+
+EXEC DBMS_SQLTUNE.execute_tuning_task(task_name =&gt; '5dkrnbx1z8gcb_tuning_task_1');
+
+
+SET LONG 10000000;
+SET PAGESIZE 100000000
+SET LINESIZE 200
+SELECT DBMS_SQLTUNE.report_tuning_task('5dkrnbx1z8gcb_tuning_task_1') AS recommendations FROM dual;
+SET PAGESIZE 24
+</pre>
+<p><strong>2. Go through the profile recommendation part of the report:</strong></p>
+<p><code>DBMS_SQLTUNE.report_tuning_task</code> will generate the completed output of the advisory. If you go through the profile recommendation part, it will be as below.</p>
+<pre>  Recommendation (estimated benefit: 96.57%)
+  ------------------------------------------
+  - Consider accepting the recommended SQL profile.
+ 
+    execute dbms_sqltune.accept_sql_profile(task_name =&gt; '5dkrnbx1z8gcb_tuning_task_1', task_owner =&gt; 'SYS', replace =&gt;TRUE);
+</pre>
+<p><strong>2. Accept profile:</strong></p>
+<pre class="">    execute dbms_sqltune.accept_sql_profile(task_name =&gt; '5dkrnbx1z8gcb_tuning_task_1', task_owner =&gt; 'SYS', replace =&gt;TRUE);
+</pre>
+<p><strong>3. Find the name of the sql_profile:</strong></p>
+<p>in the accept_sql_profile package we didn&#8217;t specify a sql_profile name, So we need to find the sql_profile from the task_name.<br />
+Use the below query.</p>
+<pre>select name,status,force_matching from dba_sql_profiles  where task_id in ( select task_id from DBA_ADVISOR_TASKS where task_name ='5dkrnbx1z8gcb_tuning_task_1')
+
+set pagesize 299
+set lines 299
+col name for a45
+NAME                               STATUS   FOR
+---------------------------------- -------- ---
+SYS_SQLPROF_01601b64332e0000       ENABLED  NO
+
+</pre>
+<p><strong>4. Alter a profile,</strong></p>
+<p>You can disable a sql_profile using steps.</p>
+<pre>BEGIN
+DBMS_SQLTUNE.ALTER_SQL_PROFILE(
+name =&gt; 'SYS_SQLPROF_01601b64332e0000', 
+attribute_name =&gt; 'STATUS', 
+value =&gt; 'DISABLED');
+END;
+/
+
+To enable to changed the value from DISABLED to ENABLED.
+
+</pre>
+<p><strong>5. Dropping an SQL profile:</strong></p>
+<pre>begin
+DBMS_SQLTUNE.DROP_SQL_PROFILE(name =&gt; 'SYS_SQLPROF_01601b64332e0000');
+end;
+/
+</pre>
+<p>The post <a href="https://dbaclass.com/article/sql-profile-oracle/">WHAT IS SQL PROFILE IN ORACLE</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/sql-profile-oracle/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>_use_adaptive_log_file_sync parameter in oracle</title>
+		<link>https://dbaclass.com/article/_use_adaptive_log_file_sync-parameter-oracle/</link>
+					<comments>https://dbaclass.com/article/_use_adaptive_log_file_sync-parameter-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 21 Nov 2017 13:41:32 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3472</guid>
+
+					<description><![CDATA[<p>The parameter _use_adaptive_log_file_sync was introduced in 11gR2 and controls whether adaptive switching between post/wait and polling is enabled. DEFAULT VALUE of this parameter is TRUE. i.e according to oracle algorithm and internal statistics, the adaptive switching will happen between post/wait and polling method. There are 2 methods by which LGWR and foreground processes can communicate [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/_use_adaptive_log_file_sync-parameter-oracle/">_use_adaptive_log_file_sync parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>The parameter <strong>_use_adaptive_log_file_sync</strong> was introduced in 11gR2 and controls whether adaptive switching between post/wait and polling is enabled.<br />
+DEFAULT VALUE of this parameter is<strong> TRUE</strong>. i.e according to oracle algorithm and internal statistics, the adaptive switching will happen between post/wait and polling method.</p>
+<p>There are 2 methods by which LGWR and foreground processes can communicate in order to acknowledge that a commit has completed:<br />
+<strong>Post/wait</strong>: traditional method available in previous Oracle releases LGWR explicitly posts all processes waiting for the commit to complete.</p>
+<p><strong>Polling</strong>: Foreground processes sleep and poll to see if the commit is complete.</p>
+<p>Below is the snippet from lgwr trace, which shows adaptive switching between these methods.</p>
+<pre class="">*** 2017-11-20 15:04:58.691
+Warning: log write elapsed time 965ms, size 3KB
+kcrfw_alfs_update_mode: post-&gt;poll long#=53 sync#=313 sync=4833 poll=4744 rw=1923 ack=2372 min_sleep=1069
+
+*** 2017-11-21 15:37:44.019
+Log file sync switching to polling --- &gt;&gt;&gt;&gt; It shows current method is polling 
+Current scheduling delay is 1 usec
+Current approximate redo synch write rate is 104 per sec
+
+
+
+
+*** 2017-11-21 15:53:09.673
+Warning: log write elapsed time 2165ms, size 2KB
+kcrfw_alfs_update_mode: poll-&gt;post curr_sched_delay=0 switch_sched_delay=1 curr_sync_count_delta=21 switch_sync_count_delta=313
+
+*** 2017-11-21 16:05:16.014
+Log file sync switching to post/wait -- &gt;&gt;&gt;&gt; It shows current method is post/wait
+Current approximate redo synch write rate is 7 per sec
+
+</pre>
+<p>However, there are few cases, where this adaptive switching caused the lgwr process to block other session or causes huge log file sync waits.<br />
+In that case, if you wish to disable this feature, then</p>
+<pre>alter system set "_use_adaptive_log_file_sync"=FALSE scope=both;
+</pre>
+<p>NOTE &#8211; Please check with oracle support before doing this change in the production database.</p>
+<p>&nbsp;</p>
+<p>You can check the redo polling stats from the database using below query.</p>
+<p>&nbsp;</p>
+<pre>  1* select name,value from v$sysstat where name in ('redo synch poll writes','redo synch polls');
+NAME                                                                  VALUE
+---------------------------------------------------------------- ----------
+redo synch poll writes                                               561500
+redo synch polls                                                     753849
+</pre>
+<p>The post <a href="https://dbaclass.com/article/_use_adaptive_log_file_sync-parameter-oracle/">_use_adaptive_log_file_sync parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/_use_adaptive_log_file_sync-parameter-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>LREG Background Process in oracle</title>
+		<link>https://dbaclass.com/article/lreg-background-process-oracle/</link>
+					<comments>https://dbaclass.com/article/lreg-background-process-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 15 Nov 2017 14:25:58 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3456</guid>
+
+					<description><![CDATA[<p>Prior to 12c, PMON process used to handle the instance registration with listner, From oracle 12c, a new background process called lreg takes care of this instance registration, Which reduces the load from pmon process. $ ps -ef &#124; grep lreg oracle 3536 105780 0 17:21 pts/5 00:00:00 grep lreg oracle 95761 1 0 Oct26 [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/lreg-background-process-oracle/">LREG Background Process in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Prior to 12c, PMON process used to handle the instance registration with listner, From oracle 12c, a new background process called lreg takes care of this instance registration, Which reduces the load from pmon process.</p>
+<pre>$ ps -ef | grep lreg
+oracle     3536 105780  0 17:21 pts/5    00:00:00 grep lreg
+oracle    95761      1  0 Oct26 ?        00:01:14 ora_lreg_ORCL      -- &gt;&gt;&gt;&gt;&gt; lreg for oracle db 
+oracle   116911      1  0 Aug23 ?        00:04:24 asm_lreg_+ASM      ---&gt;&gt;&gt;&gt;&gt;&gt; lreg for ASM instance 
+</pre>
+<p>Basically, LREG process does below things.</p>
+<p>1. Registers instance information with the listener.<br />
+2. It is a critical background process for each database instance (if it is killed, Oracle goes down).<br />
+3. It does everything PMON used to do and report: service_update, service_register, service_died in the listener.log.</p>
+<p>The post <a href="https://dbaclass.com/article/lreg-background-process-oracle/">LREG Background Process in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/lreg-background-process-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>_optimizer_ignore_hint</title>
+		<link>https://dbaclass.com/article/_optimizer_ignore_hint/</link>
+					<comments>https://dbaclass.com/article/_optimizer_ignore_hint/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 06 Oct 2017 08:40:06 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3408</guid>
+
+					<description><![CDATA[<p>Sometimes application queries come with the specific hint, which may impact your database performance. And it is difficult to find and remove these hints from each query. Oracle provided an undocumented hidden parameter, _optimizer_ignore_hint. If this parameter is set to true, Then it will ignore the hints mentioned in the SQL queries. DEFAULT VALUE OF [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/_optimizer_ignore_hint/">_optimizer_ignore_hint</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Sometimes application queries come with the specific hint, which may impact your database performance. And it is difficult to find and remove these hints from each query.</p>
+<p>Oracle provided an undocumented hidden parameter, <strong>_optimizer_ignore_hint</strong>. If this parameter is set to true, Then it will ignore the hints mentioned in the SQL queries.</p>
+<p><em><strong>DEFAULT VALUE OF _optimizer_ignore_hint is FALSE.</strong></em></p>
+<p>Let&#8217;s run a test, to see how it behaves.</p>
+<h4>EXAMPLE:<br />
+Parameter is set to FALSE:(DEFAULT)</h4>
+<pre>SQL&gt; show parameter _optimizer
+
+NAME                          TYPE   			VALUE
+------------------           -----------           -------------
+_optimizer_ignore_hints       boolean                  FALSE
+</pre>
+<p><strong>Execute a query with a  HINT.</strong></p>
+<pre class="">SQL&gt; select /*+ FULL(TEST5) */ count(*) from TEST5 where owner='SYS';
+
+
+  COUNT(*)
+----------
+     42814
+
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 529722805
+
+----------------------------------------------------------------------------
+| Id  | Operation          | Name  | Rows  | Bytes | Cost (%CPU)| Time     |
+----------------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |       |     1 |     7 |   480   (1)| 00:00:01 |
+|   1 |  SORT AGGREGATE    |       |     1 |     7 |            |          |
+|*  2 |   TABLE ACCESS FULL| TEST5 |  1184 |  8288 |   480   (1)| 00:00:01 | ------- &gt;&gt;&gt;&gt; .FULL SCAN DUE TO FULL HINT
+----------------------------------------------------------------------------
+</pre>
+<p>We can see, as we have used a <strong>FULL</strong> hint, <strong>TABLE ACCESS FULL</strong> is used. That does not change the query behavior.</p>
+<p>Now, lets set it to TRUE and re-run the same query.</p>
+<p><strong>The parameter is set to TRUE:</strong></p>
+<pre>SQL&gt; alter session set "_optimizer_ignore_hints"=TRUE ;
+
+Session altered.
+
+SQL&gt; select /*+ FULL(TEST5) */ count(*) from TEST5 where owner='SYS';
+
+  COUNT(*)
+----------
+     42814
+
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 1056693648
+
+--------------------------------------------------------------------------
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |
+--------------------------------------------------------------------------
+|   0 | SELECT STATEMENT  |      |     1 |     7 |     3   (0)| 00:00:01 |
+|   1 |  SORT AGGREGATE   |      |     1 |     7 |            |          |
+|*  2 |   INDEX RANGE SCAN| TE   |  1184 |  8288 |     3   (0)| 00:00:01 | ------ &gt;&gt;&gt;&gt; IGNORED FULL HINT, WENT FOR INDEX . 
+--------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - access("OWNER"='SYS')
+
+
+</pre>
+<p>Now despite using a FULL hint, it was ignored because of the parameter _optimizer_ignore_hints.</p>
+<blockquote><p><strong>NOTE &#8211; Don&#8217;t use in production database without proper testing, Because it will disable all the hints used in sql queries, which might be recommended by your Application.</strong></p></blockquote>
+<h4>EXCEPTION:</h4>
+<p>One interesting point, we observed is that, this parameter is <strong>not having any impact on PARALLEL hint</strong>. I.e even if we set this to TRUE, PARALLEL hint will work as expected.</p>
+<pre class="">
+SQL&gt; show parameter _optimizer
+
+NAME                          TYPE   			VALUE
+------------------           -----------           -------------
+_optimizer_ignore_hints       boolean                  TRUE
+
+
+SQL&gt;  select /*+ parallel(4) */ count(*) from TEST5;
+
+  COUNT(*)
+----------
+    107708
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 4160549356
+
+--------------------------------------------------------------------------------------------------------
+| Id  | Operation              | Name     | Rows  | Cost (%CPU)| Time     |    TQ  |IN-OUT| PQ Distrib |
+--------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT       |          |     1 |   133   (0)| 00:00:01 |        |      |            |
+|   1 |  SORT AGGREGATE        |          |     1 |            |          |        |      |            |
+|   2 |   PX COORDINATOR       |          |       |            |          |        |      |            |
+|   3 |    PX SEND QC (RANDOM) | :TQ10000 |     1 |            |          |  Q1,00 | P-&gt;S | QC (RAND)  |
+|   4 |     SORT AGGREGATE     |          |     1 |            |          |  Q1,00 | PCWP |            |
+|   5 |      PX BLOCK ITERATOR |          |   107K|   133   (0)| 00:00:01 |  Q1,00 | PCWC |            |
+|   6 |       TABLE ACCESS FULL| TEST5    |   107K|   133   (0)| 00:00:01 |  Q1,00 | PCWP |            |
+--------------------------------------------------------------------------------------------------------
+
+Note
+-----
+   - Degree of Parallelism is 4 because of hint
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/_optimizer_ignore_hint/">_optimizer_ignore_hint</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/_optimizer_ignore_hint/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>oracleasm utility for ASMLIB</title>
+		<link>https://dbaclass.com/article/oracleasm-utility-asmlib/</link>
+					<comments>https://dbaclass.com/article/oracleasm-utility-asmlib/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sat, 02 Sep 2017 06:18:02 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3381</guid>
+
+					<description><![CDATA[<p>ASMlib driver is required on  Linux operating systems, to enable a disk readable by ASM. Without ASMLIB, disks can&#8217;t be used at asm disks. Below are the steps for configuring ASMlib and marking disks as ASM. &#160; Download Asmlib: You can download these rpm packages directly from OTN: http://www.oracle.com/technetwork/server-storage/linux/downloads/index-088143.html Else, if your system is registered [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/oracleasm-utility-asmlib/">oracleasm utility for ASMLIB</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>ASMlib</strong> driver is required on  Linux operating systems, to enable a disk readable by ASM. Without ASMLIB, disks can&#8217;t be used at asm disks.</p>
+<p>Below are the steps for configuring <strong>ASMlib</strong> and marking disks as ASM.</p>
+<p>&nbsp;</p>
+<ol>
+<li><strong>Download Asmlib:</strong></li>
+</ol>
+<p>You can download these rpm packages directly from OTN:</p>
+<p><a href="http://www.oracle.com/technetwork/server-storage/linux/downloads/index-088143.html" target="_blank" rel="noopener noreferrer">http://www.oracle.com/technetwork/server-storage/linux/downloads/index-088143.html</a></p>
+<p>Else, if your system is registered with ULN, then you can download directly using yum as below.</p>
+<pre>- Run as root on the database server
+
+yum install oracleasm-support oracleasmlib oracleasm-`uname -r` 
+</pre>
+<p><strong>       2. Configure oracleasm:[ Do on all nodes if RAC]</strong></p>
+<p>&nbsp;</p>
+<pre class="">
+[root$mapper]#  /etc/init.d/oracleasm init
+[root$mapper]#  /etc/init.d/oracleasm configure -i
+Configuring the Oracle ASM library driver.
+
+This will configure the on-boot properties of the Oracle ASM library
+driver.  The following questions will determine whether the driver is
+loaded on boot and what permissions it will have.  The current values
+will be shown in brackets ('[]').  Hitting  without typing an
+answer will keep that current value.  Ctrl-C will abort.
+
+Default user to own the driver interface []: oracle
+Default group to own the driver interface []: oinstall
+Start Oracle ASM library driver on boot (y/n) [n]: y
+Scan for Oracle ASM disks on boot (y/n) [y]: y
+Writing Oracle ASM library driver configuration: done
+Initializing the Oracle ASMLib driver:                     [  OK  ]
+Scanning the system for Oracle ASMLib disks:               [  OK  ]
+
+</pre>
+<p><strong>       3. Start oracleasm:[ Do on all nodes ]</strong></p>
+<pre># /etc/init.d/oracleasm start
+Initializing the Oracle ASMLib driver:                     [  OK  ]
+Scanning the system for Oracle ASMLib disks:               [  OK  ]
+</pre>
+<p>Now as we have configured and started the <strong>oracleasm</strong>, we can proceed with making the disks as ASM disk.</p>
+<blockquote><p>NOTE &#8211; &gt; IF <em><strong>oracleasm start</strong></em> command is not working, then use <span style="color: #993300;"><em><strong>oracleasm init</strong></em></span> command.</p></blockquote>
+<p><strong>    4.Create ASM disk [ Do only from one node ]</strong></p>
+<p>Createdisk need to be run only from one node</p>
+<pre class=""># /etc/init.d/oracleasm createdisk MGMTP1 /dev/mapper/mpathup1
+Marking disk "MGMTP1" as an ASM disk:                      [  OK  ]
+</pre>
+<p><strong>   5.Now list and scan the disks [ On all the nodes ]</strong></p>
+<p>Once disk is created, you need to scan the disks using scandisks on all the nodes,</p>
+<pre>#  /etc/init.d/oracleasm scandisks
+#  /etc/init.d/oracleasm listdisks
+</pre>
+<p>Now, these ASM disks are ready to be added to ASM disk group.</p>
+<p><strong>automatic start can be enabled or disabled with the &#8216;enable&#8217; and &#8216;disable&#8217; options to /etc/init.d/oracleasm:</strong></p>
+<pre>      
+-- Enable 
+                                     
+# /etc/init.d/oracleasm disable
+  Writing Oracle ASM library driver configuration            [  OK  ]
+  Unmounting ASMlib driver filesystem                        [  OK  ]
+  Unloading module "oracleasm"                               [  OK  ]
+
+-- Disable 
+
+# /etc/init.d/oracleasm enable
+  Writing Oracle ASM library driver configuration            [  OK  ]
+  Loading module "oracleasm"                                 [  OK  ]
+  Mounting ASMlib driver filesystem                          [  OK  ]
+  Scanning system for ASM disks                              [  OK  ]
+
+</pre>
+<p><strong>Delete asmdisk</strong></p>
+<p>Disks that are no longer used by ASM can be unmarked using deletedisk command</p>
+<p><em>oracleasm deletedisk</em></p>
+<pre class=""> oracleasm deletedisk OCRVD1
+</pre>
+<p><strong>Check whether a disk is already marked for asm or not:</strong></p>
+<pre class="">[root~]# oracleasm querydisk /dev/emcpowerac1
+Device "/dev/emcpowerac1" is marked an ASM disk with the label "REDO1"
+
+</pre>
+<p><strong>Get physical disk details with ASM DISK NAMES:</strong></p>
+<p>blkid command will give information about the physical disks and respective asmdisk label name</p>
+<pre>[rootmapper]# /sbin/blkid 
+/dev/sdm1: LABEL="REDO06" TYPE="oracleasm"
+/dev/sdp1: LABEL="REDO04" TYPE="oracleasm"
+/dev/sds1: LABEL="REDO03" TYPE="oracleasm"
+/dev/sdv1: LABEL="REDO01" TYPE="oracleasm"
+/dev/sdy1: LABEL="REDO05" TYPE="oracleasm"
+/dev/sdab1: LABEL="REDO02" TYPE="oracleasm"
+/dev/sdjn1: LABEL="REDO04" TYPE="oracleasm"
+/dev/sdjk1: LABEL="REDO06" TYPE="oracleasm"
+/dev/sdjq1: LABEL="REDO03" TYPE="oracleasm"
+/dev/sdjt1: LABEL="REDO01" TYPE="oracleasm"
+/dev/sdjw1: LABEL="REDO05" TYPE="oracleasm"
+/dev/sdjz1: LABEL="REDO02" TYPE="oracleasm"
+/dev/mapper/mpathop1: LABEL="REDO04" TYPE="oracleasm"
+/dev/mapper/mpathup1: LABEL="REDO01" TYPE="oracleasm"
+/dev/mapper/mpathyp1: LABEL="REDO05" TYPE="oracleasm"
+/dev/mapper/mpathsp1: LABEL="REDO03" TYPE="oracleasm"
+/dev/mapper/mpathmp1: LABEL="REDO06" TYPE="oracleasm"
+/dev/mapper/mpathalp1: LABEL="REDO02" TYPE="oracleasm"
+
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/oracleasm-utility-asmlib/">oracleasm utility for ASMLIB</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/oracleasm-utility-asmlib/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>resumable_timeout parameter in oracle database</title>
+		<link>https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/</link>
+					<comments>https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 29 May 2017 09:37:55 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2935</guid>
+
+					<description><![CDATA[<p>resumable_timeout is an initialization parameter introduced in Oracle 9i.  This parameter defines the duration in seconds, for which the statements will be suspended if there is no space available in the tablespace for that operation. Once we add space to that tablespace, those transactions will resume their operation. Let&#8217;s see the below example: SQL&#62; show [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/">resumable_timeout parameter in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>resumable_timeout is an initialization parameter introduced in Oracle 9i.  This parameter defines the duration in seconds, for which the statements will be suspended if there is no space available in the tablespace for that operation. Once we add space to that tablespace, those transactions will resume their operation.</p>
+<p>Let&#8217;s see the below example:</p>
+<pre class="">SQL&gt; show parameter resumable_timeout                    
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+resumable_timeout                    integer     0
+
+</pre>
+<p>The parameter is set to  ZERO. Let&#8217;s create a table.</p>
+<pre class="">SQL&gt; create table DBACLASS.TEST_TAB as select * from dba_objects;
+create table DBACLASS.TEST_TAB as select * from dba_objects
+*
+ERROR at line 1:
+ORA-01652: unable to extend temp segment by 128 in tablespace TEST2
+</pre>
+<p>As soon as the transaction couldn&#8217;t find any space, it terminated the process instantly( Because resumable_timeout is set to 0).</p>
+<p><strong>The alert log also:</strong></p>
+<pre>Mon May 29 11:59:29 2017
+ORA-1652: unable to extend temp segment by 128 in tablespace TEST2
+
+</pre>
+<p><strong>Lets set resumable_timeout to a higher value:</strong></p>
+<pre class="">SQL&gt; alter system set resumable_timeout=900 scope=both;
+
+System altered.
+
+</pre>
+<p><strong>Create the table again:</strong></p>
+<pre class="">SQL&gt; create table DBACLASS.TEST_TAB as select * from dba_objects;
+..
+..
+
+</pre>
+<p>Now the query is stuck, let&#8217;s <strong>check the alert log:</strong></p>
+<pre>Mon May 29 11:59:59 2017
+ORA-1652: unable to extend temp segment by 128 in tablespace TEST2
+statement in resumable session 'User SYS(0), Session 1103, Instance 1' was suspended due to
+    ORA-01652: unable to extend temp segment by 128 in tablespace TEST2
+Mon May 29 12:00:35 2017
+
+</pre>
+<p>It clearly states that, the statement in suspended.</p>
+<p><strong>We can check dba_resumables also:</strong></p>
+<pre>SQL&gt; select name, status, timeout, sql_text, error_msg from dba_resumable where status='SUSPENDED';
+
+NAME                           STATUS       TIMEOUT SQL_TEXT
+------------------------------ --------- ---------- ------------------------------
+ERROR_MSG
+-------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+User SYS(0), Session 1160, Ins SUSPENDED        900 create table DBACLASS.TEST_TAB
+tance 1                                              as select * from dba_objects
+ORA-01652: unable to extend temp segment by 128 in tablespace TEST2
+
+</pre>
+<p>Now we will add some space to that tablespace,</p>
+<pre>SQL&gt; alter database datafile '/SIBIP16/SBIP18DB/SBIP18DB/test02.dbf' resize 1G;
+
+Database altered.
+
+</pre>
+<p><strong>Alert log now:</strong></p>
+<pre>Completed: alter database datafile '/SIBIP16/SBIP18DB/SBIP18DB/test02.dbf' resize 1G
+Mon May 29 12:00:40 2017
+statement in resumable session 'User SYS(0), Session 1103, Instance 1' was resumed
+
+</pre>
+<p><strong>DBA_RESUMABLES:</strong></p>
+<pre>SQL&gt; select name, status, timeout, sql_text, error_msg from dba_resumable where status='SUSPENDED';
+
+no rows selected
+
+</pre>
+<p>We can see, as soon as space is available, the statement resumed its transaction</p>
+<pre class="">SQL&gt; create table DBACLASS.TEST_TAB as select * from dba_objects;
+
+Table created.
+</pre>
+<p>The post <a href="https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/">resumable_timeout parameter in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/resumable_timeout-parameter-in-oracle-database/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

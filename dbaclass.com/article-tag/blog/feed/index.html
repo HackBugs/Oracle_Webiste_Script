@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>blog Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/blog/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/blog/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 12 Aug 2021 12:50:36 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Oracle Data Guard vs. Oracle GoldenGate</title>
+		<link>https://dbaclass.com/article/oracle-data-guard-vs-oracle-goldengate/</link>
+					<comments>https://dbaclass.com/article/oracle-data-guard-vs-oracle-goldengate/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 12 Aug 2021 12:50:36 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=7125</guid>
+
+					<description><![CDATA[<p>            Oracle Data Guard and Oracle GoldenGate are disaster recovery software used for data replication. The two software are mainly the top picks for disaster recovery. Other software like Dbvisit (https://dbvisit.com/ ) might also be a preference for most people. But in this article, we’ll compare the two popular data [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/oracle-data-guard-vs-oracle-goldengate/">Oracle Data Guard vs. Oracle GoldenGate</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="font-family: verdana, geneva, sans-serif;"> </span></p>
+<p><span style="font-family: verdana, geneva, sans-serif;">          Oracle Data Guard and Oracle GoldenGate are disaster recovery software used for data replication. The two software are mainly the top picks for disaster recovery. Other software like Dbvisit (<a href="https://dbvisit.com/">https://dbvisit.com/</a> ) might also be a preference for most people. But in this article, we’ll compare the two popular data replication technologies.</span></p>
+<h2><span style="font-family: verdana, geneva, sans-serif;">Oracle Data Guard</span></h2>
+<p><span style="font-family: verdana, geneva, sans-serif;">Oracle Data Guard is one of the best data protection software out there for the oracle database. It works in a very simple manner by maintaining an exact physical replica of the production copy remotely. Oracle Data Guard works without any issue and performs active-passive data replication for high availability of data.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: verdana, geneva, sans-serif;">In Oracle Data Guard, data replication can happen only on homogenous data platforms that use identical database management systems (DBMS) and operating systems. Such systems are a network of two or more Oracle databases residing in one or more machines. The Data Guard completes one-way physical replication and these replications can be configured only between oracle to oracle.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: verdana, geneva, sans-serif;">The Oracle Data Guard uses Active Data Guard, known for its simplicity, data availability, best data protection, and high performance. As a result, it passes for the simplest and the fastest one-way replication of a complete Oracle database. Unlike GoldenGate, Data Guard is very simple to use and supports all applications and workloads. It has no data type restrictions and it’s very transparent to operate. There are no requirements for supplemental logging. Also, there are no performance implications for tables without a unique index or primary key with Data Guard. In addition, the need for performance tuning is also zero to none at the standby database.</span></p>
+<p>&nbsp;</p>
+<h2><span style="font-family: verdana, geneva, sans-serif;">Oracle Golden Gate</span></h2>
+<p><span style="font-family: verdana, geneva, sans-serif;">Oracle GoldenGate is more of an advanced logical replication product, which supports very flexible options for data replication, including multi-master replication, hub and spoke deployment, and data transformation. It runs with logical replication of the database that includes Active-Active HA, one to many, many to one, subset replication, and transformation. Data replication can only happen in heterogeneous data platforms where the database is distributed among dissimilar sites that run under different DBMSs.</span></p>
+<p><span style="font-family: verdana, geneva, sans-serif;">Oracle GoldenGate is used mainly when a replica database needs to be open read-write. At the same time, replication is still active for advanced replications requirements that Active Data Guard can handle. In data replication, the GoldenGate supports Multimaster and bidirectional replication instead of one-way data replication.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: verdana, geneva, sans-serif;">The Oracle Goldengate is not the simplest software to use, but it offers rich functionality, flexibility, and additional deployment considerations. But one of its downsides is the lack of support for data types like <a href="https://waterplacid.files.wordpress.com/2018/12/oracle-goldengate-limitations-and-restrictions.pdf">XML and BLOB</a>. You also don’t get transparency of backup and only replicated data are similar to each other.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: verdana, geneva, sans-serif;">Unlike the minimum downtime in Data Guard, you have zero downtime for maintenance and migrations in GoldenGate, but you need to configure a bi-directional replication. In Oracle GoldenGate, a minimum supplemental log should be enabled. You might also face some performance issues if the table doesn’t have any primary key.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: verdana, geneva, sans-serif;">Oracle Data Guard and GoldenGate are almost two opposite options for data replication. One is a simple option, while the other passes for an advanced data replication option. For people looking for software somewhere between simple and advanced, other software like Dbvisit are also available. With Dbvisit, you get a 10-day trial or a demo to let you decide which disaster recovery solution fits you the best.</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<blockquote><p><em><strong>Author</strong> &#8211; Zachary Danielson</em></p></blockquote>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/oracle-data-guard-vs-oracle-goldengate/">Oracle Data Guard vs. Oracle GoldenGate</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/oracle-data-guard-vs-oracle-goldengate/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

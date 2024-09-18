@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>automation Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/automation/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/automation/</link>
+	<description>database administration</description>
+	<lastBuildDate>Tue, 06 Jul 2021 19:09:44 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Automate oracle client installation using ansible</title>
+		<link>https://dbaclass.com/article/automate-oracle-client-installation-using-ansible/</link>
+					<comments>https://dbaclass.com/article/automate-oracle-client-installation-using-ansible/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 06 Jul 2021 19:00:48 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=7102</guid>
+
+					<description><![CDATA[<p>We can use the power of ansible to automate the oracle client installation task on multiple servers.In this article, we will explain how we will achieve this by executing an ansible playbook from ansible control node. &#160; Ansible control node  is any machine where ansible tool is installed.  &#160; IMPORTANT POINTS: oracle 19c client will [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/automate-oracle-client-installation-using-ansible/">Automate oracle client installation using ansible</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>We can use the power of ansible to automate the oracle client installation task on multiple servers.In this article, we will explain how we will achieve this by executing an ansible playbook from ansible control node.</p>
+<p>&nbsp;</p>
+<blockquote><p><em><strong>Ansible control node  is any machine where ansible tool is installed. </strong></em></p>
+<p>&nbsp;</p></blockquote>
+<h3><span style="background-color: #ffff00;">IMPORTANT POINTS:</span></h3>
+<ol>
+<li>oracle 19c client will be installed on all nodes.</li>
+<li>Make sure  the servers where  client need to be installed has connectivity from ansible control server</li>
+</ol>
+<p>Below are the steps :</p>
+<h3>1. Copy the oracle 19c client software ( zip file ) to ansible control server.</h3>
+<pre><code class="language-">
+[ansible_node] <span style="color: #ff0000;"><strong>ls -ltr /oracle/LINUX.X64_193000_client.zip
+</strong></span></code></pre>
+<h3>2. Prepare the inventory file:</h3>
+<p>The list of servers where oracle 19c client will be installed.</p>
+<pre><code class="language-">[ansiblel_node] $<span style="color: #ff0000;"><strong> cat /home/ansible/ansible-scipts/host_inv</strong></span>
+[appserver]
+linux_host22 ansible_host=10.20.86.60 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host29 ansible_host=10.20.86.61 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+linux_host34 ansible_host=10.20.86.62 ansible_connection=ssh ansible_user=root ansible_ssh_pass=dbaclass@123
+</code></pre>
+<h3>3. Prepare the client installation response file:</h3>
+<pre><code class="language-">[ansible_node] $ <span style="color: #ff0000;"><strong>cat /home/ansible/oracle_client_19c.rsp</strong></span>
+
+#-------------------------------------------------------------------------------
+# Do not change the following system generated value.
+#-------------------------------------------------------------------------------
+oracle.install.responseFileVersion=/oracle/install/rspfmt_clientinstall_response_schema_v19.0.0
+
+#-------------------------------------------------------------------------------
+# Unix group to be set for the inventory directory.
+#-------------------------------------------------------------------------------
+UNIX_GROUP_NAME=oinstall
+#-------------------------------------------------------------------------------
+# Inventory location.
+#-------------------------------------------------------------------------------
+INVENTORY_LOCATION=/oracle/app/oraInventory
+#-------------------------------------------------------------------------------
+# Complete path of the Oracle Home
+#-------------------------------------------------------------------------------
+ORACLE_HOME=/oracle/app/oracle/product/19c/client_1
+#-------------------------------------------------------------------------------
+# Complete path of the Oracle Base.
+#-------------------------------------------------------------------------------
+ORACLE_BASE=/oracle/app/oracle
+oracle.install.client.installType=Administrator
+
+#-------------------------------------------------------------------------------
+</code></pre>
+<h4>4. Prepare the ansible playbook:</h4>
+<pre><code class="language-">[ansible_node] $ <span style="color: #ff0000;"><strong>cat oracle_client_installation.yml</strong></span>
+- hosts: appserver
+  strategy: free
+  user: bvunix
+  become: yes
+  become_method: su
+  become_user: oracle
+  tasks:
+    - name: check existance of mount point
+      command: mountpoint -q /oracle
+      register: volume_stat
+      failed_when: False
+    - name: Copy client software
+      unarchive: src=/oracle/LINUX.X64_193000_client.zip dest=/oracle/
+    - name: Copy response file
+      copy: src=/home/ansible/oracle_client_19c.rsp dest=/oracle mode=0777
+    - name: Install Oracle Client
+      command: "/oracle/client/runInstaller -silent -showProgress -ignorePrereq -ignoreSysPrereqs -waitforcompletion -responseFile /oracle/oracle_client_19c.rsp"
+      register: client_runinstaller_output
+      failed_when: "'Successfully Setup Software' not in client_runinstaller_output.stdout"
+
+
+</code></pre>
+<h3>5. Execute the playbook:</h3>
+<pre><code class="language-">[ansible-node]$ <span style="color: #ff0000;"><strong> ansible-playbook oracle_client_installation.yml -i /home/ansible/ansible-scipts/host_inv
+</strong></span>
+PLAY [linux_host22,linux_host29,linux_host34] ***********************************************************************************************************************************
+Tuesday 06 July 2021  20:30:15 +0300 (0:00:00.048)       0:00:00.048 **********
+Tuesday 06 July 2021  20:30:15 +0300 (0:00:00.011)       0:00:00.060 **********
+Tuesday 06 July 2021  20:30:15 +0300 (0:00:00.010)       0:00:00.071 **********
+
+TASK [Gathering Facts] **********************************************************************************************************************************************************
+[WARNING]: Module remote_tmp /home/oracle/.ansible/tmp did not exist and was created with a mode of 0700, this may cause issues when running as another user. To avoid this,
+create the remote_tmp dir with the correct permissions manually
+ok: [linux_host34]
+ok: [linux_host22]
+Tuesday 06 July 2021  20:30:18 +0300 (0:00:02.977)       0:00:03.048 **********
+Tuesday 06 July 2021  20:30:18 +0300 (0:00:00.043)       0:00:03.091 **********
+
+TASK [check existance of mount point] *******************************************************************************************************************************************
+changed: [linux_host34]
+Tuesday 06 July 2021  20:30:19 +0300 (0:00:01.304)       0:00:04.397 **********
+changed: [linux_host22]
+Tuesday 06 July 2021  20:30:19 +0300 (0:00:00.088)       0:00:04.486 **********
+
+TASK [Gathering Facts] **********************************************************************************************************************************************************
+ok: [linux_host29]
+Tuesday 06 July 2021  20:30:20 +0300 (0:00:00.884)       0:00:05.370 **********
+
+TASK [check existance of mount point] *******************************************************************************************************************************************
+changed: [linux_host29]
+Tuesday 06 July 2021  20:30:21 +0300 (0:00:01.329)       0:00:06.699 **********
+
+TASK [Copy client software] *****************************************************************************************************************************************************
+changed: [linux_host34]
+Tuesday 06 July 2021  20:31:36 +0300 (0:01:14.560)       0:01:21.259 **********
+changed: [linux_host22]
+Tuesday 06 July 2021  20:31:38 +0300 (0:00:02.122)       0:01:23.382 **********
+
+TASK [Copy response file] *******************************************************************************************************************************************************
+changed: [linux_host34]
+Tuesday 06 July 2021  20:31:40 +0300 (0:00:01.840)       0:01:25.222 **********
+changed: [linux_host22]
+Tuesday 06 July 2021  20:31:41 +0300 (0:00:01.072)       0:01:26.295 **********
+
+TASK [Copy client software] *****************************************************************************************************************************************************
+changed: [linux_host29]
+Tuesday 06 July 2021  20:31:45 +0300 (0:00:04.660)       0:01:30.956 **********
+
+TASK [Copy response file] *******************************************************************************************************************************************************
+changed: [linux_host29]
+Tuesday 06 July 2021  20:31:48 +0300 (0:00:02.787)       0:01:33.744 **********
+
+TASK [Install Oracle Client] ****************************************************************************************************************************************************
+changed: [linux_host22]
+changed: [linux_host34]
+changed: [linux_host29]
+
+PLAY RECAP **********************************************************************************************************************************************************************
+linux_host22               : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+linux_host29               : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+linux_host34               : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+Tuesday 06 July 2021  20:33:33 +0300 (0:01:45.191)       0:03:18.935 **********
+===============================================================================
+Install Oracle Client -------------------------------------------------------------------------------------------------------------------------------------------------- 105.19s
+Copy client software ---------------------------------------------------------------------------------------------------------------------------------------------------- 74.56s
+Gathering Facts ---------------------------------------------------------------------------------------------------------------------------------------------------------- 2.98s
+Copy response file ------------------------------------------------------------------------------------------------------------------------------------------------------- 2.79s
+check existance of mount point ------------------------------------------------------------------------------------------------------------------------------------------- 1.33s
+
+</code></pre>
+<p>We have successfully installed oracle client on all the mentioned servers.</p>
+<p>The post <a href="https://dbaclass.com/article/automate-oracle-client-installation-using-ansible/">Automate oracle client installation using ansible</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/automate-oracle-client-installation-using-ansible/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>db monitoring Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/db-monitoring/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/db-monitoring/</link>
+	<description>database administration</description>
+	<lastBuildDate>Wed, 19 Aug 2015 15:46:53 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to find active sessions in oracle database</title>
+		<link>https://dbaclass.com/article/how-to-find-active-sessions-in-oracle-database/</link>
+					<comments>https://dbaclass.com/article/how-to-find-active-sessions-in-oracle-database/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 19 Aug 2015 15:46:53 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=239</guid>
+
+					<description><![CDATA[<p>Use below script to find active sessions in oracle database. set echo off set linesize 95 set head on set feedback on col sid head "Sid" form 9999 trunc col serial# form 99999 trunc head "Ser#" col username form a8 trunc col osuser form a7 trunc col machine form a20 trunc head "Client&#124;Machine" col program [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-find-active-sessions-in-oracle-database/">How to find active sessions in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Use below script to find active sessions in oracle database.</p>
+<pre>
+set echo off
+set linesize 95
+set head on
+set feedback on
+col sid head "Sid" form 9999 trunc
+col serial# form 99999 trunc head "Ser#"
+col username form a8 trunc
+col osuser form a7 trunc
+col machine form a20 trunc head "Client|Machine"
+col program form a15 trunc head "Client|Program"
+col login form a11
+col "last call"  form 9999999 trunc head "Last Call|In Secs"
+col status form a6 trunc
+select sid,serial#,substr(username,1,10) username,substr(osuser,1,10) osuser,
+	 substr(program||module,1,15) program,substr(machine,1,22) machine,
+	 to_char(logon_time,'ddMon hh24:mi') login,
+	 last_call_et "last call",status
+from v$session where status='ACTIVE'
+order by 1
+/
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/how-to-find-active-sessions-in-oracle-database/">How to find active sessions in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-find-active-sessions-in-oracle-database/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

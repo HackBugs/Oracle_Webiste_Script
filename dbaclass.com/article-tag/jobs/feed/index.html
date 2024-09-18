@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>JOBS Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/jobs/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/jobs/</link>
+	<description>database administration</description>
+	<lastBuildDate>Mon, 18 Nov 2019 09:26:48 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Scheduler jobs in oracle</title>
+		<link>https://dbaclass.com/article/scheduler-jobs-oracle/</link>
+					<comments>https://dbaclass.com/article/scheduler-jobs-oracle/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 28 May 2017 07:41:52 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2914</guid>
+
+					<description><![CDATA[<p>To schedule a job at a particular time in the database, first we need to create a schedule, then a program and then job. 1. Create a schedule A schedule defines the start date, end time and repeat interval details BEGIN DBMS_SCHEDULER.CREATE_SCHEDULE ( Schedule_name =&#62; 'DAILYBILLINGJOB', Start_date =&#62; SYSTIMESTAMP, Repeat_interval =&#62;'FREQ=DAILY;BYHOUR=11; BYMINUTE=30', Comments =&#62; 'DAILY [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/scheduler-jobs-oracle/">Scheduler jobs in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>To schedule a job at a particular time in the database, first we need to create a schedule, then a program and then job.</p>
+<p><strong>1. Create a schedule</strong></p>
+<p>A schedule defines the start date, end time and repeat interval details</p>
+<pre class="">BEGIN
+DBMS_SCHEDULER.CREATE_SCHEDULE (
+Schedule_name =&gt; 'DAILYBILLINGJOB',
+Start_date =&gt; SYSTIMESTAMP,
+Repeat_interval =&gt;'FREQ=DAILY;BYHOUR=11; BYMINUTE=30',
+Comments =&gt; 'DAILY BILLING JOB'
+);
+END;
+
+</pre>
+<p><strong>2. Create a program:</strong></p>
+<p>A program defines the name and type of the procedure, executed .package or script which executed.</p>
+<pre>BEGIN
+DBMS_SCHEDULER.CREATE_PROGRAM (
+program_name =&gt; 'DAILYBILLINGJOB',
+program_type =&gt; 'STORED_PROCEDURE',
+program_action =&gt; 'DAILYJOB.BILLINGPROC'
+number_of_arguments =&gt;0,
+enabled =&gt; TRUE,
+comments =&gt; 'DAILY BILLING JOB'
+);
+END;
+</pre>
+<p><strong>3. Create job:</strong></p>
+<p>A job defines the schedule name and the program name.</p>
+<pre>DBMS_SCHEDULER.CREATE_JOB (
+job_name =&gt; 'DAILYBILLINGJOB_RUN',
+program_name =&gt; 'DAILYBILLINGJOB',
+schedule_name =&gt; 'DAILYBILLINGJOB_SCHED',
+enabled =&gt; FLASE,
+comments =&gt; 'daily billing job'
+);
+END;
+
+</pre>
+<p><strong>Instead of creating scheduler,job and program separately, we can create the scheduler job with below commad directly. </strong></p>
+<p><strong>Simple command to create scheduler job:</strong></p>
+<pre>BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+            job_name =&gt; '"HWS"."MV_REF_DBA_DATA"',
+            job_type =&gt; 'PLSQL_BLOCK',
+            job_action =&gt; 'dbms_refresh.refresh(''"HWS"."STC_NEXT_DBA_MV_DATA"'');',
+            number_of_arguments =&gt; 0,
+            start_date =&gt; NULL,
+            repeat_interval =&gt; 'FREQ=DAILY;BYHOUR=8;BYMINUTE=00;BYSECOND=00',
+            end_date =&gt; NULL,
+            enabled =&gt; FALSE,
+            auto_drop =&gt; FALSE,
+            comments =&gt; 'Converted_dba_jobs');
+
+         
+      
+    
+    DBMS_SCHEDULER.enable(
+             name =&gt; '"HWS"."MV_REF_FTTH_DATA"');
+END;
+
+
+</pre>
+<p>&nbsp;</p>
+<blockquote><p><em><strong>if the job_type is procedure, then use job_type=&#8217;STORED_PROCEDURE&#8217;</strong></em></p></blockquote>
+<p><strong>4. View schedule details of all schedulers:</strong></p>
+<pre class="">set pagesize 200
+set lines 299
+col START_DATE for a45
+col REPEAT_INTERVAL for a45
+col schedule_name for a34
+select schedule_name, schedule_type, start_date, repeat_interval from dba_scheduler_schedules;
+</pre>
+<p><strong>5.Enable a job</strong></p>
+<pre>EXECUTE DBMS_SCHEDULER.ENABLE('SCOTT.MONTHLYBILLING');
+</pre>
+<p><strong>6.Disable a job</strong></p>
+<pre>  EXECUTE DBMS_SCHEDULER.DISABLE('SCOTT.MONTHLYBILLING');
+</pre>
+<p><strong>7.Stop a running job</strong></p>
+<pre>  EXECUTE DBMS_SCHEDULER.STOP_JOB('SCOTT.MONTHLYBILLING');
+</pre>
+<p><strong>8.Drop a running job</strong></p>
+<pre>  EXECUTE DBMS_SCHEDULER.DROP_JOB('SCOTT.MONTHLYBILLING');
+</pre>
+<p><strong>9. Run a job immediately</strong></p>
+<pre>  EXECUTE DBMS_SCHEDULER.RUN_JOB('SCOTT.MONTHLYBILLING');
+</pre>
+<p><strong>10. Drop a schedule:</strong></p>
+<pre>BEGIN
+DBMS_SCHEDULER.DROP_SCHEDULE(
+schedule_name =&gt; 'DAILYBILLINGJOB_SCHED',
+force =&gt; TRUE
+);
+END;
+</pre>
+<p><strong>11. Drop a scheduler job:</strong></p>
+<pre>  DBMS_SCHEDULER.drop_job (job_name =&gt; 'SCOTT.MONTHLYBILLING');
+</pre>
+<p><strong>12. Scheduler shell script in dbms_scheduler:</strong></p>
+<p>&#8212; This feature in available from oracle 12c onward</p>
+<p>Create a credential store:</p>
+<pre>BEGIN
+dbms_credential.create_credential (
+CREDENTIAL_NAME =&gt; 'ORACLEOSUSER',
+USERNAME =&gt; 'oracle',
+PASSWORD =&gt; 'oracle@98765',
+DATABASE_ROLE =&gt; NULL,
+WINDOWS_DOMAIN =&gt; NULL,
+COMMENTS =&gt; 'Oracle OS User',
+ENABLED =&gt; true
+);
+END;
+/
+</pre>
+<p>Then create the job:</p>
+<pre class="">exec dbms_scheduler.create_job(-
+job_name=&gt;'myscript4',-
+job_type=&gt;'external_script',-
+job_action=&gt;'/export/home/oracle/ttest.2.sh',-
+enabled=&gt;true,-
+START_DATE=&gt;sysdate,-
+REPEAT_INTERVAL =&gt;'FREQ=MINUTELY; byminute=1',-
+auto_drop=&gt;false,-
+credential_name=&gt;'ORACLEOSUSER');
+
+</pre>
+<p><strong>13. Monitor scheduler jobs:</strong></p>
+<p>&#8212; Monitor currently running jobs</p>
+<pre>SELECT job_name, session_id, running_instance, elapsed_time, FROM dba_scheduler_running_jobs;
+</pre>
+<p>&#8212; View the job run details</p>
+<pre>select * from DBA_SCHEDULER_JOB_RUN_DETAILS;
+</pre>
+<p>&#8212; View the job-related logs:</p>
+<pre>select * from DBA_SCHEDULER_JOB_LOG;
+</pre>
+<p><strong>14. Get DDL of a scheduler job:</strong></p>
+<pre class="">select dbms_metadata.get_ddl('PROCOBJ','DUP_ACC','SCOTT') from dual;</pre>
+<p><strong>15. Copy scheduler job from one user to another :</strong></p>
+<pre>exec dbms_scheduler.copy_job('SCOTT.MY_JOB_2','DBACLASS.MY_JOB_2');
+</pre>
+<p><strong>16. Get log information of scheduler jobs:</strong></p>
+<pre>set pagesize 299
+set lines 299
+col job_name for a24
+col log_date for a40
+col operation for a19
+col additional_info a79
+select job_name,log_date,status,OPERATION,ADDITIONAL_INFO from dba_scheduler_job_log order by log_date desc;
+</pre>
+<p><strong>17. History of all scheduler job runs:</strong></p>
+<pre class="">set pagesize 299
+set lines 299
+col JOB_NAME for a24
+col actual_start_date for a56
+col RUN_DURATION for a34
+select job_name,status,actual_start_date,run_duration from DBA_SCHEDULER_JOB_RUN_DETAILS order by ACTUAL_START_DATE desc;</pre>
+<p><strong>18. Managing scheduler credentials:</strong></p>
+<p>&#8212; Create a credential:</p>
+<pre>BEGIN
+dbms_credential.create_credential (
+CREDENTIAL_NAME =&gt; 'ORACLEOSUSER',
+USERNAME =&gt; 'oracle',
+PASSWORD =&gt; 'oracle@123',
+DATABASE_ROLE =&gt; NULL,
+WINDOWS_DOMAIN =&gt; NULL,
+COMMENTS =&gt; 'Oracle OS User',
+ENABLED =&gt; true
+);
+END;
+/
+</pre>
+<p>&#8212; Drop a credential</p>
+<pre>exec dbms_scheduler.drop_credential('ORACLEOSUSER');
+</pre>
+<p>&#8212; View credential details</p>
+<pre class=""> select owner,CREDENTIAL_NAME,USERNAME,ENABLED from DBA_CREDENTIALS;
+</pre>
+<p>&#8212; Change username and password in a credentials :</p>
+<pre class="">exec DBMS_SCHEDULER.SET_ATTRIBUTE(name=&gt;'ORACLEOSUSER',attribute=&gt;'password',value=&gt;'oracle');</pre>
+<p><strong>19. View and manage auto task jobs in database:</strong></p>
+<pre class="">set lines 180 pages 1000
+col client_name for a40
+col attributes for a60
+select client_name, status,attributes,service_name from dba_autotask_client
+/
+BEGIN
+  DBMS_AUTO_TASK_ADMIN.disable(
+    client_name =&gt; 'auto space advisor',
+    operation   =&gt; NULL,
+    window_name =&gt; NULL);
+END;
+/
+BEGIN
+  DBMS_AUTO_TASK_ADMIN.disable(
+    client_name =&gt; 'sql tuning advisor',
+    operation   =&gt; NULL,
+    window_name =&gt; NULL);
+END;
+/
+BEGIN
+  DBMS_AUTO_TASK_ADMIN.disable(
+    client_name =&gt; 'auto optimizer stats collection',
+    operation   =&gt; NULL,
+    window_name =&gt; NULL);
+END;
+/
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/scheduler-jobs-oracle/">Scheduler jobs in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/scheduler-jobs-oracle/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

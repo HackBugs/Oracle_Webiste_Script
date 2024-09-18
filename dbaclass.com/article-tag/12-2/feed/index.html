@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>12.2 Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/12-2/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/12-2/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 05 Apr 2018 08:09:50 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Apply patch on oracle 12.2 database ( Release update)</title>
+		<link>https://dbaclass.com/article/apply-patch-oracle-12-2-database/</link>
+					<comments>https://dbaclass.com/article/apply-patch-oracle-12-2-database/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 05 Apr 2018 07:56:43 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3715</guid>
+
+					<description><![CDATA[<p>In this article , we will explain the steps for applying patch Database Jan 2018 Release Update (DB RU) on oracle 12.2 database. Beginning in July 2017, Oracle has transitioned to a more flexible and responsive strategy for the database software release process. These changes only affect Database and Grid Infrastructure release 12.2 or later. [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/apply-patch-oracle-12-2-database/">Apply patch on oracle 12.2 database ( Release update)</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>In this article , we will explain the steps for applying patch Database Jan 2018 Release Update (DB RU) on oracle 12.2 database.</p>
+<p>Beginning in July 2017, Oracle has transitioned to a more flexible and responsive strategy for the database software release process. These changes only affect Database and Grid Infrastructure release 12.2 or later.</p>
+<p><strong>Environment details:</strong></p>
+<p><span style="font-family: 'andale mono', monospace;">os platform &#8211; solaris sparc 64 bit</span></p>
+<p><span style="font-family: 'andale mono', monospace;">db version &#8211; oracle 12.2</span></p>
+<p><span style="font-family: 'andale mono', monospace;">db_name &#8211; POCDB</span></p>
+<p><strong>1. Download the required patch from metalink:</strong></p>
+<p><strong><em>patch id &#8211; 27105253</em></strong></p>
+<p><a href="https://dbaclass.com/article/apply-patch-oracle-12-2-database/ru_patch1/" rel="attachment wp-att-3716"><img fetchpriority="high" decoding="async" class="aligncenter size-full wp-image-3716" src="https://dbaclass.com/wp-content/uploads/2018/04/ru_patch1.jpg" alt="" width="1317" height="187" srcset="https://dbaclass.com/wp-content/uploads/2018/04/ru_patch1.jpg 1317w, https://dbaclass.com/wp-content/uploads/2018/04/ru_patch1-300x43.jpg 300w, https://dbaclass.com/wp-content/uploads/2018/04/ru_patch1-768x109.jpg 768w, https://dbaclass.com/wp-content/uploads/2018/04/ru_patch1-1024x145.jpg 1024w" sizes="(max-width: 1317px) 100vw, 1317px" /></a></p>
+<p>&nbsp;</p>
+<p>p27105253_122010_SOLARIS64.zip</p>
+<p>&nbsp;</p>
+<p><strong>2. Download the latest opatch tool:</strong></p>
+<p>download link &#8211; <a href="https://support.oracle.com/epmos/faces/PatchDetail?requestId=13915378&amp;_afrLoop=443265433133206&amp;patchId=6880880&amp;_afrWindowMode=0&amp;_adf.ctrl-state=19ipzaqbya_555" target="_blank" rel="noopener noreferrer">6880880</a></p>
+<p><a href="https://dbaclass.com/article/apply-patch-oracle-12-2-database/opatch_ru2/" rel="attachment wp-att-3717"><img decoding="async" class="aligncenter size-full wp-image-3717" src="https://dbaclass.com/wp-content/uploads/2018/04/opatch_ru2.jpg" alt="" width="1287" height="300" srcset="https://dbaclass.com/wp-content/uploads/2018/04/opatch_ru2.jpg 1287w, https://dbaclass.com/wp-content/uploads/2018/04/opatch_ru2-300x70.jpg 300w, https://dbaclass.com/wp-content/uploads/2018/04/opatch_ru2-768x179.jpg 768w, https://dbaclass.com/wp-content/uploads/2018/04/opatch_ru2-1024x239.jpg 1024w" sizes="(max-width: 1287px) 100vw, 1287px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>3. Install the new opatch</strong></p>
+<p>&nbsp;</p>
+<pre class="">-- Check current opatch version
+
+$ORACLE_HOME/OPatch/opatch version
+OPatch Version: 12.2.0.1.6
+
+-- Take backup of existing opatch 
+
+cd $ORACLE_HOME
+mv OPatch OPatch_old
+
+-- Copy the opatch.zip file to $ORACLE_HOME/
+
+cp p6880880_122010_SOLARIS64.zip $ORACLE_HOME/
+
+-unzip the file
+
+unzip p6880880_122010_SOLARIS64.zip
+
+--- Check the latest version
+
+ $ORACLE_HOME/OPatch/opatch version
+OPatch Version: 12.2.0.1.12 -----&gt;&gt; New opatch tool installed successfully 
+
+OPatch succeeded.
+
+</pre>
+<p><strong>4. Unzip the patch file and check conflict with existing inventory(</strong></p>
+<p>&nbsp;</p>
+<pre>unzip p27105253_122010_SOLARIS64.zip
+cd 27105253/
+</pre>
+<pre class="">-- check conflict 
+
+$ORACLE_HOME/OPatch/opatch prereq CheckConflictAgainstOHWithDetail -ph ./
+
+Oracle Interim Patch Installer version 12.2.0.1.6
+Copyright (c) 2018, Oracle Corporation.  All rights reserved.
+
+PREREQ session
+
+Oracle Home       : /oracle/app/oracle/product/12.2.0/dbhome_3
+Central Inventory : /oracle/app/oraInventory
+   from           : /oracle/app/oracle/product/12.2.0/dbhome_3/oraInst.loc
+OPatch version    : 12.2.0.1.6
+OUI version       : 12.2.0.1.4
+Log file location : /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_09-44-55AM_1.log
+
+Invoking prereq "checkconflictagainstohwithdetail"
+
+Prereq "checkConflictAgainstOHWithDetail" passed.
+
+OPatch succeeded.
+</pre>
+<p>Now we will will proceed with patch apply process. For this all processes(database,listeners) running from the ORACLE_HOME , need to be stopped.</p>
+<p><strong>5. Shutdown database and listener:</strong></p>
+<pre>lsnrctl stop LISTENER_TEST
+
+
+
+SQL&gt; shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+
+</pre>
+<p>You can check there are still any active process with below command.</p>
+<pre>$ORACLE_HOME/OPatch/opatch prereq CheckActiveFilesAndExecutables -ph ./
+Oracle Interim Patch Installer version 12.2.0.1.6
+Copyright (c) 2018, Oracle Corporation.  All rights reserved.
+
+PREREQ session
+
+Oracle Home       : /oracle/app/oracle/product/12.2.0/dbhome_3
+Central Inventory : /oracle/app/oraInventory
+   from           : /oracle/app/oracle/product/12.2.0/dbhome_3/oraInst.loc
+OPatch version    : 12.2.0.1.6
+OUI version       : 12.2.0.1.4
+Log file location : /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_09-49-10AM_1.log
+
+Invoking prereq "checkactivefilesandexecutables"
+
+Prereq "checkActiveFilesAndExecutables" for patch 27105253 passed.
+
+OPatch succeeded.
+</pre>
+<p><strong>7. Apply the patch:</strong></p>
+<pre>-- Go to patch location
+
+cd 27105253/
+
+drwxr-xr-x  11 oracle   oinstall      11 Jan  9 18:55 files
+drwxr-xr-x   3 oracle   oinstall       3 Jan  9 18:55 etc
+-rw-r--r--   1 oracle   oinstall      21 Jan  9 18:55 README.txt
+-rw-rw-r--   1 oracle   oinstall   63436 Jan 12 14:14 README.html
+
+</pre>
+<pre>$ORACLE_HOME/OPatch/opatch apply
+Oracle Interim Patch Installer version 12.2.0.1.12
+Copyright (c) 2018, Oracle Corporation.  All rights reserved.
+
+
+Oracle Home       : /oracle/app/oracle/product/12.2.0/dbhome_3
+Central Inventory : /oracle/app/oraInventory
+   from           : /oracle/app/oracle/product/12.2.0/dbhome_3/oraInst.loc
+OPatch version    : 12.2.0.1.12
+OUI version       : 12.2.0.1.4
+Log file location : /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_10-00-59AM_1.log
+
+Verifying environment and performing prerequisite checks...
+OPatch continues with these patches:   27105253
+
+Do you want to proceed? [y|n]
+y
+User Responded with: Y
+All checks passed.
+
+Please shutdown Oracle instances running out of this ORACLE_HOME on the local system.
+(Oracle Home = '/oracle/app/oracle/product/12.2.0/dbhome_3')
+
+
+Is the local system ready for patching? [y|n]
+y
+User Responded with: Y
+Backing up files...
+Applying interim patch '27105253' to OH '/oracle/app/oracle/product/12.2.0/dbhome_3'
+ApplySession: Optional component(s) [ oracle.has.crs, 12.2.0.1.0 ] , [ oracle.ons.daemon, 12.2.0.1.0 ] , [ oracle.network.cman, 12.2.0.1.0 ]  not present in the Oracle Home or a higher version is
+ound.
+
+Patching component oracle.network.rsf, 12.2.0.1.0...
+
+Patching component oracle.rdbms.deconfig, 12.2.0.1.0...
+
+Patching component oracle.tfa, 12.2.0.1.0...
+
+Patching component oracle.rdbms, 12.2.0.1.0...
+
+Patching component oracle.rdbms.util, 12.2.0.1.0...
+
+Patching component oracle.rdbms.dbscripts, 12.2.0.1.0...
+
+Patching component oracle.xdk.parser.java, 12.2.0.1.0...
+
+Patching component oracle.has.deconfig, 12.2.0.1.0...
+
+Patching component oracle.xdk.rsf, 12.2.0.1.0...
+
+Patching component oracle.ctx.rsf, 12.2.0.1.0...
+
+Patching component oracle.rdbms.rman, 12.2.0.1.0...
+
+Patching component oracle.rdbms.dv, 12.2.0.1.0...
+
+Patching component oracle.rdbms.oci, 12.2.0.1.0...
+
+Patching component oracle.rdbms.crs, 12.2.0.1.0...
+
+Patching component oracle.precomp.common, 12.2.0.1.0...
+
+Patching component oracle.oracore.rsf, 12.2.0.1.0...
+
+Patching component oracle.ctx, 12.2.0.1.0...
+
+Patching component oracle.xdk, 12.2.0.1.0...
+
+Patching component oracle.nlsrtl.rsf, 12.2.0.1.0...
+
+Patching component oracle.rdbms.rsf, 12.2.0.1.0...
+
+Patching component oracle.ons, 12.2.0.1.0...
+
+Patching component oracle.rdbms.lbac, 12.2.0.1.0...
+
+Patching component oracle.precomp.lang, 12.2.0.1.0...
+
+Patching component oracle.rdbms.rsf.ic, 12.2.0.1.0...
+
+Patching component oracle.sdo, 12.2.0.1.0...
+Patch 27105253 successfully applied.
+Log file location: /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_10-00-59AM_1.log
+
+OPatch succeeded.
+
+</pre>
+<p>patch apply on binary succeeded.</p>
+<p><strong>8. start the database and listener.</strong></p>
+<pre>SQL&gt; startup
+ORACLE instance started.
+
+Total System Global Area 6291456000 bytes
+Fixed Size                  8616128 bytes
+Variable Size            2046822208 bytes
+Database Buffers         4211081216 bytes
+Redo Buffers               24936448 bytes
+Database mounted.
+Database opened.
+
+
+lsnrctl start LISTENER_TEST
+
+
+</pre>
+<p><strong>9. Run the post patch script using datapatch tool</strong></p>
+<pre>cd $ORACLE_HOME/OPatch
+
+
+
+ ./datapatch -verbose
+SQL Patching tool version 12.2.0.1.0 Production on Thu Apr  5 10:08:10 2018
+Copyright (c) 2012, 2017, Oracle.  All rights reserved.
+
+Log file for this invocation: /oracle/app/oracle/cfgtoollogs/sqlpatch/sqlpatch_8086_2018_04_05_10_08_10/sqlpatch_invocation.log
+
+Connecting to database...OK
+Bootstrapping registry and package to current versions...done
+Determining current state...done
+
+Current state of SQL patches:
+Bundle series DBRU:
+  ID 180116 in the binary registry and not installed in the SQL registry
+
+Adding patches to installation queue and performing prereq checks...
+Installation queue:
+  Nothing to roll back
+  The following patches will be applied:
+    27105253 (DATABASE RELEASE UPDATE 12.2.0.1.180116)
+
+Installing patches...
+Patch installation complete.  Total patches installed: 1
+
+Validating logfiles...
+Patch 27105253 apply: SUCCESS
+  logfile: /oracle/app/oracle/cfgtoollogs/sqlpatch/27105253/21862380/27105253_apply_POCD_2018Apr05_10_08_26.log (no errors)
+SQL Patching tool complete on Thu Apr  5 10:10:45 2018
+
+</pre>
+<p><strong>10. Check the registry table for patch status</strong></p>
+<pre>SQL&gt;  select patch_id,status,description  from dba_registry_sqlpatch;
+
+  PATCH_ID STATUS
+---------- ---------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+  27105253 SUCCESS
+DATABASE RELEASE UPDATE 12.2.0.1.180116
+
+
+
+</pre>
+<h3>TROUBLESHOOTING</h3>
+<p><strong>1. Prereq &#8220;checkActiveFilesAndExecutables&#8221; for patch 27105253 failed.</strong></p>
+<p>While applying patch, if still few of the processes are running from ORACLE_HOME, then opatch apply will fail with this error.</p>
+<pre>
+$ORACLE_HOME/OPatch/opatch prereq CheckActiveFilesAndExecutables -ph ./
+Oracle Interim Patch Installer version 12.2.0.1.6
+Copyright (c) 2018, Oracle Corporation.  All rights reserved.
+
+PREREQ session
+
+Oracle Home       : /oracle/app/oracle/product/12.2.0/dbhome_3
+Central Inventory : /oracle/app/oraInventory
+   from           : /oracle/app/oracle/product/12.2.0/dbhome_3/oraInst.loc
+OPatch version    : 12.2.0.1.6
+OUI version       : 12.2.0.1.4
+Log file location : /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_09-49-34AM_1.log
+
+Invoking prereq "checkactivefilesandexecutables"
+
+Prereq "checkActiveFilesAndExecutables" for patch 27105253 failed.
+
+The details are:
+
+
+Following executables are active :
+/oracle/app/oracle/product/12.2.0/dbhome_3/lib/libclntsh.so.12.1
+
+OPatch succeeded.
+</pre>
+<p>&#8212; Find the active process.</p>
+<pre>/sbin/fuser /oracle/app/oracle/product/12.2.0/dbhome_3/lib/libclntsh.so.12.1
+
+/oracle/app/oracle/product/12.2.0/dbhome_3/lib/libclntsh.so.12.1:    25030m
+
+Here 25030 is the os pid of the active process.Find that process and kill it.
+
+ ps -ef | grep 25030
+  oracle 25881 16142   0 09:51:13 pts/2       0:00 grep 25030
+  oracle 25030     1   0 09:49:28 ?           0:00 /oracle/app/oracle/product/12.2.0/dbhome_3/bin/tnslsnr LISTENER_POC -inherit
+  
+
+kill -9 25030
+
+</pre>
+<p>Now retry the opatch apply operation.</p>
+<p><strong>2. UtilSession failed: Prerequisite check &#8220;CheckMinimumOPatchVersion&#8221; failed.</strong></p>
+<p>If you are using old opatch utility , then it will throw this error.</p>
+<pre> $ORACLE_HOME/OPatch/opatch apply
+
+Oracle Interim Patch Installer version 12.2.0.1.6
+Copyright (c) 2018, Oracle Corporation.  All rights reserved.
+
+
+Oracle Home       : /oracle/app/oracle/product/12.2.0/dbhome_3
+Central Inventory : /oracle/app/oraInventory
+   from           : /oracle/app/oracle/product/12.2.0/dbhome_3/oraInst.loc
+OPatch version    : 12.2.0.1.6
+OUI version       : 12.2.0.1.4
+Log file location : /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_09-52-05AM_1.log
+
+Verifying environment and performing prerequisite checks...
+Prerequisite check "CheckMinimumOPatchVersion" failed.
+The details are:
+
+
+The OPatch being used has version 12.2.0.1.6 while the following patch(es) require higher versions:
+Patch 27105253 requires OPatch version 12.2.0.1.7.
+Please download latest OPatch from My Oracle Support.
+
+UtilSession failed: Prerequisite check "CheckMinimumOPatchVersion" failed.
+Log file location: /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_09-52-05AM_1.log
+
+OPatch failed with error code 73
+
+</pre>
+<p>As mentioned in the article, download and install the latest opatch utility from oracle support . Then retry the same opatch apply operation.</p>
+<p>The post <a href="https://dbaclass.com/article/apply-patch-oracle-12-2-database/">Apply patch on oracle 12.2 database ( Release update)</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/apply-patch-oracle-12-2-database/feed/</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>TRUST_EXISTING_TABLE_PARTITIONS in oracle 12.2 datapump</title>
+		<link>https://dbaclass.com/article/trust_existing_table_partitions-oracle-12-2-datapump/</link>
+					<comments>https://dbaclass.com/article/trust_existing_table_partitions-oracle-12-2-datapump/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 06 Oct 2017 10:02:14 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3410</guid>
+
+					<description><![CDATA[<p>                TRUST_EXISTING_TABLE_PARTITIONS is a new option for the parameter data_option in the impdp utility of Oracle 12.2. Previously, If we are loading data to an existing partitioned table using impdp, then despite mentioning parallel option, partitions were getting loaded one by one, Which slowdown the import process. &#160; [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/trust_existing_table_partitions-oracle-12-2-datapump/">TRUST_EXISTING_TABLE_PARTITIONS in oracle 12.2 datapump</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>                TRUST_EXISTING_TABLE_PARTITIONS</strong> is a new option for the parameter data_option in the impdp utility of Oracle 12.2.</p>
+<p>Previously, If we are loading data to an existing partitioned table using impdp, then despite mentioning parallel option, partitions were getting loaded one by one, Which slowdown the import process.</p>
+<p>&nbsp;</p>
+<blockquote><p><strong>As per Oracle document:</strong></p>
+<p><strong>TRUST_EXISTING_TABLE_PARTITIONS — tells Data Pump to load partition data in parallel into existing tables. You should use this option when you are using Data Pump to create the table from the definition in the export database before the table data import is started. This is done as part of a migration when the metadata is static and can be moved before the databases are taken off line in order to migrate the data. Moving the metadata separately minimizes downtime. If you use this option and if other attributes of the database are the same (for example, character set), then the data from the export database goes to the same partitions in the import database.</strong></p></blockquote>
+<p>&nbsp;</p>
+<p>With this new option, partitions will be loaded parallelly, when importing to existing partitions.</p>
+<p>Lets test both the scenarios (with and without TRUST_EXISTING_TABLE_PARTITIONS option)</p>
+<p><strong>1. Without TRUST_EXISTING_TABLE_PARTITIONS option:(DEFAULT OPTION)</strong></p>
+<p>Here we are appending data to an existing partitioned table:</p>
+<pre>cat impdp_without.par
+
+impdp dumpfile=test1_%U.dmp
+logfile=imp_test1.log
+directory=EXPDP
+table_exists_action=APPEND
+parallel=8
+
+impdp parfile=impdp_without.par
+
+Master table "SYS"."SYS_IMPORT_FULL_01" successfully loaded/unloaded
+import done in AL32UTF8 character set and AL16UTF16 NCHAR character set
+export done in AR8ISO8859P6 character set and UTF8 NCHAR character set
+Warning: possible data loss in character set conversions
+Starting "SYS"."SYS_IMPORT_FULL_01": /******** AS SYSDBA parfile=impdp_without.par
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Table "DBATEST"."CLASS_CON_ATTRIBUTES" exists. Data will be appended to existing table but all dependent metadata will be skipped due to table_exists_action of append
+^C
+</pre>
+<p>While the job is running, press <strong>control + c</strong>, and check the job status:</p>
+<pre class="">Import&gt; status
+
+Job: SYS_IMPORT_FULL_01
+  Operation: IMPORT
+  Mode: FULL
+  State: EXECUTING
+  Bytes Processed: 0
+  Current Parallelism: 8
+  Job Error Count: 0
+  Job heartbeat: 1
+  Dump File: /export/home/oracle/test1_%u.dmp
+  Dump File: /export/home/oracle/test1_01.dmp
+  Dump File: /export/home/oracle/test1_02.dmp
+  Dump File: /export/home/oracle/test1_03.dmp
+  Dump File: /export/home/oracle/test1_04.dmp
+  Dump File: /export/home/oracle/test1_05.dmp
+  Dump File: /export/home/oracle/test1_06.dmp
+  Dump File: /export/home/oracle/test1_07.dmp
+  Dump File: /export/home/oracle/test1_08.dmp
+
+Worker 1 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Monday, 02 October, 2017 12:23:45
+  Object status at: Monday, 02 October, 2017 12:23:45
+  Process Name: DW00
+  State: EXECUTING -----------------------------&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  ACTIVE WORKER PROCESS
+  Object Schema: WMBREL
+  Object Name: STC_BREL_ATTRIBUTES
+  Object Type: TABLE_EXPORT/TABLE/TABLE_DATA
+  Partition: SYS_P3348
+  Completed Objects: 1
+  Completed Bytes: 111,758,872
+  Worker Parallelism: 1
+
+Worker 2 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Wednesday, 00 Sat, 0000 0:00:00
+  Object status at: Monday, 02 October, 2017 12:23:
+  Process Name: DW01
+  State: WORK WAITING --- &gt; &gt; waiting 
+
+Worker 3 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Wednesday, 00 Sat, 0000 0:00:00
+  Object status at: Monday, 02 October, 2017 12:23:
+  Process Name: DW02
+  State: WORK WAITING ---- &gt;&gt;&gt; waiting 
+
+Worker 4 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Wednesday, 00 Sat, 0000 0:00:00
+  Object status at: Monday, 02 October, 2017 12:23:
+  Process Name: DW03
+  State: WORK WAITING  ---&gt;&gt; waiting 
+
+Worker 5 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Wednesday, 00 Sat, 0000 0:00:00
+  Object status at: Monday, 02 October, 2017 12:23:
+  Process Name: DW04
+  State: WORK WAITING --- waiting 
+
+Worker 6 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Wednesday, 00 Sat, 0000 0:00:00
+  Object status at: Monday, 02 October, 2017 12:23:
+  Process Name: DW05
+  State: WORK WAITING -- waiting 
+
+Worker 7 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Wednesday, 00 Sat, 0000 0:00:00
+  Object status at: Monday, 02 October, 2017 12:23:
+  Process Name: DW06
+  State: WORK WAITING -- waiting 
+
+Worker 8 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Wednesday, 00 Sat, 0000 0:00:00
+  Object status at: Monday, 02 October, 2017 12:23:
+  Process Name: DW07
+  State: WORK WAITING
+
+  
+
+</pre>
+<p>What we see is, only one worker process is in EXECUTING state and rest are in WORK WAITING. i.e it is not using PARALLEL for import data.</p>
+<p>This import took <strong>around 1 min 20 seconds</strong> to complete.</p>
+<p><strong>With TRUST_EXISTING_TABLE_PARTITIONS </strong></p>
+<pre>cat impdp_with.par
+
+impdp dumpfile=test1_%U.dmp 
+logfile=imp_test1.log 
+directory=EXPDP 
+table_exists_action=APPEND 
+data_options=TRUST_EXISTING_TABLE_PARTITIONS   
+parallel=8
+
+
+impdp parfile=impdp_without.par
+
+Master table "SYS"."SYS_IMPORT_FULL_01" successfully loaded/unloaded
+import done in AL32UTF8 character set and AL16UTF16 NCHAR character set
+export done in AR8ISO8859P6 character set and UTF8 NCHAR character set
+Warning: possible data loss in character set conversions
+Starting "SYS"."SYS_IMPORT_FULL_01":  /******** AS SYSDBA parfile=impdp_with.par
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Table "DBATEST"."CLASS_CON_ATTRIBUTES" exists. Data will be appended to existing table but all dependent metadata will be skipped due to table_exists_action of append
+^C
+
+</pre>
+<p>Check the import job status</p>
+<pre>Import&gt; status
+
+Job: SYS_IMPORT_FULL_01
+  Operation: IMPORT
+  Mode: FULL
+  State: EXECUTING
+  Bytes Processed: 0
+  Current Parallelism: 8
+  Job Error Count: 0
+  Job heartbeat: 1
+  Dump File: /export/home/oracle/test1_%u.dmp
+  Dump File: /export/home/oracle/test1_01.dmp
+  Dump File: /export/home/oracle/test1_02.dmp
+  Dump File: /export/home/oracle/test1_03.dmp
+  Dump File: /export/home/oracle/test1_04.dmp
+  Dump File: /export/home/oracle/test1_05.dmp
+  Dump File: /export/home/oracle/test1_06.dmp
+  Dump File: /export/home/oracle/test1_07.dmp
+  Dump File: /export/home/oracle/test1_08.dmp
+
+Worker 1 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Monday, 02 October, 2017 12:21:40
+  Object status at: Monday, 02 October, 2017 12:21:40
+  Process Name: DW00
+  State: EXECUTING
+  Object Schema: WMBREL
+  Object Name: STC_BREL_ATTRIBUTES
+  Object Type: TABLE_EXPORT/TABLE/TABLE_DATA
+  Partition: SYS_P3348
+  Completed Objects: 1
+  Completed Bytes: 111,758,872
+  Worker Parallelism: 1
+
+Worker 2 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Monday, 02 October, 2017 12:21:41
+  Object status at: Monday, 02 October, 2017 12:21:41
+  Process Name: DW01
+  State: EXECUTING
+  Object Schema: WMBREL
+  Object Name: STC_BREL_ATTRIBUTES
+  Object Type: TABLE_EXPORT/TABLE/TABLE_DATA
+  Partition: SYS_P3564
+  Completed Objects: 1
+  Completed Bytes: 10,162,624
+  Worker Parallelism: 1
+
+Worker 3 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Monday, 02 October, 2017 12:21:41
+  Object status at: Monday, 02 October, 2017 12:21:41
+  Process Name: DW02
+  State: EXECUTING
+  Object Schema: WMBREL
+  Object Name: STC_BREL_ATTRIBUTES
+  Object Type: TABLE_EXPORT/TABLE/TABLE_DATA
+  Partition: SYS_P3509
+  Completed Objects: 1
+  Completed Bytes: 16,423,720
+  Worker Parallelism: 1
+
+Worker 4 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Wednesday, 00 Sat, 0000 0:00:00
+  Object status at: Monday, 02 October, 2017 12:21:
+  Process Name: DW03
+  State: WORK WAITING
+
+Worker 5 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Monday, 02 October, 2017 12:21:41
+  Object status at: Monday, 02 October, 2017 12:21:41
+  Process Name: DW04
+  State: EXECUTING
+  Object Schema: WMBREL
+  Object Name: STC_BREL_ATTRIBUTES
+  Object Type: TABLE_EXPORT/TABLE/TABLE_DATA
+  Partition: SYS_P3348
+  Completed Objects: 1
+  Completed Bytes: 12,713,912
+  Worker Parallelism: 1
+
+Worker 6 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Monday, 02 October, 2017 12:21:41
+  Object status at: Monday, 02 October, 2017 12:21:41
+  Process Name: DW05
+  State: EXECUTING --- &gt;&gt;&gt; 
+  Object Schema: WMBREL
+  Object Name: STC_BREL_ATTRIBUTES
+  Object Type: TABLE_EXPORT/TABLE/TABLE_DATA
+  Partition: SYS_P3348
+  Completed Objects: 1
+  Completed Bytes: 9,416
+  Worker Parallelism: 1
+
+Worker 7 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Monday, 02 October, 2017 12:21:42
+  Object status at: Monday, 02 October, 2017 12:21:42
+  Process Name: DW06
+  State: EXECUTING ------ &gt;&gt;&gt; 
+  Object Schema: WMBREL
+  Object Name: STC_BREL_ATTRIBUTES
+  Object Type: TABLE_EXPORT/TABLE/TABLE_DATA
+  Partition: SYS_P3348
+  Completed Objects: 1
+  Completed Bytes: 13,768
+  Worker Parallelism: 1
+
+Worker 8 Status:
+  Instance ID: 1
+  Instance name: POCDB
+  Host name: sec60-1
+  Object start time: Monday, 02 October, 2017 12:21:41
+  Object status at: Monday, 02 October, 2017 12:21:41
+  Process Name: DW07
+  State: EXECUTING ----------------&gt;&gt;&gt;&gt; 
+  Object Schema: WMBREL
+  Object Name: STC_BREL_ATTRIBUTES
+  Object Type: TABLE_EXPORT/TABLE/TABLE_DATA
+  Partition: SYS_P3363
+  Completed Objects: 1
+  Completed Bytes: 8,424
+  Worker Parallelism: 1
+  
+</pre>
+<p>Now if we see, all the 8 worker process are in EXECUTING STATE.i.e partitions are getting loaded in PARALLEL.</p>
+<p>And import took <strong>only 19 seconds</strong>. <img src="https://s.w.org/images/core/emoji/15.0.3/72x72/1f642.png" alt="🙂" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>This option really saves a lot of time, if the requirement is to APPEND data to an existing partition table.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/trust_existing_table_partitions-oracle-12-2-datapump/">TRUST_EXISTING_TABLE_PARTITIONS in oracle 12.2 datapump</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/trust_existing_table_partitions-oracle-12-2-datapump/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

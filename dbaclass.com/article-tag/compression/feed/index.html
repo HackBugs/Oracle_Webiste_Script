@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>compression Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/compression/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/compression/</link>
+	<description>database administration</description>
+	<lastBuildDate>Mon, 19 Nov 2018 11:44:48 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>COMPRESSION in datapump oracle</title>
+		<link>https://dbaclass.com/article/compression-datapump-oracle/</link>
+					<comments>https://dbaclass.com/article/compression-datapump-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 11:42:17 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3957</guid>
+
+					<description><![CDATA[<p>COMPRESSION parameter is used with EXPDP, to compress the generated dump file. NOTE &#8211; For using compression parameter with datapump, we need to have Oracle advance compression license. &#160; COMPRESSION Reduce the size of a dump file. Valid keyword values are: ALL, DATA_ONLY, [METADATA_ONLY] and NONE. In this below demo, we will compare the dump [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/compression-datapump-oracle/">COMPRESSION in datapump oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><em><strong>COMPRESSION</strong> </em>parameter is used with EXPDP, to compress the generated dump file.</p>
+<p>NOTE &#8211; For using compression parameter with datapump, we need to have Oracle advance compression license.</p>
+<p>&nbsp;</p>
+<blockquote><p><strong>COMPRESSION</strong><br />
+<strong>Reduce the size of a dump file.</strong><br />
+<strong>Valid keyword values are: ALL, DATA_ONLY, [METADATA_ONLY] and NONE.</strong></p></blockquote>
+<p>In this below demo, we will compare the dump size with or without compression parameter.</p>
+<p>&nbsp;</p>
+<p><span style="text-decoration: underline;"><strong>Get the DUMPSIZE without COMPRESSION parameter :</strong></span></p>
+<pre class="">cat exp_compress.par
+
+dumpfile=dbaclass_wo_compression.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+
+</pre>
+<pre> expdp parfile=exp_compress.par
+
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:56:14 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=exp_compress.par
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 29 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."OBJECT_LIST"                    24.69 MB  219456 rows ---- &gt;&gt;&gt; 25 MB AROUND
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/dbaclass__compression.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:56:19 2018 elapsed 0 00:00:03
+
+</pre>
+<p>So, without compression, the size is around 25 MB. Let&#8217;s do the export with compression.</p>
+<p><span style="text-decoration: underline;"><strong>EXPORT WITH COMPRESSION=ALL</strong></span></p>
+<pre class=""> cat exp_compress.par
+
+dumpfile=dbaclass_compression.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+compression=ALL
+</pre>
+<pre> expdp parfile=exp_compress.par
+
+Export: Release 12.1.0.2.0 - Production on Mon Nov 19 12:56:48 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA parfile=exp_compress.par
+Estimate in progress using BLOCKS method...
+ Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 29 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "DBACLASS"."OBJECT_LIST"                    2.922 MB  219456 rows --- &gt;&gt; 
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/dbaclass_compression.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Mon Nov 19 12:56:56 2018 elapsed 0 00:00:05
+
+</pre>
+<p>We can see, from 25 MB ,it came down to 2 MB :). It really saves a lot of disk space.</p>
+<p>However, there is a tradeoff. Use of compression will increase the time required for the export job.</p>
+<p>&nbsp;</p>
+<table class=" aligncenter" style="width: 833.25px; border-color: #000000;">
+<tbody>
+<tr style="height: 24px;">
+<td style="width: 160px; height: 24px; border-color: #000000;"></td>
+<td style="width: 160px; height: 24px; border-color: #000000;">W/O COMPRESSION</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">WITH COMPRESSION</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 160px; height: 24px; border-color: #000000;">SPACE REQUIRED</td>
+<td style="width: 160px; height: 24px; border-color: #000000;">25mb</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">3 mb</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 160px; height: 24px; border-color: #000000;">TIME TAKEN</td>
+<td style="width: 160px; height: 24px; border-color: #000000;">3 second</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">5 second</td>
+</tr>
+<tr style="height: 24px;">
+<td style="width: 160px; height: 24px; border-color: #000000;">CPU USAGE</td>
+<td style="width: 160px; height: 24px; border-color: #000000;">NORMAL</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">bit more than w/o compression</td>
+</tr>
+<tr style="height: 24.375px;">
+<td style="width: 160px; height: 24px; border-color: #000000;">LICENSE?</td>
+<td style="width: 160px; height: 24px; border-color: #000000;">No additional license</td>
+<td style="width: 315.25px; height: 24px; border-color: #000000;">Advance compression license required</td>
+</tr>
+</tbody>
+</table>
+<p><em><strong> </strong></em></p>
+<p><strong>COMPRESSION_ALGORITHM:</strong></p>
+<p>We can control the compression ratio using <em><strong>COMPRESSION_ALGORITHM</strong> </em>parameter. HIGH compression ratio will use more CPU and also increase export job time.</p>
+<p>&nbsp;</p>
+<blockquote><p><strong>COMPRESSION_ALGORITHM</strong><br />
+<strong>Specify the compression algorithm that should be used.</strong><br />
+<strong>Valid keyword values are: [BASIC], LOW, MEDIUM and HIGH.</strong></p></blockquote>
+<p>&nbsp;</p>
+<p><strong>PARFILE WILL LOOK AS BELOW:</strong></p>
+<pre class=""> cat exp_compress.par
+
+dumpfile=dbaclass_compression.dmp
+logfile=dbaclass.log
+directory=EXPDIR
+tables=DBACLASS.OBJECT_LIST
+compression=ALL
+COMPRESSION_ALGORITHM=HIGH</pre>
+<p>The post <a href="https://dbaclass.com/article/compression-datapump-oracle/">COMPRESSION in datapump oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/compression-datapump-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to take expdp of a table to multiple directories in oracle</title>
+		<link>https://dbaclass.com/article/how-to-take-expdp-of-a-table-to-multiple-directories-in-oracle/</link>
+					<comments>https://dbaclass.com/article/how-to-take-expdp-of-a-table-to-multiple-directories-in-oracle/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 27 Aug 2015 18:06:22 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=367</guid>
+
+					<description><![CDATA[<p>Suppose you wish to take a expdp backup of a big table, but you don&#8217;t sufficient space in a single mount point to keep the dump. In this case we take expdp dump to multiple directory. DEMO: Create 2 directories: SQL&#62; create directory DIR1 as '/home/oracle/DIR1'; Directory created. SQL&#62; create directory DIR2 as '/home/oracle/DIR2'; Directory [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-take-expdp-of-a-table-to-multiple-directories-in-oracle/">How to take expdp of a table to multiple directories in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">Suppose you wish to take a expdp backup of a big table, but you don&#8217;t sufficient space in a single mount point to keep the dump. In this case we take expdp dump to multiple directory.</span></p>
+<h4><span style="color: #000000;">DEMO:</span></h4>
+<p><span style="color: #000000;"><strong>Create 2 directories:</strong></span></p>
+<pre>SQL&gt; create directory DIR1 as '/home/oracle/DIR1';
+
+Directory created.
+
+SQL&gt; create directory DIR2 as '/home/oracle/DIR2';
+
+Directory created.
+
+SQL&gt; grant all on directory DIR1 to public;
+
+Grant succeeded.
+
+SQL&gt; grant all on directory DIR2 to public;
+
+Grant succeeded.
+
+</pre>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><strong>Now take export with parallel option:</strong></span></p>
+<p>&nbsp;</p>
+<pre>[oracle@localhost ~]$ expdp dumpfile=DIR1:test_%U.dmp,DIR2:test_%U.dmp logfile=test.log directory=DIR1 parallel=2 tables=raj.test
+
+Export: Release 12.1.0.2.0 - Production on Thu Aug 27 10:56:31 2015
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: raj/raj@orcl
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "RAJ"."SYS_EXPORT_TABLE_01":  raj/********@orcl dumpfile=DIR1:test_%U.dmp,DIR2:test_%U.dmp logfile=test.log directory=DIR1 parallel=2 tables=raj.test 
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 13 MB
+. . exported "RAJ"."TEST"                                10.66 MB   93915 rows
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+
+Master table "RAJ"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for RAJ.SYS_EXPORT_TABLE_01 is:
+  /home/oracle/DIR1/test_01.dmp
+  /home/oracle/DIR2/test_01.dmp
+
+Job "RAJ"."SYS_EXPORT_TABLE_01" successfully completed at Thu Aug 27 10:57:09 2015 elapsed 0 00:00:31
+
+</pre>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">Now you can see the dump file has been created in multiple directories.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><em><strong>Dump file set for RAJ.SYS_EXPORT_TABLE_01 is:</strong></em></span><br />
+<span style="color: #000000;"> <em><strong> /home/oracle/DIR1/test_01.dmp</strong></em></span><br />
+<span style="color: #000000;"> <em><strong> /home/oracle/DIR2/test_01.dmp</strong></em></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">If you wish to compress the size , then you can use <strong>compression=all</strong> in the expdp command.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;"><strong>For import also you can use the similar method.</strong></span></p>
+<p>&nbsp;</p>
+<pre class="">[oracle@localhost ~]$ impdp dumpfile=DIR1:test_%U.dmp,DIR2:test_%U.dmp logfile=test1.log directory=DIR1 parallel=2 tables=raj.test table_exists_action=REPLACE
+
+Import: Release 12.1.0.2.0 - Production on Thu Aug 27 11:28:22 2015
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: raj/raj@orcl
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Master table "RAJ"."SYS_IMPORT_TABLE_01" successfully loaded/unloaded
+Starting "RAJ"."SYS_IMPORT_TABLE_01":  raj/********@orcl dumpfile=DIR1:test_%U.dmp,DIR2:test_%U.dmp logfile=test1.log directory=DIR1 parallel=2 tables=raj.test table_exists_action=REPLACE 
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+. . imported "RAJ"."TEST"                                10.66 MB   93915 rows
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+Job "RAJ"."SYS_IMPORT_TABLE_01" successfully completed at Thu Aug 27 11:29:05 2015 elapsed 0 00:00:35
+
+</pre>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">FYI- To use compression parameter in expdp , we need additional <strong>Advanced compression license</strong>,( Which is not included in enterprise edition)</span></p>
+<p>The post <a href="https://dbaclass.com/article/how-to-take-expdp-of-a-table-to-multiple-directories-in-oracle/">How to take expdp of a table to multiple directories in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-take-expdp-of-a-table-to-multiple-directories-in-oracle/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

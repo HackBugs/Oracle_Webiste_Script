@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>db_link Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/db_link/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/db_link/</link>
+	<description>database administration</description>
+	<lastBuildDate>Sat, 23 Apr 2022 06:12:24 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to access oracle database from postgres</title>
+		<link>https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/</link>
+					<comments>https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sat, 23 Apr 2022 06:04:32 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=7517</guid>
+
+					<description><![CDATA[<p>This article explain From postgres, how can we  fetch oracle db data. For this we need to use foreign data wrapper and foreign table concepts. DEMO: 1.Create oracle client on postgres server: &#160; &#160; 2. Install oracle_fdw extension on postgres server: Download the package from github &#8211; https://github.com/laurenz/oracle_fdw &#160; [root]# export ORACLE_HOME=/var/lib/edb/app/enterprisedb/product/19.0.0/client_1 [root]# export PATH=/usr/edb/as12/bin:$PATH [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/">How to access oracle database from postgres</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>This article explain From postgres, how can we  fetch oracle db data. For this we need to use foreign data wrapper and foreign table concepts.</p>
+<h3><strong>DEMO:</strong></h3>
+<p><strong>1.Create oracle client on postgres server:</strong></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/screenshot-2022-04-18-at-6-59-02-pm/" rel="attachment wp-att-7518"><img fetchpriority="high" decoding="async" class="aligncenter size-full wp-image-7518" src="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.02-PM.png" alt="" width="819" height="636" srcset="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.02-PM.png 819w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.02-PM-300x233.png 300w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.02-PM-768x596.png 768w" sizes="(max-width: 819px) 100vw, 819px" /></a></p>
+<p><a href="https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/screenshot-2022-04-18-at-6-59-22-pm/" rel="attachment wp-att-7519"><img decoding="async" class="aligncenter size-full wp-image-7519" src="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.22-PM.png" alt="" width="815" height="631" srcset="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.22-PM.png 815w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.22-PM-300x232.png 300w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.22-PM-768x595.png 768w" sizes="(max-width: 815px) 100vw, 815px" /></a></p>
+<p><a href="https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/screenshot-2022-04-18-at-6-59-30-pm/" rel="attachment wp-att-7520"><img decoding="async" class="aligncenter size-full wp-image-7520" src="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.30-PM.png" alt="" width="818" height="642" srcset="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.30-PM.png 818w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.30-PM-300x235.png 300w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-6.59.30-PM-768x603.png 768w" sizes="(max-width: 818px) 100vw, 818px" /></a></p>
+<p><a href="https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/screenshot-2022-04-18-at-7-10-09-pm/" rel="attachment wp-att-7521"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-7521" src="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-7.10.09-PM.png" alt="" width="1002" height="639" srcset="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-7.10.09-PM.png 1002w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-7.10.09-PM-300x191.png 300w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-7.10.09-PM-768x490.png 768w" sizes="(max-width: 1002px) 100vw, 1002px" /></a></p>
+<p><a href="https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/screenshot-2022-04-18-at-7-10-25-pm/" rel="attachment wp-att-7522"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-7522" src="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-7.10.25-PM.png" alt="" width="817" height="638" srcset="https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-7.10.25-PM.png 817w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-7.10.25-PM-300x234.png 300w, https://dbaclass.com/wp-content/uploads/2022/04/Screenshot-2022-04-18-at-7.10.25-PM-768x600.png 768w" sizes="(max-width: 817px) 100vw, 817px" /></a></p>
+<p>&nbsp;</p>
+<h4><strong>2. Install oracle_fdw extension on postgres server:</strong></h4>
+<p>Download the package from github &#8211;<a href="https://github.com/laurenz/oracle_fdw" target="_blank" rel="noopener noreferrer"> https://github.com/laurenz/oracle_fdw</a></p>
+<p>&nbsp;</p>
+<pre>[root]# export ORACLE_HOME=/var/lib/edb/app/enterprisedb/product/19.0.0/client_1
+[root]# export PATH=/usr/edb/as12/bin:$PATH
+[root]#
+[root]# cd /pgdata
+[root]# cd oracle_fdw-master/
+[root]# make
+gcc -std=gnu99 -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -I/usr/libexec/edb-as12-icu53.1/include/ -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -I/usr/include/et -fPIC -I"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/sdk/include" -I"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/oci/include" -I"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/rdbms/public" -I"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/" -I/usr/include/oracle/21/client64 -I/usr/include/oracle/19.14/client64 -I/usr/include/oracle/19.12/client64 -I/usr/include/oracle/19.12/client -I/usr/include/oracle/19.11/client64 -I/usr/include/oracle/19.11/client -I/usr/include/oracle/19.10/client64 -I/usr/include/oracle/19.10/client -I/usr/include/oracle/19.9/client -I/usr/include/oracle/19.9/client64 -I/usr/include/oracle/19.8/client -I/usr/include/oracle/19.8/client64 -I/usr/include/oracle/19.6/client -I/usr/include/oracle/19.6/client64 -I/usr/include/oracle/19.3/client -I/usr/include/oracle/19.3/client64 -I/usr/include/oracle/18.5/client -I/usr/include/oracle/18.5/client64 -I/usr/include/oracle/18.3/client -I/usr/include/oracle/18.3/client64 -I/usr/include/oracle/12.2/client -I/usr/include/oracle/12.2/client64 -I/usr/include/oracle/12.1/client -I/usr/include/oracle/12.1/client64 -I/usr/include/oracle/11.2/client -I/usr/include/oracle/11.2/client64 -I. -I./ -I/usr/edb/as12/include/server -I/usr/edb/as12/include/internal -I/usr/libexec/edb-as12-icu53.1/include/ -I/usr/include/et -D_GNU_SOURCE -I/usr/include/libxml2  -I/usr/include  -c -o oracle_utils.o oracle_utils.c
+gcc -std=gnu99 -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -I/usr/libexec/edb-as12-icu53.1/include/ -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -I/usr/include/et -fPIC -I"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/sdk/include" -I"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/oci/include" -I"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/rdbms/public" -I"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/" -I/usr/include/oracle/21/client64 -I/usr/include/oracle/19.14/client64 -I/usr/include/oracle/19.12/client64 -I/usr/include/oracle/19.12/client -I/usr/include/oracle/19.11/client64 -I/usr/include/oracle/19.11/client -I/usr/include/oracle/19.10/client64 -I/usr/include/oracle/19.10/client -I/usr/include/oracle/19.9/client -I/usr/include/oracle/19.9/client64 -I/usr/include/oracle/19.8/client -I/usr/include/oracle/19.8/client64 -I/usr/include/oracle/19.6/client -I/usr/include/oracle/19.6/client64 -I/usr/include/oracle/19.3/client -I/usr/include/oracle/19.3/client64 -I/usr/include/oracle/18.5/client -I/usr/include/oracle/18.5/client64 -I/usr/include/oracle/18.3/client -I/usr/include/oracle/18.3/client64 -I/usr/include/oracle/12.2/client -I/usr/include/oracle/12.2/client64 -I/usr/include/oracle/12.1/client -I/usr/include/oracle/12.1/client64 -I/usr/include/oracle/11.2/client -I/usr/include/oracle/11.2/client64 -I. -I./ -I/usr/edb/as12/include/server -I/usr/edb/as12/include/internal -I/usr/libexec/edb-as12-icu53.1/include/ -I/usr/include/et -D_GNU_SOURCE -I/usr/include/libxml2  -I/usr/include  -c -o oracle_gis.o oracle_gis.c
+gcc -std=gnu99 -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -I/usr/libexec/edb-as12-icu53.1/include/ -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic -I/usr/include/et -fPIC -shared -o oracle_fdw.so oracle_fdw.o oracle_utils.o oracle_gis.o -L/usr/edb/as12/lib  -L/usr/libexec/edb-as12-icu53.1/lib/  -L/usr/lib64/llvm5.0/lib  -L/usr/lib64 -Wl,--as-needed -Wl,-rpath,'/usr/edb/as12/lib',--enable-new-dtags  -L"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/" -L"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/bin" -L"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/lib" -L"/var/lib/edb/app/enterprisedb/product/19.0.0/client_2/lib/amd64" -lclntsh -L/usr/lib/oracle/21/client64/lib -L/usr/lib/oracle/19.14/client64/lib -L/usr/lib/oracle/19.12/client64/lib -L/usr/lib/oracle/19.12/client/lib -L/usr/lib/oracle/19.11/client64/lib -L/usr/lib/oracle/19.11/client/lib -L/usr/lib/oracle/19.10/client64/lib -L/usr/lib/oracle/19.10/client/lib -L/usr/lib/oracle/19.9/client/lib -L/usr/lib/oracle/19.9/client64/lib -L/usr/lib/oracle/19.8/client/lib -L/usr/lib/oracle/19.8/client64/lib -L/usr/lib/oracle/19.6/client/lib -L/usr/lib/oracle/19.6/client64/lib -L/usr/lib/oracle/19.3/client/lib -L/usr/lib/oracle/19.3/client64/lib -L/usr/lib/oracle/18.5/client/lib -L/usr/lib/oracle/18.5/client64/lib -L/usr/lib/oracle/18.3/client/lib -L/usr/lib/oracle/18.3/client64/lib -L/usr/lib/oracle/12.2/client/lib -L/usr/lib/oracle/12.2/client64/lib -L/usr/lib/oracle/12.1/client/lib -L/usr/lib/oracle/12.1/client64/lib -L/usr/lib/oracle/11.2/client/lib -L/usr/lib/oracle/11.2/client64/lib
+
+[root]# make install
+/bin/mkdir -p '/usr/edb/as12/lib'
+/bin/mkdir -p '/usr/edb/as12/share/extension'
+/bin/mkdir -p '/usr/edb/as12/share/extension'
+/bin/mkdir -p '/usr/share/doc/extension'
+/bin/install -c -m 755  oracle_fdw.so '/usr/edb/as12/lib/oracle_fdw.so'
+/bin/install -c -m 644 .//oracle_fdw.control '/usr/edb/as12/share/extension/'
+/bin/install -c -m 644 .//oracle_fdw--1.2.sql .//oracle_fdw--1.0--1.1.sql .//oracle_fdw--1.1--1.2.sql  '/usr/edb/as12/share/extension/'
+/bin/install -c -m 644 .//README.oracle_fdw '/usr/share/doc/extension/'
+
+
+</pre>
+<h4><strong>3. Get postgres system service file.</strong></h4>
+<pre><code class="language-">
+[rootdata]# systemctl status edb-as-12.service
+● edb-as-12.service - EDB Postgres Advanced Server 12
+Loaded: loaded (<span style="color: #993300; font-size: 20px;"><strong>/usr/lib/systemd/system/edb-as-12.service</strong></span>; disabled; vendor preset: disabled)
+Active: active (running) since Mon 2022-04-18 18:23:33 +03; 17s ago
+Main PID: 13437 (edb-postmaster)
+Tasks: 12
+CGroup: /system.slice/edb-as-12.service
+├─13437 /usr/edb/as12/bin/edb-postmaster -D /var/lib/edb/as12/data
+├─13440 postgres: logger
+├─13442 postgres: checkpointer
+├─13443 postgres: background writer
+├─13444 postgres: walwriter
+├─13445 postgres: autovacuum launcher
+├─13446 postgres: stats collector
+├─13447 postgres: dbms_aq launcher
+├─13448 postgres: logical replication launcher
+
+.
+.
+.
+.............
+--- as it is under /usr/lib/ location. better to copy the file to /etc/ and update the file there itself.
+
+<strong><span style="color: #993300; font-size: 16px;">cp /usr/lib/systemd/system/edb-as-12.service /etc/systemd/system/edb-as-12.service</span></strong></code></pre>
+<blockquote><p>&nbsp;</p>
+<p><span style="color: #008000;"><em><strong>NOTE</strong> &#8211; &gt; If you using pg_ctl command manually to stop and start postgres cluster(instead of service), then you just need to define the variables inside bash_profile. and restart using pg_ctl .</em></span></p></blockquote>
+<h4>4.Update the service file with environment variables:</h4>
+<pre><code class="language-">
+-bash-4.2$ cat /etc/systemd/system/edb-as-12.service
+# It's not recommended to modify this file in-place, because it will be
+# overwritten during package upgrades.  If you want to customize, the
+# best way is to create a file "/etc/systemd/system/edb-as-12.service",
+# containing
+#       .include /lib/systemd/system/edb-as-12.service
+#       ...make your changes here...
+# For more info about custom unit files, see
+# http://fedoraproject.org/wiki/Systemd#How_do_I_customize_a_unit_file.2F_add_a_custom_unit_file.3F
+
+# Note: changing PGDATA will typically require adjusting SELinux
+# configuration as well.
+
+[Unit]
+Description=EDB Postgres Advanced Server 12
+After=syslog.target network.target
+
+<strong>[Service]     
+</strong>Type=notify
+<span style="color: #993300;"><strong>Environment=ORACLE_HOME=/var/lib/edb/app/enterprisedb/product/19.0.0/client_1
+Environment=TNS_ADMIN=/var/lib/edb/app/enterprisedb/product/19.0.0/client_1/bin
+Environment=LD_LIBRARY_PATH=/var/lib/edb/app/enterprisedb/product/19.0.0/client_1/lib</strong></span>
+User=enterprisedb
+Group=enterprisedb
+# Location of database directory
+Environment=PGDATA=/var/lib/edb/as12/data
+PIDFile=/var/lib/edb/as12/data/postmaster.pid
+
+# Where to send early-startup messages from the server (before the logging
+# options of postgresql.conf take effect)
+# This is normally controlled by the global default set by systemd
+# StandardOutput=syslog
+
+# Disable OOM kill on the postmaster
+OOMScoreAdjust=-1000
+
+ExecStartPre=/usr/edb/as12/bin/edb-as-12-check-db-dir ${PGDATA}
+ExecStart=/usr/edb/as12/bin/edb-postmaster -D ${PGDATA}
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+
+# Give a reasonable amount of time for the server to start up/shut down
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
+
+</code></pre>
+<h4><strong>5.Reload the daemon and restart the postgres cluster:</strong></h4>
+<pre><code class="language-">[root~]# systemctl daemon-reload
+[root ~]# systemctl stop edb-as-12.service
+[root ~]# systemctl start edb-as-12.service
+
+</code></pre>
+<h4><strong>6.Create the extension oracle_fdw;</strong></h4>
+<pre><code class="language-">postgres=# create extension oracle_fdw;
+CREATE EXTENSION
+postgres=#
+
+
+postgres=# \dx oracle*
+                      List of installed extensions
+    Name    | Version | Schema |              Description
+------------+---------+--------+----------------------------------------
+ oracle_fdw | 1.2     | public | foreign data wrapper for Oracle access
+(1 row)
+
+
+postgres=# \dew
+                        List of foreign-data wrappers
+     Name     |    Owner     |      Handler       |        Validator
+--------------+--------------+--------------------+--------------------------
+ dblink_fdw   | enterprisedb | -                  | dblink_fdw_validator
+ libpq_dblink | enterprisedb | libpq_fdw_handler  | edb_dblink_fdw_validator
+ oci_dblink   | enterprisedb | oci_fdw_handler    | edb_dblink_fdw_validator
+ oracle_fdw   | enterprisedb | oracle_fdw_handler | oracle_fdw_validator
+(4 rows)
+
+
+</code></pre>
+<h4><strong>7.Create foreign server:</strong></h4>
+<pre><code class="language-">
+postgres=# create server ora_gamedb foreign data wrapper oracle_fdw options (dbserver '10.21.45.64:1524/AMIIFDEV');
+CREATE SERVER
+postgres=# \des+
+                                                                   List of foreign servers
+    Name    |    Owner     | Foreign-data wrapper | Access privileges | Type | Version |                      FDW options                       |
+ Description
+------------+--------------+----------------------+-------------------+------+---------+--------------------------------------------------------+
+-------------
+ ora_gamedb | enterprisedb | oracle_fdw           |                   |      |         | (dbserver '10.21.45.64:1524/AMIIFDEV')                 |
+
+ 
+(2 rows)
+</code></pre>
+<h4><strong>8.Create user mapping:</strong></h4>
+<p>&#8212;  provide oracle database username and password</p>
+<pre><code class="language-">postgres=#  create user mapping for enterprisedb server ora_gamedb options (USER 'dba_raj' , password 'dba_raj');
+CREATE USER MAPPING
+
+
+postgres=# \deu+
+                       List of user mappings
+   Server   |  User name   |              FDW options
+------------+--------------+----------------------------------------
+ ora_gamedb | enterprisedb | ("user" 'dba_raj', password 'dba_raj')
+</code></pre>
+<h4><strong>9.Now create the foreign table to access oracle data:</strong></h4>
+<p>The table (EMP) structure has to be same as that of oracle database</p>
+<pre><code class="language-">
+
+postgres=#  create foreign table EMP (EMP_NAME VARCHAR2(20), EMP_ID numeric) server ora_gamedb  options  ( schema 'DBA_RAJ' , table 'EMP');
+CREATE FOREIGN TABLE
+
+postgres=# select count(*) from EMP;
+ count
+-------
+   1
+                      ^
+postgres=# select * from emp;
+ emp_name | emp_id
+----------+--------
+ KALAM    |      1
+(1 row)
+
+</code></pre>
+<h3>COMMON ISSUES DURING SETUP:</h3>
+<p><strong>1. If environmental variables are not set properly, then below error.</strong></p>
+<pre><code class="language-">postgres=# select count(*) from EMP;
+ERROR:  error connecting to Oracle: OCIEnvCreate failed to create environment handle
+DETAIL:
+</code></pre>
+<p>Make sure to set env values as explained in point 4 of this article.</p>
+<p><strong>2. If ld_library_path is not set or incorrect , then below error</strong></p>
+<pre><code class="language-">postgres=# create extension oracle_fdw;
+ERROR:  could not load library "/usr/edb/as12/lib/oracle_fdw.so": libclntsh.so.19.1: cannot open shared object file: No such file or directory
+</code></pre>
+<p>Make sure to set LD_LIBRARY_PATH values as explained in point 4 of this article.</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/">How to access oracle database from postgres</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-access-oracle-database-from-postgres/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to do import using network_link in oracle</title>
+		<link>https://dbaclass.com/article/import-using-network_link-oracle/</link>
+					<comments>https://dbaclass.com/article/import-using-network_link-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 07 Nov 2018 09:55:46 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3896</guid>
+
+					<description><![CDATA[<p>By using network_link parameter, we can directly import the data from source database to target database without generating the dump file. This will need a database link between source and target db . Lets&#8217; see the below example. DEMO: Objective – Export table dbatest.EMP_TAB from SOURCEDB and import in TARGETDB using network link. 1. Add [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/import-using-network_link-oracle/">How to do import using network_link in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>By using network_link parameter, we can directly import the data from source database to target database without generating the dump file. This will need a database link between source and target db . Lets&#8217; see the below example.</p>
+<h3>DEMO:</h3>
+<p><em><strong>Objective</strong> </em>– Export table dbatest.EMP_TAB from SOURCEDB and import in TARGETDB using network link.</p>
+<p><strong>1. Add the tnsentry of SOURCEDB in TARGETDB server. [ ON TARGETDB]</strong></p>
+<pre>SOURCEDB =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.20.204.3)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = SOURCEDB)
+    )
+  )
+
+</pre>
+<p><strong>2. Create the database link pointing to SOURCEDB [ ON TARGETDB]</strong></p>
+<pre>SQL&gt; connect dbatest
+Enter password:
+Connected.
+SQL&gt; create database link SOURCE connect to system identified by oracle using 'SOURCEDB';
+
+Database link created.
+</pre>
+<p><strong>3. Create a directory for the logfile. [ ON TARGETDB]</strong></p>
+<pre>create directory DUNNING as '/export/home/oracle';
+
+</pre>
+<p><strong>4. Run impdp command on TARGETDB</strong></p>
+<p><strong>SYNTAX &#8211; &gt;</strong></p>
+<p><em><strong>impdp directory={DIRECTORY_NAME} logfile=test.log tables={TABE_NAME} network_link={DB_LINK_NAME}</strong></em></p>
+<p>impdp directory=DUNNING logfile=test.log tables=dbatest.EMP_TAB network_link=SOURCE</p>
+<pre>Starting "DBATEST"."SYS_IMPORT_TABLE_01":  dbatest/******** directory=DUNNING logfile=test.log tables=dbatest.EMP_TAB network_link=SOURCE
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 23 MB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+. . imported "DBATEST"."EMP_TAB"                         175340 rows
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+;;; Import&gt; exit
+Job "DBATEST"."SYS_IMPORT_TABLE_01" successfully completed at Mon Jan 23 18:12:05 2017 elapsed 0 00:07:51
+
+ 
+
+</pre>
+<p>We have succefully imported(migrated) the table, without generating the export dump.</p>
+<p>The post <a href="https://dbaclass.com/article/import-using-network_link-oracle/">How to do import using network_link in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/import-using-network_link-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>GLOBAL_NAMES parameter and database link  in oracle</title>
+		<link>https://dbaclass.com/article/global_names-parameter-database-link-oracle/</link>
+					<comments>https://dbaclass.com/article/global_names-parameter-database-link-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 01 Mar 2018 11:50:06 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3639</guid>
+
+					<description><![CDATA[<p>GLOBAL_NAMES specifies whether a database link is required to have the same name as the database to which it connects. GLOBAL_NAMES is either set to FALSE OR TRUE. If the value of GLOBAL_NAMES is false, then any name can be given to DB_LINK. If value is TRUE, then database link name should be same as [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/global_names-parameter-database-link-oracle/">GLOBAL_NAMES parameter and database link  in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>GLOBAL_NAMES specifies whether a database link is required to have the same name as the database to which it connects.<br />
+GLOBAL_NAMES is either set to FALSE OR TRUE.</p>
+<p>If the value of GLOBAL_NAMES is false, then any name can be given to DB_LINK. If value is TRUE, then database link name should be same as that of the database it is pointing.</p>
+<p><strong>Default value is FALSE:</strong></p>
+<pre>SQL&gt; show parameter global_name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+global_names                         boolean     FALSE
+
+</pre>
+<p><strong>Lets create a database link with any name:</strong></p>
+<pre>SQL&gt; create public database link TESTDB  connect to SYSTEM IDENTIFIED BY ORACLE USING 'DBORCL';
+
+Database link created.
+
+SQL&gt;  select sysdate from dual@TESTDB;
+
+SYSDATE
+---------
+01-MAR-18
+
+SQL&gt;drop public database link TESTDB ;
+
+</pre>
+<p>So with GLOBAL_NAME set to FALSE, db_link name is independent of target database name.</p>
+<p><strong>Update the GLOBAL_NAMES value to TRUE:</strong></p>
+<pre>SQL&gt; alter system set global_names=TRUE scope=both;
+
+System altered.
+
+SQL&gt; show parameter global_names
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ---------------------------
+global_names                         boolean     TRUE
+
+</pre>
+<p><strong>Create database link as before(with different name)</strong></p>
+<pre>SQL&gt; create public database link TESTDB  connect to SYSTEM IDENTIFIED BY ORACLE USING 'DBORCL';
+
+Database link created
+
+SQL&gt; select sysdate from dual@TESTDB;
+select sysdate from dual@TESTDB
+                         *
+ERROR at line 1:
+ORA-02085: database link TESTDB connects to DBORCL
+
+</pre>
+<p>We can see, when global_name is TRUE,DB_LINKs with different name as that of database name is not working.</p>
+<p><strong>Lets create a db_link having same name as target db.</strong></p>
+<pre>SQL&gt; create public database link DBORCLconnect to SYSTEM IDENTIFIED BY ORACLE USING 'DBORCL';
+
+Database link created.
+
+SQL&gt;  select sysdate from dual@DBORCL;
+
+SYSDATE
+---------
+01-MAR-18
+</pre>
+<p>Voilla!!! Working fine.</p>
+<p>The post <a href="https://dbaclass.com/article/global_names-parameter-database-link-oracle/">GLOBAL_NAMES parameter and database link  in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/global_names-parameter-database-link-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>create database link from  oracle to sql server</title>
+		<link>https://dbaclass.com/article/create-database-link-from-oracle-to-sql-server/</link>
+					<comments>https://dbaclass.com/article/create-database-link-from-oracle-to-sql-server/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 17 Aug 2015 11:16:43 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=178</guid>
+
+					<description><![CDATA[<p>Creating a database link from oracle to oracle database is easy. But setting up db_link from oracle to mssql server isn&#8217;t straight forward. We need to do odbc setup. Its knows as heterogeneous db_link.  We can achive this either by using third party odbc drivers or using oracle provided gateways utility. Here in this article [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/create-database-link-from-oracle-to-sql-server/">create database link from  oracle to sql server</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="font-family: tahoma, arial, helvetica, sans-serif; color: #000000;">Creating a database link from oracle to oracle database is easy. But setting up db_link from oracle to mssql server isn&#8217;t straight forward. We need to do odbc setup. Its knows as heterogeneous db_link.  We can achive this either by using third party odbc drivers or using oracle provided gateways utility.</span></p>
+<p><span style="font-family: tahoma, arial, helvetica, sans-serif; color: #000000;">Here in this article i will show how to create db_link using oracle gateway.</span></p>
+<p><span style="font-family: 'times new roman', times, serif; color: #000000;">Download the gateway file from OTN.</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/ms_down1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-704" src="https://dbaclass.com/wp-content/uploads/2016/07/ms_down1.jpg" alt="ms_down1" width="909" height="566" srcset="https://dbaclass.com/wp-content/uploads/2016/07/ms_down1.jpg 909w, https://dbaclass.com/wp-content/uploads/2016/07/ms_down1-300x187.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/ms_down1-600x374.jpg 600w" sizes="(max-width: 909px) 100vw, 909px" /></a><br />
+<span style="font-family: tahoma, arial, helvetica, sans-serif; color: #000000;">unzip the file in oracle database server and execute runInstaller</span></p>
+<pre class="">[oracle@localhost HouseKeeping]$ pwd
+/u01/home/oracle/HouseKeeping
+[oracle@localhost HouseKeeping]$ unzip p13390677_112040_Linux-x86-64_5of7.zip
+
+[oracle@localhost HouseKeeping]$ cd gateways
+[oracle@localhost gateways]$ ls -ltr
+total 56
+drwxr-xr-x  4 oracle oinstall  4096 Aug 26  2013 install
+drwxr-xr-x  4 oracle oinstall  4096 Aug 26  2013 legacy
+-rwxr-xr-x  1 oracle oinstall  3267 Aug 26  2013 runInstaller
+drwxr-xr-x  2 oracle oinstall  4096 Aug 26  2013 response
+drwxr-xr-x 14 oracle oinstall  4096 Aug 26  2013 stage
+-rw-r--r--  1 oracle oinstall 30016 Aug 27  2013 readme.html
+-rw-r--r--  1 oracle oinstall   500 Aug 27  2013 welcome.html
+
+./runInstaller
+</pre>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/msql1.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-705" src="https://dbaclass.com/wp-content/uploads/2016/07/msql1.jpg" alt="msql1" width="643" height="524" srcset="https://dbaclass.com/wp-content/uploads/2016/07/msql1.jpg 643w, https://dbaclass.com/wp-content/uploads/2016/07/msql1-300x244.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/msql1-600x489.jpg 600w" sizes="(max-width: 643px) 100vw, 643px" /></a></p>
+<p>&nbsp;</p>
+<p><span style="font-family: tahoma, arial, helvetica, sans-serif;">Select the oracle_home same as that of the oracle database.</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/msql2.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-706" src="https://dbaclass.com/wp-content/uploads/2016/07/msql2.jpg" alt="msql2" width="646" height="529" srcset="https://dbaclass.com/wp-content/uploads/2016/07/msql2.jpg 646w, https://dbaclass.com/wp-content/uploads/2016/07/msql2-300x246.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/msql2-600x491.jpg 600w" sizes="(max-width: 646px) 100vw, 646px" /></a></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/msql3.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-707" src="https://dbaclass.com/wp-content/uploads/2016/07/msql3.jpg" alt="msql3" width="646" height="526" srcset="https://dbaclass.com/wp-content/uploads/2016/07/msql3.jpg 646w, https://dbaclass.com/wp-content/uploads/2016/07/msql3-300x244.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/msql3-600x489.jpg 600w" sizes="(max-width: 646px) 100vw, 646px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-family: tahoma, arial, helvetica, sans-serif;">Here we are connecting to microsoft sql server. So select that sql server gateway option.</span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/msql4.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-708" src="https://dbaclass.com/wp-content/uploads/2016/07/msql4.jpg" alt="msql4" width="645" height="526" srcset="https://dbaclass.com/wp-content/uploads/2016/07/msql4.jpg 645w, https://dbaclass.com/wp-content/uploads/2016/07/msql4-300x245.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/msql4-600x489.jpg 600w" sizes="(max-width: 645px) 100vw, 645px" /></a><br />
+<span style="color: #000000; font-family: tahoma, arial, helvetica, sans-serif;">Enter the sql server details  to which we are creating the database link.</span></p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/msql5.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-709" src="https://dbaclass.com/wp-content/uploads/2016/07/msql5.jpg" alt="msql5" width="644" height="526" srcset="https://dbaclass.com/wp-content/uploads/2016/07/msql5.jpg 644w, https://dbaclass.com/wp-content/uploads/2016/07/msql5-300x245.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/msql5-600x490.jpg 600w" sizes="(max-width: 644px) 100vw, 644px" /></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/msql6.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-710" src="https://dbaclass.com/wp-content/uploads/2016/07/msql6.jpg" alt="msql6" width="645" height="527" srcset="https://dbaclass.com/wp-content/uploads/2016/07/msql6.jpg 645w, https://dbaclass.com/wp-content/uploads/2016/07/msql6-300x245.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/msql6-600x490.jpg 600w" sizes="(max-width: 645px) 100vw, 645px" /></a></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/wp-content/uploads/2016/07/msql7.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-711" src="https://dbaclass.com/wp-content/uploads/2016/07/msql7.jpg" alt="msql7" width="644" height="521" srcset="https://dbaclass.com/wp-content/uploads/2016/07/msql7.jpg 644w, https://dbaclass.com/wp-content/uploads/2016/07/msql7-300x243.jpg 300w, https://dbaclass.com/wp-content/uploads/2016/07/msql7-600x485.jpg 600w" sizes="(max-width: 644px) 100vw, 644px" /></a></p>
+<p><span style="color: #000000; font-family: tahoma, arial, helvetica, sans-serif;">Run the root.sh file from root user . Now the gateway installation is done.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: tahoma, arial, helvetica, sans-serif;">Now add the below entry in listener.ora file and start the listener</span></p>
+<p><em>( HOST=13.129.101.40)(PORT=1521) — This is the oracle database server </em>ip</p>
+<pre class="">LISTENER_dg4mssql=
+  (DESCRIPTION_LIST=
+    (DESCRIPTION=
+      (ADDRESS_LIST=
+        (ADDRESS=(PROTOCOL=TCP)(HOST=13.129.101.40)(PORT=1521))
+      )
+    )
+  )
+SID_LIST_LISTENER_dg4mssql=
+  (sid_list=
+    (sid_desc=
+     (sid_name=dg4msql)
+     (ORACLE_HOME=/u01/app/oracle/product/11.2.0/db_1)
+     (program=dg4msql)
+(envs="LD_LIBRARY_PATH=/app/oracle/product/11.2.0/db_1/dg4msql/driver/lib:/app/oracle/product/11.2.0/db_1/lib")
+    )
+  )
+
+lsnrctl start LISTENER_dg4mssql
+</pre>
+<p><span style="font-family: tahoma, arial, helvetica, sans-serif; color: #000000;">Now add the tns entry in tnsnames.ora file</span></p>
+<pre class="">dg4msql =
+  (DESCRIPTION=
+    (ADDRESS=(PROTOCOL=tcp)(HOST=13.129.101.40)(PORT=1521))
+      (CONNECT_DATA=(SID=dg4msql))
+      (HS=OK)
+  )
+
+
+
+[oracle@localhost admin]$ tnsping dg4msql
+
+TNS Ping Utility for Linux: Version 11.2.0.4.0 - Production on 15-JUL-2015 07:24:06
+
+Copyright (c) 1997, 2013, Oracle.  All rights reserved.
+
+Used parameter files:
+/u01/app/oracle/product/11.2.0/db_1/network/admin/sqlnet.ora
+
+
+Used TNSNAMES adapter to resolve the alias
+Attempting to contact (DESCRIPTION= (ADDRESS=(PROTOCOL=tcp)(HOST=13.129.101.40)(PORT=1521)) (CONNECT_DATA=(SID=dg4msql)) (HS=OK))
+OK (10 msec)
+</pre>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: 'times new roman', times, serif;">Lets create the database link and test it.</span></p>
+<pre class="">SQL&gt; Create public database link MSTEST connect to MSTEST identified by mstest124 using 'dg4msql';
+
+
+Database link created.
+
+
+
+SQL&gt;  select count(*) from "INFORMATION_SCHEMA"."TABLES"@MSTEST;
+
+2 rows selected
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/create-database-link-from-oracle-to-sql-server/">create database link from  oracle to sql server</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/create-database-link-from-oracle-to-sql-server/feed/</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

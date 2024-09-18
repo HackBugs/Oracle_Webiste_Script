@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>statistics Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/statistics/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/statistics/</link>
+	<description>database administration</description>
+	<lastBuildDate>Mon, 11 Nov 2019 08:50:47 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Useful gather statistics commands in oracle</title>
+		<link>https://dbaclass.com/article/useful-gather-statistics-commands-oracle/</link>
+					<comments>https://dbaclass.com/article/useful-gather-statistics-commands-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 05 Nov 2019 12:00:34 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4396</guid>
+
+					<description><![CDATA[<p>This article contains all the useful gather statistics related commands. 1. Gather dictionary stats: -- It gathers statistics for dictionary schemas 'SYS', 'SYSTEM' and other internal schemas. EXEC DBMS_STATS.gather_dictionary_stats; 2. Gather fixed object stats: --- Fixed object means gv$ or v$views EXEC DBMS_STATS.GATHER_FIXED_OBJECTS_STATS; 3. Gather full database stats: EXEC DBMS_STATS.gather_database_stats; -- With estimate_percent to 15 [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/useful-gather-statistics-commands-oracle/">Useful gather statistics commands in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>This article contains all the useful gather statistics related commands.</p>
+<p><strong>1. Gather dictionary stats:</strong></p>
+<pre>-- It gathers statistics for dictionary schemas 'SYS', 'SYSTEM' and other internal schemas.
+
+EXEC DBMS_STATS.gather_dictionary_stats;
+
+</pre>
+<p><strong>2. Gather fixed object stats:</strong></p>
+<pre>--- Fixed object means gv$ or v$views
+
+EXEC DBMS_STATS.GATHER_FIXED_OBJECTS_STATS;
+
+</pre>
+<p><strong>3. Gather full database stats:</strong></p>
+<pre>EXEC DBMS_STATS.gather_database_stats;
+
+-- With estimate_percent to 15 percent or any other value , if the db size very huge. 
+
+EXEC DBMS_STATS.gather_database_stats(estimate_percent =&gt; 15);
+EXEC DBMS_STATS.gather_database_stats(estimate_percent =&gt; 15, cascade =&gt; TRUE);
+
+-- With auto sample size and parallel degree 
+
+EXEC DBMS_STATS.gather_database_stats(estimate_percent =&gt; DBMS_STATS.AUTO_SAMPLE_SIZE,degree =&gt; 8);
+
+
+</pre>
+<p><strong>4. Gather schema statistics:</strong></p>
+<pre>EXEC DBMS_STATS.gather_schema_stats('DBACLSS');
+
+EXEC DBMS_STATS.gather_schema_stats('DBACLASS', estimate_percent =&gt; 25);
+
+EXEC DBMS_STATS.gather_schema_stats('DBACLASS', estimate_percent =&gt; 100, cascade =&gt; TRUE);
+
+-- STATS WITH AUTO ESTIMATION and degree 8 
+
+exec dbms_stats.gather_schema_stats( ownname =&gt; 'DBACLASS',method_opt =&gt; 'FOR ALL COLUMNS SIZE 1', 
+granularity =&gt; 'ALL', degree =&gt; 8, cascade =&gt; TRUE, 
+estimate_percent=&gt;dbms_stats.auto_sample_size);
+
+</pre>
+<p><strong>5. Gather table statistics:</strong></p>
+<pre class="">EXEC DBMS_STATS.gather_table_stats('DBACLASS', 'EMP');
+EXEC DBMS_STATS.gather_table_stats('DBACLASS', 'EMP', estimate_percent =&gt; 15);
+EXEC DBMS_STATS.gather_table_stats('DBACLASS', 'EMP', estimate_percent =&gt; 15, cascade =&gt; TRUE);
+
+exec DBMS_STATS.GATHER_TABLE_STATS  (ownname =&gt; 'DBACLASS' , tabname =&gt; 'EMP',cascade =&gt; true, 
+method_opt=&gt;'for all indexed columns size 1', granularity =&gt; 'ALL', degree =&gt; 8);
+
+exec DBMS_STATS.GATHER_TABLE_STATS (ownname =&gt; 'DBACLASS' , tabname =&gt; 'EMP',
+cascade =&gt; true, method_opt=&gt;'FOR ALL COLUMNS SIZE 1', granularity =&gt; 'ALL', degree =&gt; 8);
+
+</pre>
+<p><strong>6. Gather stats for single partition of a table:</strong></p>
+<pre>BEGIN
+DBMS_STATS.GATHER_TABLE_STATS (
+ownname =&gt; 'SCOTT',
+tabname =&gt; 'TEST', --- TABLE NAME
+partname =&gt; 'TEST_JAN2016' --- PARTITOIN NAME
+method_opt=&gt;'for all indexed columns size 1',
+GRANULARITY =&gt; 'APPROX_GLOBAL AND PARTITION',
+degree =&gt; 8);
+END;
+/
+</pre>
+<p><strong>7. Lock/unlock statistics:</strong></p>
+<pre>-- Lock stats of a schema:
+EXEC DBMS_STATS.lock_schema_stats('DBACLASS');
+
+-- Lock stats of a table:
+EXEC DBMS_STATS.lock_table_stats('DBACLASS', 'EMP');
+
+-- Lock stats of a partition:
+EXEC DBMS_STATS.lock_partition_stats('DBACLASS', 'EMP', 'EMP');
+
+-- unlock stats of a schema:
+
+EXEC DBMS_STATS.unlock_schema_stats('DBACLASS');
+-- unlock stats of a table:
+
+EXEC DBMS_STATS.unlock_table_stats('DBACLASS', 'DBACLASS');
+--unlock stats of a partition:
+
+EXEC DBMS_STATS.unlock_partition_stats('DBACLASS', 'EMP', 'TEST_JAN2016');
+
+--- check stats status:
+
+SELECT stattype_locked FROM dba_tab_statistics WHERE table_name = 'TEST' and owner = 'SCOTT';
+
+
+</pre>
+<p><strong>8 . Delete statistics:</strong></p>
+<pre class="">-- Delete complete db statistics:
+EXEC DBMS_STATS.delete_database_stats;
+
+-- Delete schema statistics:
+EXEC DBMS_STATS.delete_schema_stats('DBACLASS');
+
+-- Delete table statistics:
+EXEC DBMS_STATS.delete_table_stats('DBACLASS', 'EMP');
+
+-- Delete column statistics:
+EXEC DBMS_STATS.delete_column_stats('DBACLASS', 'EMP', 'EMPNO');
+
+-- Delete index statistics:
+
+EXEC DBMS_STATS.delete_index_stats('DBACLASS', 'EMP_PK');
+
+-- Delete dictionary statistics:
+EXEC DBMS_STATS.delete_dictionary_stats;
+
+
+-- Delete fixed object statistics:
+
+exec dbms_stats.delete_fixed_objects_stats;
+
+-- Delete system statistics:
+
+exec dbms_stats.delete_system_stats('STAT_TAB');
+
+
+</pre>
+<p><strong>8. Setting statistics preference:</strong></p>
+<pre class="">-- View preference details for the database:
+
+SELECT dbms_stats.get_prefs('PUBLISH') EST_PCT FROM dual;
+
+-- View Publish preference for table 
+
+
+-- View Publish preference for schema:
+
+select dbms_stats.get_prefs('PUBLISH', 'SCOTT') from dual
+
+-- View preference details for table
+
+select dbms_stats.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'PUBLISH') FROM DUAL;
+select  DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'INCREMENTAL') FROM DUAL;
+select  DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'GRANULARITY') FROM DUAL;
+select  DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'STALE_PERCENT')  FROM DUAL;
+select   DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'ESTIMATE_PERCENT')  FROM DUAL;
+select   DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'DEGREE')  FROM DUAL;
+
+
+-- Set table  preferences
+
+exec dbms_stats.set_table_prefs('DBACLASS','EMP','PUBLISH','FALSE');
+exec dbms_stats.set_table_prefs('DBACLASS','EMP','ESTIMATE_PERCENT','20');
+exec dbms_stats.set_table_prefs('DBACLASS','EMP','DEGREE','8');
+
+
+
+
+-- Set schema preferences:
+
+exec dbms_stats.SET_SCHEMA_PREFS('DBATEST','PUBLISH','FALSE');
+exec dbms_stats.SET_SCHEMA_PREFS('DBATEST','ESTIMATE_PERCENT','20');
+exec dbms_stats.SET_SCHEMA_PREFS('DBATEST','CASCADE','TRUE');
+
+
+-- Set database preference:
+
+exec dbms_stats.set_database_prefs('PUBLISH', 'TRUE');
+exec dbms_stats.set_database_prefs('DEGREE', '16');
+
+
+-- Set global preference:
+
+exec dbms_stats.set_global_prefs('PUBLISH', 'TRUE');
+exec dbms_stats.set_global_prefs('DEGREE', '16');
+
+
+
+</pre>
+<p><strong>9 . Deleting preferences :</strong></p>
+<pre>-- Deleting schema preference:
+
+exec dbms_stats.delete_schema_prefs('DBACLASS', 'DEGREE');
+exec dbms_stats.delete_schema_prefs('DBACLASS', 'CASCADE');
+
+
+-- Delete database preference:
+exec dbms_stats.delete_database_prefs('ESTIMATE_PERCENT', FALSE);
+exec dbms_stats.delete_database_prefs('DEGREE', FALSE);
+
+
+
+
+</pre>
+<p><strong>10 . Publish pending statistics:</strong></p>
+<pre>-- For schema DBACLASS
+exec dbms_stats.publish_pending_stats('DBACLASS',null);
+
+-- For table DBACLASS.EMP
+EXEC DBMS_STATS.PUBLISH_PENDING_STATS ('DBACLASS','EMP');
+</pre>
+<p><strong>11. Delete pending statistics:</strong></p>
+<pre>-- for table DBACLASS.EMP
+exec dbms_stats.delete_pending_stats('DBACLASS', 'EMP');
+
+-- For schema DBACLASS
+exec dbms_stats.delete_pending_stats('DBACLASS', null);
+
+</pre>
+<p><strong>12. Upgrade stats table:</strong></p>
+<pre>----- If we are importing stats table from higher version to lower version,
+then before importing in the database, we need to upgrade the stats table.
+
+
+EXECUTE DBMS_STATS.UPGRADE_STAT_TABLE(OWNNAME =&gt;'RAJ',STATTAB =&gt;'STAT_TEST');
+</pre>
+<p><strong>13. View/modify statistics retention period:</strong></p>
+<pre>-- View current stats retention
+
+select dbms_stats.get_stats_history_retention from dual;
+
+-- Modify the stats retention
+
+exec DBMS_STATS.ALTER_STATS_HISTORY_RETENTION(60);
+
+</pre>
+<p><strong>14. create stats table:</strong></p>
+<pre>--- Create staging table to store the statistics data
+
+exec dbms_stats.create_stat_table(ownname =&gt; 'SCOTT', stattab =&gt; 'STAT_BACKUP',tblspace=&gt;'USERS');
+
+
+</pre>
+<p><strong>15. Export stats data:</strong></p>
+<pre>-- Export full database stats to a table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_database_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Export stats for table DBACLASS.EMP to a stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_table_stats(ownname=&gt;'DBACLASS', tabname=&gt;'EMP', statown =&gt;'SCOTT',stattab=&gt;'STAT_BACKUP', cascade=&gt;true);
+
+-- Export stats for schema DBACLASS to a stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_schema_stats(ownname=&gt;'DBACLASS', statown =&gt;'SCOTT' , stattab=&gt;'STAT_BACKUP');
+
+-- Export fixed object stats to table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_fixed_objects_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Export dictionary stats to table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_dictionary_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Export stats for index DBACLAS.EMP_UK1 to SCOTT.STAT_BACKUP table
+
+exec dbms_stats.export_index_stats(ownname=&gt;'DBACLASS', indname=&gt;'EMP_UK1', statown =&gt;'SCOTT',stattab=&gt;'STAT_BACKUP');
+
+
+</pre>
+<p><strong>16. Import stats table data:</strong></p>
+<pre class="">-- Import full database stats from stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_database_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Import stats for table DBACLASS.EMP from stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_table_stats(ownname=&gt;'DBACLASS', tabname=&gt;'EMP', statown =&gt;'SCOTT',stattab=&gt;'STAT_BACKUP', cascade=&gt;true);
+
+-- Import stats for schema DBACLASS from  stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_schema_stats(ownname=&gt;'DBACLASS', statown =&gt;'SCOTT' , stattab=&gt;'STAT_BACKUP');
+
+-- Import fixed object stats from stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_fixed_objects_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Import dictionary stats from  table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_dictionary_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Import stats for index DBACLAS.EMP_UK1 from  SCOTT.STAT_BACKUP table
+
+exec dbms_stats.import_index_stats(ownname=&gt;'DBACLASS', indname=&gt;'EMP_UK1', statown =&gt;'SCOTT',stattab=&gt;'STAT_BACKUP');
+
+</pre>
+<p><strong>17 . Few stats related sql queries:</strong></p>
+<pre>
+-- Check stale stats for table:
+
+select owner,table_name,STALE_STATS from dba_tab_statistics where owner='&amp;SCHEMA_NAME' and table_name='&amp;TABLE_NAME';
+
+--Check stale stats for index:
+
+select owner,INDEX_NAME,TABLE_NAME from DBA_IND_STATISTICS where owner='&amp;SCHEMA_NAME' and index_name='&amp;INDEX_NAME';
+
+
+-- For getting history of TABLE statistics
+setlines 200
+col owner for a12
+col table_name for a21
+select owner,TABLE_NAME,STATS_UPDATE_TIME from dba_tab_stats_history where table_name='&amp;TABLE_NAME';
+
+
+
+-- Space used to store statistic data in SYSAUX tablespace:
+
+
+SQL&gt; select occupant_desc, space_usage_kbytes from v$sysaux_occupants where OCCUPANT_DESC like '%Statistics%';
+
+
+-- Check whether table stats locked or not:
+
+select owner, table_name, stattype_locked from dba_tab_statistics where stattype_locked is not null and owner not in ('SYS','SYSTEM');
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/useful-gather-statistics-commands-oracle/">Useful gather statistics commands in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/useful-gather-statistics-commands-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>ORA-20002: Version of statistics table SCOTT.STATS is too old</title>
+		<link>https://dbaclass.com/article/ora-20002-version-statistics-table-scott-stats-old/</link>
+					<comments>https://dbaclass.com/article/ora-20002-version-statistics-table-scott-stats-old/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 01 Sep 2017 08:12:26 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3347</guid>
+
+					<description><![CDATA[<p>PROBLEM: While importing a stats table in oracle 12c, for which the stats export was done from 11g , got below error. i.e both stats table was exported from a lower version and import attempt was done on higher version(12c). &#160; SQL&#62; exec dbms_stats.import_table_stats(ownname=&#62;'RAJ', tabname=&#62;'TEST',  stattab=&#62;'STAT_TEST', cascade=&#62;true); ORA-20002: Version of statistics table SCOTT.STATS is too old. [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/ora-20002-version-statistics-table-scott-stats-old/">ORA-20002: Version of statistics table SCOTT.STATS is too old</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h3>PROBLEM:</h3>
+<p>While importing a stats table in oracle 12c, for which the stats export was done from 11g , got below error. i.e both stats table was exported from a lower version and import attempt was done on higher version(12c).</p>
+<p>&nbsp;</p>
+<pre>SQL&gt; exec dbms_stats.import_table_stats(ownname=&gt;'RAJ', tabname=&gt;'TEST',  stattab=&gt;'STAT_TEST', cascade=&gt;true);
+
+ORA-20002: Version of statistics table SCOTT.STATS is too old. Please try upgrading it with dbms_stats.upgrade_stat_table
+ORA-06512: at "SYS.DBMS_STATS", line 11476
+ORA-06512: at "SYS.DBMS_STATS", line 11493
+ORA-06512: at "SYS.DBMS_S&gt;TATS", line 12628
+ORA-06512: at line 1
+</pre>
+<h3>SOLUTION:</h3>
+<p>If we are importing stats table from higher version to lower version, then before importing in the database, we need to upgrade the stats table.</p>
+<p><strong>UPGRADE STATS TABLE:</strong></p>
+<pre>SQL&gt; EXECUTE DBMS_STATS.UPGRADE_STAT_TABLE('RAJ','STAT_TEST');
+
+PL/SQL procedure successfully completed.</pre>
+<p><strong>Now do the import:</strong></p>
+<pre class=""> exec dbms_stats.import_table_stats(ownname=&gt;'RAJ', tabname=&gt;'TEST',  stattab=&gt;'STAT_TEST', cascade=&gt;true);
+
+PL/SQL procedure successfully completed.</pre>
+<p>The post <a href="https://dbaclass.com/article/ora-20002-version-statistics-table-scott-stats-old/">ORA-20002: Version of statistics table SCOTT.STATS is too old</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/ora-20002-version-statistics-table-scott-stats-old/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to export and import statistics in oracle</title>
+		<link>https://dbaclass.com/article/how-to-export-and-import-statistics-in-oracle/</link>
+					<comments>https://dbaclass.com/article/how-to-export-and-import-statistics-in-oracle/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 28 Aug 2015 17:49:39 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=400</guid>
+
+					<description><![CDATA[<p>If you wish to save your statistics of schema or table, which you can use later during any query issue Or if you wish copy the statistics from production database to development , then this method will be helpful. Here i will take export of statistics of a table RAJ.TEST from PROD and import into [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-export-and-import-statistics-in-oracle/">How to export and import statistics in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>If you wish to save your statistics of schema or table, which you can use later during any query issue Or if you wish copy the statistics from production database to development , then this method will be helpful.</p>
+<p>Here i will take export of statistics of a table RAJ.TEST from PROD and import into TEST</p>
+<h4>DEMO:</h4>
+<p>&nbsp;</p>
+<h4>create a table to store the stats:</h4>
+<pre>
+--- RAJ is the owner of the stats table, STAT_TEST - name of the stats table
+
+PROD&gt; exec DBMS_STATS.CREATE_STAT_TABLE('RAJ','STAT_TEST','SYSAUX');
+
+PL/SQL procedure successfully completed.
+
+SQL&gt; ;
+  1* select owner,table_name from dba_tables where table_name='STAT_TEST'
+SQL&gt; /
+
+OWNER	     TABLE_NAME
+------------ ------------
+RAJ	     STAT_TEST
+
+SQL&gt; 
+
+</pre>
+<h4>Now export the statistics of the table RAJ.TEST to stats table ( STAT_TEST)</h4>
+<pre>PROD&gt; exec dbms_stats.export_table_stats(ownname=&gt;'RAJ', tabname=&gt;'TEST', stattab=&gt;'STAT_TEST', cascade=&gt;true);
+
+PL/SQL procedure successfully completed.
+</pre>
+<p>&nbsp;</p>
+<h4>Now take expdp of this stats table(STAT_TEST)</h4>
+<pre>
+[oracle@PROD]$ expdp dumpfile=stats.dmp logfile=stats.log tables=raj.STAT_TEST directory=DIR1
+
+Export: Release 12.1.0.2.0 - Production on Fri Aug 28 10:09:26 2015
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: raj/raj@orcl
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "RAJ"."SYS_EXPORT_TABLE_01":  raj/********@orcl dumpfile=stats.dmp logfile=stats.log tables=raj.STAT_TEST directory=DIR1 
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 192 KB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/INDEX/INDEX
+Processing object type TABLE_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "RAJ"."STAT_TEST"                           19.24 KB      19 rows
+Master table "RAJ"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for RAJ.SYS_EXPORT_TABLE_01 is:
+  /home/oracle/DIR1/stats.dmp
+Job "RAJ"."SYS_EXPORT_TABLE_01" successfully completed at Fri Aug 28 10:12:33 2015 elapsed 0 00:03:00
+
+</pre>
+<p>&nbsp;</p>
+<h4>Move the dump file from PROD to TEST machine and import the same</h4>
+<p>&nbsp;</p>
+<pre>[oracle@TEST]$ impdp dumpfile=stats.dmp logfile=stats.log tables=raj.STAT_TEST directory=DIR1 table_exists_action=REPLACE
+
+Import: Release 12.1.0.2.0 - Production on Fri Aug 28 10:12:42 2015
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: raj/raj@orcl
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Master table "RAJ"."SYS_IMPORT_TABLE_01" successfully loaded/unloaded
+Starting "RAJ"."SYS_IMPORT_TABLE_01":  raj/********@orcl dumpfile=stats.dmp logfile=stats.log tables=raj.STAT_TEST directory=DIR1 table_exists_action=REPLACE 
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+. . imported "RAJ"."STAT_TEST"                           19.24 KB      19 rows
+Processing object type TABLE_EXPORT/TABLE/INDEX/INDEX
+Processing object type TABLE_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+Job "RAJ"."SYS_IMPORT_TABLE_01" successfully completed at Fri Aug 28 10:14:36 2015 elapsed 0 00:01:42
+</pre>
+<p>&nbsp;</p>
+<h4>Now import the statistics in database:</h4>
+<p>&nbsp;</p>
+<pre>
+
+SQL&gt; set lines 200
+SQL&gt; set pagesize 200
+SQL&gt; col table_name for a12
+SQL&gt; col owner for a12
+SQL&gt; select owner,table_name,last_analyzed from dba_tables where table_name='TEST';
+
+OWNER	     TABLE_NAME   LAST_ANAL
+------------ ------------ ---------
+RAJ	     TEST	  05-AUG-15
+
+
+SQL&gt; exec dbms_stats.import_table_stats(ownname=&gt;'RAJ', tabname=&gt;'TEST',  stattab=&gt;'STAT_TEST', cascade=&gt;true);
+
+PL/SQL procedure successfully completed.
+
+SQL&gt; select owner,table_name,last_analyzed from dba_tables where table_name='TEST';
+
+OWNER	     TABLE_NAME   LAST_ANAL
+------------ ------------ ---------
+RAJ	     TEST	  28-AUG-15
+
+</pre>
+<p>We can observe after import_table_stats, last_analyzed date has been updated.</p>
+<p>We can do export/import statistics at schema level and database level:</p>
+<h4>For database :</h4>
+<pre class="">----For export
+ exec dbms_stats.EXPORT_DATABASE_STATS('<stat_table_name>','<stat_name>','<stat_owner>');
+
+--- For import
+ exec dbms_stats.IMPORT_DATABASE_STATS('<stat_table_name>','<stat_name>','<stat_owner>');
+</pre>
+<h4>For schema:</h4>
+<pre>--- For export
+exec  dbms_stats.export_schema_stats( ownname=&gt;, stattab=&gt;'', statid=&gt;'' );
+
+--- For import
+exec  dbms_stats.import_schema_stats( ownname=&gt;, stattab=&gt;'', statid=&gt;'' );
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/how-to-export-and-import-statistics-in-oracle/">How to export and import statistics in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-export-and-import-statistics-in-oracle/feed/</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Gather stats and Publish them later in oracle</title>
+		<link>https://dbaclass.com/article/gather-stats-and-publish-them-later-in-oracle/</link>
+					<comments>https://dbaclass.com/article/gather-stats-and-publish-them-later-in-oracle/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 28 Aug 2015 16:36:09 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=393</guid>
+
+					<description><![CDATA[<p>In major production database, sometimes gathering stats can degrade the performance of the queries. So what we can do it, first gather the stats of the table or schema,without publishing it. After testing, once we confirm that stats is not degrading the performance,Then we can go ahead and publish the stats. DEMO: First change the [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/gather-stats-and-publish-them-later-in-oracle/">Gather stats and Publish them later in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">In major production database, sometimes gathering stats can degrade the performance of the queries.</span></p>
+<p><span style="color: #000000;">So what we can do it, first gather the stats of the table or schema,without publishing it. After testing, once we confirm that stats is not degrading the performance,Then we can go ahead and publish the stats.</span></p>
+<h4><strong>DEMO:</strong></h4>
+<h4><strong>First change the publish mode, so that stats won&#8217;t be published by default</strong></h4>
+<p>&nbsp;</p>
+<pre>SQL&gt; select dbms_stats.get_prefs('PUBLISH', 'SCOTT', 'EMP_TAB' ) FROM DUAL;
+
+DBMS_STATS.GET_PREFS('PUBLISH','SCOTT','EMP_TAB')
+--------------------------------------------------------------------------------
+TRUE
+
+SQL&gt; exec dbms_stats.set_table_prefs('SCOTT','EMP_TAB','PUBLISH','FALSE');
+
+PL/SQL procedure successfully completed.
+
+SQL&gt; select dbms_stats.get_prefs('PUBLISH', 'SCOTT', 'EMP_TAB' ) FROM DUAL;
+
+DBMS_STATS.GET_PREFS('PUBLISH','SCOTT','EMP_TAB')
+--------------------------------------------------------------------------------
+FALSE
+
+</pre>
+<p>&nbsp;</p>
+<h4><strong>Now gather stats:</strong></h4>
+<p>&nbsp;</p>
+<pre>SQL&gt; select sysdate from dual;
+
+SYSDATE
+---------
+28-AUG-15
+
+SQL&gt; EXEC DBMS_STATS.GATHER_TABLE_STATS('SCOTT','EMP_TAB',degree=&gt; 4 ,METHOD_OPT =&gt; 'FOR ALL COLUMNS SIZE AUTO');
+
+PL/SQL procedure successfully completed.
+</pre>
+<p>&nbsp;</p>
+<h4><strong>Check the last_analyzed date in dba_tables and DBA_TAB_PENDING_STATS</strong></h4>
+<p>&nbsp;</p>
+<pre class="">  1* select owner,table_name,last_analyzed from dba_tables where table_name='EMP_TAB'
+SQL&gt; /
+
+OWNER	    TABLE_NAME LAST_ANAL
+----------- ---------- ---------
+SCOTT	    EMP_TAB       05-AUG-15
+
+
+SQL&gt; SELECT TABLE_NAME,LAST_ANALYZED  FROM DBA_TAB_PENDING_STATS;
+
+TABLE_NAME LAST_ANAL
+---------- ---------
+EMP_TAB	   28-AUG-15
+
+</pre>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">We can see the last_analyzed date in dba_tables is old one , but it is showing as pending one in <strong>dba_tab_pending_stats.</strong></span></p>
+<p><span style="color: #000000;">Now we can test the whether stats are good or not at the session level by enabling below parameter.</span></p>
+<p>&nbsp;</p>
+<pre>alter session set optimizer_use_pending_statistics=TRUE;
+
+Session altered.
+</pre>
+<p><span style="color: #000000;">You can run query in this session, test whether query performance is fine or not.</span><br />
+<span style="color: #000000;"> If  you can&#8217;t run the queries in this session, then another way is to  export the stats and import the same in your clone of the production database(PRE-PROD) , and test the queries.</span></p>
+<p><strong>Check</strong> :<a href="https://dbaclass.com/index.php/article/how-to-export-and-import-statistics-in-oracle/">How to export and import stats in oracle</a> :</p>
+<p><span style="color: #000000;">Once testing is successful , if you decided to publish the stats, then</span></p>
+<h4>Publish pending statistics:</h4>
+<pre class="">SQL&gt; EXEC DBMS_STATS.PUBLISH_PENDING_STATS ('SCOTT','EMP_TAB');
+
+PL/SQL procedure successfully completed.
+
+SQL&gt; select owner,TABLE_NAME,LAST_ANALYZED  FROM DBA_TAB_PENDING_STATS;
+
+
+no rows selected
+SQL&gt; set lines 200
+SQL&gt; set pagesize 200
+SQL&gt; col table_name for a12
+SQL&gt; col owner for a12
+SQL&gt; select owner,table_name,last_analyzed from dba_tables where table_name='EMP_TAB';
+
+OWNER	     TABLE_NAME   LAST_ANAL
+------------ ------------ ---------
+SCOTT	     EMP_TAB	  28-AUG-15
+
+</pre>
+<p><span style="color: #000000;">We can see there are no pending statistics.</span></p>
+<p>The post <a href="https://dbaclass.com/article/gather-stats-and-publish-them-later-in-oracle/">Gather stats and Publish them later in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/gather-stats-and-publish-them-later-in-oracle/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

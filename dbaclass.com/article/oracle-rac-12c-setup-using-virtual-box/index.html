@@ -1,0 +1,1448 @@
+<!DOCTYPE html><!--[if IE 7]>	<html class="ie ie7" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if IE 8]>	<html class="ie ie8" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if IE 9]>	<html class="ie ie9" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if (gt IE 9)|!(IE)]><!--><html lang="en-US" prefix="og: http://ogp.me/ns#"><!--<![endif]-->
+<!-- Mirrored from dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 17:50:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head><meta charset="UTF-8"/>
+<script>var __ezHttpConsent={setByCat:function(src,tagType,attributes,category,force){var setScript=function(){if(force||window.ezTcfConsent[category]){var scriptElement=document.createElement(tagType);scriptElement.src=src;attributes.forEach(function(attr){for(var key in attr){if(attr.hasOwnProperty(key)){scriptElement.setAttribute(key,attr[key]);}}});var firstScript=document.getElementsByTagName(tagType)[0];firstScript.parentNode.insertBefore(scriptElement,firstScript);}};if(force||(window.ezTcfConsent&&window.ezTcfConsent.loaded)){setScript();}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){setScript();}else{console.error("cannot get ez consent data");force=true;setScript();}});}else{force=true;setScript();console.error("getEzConsentData is not a function");}},};</script>
+<script>var ezTcfConsent=window.ezTcfConsent?window.ezTcfConsent:{loaded:false,store_info:false,develop_and_improve_services:false,measure_ad_performance:false,measure_content_performance:false,select_basic_ads:false,create_ad_profile:false,select_personalized_ads:false,create_content_profile:false,select_personalized_content:false,understand_audiences:false,use_limited_data_to_select_content:false,};function getEzConsentData(){return new Promise(function(resolve){document.addEventListener("ezConsentEvent",function(event){var ezTcfConsent=event.detail.ezTcfConsent;resolve(ezTcfConsent);});});}</script>
+<script>function _setEzCookies(ezConsentData){var cookies=[{name:"ezosuibasgeneris-1",value:"d4cfd63e-a6e5-4106-7c08-785d665fdf0a; Path=/; Domain=dbaclass.com; Expires=Sat, 13 Sep 2025 17:35:13 UTC; Secure; SameSite=None",tcfCategory:"understand_audiences",isEzoic:"true",}];for(var i=0;i<cookies.length;i++){var cookie=cookies[i];if(ezConsentData&&ezConsentData.loaded&&ezConsentData[cookie.tcfCategory]){document.cookie=cookie.name+"="+cookie.value;}}}
+if(window.ezTcfConsent&&window.ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else{console.error("cannot get ez consent data");_setEzCookies(window.ezTcfConsent);}});}else{console.error("getEzConsentData is not a function");_setEzCookies(window.ezTcfConsent);}</script>
+<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=true;window.__ezScriptHost="//www.ezojs.com";__ez.queue=function(){var e=0,i=0,t=[],n=!1,o=[],r=[],s=!0,a=function(e,i,n,o,r,s,a){var l=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,d=this;this.name=e,this.funcName=i,this.parameters=null===n?null:w(n)?n:[n],this.isBlock=o,this.blockedBy=r,this.deleteWhenComplete=s,this.isError=!1,this.isComplete=!1,this.isInitialized=!1,this.proceedIfError=a,this.fWindow=l,this.isTimeDelay=!1,this.process=function(){u("... func = "+e),d.isInitialized=!0,d.isComplete=!0,u("... func.apply: "+e);var i=d.funcName.split("."),n=null,o=this.fWindow||window;i.length>3||(n=3===i.length?o[i[0]][i[1]][i[2]]:2===i.length?o[i[0]][i[1]]:o[d.funcName]),null!=n&&n.apply(null,this.parameters),!0===d.deleteWhenComplete&&delete t[e],!0===d.isBlock&&(u("----- F'D: "+d.name),m())}},l=function(e,i,t,n,o,r,s){var a=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,l=this;this.name=e,this.path=i,this.async=o,this.defer=r,this.isBlock=t,this.blockedBy=n,this.isInitialized=!1,this.isError=!1,this.isComplete=!1,this.proceedIfError=s,this.fWindow=a,this.isTimeDelay=!1,this.isPath=function(e){return"/"===e[0]&&"/"!==e[1]},this.getSrc=function(e){return void 0!==window.__ezScriptHost&&this.isPath(e)&&"banger.js"!==this.name?window.__ezScriptHost+e:e},this.process=function(){l.isInitialized=!0,u("... file = "+e);var i=this.fWindow?this.fWindow.document:document,t=i.createElement("script");t.src=this.getSrc(this.path),!0===o?t.async=!0:!0===r&&(t.defer=!0),t.onerror=function(){var e={url:window.location.href,name:l.name,path:l.path,user_agent:window.navigator.userAgent};"undefined"!=typeof _ezaq&&(e.pageview_id=_ezaq.page_view_id);var i=encodeURIComponent(JSON.stringify(e)),t=new XMLHttpRequest;t.open("GET.html","//g.ezoic.net/ezqlog?d="+i,!0),t.send(),u("----- ERR'D: "+l.name),l.isError=!0,!0===l.isBlock&&m()},t.onreadystatechange=t.onload=function(){var e=t.readyState;u("----- F'D: "+l.name),e&&!/loaded|complete/.test(e)||(l.isComplete=!0,!0===l.isBlock&&m())},i.getElementsByTagName("head")[0].appendChild(t)}},d=function(e,i){this.name=e,this.path="",this.async=!1,this.defer=!1,this.isBlock=!1,this.blockedBy=[],this.isInitialized=!0,this.isError=!1,this.isComplete=i,this.proceedIfError=!1,this.isTimeDelay=!1,this.process=function(){}};function c(e,i,n,s,a,d,c,f,u){var m=new l(e,i,n,s,a,d,c,u);!0===f?o[e]=m:r[e]=m,t[e]=m,h(m)}function h(e){!0!==f(e)&&0!=s&&e.process()}function f(e){if(!0===e.isTimeDelay&&!1===n)return u(e.name+" blocked = TIME DELAY!"),!0;if(w(e.blockedBy))for(var i=0;i<e.blockedBy.length;i++){var o=e.blockedBy[i];if(!1===t.hasOwnProperty(o))return u(e.name+" blocked = "+o),!0;if(!0===e.proceedIfError&&!0===t[o].isError)return!1;if(!1===t[o].isComplete)return u(e.name+" blocked = "+o),!0}return!1}function u(e){var i=window.location.href,t=new RegExp("[?&]ezq=([^&#]*)","i").exec(i);"1"===(t?t[1]:null)&&console.debug(e)}function m(){++e>200||(u("let's go"),p(o),p(r))}function p(e){for(var i in e)if(!1!==e.hasOwnProperty(i)){var t=e[i];!0===t.isComplete||f(t)||!0===t.isInitialized||!0===t.isError?!0===t.isError?u(t.name+": error"):!0===t.isComplete?u(t.name+": complete already"):!0===t.isInitialized&&u(t.name+": initialized already"):t.process()}}function w(e){return"[object Array]"==Object.prototype.toString.call(e)}return window.addEventListener("load",(function(){setTimeout((function(){n=!0,u("TDELAY -----"),m()}),5e3)}),!1),{addFile:c,addFileOnce:function(e,i,n,o,r,s,a,l,d){t[e]||c(e,i,n,o,r,s,a,l,d)},addDelayFile:function(e,i){var n=new l(e,i,!1,[],!1,!1,!0);n.isTimeDelay=!0,u(e+" ...  FILE! TDELAY"),r[e]=n,t[e]=n,h(n)},addFunc:function(e,n,s,l,d,c,f,u,m,p){!0===c&&(e=e+"_"+i++);var w=new a(e,n,s,l,d,f,u,p);!0===m?o[e]=w:r[e]=w,t[e]=w,h(w)},addDelayFunc:function(e,i,n){var o=new a(e,i,n,!1,[],!0,!0);o.isTimeDelay=!0,u(e+" ...  FUNCTION! TDELAY"),r[e]=o,t[e]=o,h(o)},items:t,processAll:m,setallowLoad:function(e){s=e},markLoaded:function(e){if(e&&0!==e.length){if(e in t){var i=t[e];!0===i.isComplete?u(i.name+" "+e+": error loaded duplicate"):(i.isComplete=!0,i.isInitialized=!0)}else t[e]=new d(e,!0);u("markLoaded dummyfile: "+t[e].name)}},logWhatsBlocked:function(){for(var e in t)!1!==t.hasOwnProperty(e)&&f(t[e])}}}();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot={};__ez.queue.addFile('../../detroitchicago/boise.js', '../../detroitchicago/boisebb26.js?gcb=195-3&amp;cb=5', true, [], true, false, true, false);__ez.queue.addFile('../../parsonsmaize/abilene.js', '../../parsonsmaize/abilene96c6.js?gcb=195-3&amp;cb=35', true, [], true, false, true, false);</script>
+<script type="text/javascript">var _ez_send_requests_through_ezoic = true;</script>
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">window._ezaq = Object.assign({"ad_cache_level":1,"adpicker_placement_cnt":0,"ai_placeholder_cache_level":1,"ai_placeholder_placement_cnt":-1,"domain_id":179613,"ezcache_level":2,"ezcache_skip_code":0,"has_bad_image":0,"has_bad_words":0,"is_sitespeed":0,"lt_cache_level":0,"publish_date":"2015-08-17","response_size":168797,"response_size_orig":163295,"response_time_orig":56,"template_id":5,"url":"https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/","word_count":0,"worst_bad_word_level":0}, typeof window._ezaq !== "undefined" ? window._ezaq : {});__ez.queue.markLoaded('ezaqBaseReady');</script>
+<script type='text/javascript' data-ezscrex='false' data-cfasync='false'>
+window.ezAnalyticsStatic = true;
+window._ez_send_requests_through_ezoic = true;
+function analyticsAddScript(script) {
+	var ezDynamic = document.createElement('script');
+	ezDynamic.type = 'text/javascript';
+	ezDynamic.innerHTML = script;
+	document.head.appendChild(ezDynamic);
+}
+function getCookiesWithPrefix() {
+    var allCookies = document.cookie.split(';');
+    var cookiesWithPrefix = {};
+
+    for (var i = 0; i < allCookies.length; i++) {
+        var cookie = allCookies[i].trim();
+
+        for (var j = 0; j < arguments.length; j++) {
+            var prefix = arguments[j];
+            if (cookie.indexOf(prefix) === 0) {
+                var cookieParts = cookie.split('=');
+                var cookieName = cookieParts[0];
+                var cookieValue = cookieParts.slice(1).join('=');
+                cookiesWithPrefix[cookieName] = decodeURIComponent(cookieValue);
+                break; // Once matched, no need to check other prefixes
+            }
+        }
+    }
+
+    return cookiesWithPrefix;
+}
+function productAnalytics() {
+	var d = {};
+	d.u = _ezaq.url;
+	d.p = _ezaq.page_view_id;
+	d.v = _ezaq.visit_uuid;
+	d.ab = _ezaq.ab_test_id;
+	d.e = JSON.stringify(_ezaq);
+	d.ref = document.referrer;
+	d.c = getCookiesWithPrefix('active_template', 'ez', 'lp_');
+	if(typeof ez_utmParams !== 'undefined') {
+		d.utm = ez_utmParams;
+	}
+
+	var dataText = JSON.stringify(d);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST.html','//g.ezoic.net/ezais/analytics?cb=1', true);
+	xhr.onload = function () {
+		if (xhr.status!=200) {
+            return;
+		}
+
+        if(document.readyState !== 'loading') {
+            analyticsAddScript(xhr.response);
+            return;
+        }
+
+        var eventFunc = function() {
+            if(document.readyState === 'loading') {
+                return;
+            }
+            document.removeEventListener('readystatechange', eventFunc, false);
+            analyticsAddScript(xhr.response);
+        };
+
+        document.addEventListener('readystatechange', eventFunc, false);
+	};
+	xhr.setRequestHeader('Content-Type','text/plain');
+	xhr.send(dataText);
+}
+__ez.queue.addFunc("productAnalytics", "productAnalytics", null, true, ['ezaqBaseReady'], false, false, false, true);
+</script><base />
+<meta name="google-site-verification" content="6dqsKA6lyLjaiKjPdMYqcSFkU7CVZS2mbDx3X3Oqff4"/>
+
+	
+	<title>oracle RAC 12c setup using virtual box DBACLASS</title>
+
+	<!-- Pingback -->
+	<link rel="pingback" href="../../xmlrpc.php"/>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+
+	<!-- This site is optimized with the Yoast SEO plugin v22.7 - https://yoast.com/wordpress/plugins/seo/ -->
+	<meta name="description" content="oracle RAC 12c setup using virtual box. Below are the software required for the setup, virtualbox,linux 6 , grid software."/>
+	<link rel="canonical" href="index.html"/>
+	<meta property="og:locale" content="en_US"/>
+	<meta property="og:type" content="article"/>
+	<meta property="og:title" content="oracle RAC 12c setup using virtual box"/>
+	<meta property="og:description" content="oracle RAC 12c setup using virtual box. Below are the software required for the setup, virtualbox,linux 6 , grid software."/>
+	<meta property="og:url" content="https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/"/>
+	<meta property="og:site_name" content="DBACLASS"/>
+	<meta property="article:modified_time" content="2016-07-04T13:21:51+00:00"/>
+	<meta property="og:image" content="https://dbaclass.com/wp-content/uploads/2016/07/1.jpg"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:label1" content="Est. reading time"/>
+	<meta name="twitter:data1" content="8 minutes"/>
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/","url":"https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/","name":"oracle RAC 12c setup using virtual box","isPartOf":{"@id":"https://dbaclass.com/#website"},"primaryImageOfPage":{"@id":"https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/#primaryimage"},"image":{"@id":"https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/#primaryimage"},"thumbnailUrl":"https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/1.jpg","datePublished":"2015-08-17T06:08:48+00:00","dateModified":"2016-07-04T13:21:51+00:00","description":"oracle RAC 12c setup using virtual box. Below are the software required for the setup, virtualbox,linux 6 , grid software.","breadcrumb":{"@id":"https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/#primaryimage","url":"https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/1.jpg","contentUrl":"https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/1.jpg","width":628,"height":111},{"@type":"BreadcrumbList","@id":"https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dbaclass.com/"},{"@type":"ListItem","position":2,"name":"oracle RAC 12c setup using virtual box"}]},{"@type":"WebSite","@id":"https://dbaclass.com/#website","url":"https://dbaclass.com/","name":"DBACLASS","description":"database administration","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://dbaclass.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Feed" href="../../feed/index.html"/>
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Comments Feed" href="../../comments/feed/index.html"/>
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » oracle  RAC 12c  setup using virtual box Comments Feed" href="feed/index.html"/>
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/dbaclass.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.5.5"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel="stylesheet" id="mtq_CoreStyleSheets-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/mtq_core_style583f.css?ver=3.1.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="mtq_ThemeStyleSheets-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/mtq_theme_style583f.css?ver=3.1.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-style-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/styleadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-fancybox-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/jquery.fancyboxadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-fontawesome-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/font-awesome.minadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-bbpress-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/bbpress/bbpressadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<!--[if IE 7]>
+<link rel='stylesheet' id='nice-fontawesome-ie7-css' href='https://dbaclass.com/wp-content/themes/flatbase/includes/css/font-awesome-ie7.min.css?ver=6.5.5' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="nice-options-styles-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/nice-optionsadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="nice-options-styles-inline-css" type="text/css">
+.entry blockquote{ border-left-color:#384047; }
+.nice-infoboxes .item:hover a.read-more{ border-bottom-color:#384047; }
+a, .wp-pagenavi span.current, #extended-footer a:hover, .liked i, .nice-knowledgebase ul li:hover i, span.required { color: #384047; }
+#navigation ul li a .bar, #navigation ul li a .bar:before, #navigation ul li a .bar:after, #navigation ul li a .bar, .nice-contact-form input[type="submit"]:hover, #commentform .button:hover, #respond input[type="submit"]:hover, .single .featured-image a, .post .featured-image a, .blog-masonry #posts-ajax-loader-button:hover, .nice-gallery .thumb a, #tabs .inside .tags a:hover{ background-color: #384047; }
+#header { background-color: #25304e; }
+#header { background-position : left top; }
+#header { background-repeat : repeat; }
+body, .bg-image { background-color : #f0f0f0; }
+body, .bg-image { background-position : left top; }
+body, .bg-image { background-repeat : repeat; }
+#header #top #logo #default-logo, #header #top #logo #retina-logo { height : 65px; }
+
+/* Nice Custom Fonts */
+
+body { font: normal 15px Arial, sans-serif; color: #070808 !important; }
+#navigation .nav li a { font: normal 15px 'Lato', arial, sans-serif; color: #eff2f3 !important; }
+#top #navigation .nav li ul li a { font: normal 12px 'Lato', arial, sans-serif; color: #FFFFFF !important; }
+h1, h2, h3, h4, h5, h6, #call-to-action { font-family: 'Nunito', arial, sans-serif; font-style: normal; color:  !important; }
+.button-primary, .button-blue, .button-secondary, .header .nav li.current-page a, .header .nav-callout, .cta-button, input[type="submit"], button, #commentform .button, #respond input[type="submit"], .nice-contact-form input[type="submit"], .blog-masonry #posts-ajax-loader-button { font-family: 'Nunito', arial, sans-serif; font-style: normal; color:  !important; }
+input, textarea { font-family: 'Lato', arial, sans-serif; font-style: normal; color:  !important; }
+.nice-infoboxes .infobox-title { font: normal 21px 'Nunito', arial, sans-serif; color: #4B4D4B !important; }
+.infobox .entry-excerpt{ font: normal 15px 'Lato', arial, sans-serif; color: #8B989E !important; }
+.welcome-message h2 { font: normal 32px 'Nunito', arial, sans-serif; color: #ffffff !important; }
+.welcome-message p, .welcome-message p a { font: normal 16px 'Lato', arial, sans-serif; color: #dddddd !important; }
+
+</style>
+<style id="wp-emoji-styles-inline-css" type="text/css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel="stylesheet" id="wp-block-library-css" href="../../../cdn-0.dbaclass.com/wp-includes/css/dist/block-library/style.minadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="prismatic-blocks-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/prismatic/css/styles-blocksadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="classic-theme-styles-inline-css" type="text/css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="popupaoc-public-style-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/popup-anything-on-click/assets/css/popupaoc-public-style4b1d.css?ver=1.8" type="text/css" media="all"/>
+<link rel="stylesheet" id="theme-my-login-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/theme-my-login/assets/styles/theme-my-login.min03db.css?ver=7.1.1" type="text/css" media="all"/>
+<link rel="stylesheet" id="wp-pagenavi-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/wp-pagenavi/pagenavi-css44fd.css?ver=2.70" type="text/css" media="all"/>
+<link rel="stylesheet" id="dry_awp_theme_style-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/advanced-wp-columns/assets/css/awp-columnsadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="dry_awp_theme_style-inline-css" type="text/css">
+@media screen and (max-width: 1024px) {	.csColumn {		clear: both !important;		float: none !important;		text-align: center !important;		margin-left:  10% !important;		margin-right: 10% !important;		width: 80% !important;	}	.csColumnGap {		display: none !important;	}}
+</style>
+<link rel="stylesheet" id="sccss_style-css" href="https://cdn-0.dbaclass.com/?sccss=1&amp;ver=6.5.5" type="text/css" media="all"/>
+<meta name="generator" content="Flatbase (shared on wplocker.com) 1.0.2"/>
+<meta name="generator" content="Nice Framework 1.1.5"/>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/script583f.js?ver=3.1.3" id="mtq_script-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/anything-popup/anything-popupadc6.js?ver=6.5.5" id="anything-popup-js-js"></script>
+<script type="text/javascript" id="nice-general-js-extra">
+/* <![CDATA[ */
+var php_data = {"admin_ajax_url":"https:\/\/dbaclass.com\/wp-admin\/admin-ajax.php","play_nice_nonce":"bcb784bd5e"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/generaladc6.js?ver=6.5.5" id="nice-general-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.fancyboxadc6.js?ver=6.5.5" id="nice-fancybox-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/superfishadc6.js?ver=6.5.5" id="nice-superfish-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/imagesloaded.minadc6.js?ver=6.5.5" id="nice-imagesloaded-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/ui/core.min3f14.js?ver=1.13.2" id="jquery-ui-core-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.scrollTo-minadc6.js?ver=6.5.5" id="nice-scrollto-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.localscroll-minadc6.js?ver=6.5.5" id="nice-localscroll-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.livesearchadc6.js?ver=6.5.5" id="nice-livesearch-js-js"></script>
+<link rel="https://api.w.org/" href="../../wp-json/index.html"/><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../xmlrpc0db0.php?rsd"/>
+<meta name="generator" content="WordPress 6.5.5"/>
+<link rel="shortlink" href="../../index8e01.html?p=166"/>
+<link rel="alternate" type="application/json+oembed" href="../../wp-json/oembed/1.0/embed3ce3.html?url=https%3A%2F%2Fdbaclass.com%2Farticle%2Foracle-rac-12c-setup-using-virtual-box%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="../../wp-json/oembed/1.0/embed74c5.html?url=https%3A%2F%2Fdbaclass.com%2Farticle%2Foracle-rac-12c-setup-using-virtual-box%2F&amp;format=xml"/>
+
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			var ajaxurl = '../../wp-admin/admin-ajax.html';
+
+						/* ]]> */
+		</script>
+
+	<script>
+
+</script>
+
+        <script type="text/javascript">
+            var jQueryMigrateHelperHasSentDowngrade = false;
+
+			window.onerror = function( msg, url, line, col, error ) {
+				// Break out early, do not processing if a downgrade reqeust was already sent.
+				if ( jQueryMigrateHelperHasSentDowngrade ) {
+					return true;
+                }
+
+				var xhr = new XMLHttpRequest();
+				var nonce = '1d4a45bb2d';
+				var jQueryFunctions = [
+					'andSelf',
+					'browser',
+					'live',
+					'boxModel',
+					'support.boxModel',
+					'size',
+					'swap',
+					'clean',
+					'sub',
+                ];
+				var match_pattern = /\)\.(.+?) is not a function/;
+                var erroredFunction = msg.match( match_pattern );
+
+                // If there was no matching functions, do not try to downgrade.
+                if ( typeof erroredFunction !== 'object' || typeof erroredFunction[1] === "undefined" || -1 === jQueryFunctions.indexOf( erroredFunction[1] ) ) {
+                    return true;
+                }
+
+                // Set that we've now attempted a downgrade request.
+                jQueryMigrateHelperHasSentDowngrade = true;
+
+				xhr.open( 'POST.html', '../../wp-admin/admin-ajax.html' );
+				xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+				xhr.onload = function () {
+					var response,
+                        reload = false;
+
+					if ( 200 === xhr.status ) {
+                        try {
+                        	response = JSON.parse( xhr.response );
+
+                        	reload = response.data.reload;
+                        } catch ( e ) {
+                        	reload = false;
+                        }
+                    }
+
+					// Automatically reload the page if a deprecation caused an automatic downgrade, ensure visitors get the best possible experience.
+					if ( reload ) {
+						location.reload();
+                    }
+				};
+
+				xhr.send( encodeURI( 'action=jquery-migrate-downgrade-version&_wpnonce=' + nonce ) );
+
+				// Suppress error alerts in older browsers
+				return true;
+			}
+        </script>
+
+		
+<!-- Custom Favicon -->
+<link rel="shortcut icon" href="../../wp-content/uploads/2015/08/1439737892_database.ico"/>
+
+<!-- Custom CSS -->
+<link href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/custom.css" rel="stylesheet" type="text/css"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="oracle  RAC 12c  setup using virtual box"/>
+<meta property="og:url" content="https://dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/"/>
+<meta property="og:description" content="       In this article , I have described each and every step required for setting up a 2 node rac 12c database using virtual box for testing purpose. Softwares Required: 1. Virtual box : 2. Linux  3. Oracle 12c home: 4. Oracle 12c Grid: Virtual Machine setup: Here we have to setup 2 […]"/>
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			jQuery(document).ready(function($) {
+
+				nicethemes_likes_handler();
+
+			});
+			/* ]]> */
+		</script>
+
+
+		<script type="text/javascript" data-pagespeed-no-defer="">
+		//<![CDATA[
+			jQuery(document).ready(function() {
+				jQuery('#live-search #s').liveSearch({url: 'https://dbaclass.com/?ajax=true&livesearch=true&s='});
+			});
+		//]]>
+		</script>
+
+		
+
+<!-- Nice Google fonts -->
+<link href="https://fonts.googleapis.com/css?family=Nunito|Lato:400,700,400italic" rel="stylesheet" type="text/css"/>
+
+
+<script src="../../../code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../../typeiii.github.io/jquery-csv/src/jquery.csv.html"></script>    
+<script type="text/javascript" src="../../../www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+$.get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/archived_data/archived_time_series/time_series_2019-ncov-Confirmed.csv", function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      console.log(arrayData);
+  });
+      }
+    </script> <link rel="stylesheet" href="../../../cdn-0.dbaclass.com/wp-includes/css/bootstrap.min.css"/>
+
+<style>
+.ui-mobile [data-role=page], .ui-mobile [data-role=dialog], .ui-page {
+    position: relative !important;
+}
+</style>
+
+<script type='text/javascript'>
+var ezoTemplate = 'orig_site';
+var ezouid = '1';
+var ezoFormfactor = '1';
+</script><script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 179613;
+var ezdomain = 'dbaclass.com';
+var ezoicSearchable = 1;
+</script></head>
+
+<body class="article-template-default single single-article postid-166 single-format-standard sidebar-right chrome">
+
+<!-- BEGIN #wrapper -->
+<div id="wrapper">
+
+	<!-- BEGIN #header -->
+	<header id="header" class="clearfix">
+
+		<!-- BEGIN #top -->
+		<div id="top" class="col-full">
+
+			<!-- BEGIN #logo -->
+			<div id="logo" class="fl"><h1><a href="../../index.html" title="DBACLASS"><img id="default-logo" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2018/03/dba_crop.jpg" alt="DBACLASS"/><img id="retina-logo" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2018/03/dba_crop.jpg" alt="DBACLASS"/></a></h1></div>			<!-- END #logo -->
+
+			<a href="#" id="toggle-nav"><i class="fa fa-bars"></i></a>
+
+			<!-- BEGIN #navigation -->
+			<nav id="navigation">
+
+			
+			<div class="menu-menu1-container"><ul id="main-nav" class="nav fl clearfix"><li id="nav-menu-item-1996" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href="../../index.html" class="menu-link main-menu-link">ORACLE DBA<mark class="bar"></mark></a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-163" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-taxonomy menu-item-object-article-category menu-item-has-children"><a href="../../article-category/database/index.html" class="menu-link sub-menu-link">DATABASE</a>
+	<ul class="sub-menu">
+		<li id="nav-menu-item-1625" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../database-10g11g/index.html" class="menu-link sub-menu-link">ADMINISTRATION</a></li>
+		<li id="nav-menu-item-3013" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../performance-tuning/index.html" class="menu-link sub-menu-link">PERFORMANCE TUNING</a></li>
+		<li id="nav-menu-item-1562" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../dataguard/index.html" class="menu-link sub-menu-link">DATAGUARD</a></li>
+		<li id="nav-menu-item-1362" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-security/index.html" class="menu-link sub-menu-link">ORACLE SECURITY</a></li>
+		<li id="nav-menu-item-2448" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../backup-recovery/index.html" class="menu-link sub-menu-link">Backup &amp; Recovery</a></li>
+		<li id="nav-menu-item-1209" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../troubleshoot/index.html" class="menu-link sub-menu-link">TROUBLESHOOT</a></li>
+		<li id="nav-menu-item-4018" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../quizzes/index.html" class="menu-link sub-menu-link">QUIZ</a></li>
+	</ul>
+</li>
+	<li id="nav-menu-item-1179" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-rac/index.html" class="menu-link sub-menu-link">ORACLE RAC</a></li>
+	<li id="nav-menu-item-1187" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-12c/index.html" class="menu-link sub-menu-link">ORACLE 12c-20c</a></li>
+	<li id="nav-menu-item-5465" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-multitenant/index.html" class="menu-link sub-menu-link">ORACLE MULTITENANT</a></li>
+	<li id="nav-menu-item-1269" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oem-12c13c/index.html" class="menu-link sub-menu-link">OEM 12C/13C</a></li>
+	<li id="nav-menu-item-3184" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../goldengate/index.html" class="menu-link sub-menu-link">GOLDENGATE</a></li>
+	<li id="nav-menu-item-3686" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../interview-qa/index.html" class="menu-link sub-menu-link">INTERVIEW QA</a></li>
+	<li id="nav-menu-item-4411" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../dba-cheat-sheet/index.html" class="menu-link sub-menu-link">DBA CHEATSHEET</a></li>
+</ul>
+</li>
+<li id="nav-menu-item-1396" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../monitor-your-db/index.html" class="menu-link main-menu-link">DBA SCRIPTS<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-6323" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../postgres-database-articles/index.html" class="menu-link main-menu-link">POSTGRES<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-5946" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../postgres-db-scripts/index.html" class="menu-link main-menu-link">POSTGRES SCRIPTS<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-7092" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../mysql-db-scripts/index.html" class="menu-link main-menu-link">MYSQL<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-6026" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../ansible/index.html" class="menu-link main-menu-link">DEVOPS<mark class="bar"></mark></a></li>
+</ul></div>
+			<!-- END #navigation -->
+			</nav>
+
+		<!-- END #top -->
+		</div>
+
+		<!-- #live-search -->
+	<section id="live-search" class="clearfix">
+		<div class="container col-full">
+
+			
+			<div id="search-wrap">
+				<form role="search" method="get" id="searchform" class="clearfix" action="https://dbaclass.com/" autocomplete="off">
+					<div class="input">
+					<label for="s">Search.....</label>
+					<input type="text" name="s" id="s"/>
+					<input type="submit" id="searchsubmit" value=""/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- /#live-search -->
+
+
+	<!-- END #header -->
+	</header>
+
+<!-- BEGIN #container -->
+<div id="container" class="clearfix">
+
+<!-- BEGIN #content -->
+<section id="content">
+
+	
+		<article class="post-166 article type-article status-publish format-standard hentry article-category-oracle-rac article-tag-rac">
+
+						
+			<header>
+					<div class="breadcrumb breadcrumbs nice-breadcrumb"><div class="breadcrumb-trail"><a href="../../index.html" title="DBACLASS" rel="home" class="trail-begin">Home</a> <span class="sep">/</span> <a href="../../article-category/oracle-rac/index.html" rel="tag">ORACLE RAC</a> <span class="sep">/</span> <span class="trail-end">oracle  RAC 12c  setup using virtual box</span></div></div>
+					<h1 class="entry-title">oracle  RAC 12c  setup using virtual box</h1>
+
+					
+	<div class="entry-meta">
+
+				<span class="nice-views">
+						<i class="fa fa-bullseye"></i>14722 views		</span>
+		
+				<span class="nice-reading-time">
+			<i class="fa fa-bookmark"></i> 5 min , 34 sec read		</span>
+		
+				<a class="nice-like" data-id="166" href="#" title="Like this">
+			<i class="fa fa-heart"></i>
+			<span class="like-count">
+				0			</span>
+		</a>
+		
+		
+	</div>
+
+			</header>
+
+			<div class="entry">
+
+				
+					<div class="post-content">
+						<p> </p>
+<p><span style="color: #000000;">      In this article , I have described each and every step required for setting up a 2 node rac 12c database using virtual box for testing purpose.</span></p>
+<h4>Softwares Required:</h4>
+<p><a href="https://www.virtualbox.org/wiki/Downloads">1. Virtual box :</a></p>
+<p><a href="https://edelivery.oracle.com/linux">2. Linux </a></p>
+<p><a href="http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html">3. Oracle 12c home:</a></p>
+<p><a href="http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html">4. Oracle 12c Grid:</a></p>
+<h4>Virtual Machine setup:</h4>
+<p><span style="color: #000000;">Here we have to setup 2 nodes inside virtual box. So reduce our work, we will build one node and then clone the same to other node.</span></p>
+<h4><span style="color: #000000;">1. Open virtual box</span></h4>
+<h4></h4>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/1.html"><img fetchpriority="high" decoding="async" class="aligncenter size-full wp-image-714" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/1.html" alt="1" width="628" height="111" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/1.jpg 628w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/1-300x53.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/1-600x106.jpg 600w" sizes="(max-width: 628px) 100vw, 628px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/2.html"><img decoding="async" class="aligncenter size-full wp-image-715" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/2.html" alt="2" width="433" height="376" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/2.jpg 433w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/2-300x261.jpg 300w" sizes="(max-width: 433px) 100vw, 433px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/3.html"><img decoding="async" class="aligncenter size-full wp-image-716" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/3.html" alt="3" width="433" height="383" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/3.jpg 433w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/3-300x265.jpg 300w" sizes="(max-width: 433px) 100vw, 433px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/4.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-717" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/4.html" alt="4" width="427" height="382" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/4.jpg 427w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/4-300x268.jpg 300w" sizes="(max-width: 427px) 100vw, 427px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/5.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-718" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/5.html" alt="5" width="504" height="420" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/5.jpg 504w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/5-300x250.jpg 300w" sizes="(max-width: 504px) 100vw, 504px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/6.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-719" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/6.html" alt="6" width="500" height="418" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/6.jpg 500w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/6-300x251.jpg 300w" sizes="(max-width: 500px) 100vw, 500px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/7.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-720" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/7.html" alt="7" width="503" height="424" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/7.jpg 503w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/7-300x253.jpg 300w" sizes="(max-width: 503px) 100vw, 503px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/8.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-721" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/8.html" alt="8" width="621" height="431" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/8.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/8-300x208.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/8-600x416.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p> </p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/9.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-722" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/9.html" alt="9" width="612" height="460" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/9.jpg 612w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/9-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/9-600x451.jpg 600w" sizes="(max-width: 612px) 100vw, 612px"/></a></p>
+<p> </p>
+<h4><span style="color: #000000;">3. Choose the linux iso file for installation:</span></h4>
+<h4></h4>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/10.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-724" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/10.html" alt="10" width="622" height="476" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/10.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/10-300x230.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/10-600x459.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/11.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-725" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/11.html" alt="11" width="617" height="461" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/11.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/11-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/11-600x448.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/12.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-726" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/12.html" alt="12" width="623" height="464" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/12.jpg 623w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/12-300x223.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/12-600x447.jpg 600w" sizes="(max-width: 623px) 100vw, 623px"/></a></p>
+<p> </p>
+<h4><span style="color: #000000;">4.Start the linux installation:</span></h4>
+<h4></h4>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/13.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-727" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/13.html" alt="13" width="621" height="530" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/13.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/13-300x256.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/13-600x512.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/14.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-728" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/14.html" alt="14" width="628" height="406" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/14.jpg 628w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/14-300x194.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/14-600x388.jpg 600w" sizes="(max-width: 628px) 100vw, 628px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/15.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-729" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/15.html" alt="15" width="624" height="531" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/15.jpg 624w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/15-300x255.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/15-600x511.jpg 600w" sizes="(max-width: 624px) 100vw, 624px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/16.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-730" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/16.html" alt="16" width="620" height="197" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/16.jpg 620w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/16-300x95.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/16-600x191.jpg 600w" sizes="(max-width: 620px) 100vw, 620px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/17.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-731" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/17.html" alt="17" width="618" height="358" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/17.jpg 618w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/17-300x174.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/17-600x348.jpg 600w" sizes="(max-width: 618px) 100vw, 618px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/18.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-732" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/18.html" alt="18" width="496" height="155" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/18.jpg 496w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/18-300x94.jpg 300w" sizes="(max-width: 496px) 100vw, 496px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/19.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-733" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/19.html" alt="19" width="624" height="446" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/19.jpg 624w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/19-300x214.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/19-600x429.jpg 600w" sizes="(max-width: 624px) 100vw, 624px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/20.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-734" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/20.html" alt="20" width="442" height="553" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/20.jpg 442w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/20-240x300.jpg 240w" sizes="(max-width: 442px) 100vw, 442px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/21.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-735" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/21.html" alt="21" width="445" height="557" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/21.jpg 445w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/21-240x300.jpg 240w" sizes="(max-width: 445px) 100vw, 445px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/22.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-736" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/22.html" alt="22" width="444" height="557" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/22.jpg 444w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/22-239x300.jpg 239w" sizes="(max-width: 444px) 100vw, 444px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/23.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-737" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/23.html" alt="23" width="465" height="453" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/23.jpg 465w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/23-300x292.jpg 300w" sizes="(max-width: 465px) 100vw, 465px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/24.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-738" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/24.jpg" alt="24" width="493" height="320" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/24.jpg 493w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/24-300x195.jpg 300w" sizes="(max-width: 493px) 100vw, 493px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/25.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-739" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/25.jpg" alt="25" width="616" height="395" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/25.jpg 616w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/25-300x192.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/25-600x385.jpg 600w" sizes="(max-width: 616px) 100vw, 616px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/26.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-740" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/26.html" alt="26" width="630" height="391" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/26.jpg 630w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/26-300x186.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/26-600x372.jpg 600w" sizes="(max-width: 630px) 100vw, 630px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/28.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-741" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/28.jpg" alt="28" width="505" height="468" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/28.jpg 505w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/28-300x278.jpg 300w" sizes="(max-width: 505px) 100vw, 505px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/29.jpg"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-742" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/29.jpg" alt="29" width="506" height="467" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/29.jpg 506w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/29-300x277.jpg 300w" sizes="(max-width: 506px) 100vw, 506px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/30.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-743" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/30.html" alt="30" width="507" height="467" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/30.jpg 507w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/30-300x276.jpg 300w" sizes="(max-width: 507px) 100vw, 507px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/31.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-744" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/31.html" alt="31" width="621" height="247" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/31.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/31-300x119.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/31-600x239.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/32.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-745" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/32.html" alt="32" width="449" height="343" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/32.jpg 449w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/32-300x229.jpg 300w" sizes="(max-width: 449px) 100vw, 449px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/33.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-746" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/33.html" alt="33" width="659" height="488" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/33.jpg 659w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/33-300x222.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/33-600x444.jpg 600w" sizes="(max-width: 659px) 100vw, 659px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/34.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-747" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/34.html" alt="34" width="626" height="485" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/34.jpg 626w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/34-300x232.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/34-600x465.jpg 600w" sizes="(max-width: 626px) 100vw, 626px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/35.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-748" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/35.html" alt="35" width="629" height="411" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/35.jpg 629w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/35-300x196.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/35-600x392.jpg 600w" sizes="(max-width: 629px) 100vw, 629px"/></a></p>
+<p> </p>
+<p> </p>
+<p><span style="color: #000000;">After selecting Server administrative tools, click on <em>OPTIONAL PACKAGES</em>.  Make sure you select <em>oracle rdbms and oracleasm</em> packages.</span></p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/36.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-749" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/36.html" alt="36" width="605" height="429" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/36.jpg 605w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/36-300x213.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/36-600x425.jpg 600w" sizes="(max-width: 605px) 100vw, 605px"/></a> <a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/37.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-750" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/37.html" alt="37" width="628" height="405" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/37.jpg 628w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/37-300x193.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/37-600x387.jpg 600w" sizes="(max-width: 628px) 100vw, 628px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/38.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-751" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/38.html" alt="38" width="622" height="321" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/38.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/38-300x155.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/38-600x310.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/39.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-752" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/39.html" alt="39" width="626" height="329" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/39.jpg 626w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/39-300x158.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/39-600x315.jpg 600w" sizes="(max-width: 626px) 100vw, 626px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/40.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-753" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/40.html" alt="40" width="618" height="384" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/40.jpg 618w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/40-300x186.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/40-600x373.jpg 600w" sizes="(max-width: 618px) 100vw, 618px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/41.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-754" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/41.html" alt="41" width="623" height="266" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/41.jpg 623w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/41-300x128.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/41-600x256.jpg 600w" sizes="(max-width: 623px) 100vw, 623px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/42.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-755" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/42.html" alt="42" width="630" height="442" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/42.jpg 630w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/42-300x210.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/42-600x421.jpg 600w" sizes="(max-width: 630px) 100vw, 630px"/></a></p>
+<p> </p>
+<p><span style="color: #000000;">Now your linux installation is done . </span></p>
+<h4><span style="color: #000000;">5. Install guest addition </span></h4>
+<p><span style="color: #000000;">Guest addition  helps in keyboard and mouse integration.</span></p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/43.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-756" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/43.html" alt="43" width="627" height="319" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/43.jpg 627w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/43-300x153.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/43-600x305.jpg 600w" sizes="(max-width: 627px) 100vw, 627px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/44.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-757" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/44.html" alt="44" width="491" height="315" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/44.jpg 491w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/44-300x192.jpg 300w" sizes="(max-width: 491px) 100vw, 491px"/></a></p>
+<p> </p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/451.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-762" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/451.html" alt="45" width="422" height="265" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/451.jpg 422w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/451-300x188.jpg 300w" sizes="(max-width: 422px) 100vw, 422px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/461.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-763" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2016/07/461.html" alt="46" width="631" height="297" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/461.jpg 631w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/461-300x141.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2016/07/461-600x282.jpg 600w" sizes="(max-width: 631px) 100vw, 631px"/></a></p>
+<p> </p>
+<h4><span style="color: #000000;">6. Configure oracleasm lib.</span></h4>
+<h4></h4>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/47.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-764" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/47.html" alt="47" width="625" height="216" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/47.jpg 625w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/47-300x104.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/47-600x207.jpg 600w" sizes="(max-width: 625px) 100vw, 625px"/></a></p>
+<p> </p>
+<h4><span style="color: #000000;">7.Go to settings and change both to bidirectional.</span></h4>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/48.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-765" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/48.html" alt="48" width="625" height="466" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/48.jpg 625w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/48-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/48-600x447.jpg 600w" sizes="(max-width: 625px) 100vw, 625px"/></a></p>
+<h4>8.Now create user groups and set password for oracle user:</h4>
+<pre class="">[root@riyadh1 ~]# mkdir -p /u01/app/12.1.0/grid_1
+[root@riyadh1 ~]# mkdir -p /u01/app/oracle
+[root@riyadh1 ~]# chown -R oracle:oinstall /u01
+[root@riyadh1 ~]# chown oracle:oinstall /u01/app/oracle
+[root@riyadh1 ~]# chmod -R 775 /u01/
+[root@riyadh1 ~]# usermod -G dba,vboxsf oracle
+[root@riyadh1 ~]# 
+[root@riyadh1 ~]# 
+[root@riyadh1 ~]# 
+[root@riyadh1 ~]# 
+[root@riyadh1 ~]# passwd oracle
+Changing password for user oracle.
+New password: 
+BAD PASSWORD: it is based on a dictionary word
+BAD PASSWORD: is too simple
+Retype new password: 
+passwd: all authentication tokens updated successfully.
+[root@riyadh1 ~]#</pre>
+<h4 class="">9.Now disable the firewall:</h4>
+<p><span style="background-color: #00ffff;">Go to SYSTEM – &gt; ADMINISTRATION -&gt; FIREWALL</span></p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/49.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-766" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/49.html" alt="49" width="614" height="473" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/49.jpg 614w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/49-300x231.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/49-600x462.jpg 600w" sizes="(max-width: 614px) 100vw, 614px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/50.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-767" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/50.html" alt="50" width="619" height="456" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/50.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/50-300x221.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/50-600x442.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p> </p>
+<p><strong>10.Disable selinux mode to disable from enabled in config file.</strong></p>
+<pre class="">vi /etc/selinux/config
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+# enforcing - SELinux security policy is enforced.
+# permissive - SELinux prints warnings instead of enforcing.
+# disabled - No SELinux policy is loaded.
+SELINUX=disabled
+# SELINUXTYPE= can take one of these two values:
+# targeted - Targeted processes are protected,
+# mls - Multi Level Security protection.
+SELINUXTYPE=targeted</pre>
+<h4>11.Stop ntpd services:</h4>
+<pre class="">[root@riyadh1 ~]# service ntpd stop
+ Shutting down ntpd: [FAILED]
+ [root@riyadh1 ~]# chkconfig ntpd off
+ [root@riyadh1 ~]# mv /etc/ntp.conf /etc/ntp.conf.orig</pre>
+<p> </p>
+<pre class="">[root@riyadh1 ~]# yum clean all
+ Loaded plugins: refresh-packagekit, security
+ Cleaning repos: ol6_UEK_latest ol6_latest
+ Cleaning up Everything
+ [root@riyadh1 ~]#</pre>
+<p> </p>
+<p><span style="color: #000000;">Now we have to make the grid and oracle home software shareable with the virtual box. Shutdown the node1.</span></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/511.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-768" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/511.html" alt="51" width="626" height="210" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/511.jpg 626w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/511-300x101.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/511-600x201.jpg 600w" sizes="(max-width: 626px) 100vw, 626px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/52.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-769" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/52.html" alt="52" width="618" height="462" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/52.jpg 618w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/52-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/52-600x449.jpg 600w" sizes="(max-width: 618px) 100vw, 618px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/53.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-770" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/53.html" alt="53" width="610" height="457" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/53.jpg 610w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/53-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/53-600x450.jpg 600w" sizes="(max-width: 610px) 100vw, 610px"/></a></p>
+<p> </p>
+<p><span style="color: #000000;">Once done start the node1 and login with oracle user.</span></p>
+<p> </p>
+<p><span style="color: #000000;">[oracle@riyadh1 ~]$ su – root</span><br/>
+<span style="color: #000000;"> Password:</span><br/>
+<span style="color: #000000;"> [root@riyadh1 ~]# cd /media/sf_oracle_sw/</span><br/>
+<span style="color: #000000;"> [root@riyadh1 sf_oracle_sw]# pwd</span><br/>
+<span style="color: #000000;"> /media/sf_oracle_sw</span><br/>
+<span style="color: #000000;"> [root@riyadh1 sf_oracle_sw]# ls -ltr</span><br/>
+<span style="color: #000000;"> total 8</span><br/>
+<span style="color: #000000;"> drwxrwx— 1 root vboxsf 4096 Jul 7 2014 grid</span><br/>
+<span style="color: #000000;"> drwxrwx— 1 root vboxsf 4096 Mar 1 10:14 database</span><br/>
+<span style="color: #000000;"> [root@riyadh1 sf_oracle_sw]#</span></p>
+<p> </p>
+<h4>Install cvfudisk:</h4>
+<p><span style="background-color: #00ffff;"><em>Without cvuqdisk, Cluster Verification Utility is unable to discover shared disks, and you receive the error message “Package cvuqdisk not installed” when you run Cluster Verification Utility. Use the cvuqdisk rpm for your hardware (for example, x86_64, or i386).</em></span></p>
+<pre class=""> [root@riyadh1 sf_oracle_sw]# cd /media/sf_oracle_sw/grid/rpm
+ [root@riyadh1 rpm]# CVUQDISK_GRP=oinstall; export CVUQDISK_GRP
+ [root@riyadh1 rpm]# rpm -Uvh cvuqdisk*
+ Preparing... ########################################### [100%]
+ Using default group oinstall to install package
+ 1:cvuqdisk ########################################### [100%]
+ [root@riyadh1 rpm]#</pre>
+<p> </p>
+<h4>Clone the existing node:</h4>
+<p><span style="color: #000000;">Now we will clone the existing node. i.e we will create node2 ( riyadh2 from riyadh1)</span></p>
+<p><span style="color: #000000;">Shutdown the VM.</span></p>
+<p><span style="background-color: #00ffff;">Go to MACHINE – &gt; CLONE</span></p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/54.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-771" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/54.html" alt="54" width="448" height="382" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/54.jpg 448w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/54-300x256.jpg 300w" sizes="(max-width: 448px) 100vw, 448px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/55.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-772" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/55.html" alt="55" width="445" height="382" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/55.jpg 445w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/55-300x258.jpg 300w" sizes="(max-width: 445px) 100vw, 445px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/56.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-773" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/56.html" alt="56" width="409" height="341" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/56.jpg 409w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/56-300x250.jpg 300w" sizes="(max-width: 409px) 100vw, 409px"/></a></p>
+<p> </p>
+<p><span style="color: #000000;">Now for riyadh2 (node 2) , we have to change the MAC address . Because MAC address is unique for each machine.</span></p>
+<p><span style="color: #000000;">Just change the MAC address, by changing the last character of the address.</span></p>
+<p><span style="color: #000000;">if it is 080027B7A349 . Then change it to 080027B7A34A. Do the same for both network adapters.</span></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/57.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-774" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/57.html" alt="57" width="619" height="469" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/57.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/57-300x227.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/57-600x455.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/58.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-775" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/58.html" alt="58" width="624" height="469" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/58.jpg 624w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/58-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/58-600x451.jpg 600w" sizes="(max-width: 624px) 100vw, 624px"/></a></p>
+<p> </p>
+<p> </p>
+<p><span style="color: #000000;">Now start both the nodes.</span></p>
+<p><span style="color: #000000;">In node2 : change the hostname to riyadh2 in the network file.</span></p>
+<p> </p>
+<p><span style="color: #000000; background-color: #00ffff;">[root@riyadh1 sysconfig]# vi /etc/sysconfig/network</span></p>
+<p><span style="color: #000000; background-color: #00ffff;">change riyadh1 to riyadh2</span></p>
+<p><span style="color: #000000;">In VM2(riyadh2) go to<em> <span style="background-color: #00ffff;">SYSTEM – PREFERNCE – NETWORK CONNECTION</span></em>. You will see something like this.</span></p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/59.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-776" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/59.html" alt="59" width="409" height="335" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/59.jpg 409w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/59-300x246.jpg 300w" sizes="(max-width: 409px) 100vw, 409px"/></a></p>
+<p> </p>
+<p><span style="color: #000000; background-color: #00ffff;">Remove Auto eth2 and Auto eth3.</span></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/60.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-777" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/60.html" alt="60" width="516" height="396" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/60.jpg 516w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/60-300x230.jpg 300w" sizes="(max-width: 516px) 100vw, 516px"/></a></p>
+<p> </p>
+<p><span style="color: #000000;">Now edit the mac adress to (080027B7A34A) which we set in the previous setup</span></p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/611.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-778" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/611.html" alt="61" width="453" height="550" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/611.jpg 453w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/611-247x300.jpg 247w" sizes="(max-width: 453px) 100vw, 453px"/></a></p>
+<p> </p>
+<p> </p>
+<p><span style="color: #000000;">Set the new ips for node 2:</span></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/62.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-779" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/62.html" alt="62" width="446" height="556" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/62.jpg 446w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/62-241x300.jpg 241w" sizes="(max-width: 446px) 100vw, 446px"/></a></p>
+<p> </p>
+<p><span style="color: #000000;">Do the same change ( mac address change and ip address change ) for other adapter ( eth1) also.</span></p>
+<p><span style="color: #000000;">Lets change the ethernet port names.</span></p>
+<p><span style="color: #000000;">The existing file will look like this.</span></p>
+<pre class="">cat /etc/udev/rules.d/70-persistent-net.rules
+ # This file was automatically generated by the /lib/udev/write_net_rules
+ # program, run by the persistent-net-generator.rules rules file.
+ #
+ # You can modify it, as long as you keep each rule on a single
+ # line, and change only the value of the NAME= key.
+ATTR{address}==&#34;08:00:27:b7:a3:49&#34;, ATTR{type}==&#34;1&#34;, KERNEL==&#34;eth*&#34;, NAME=&#34;eth0&#34;
+# PCI device 0x8086:0x100e (e1000)
+
+# PCI device 0x8086:0x100e (e1000)
+ SUBSYSTEM==&#34;net&#34;, ACTION==&#34;add&#34;, DRIVERS==&#34;?*&#34;, ATTR{address}==&#34;08:00:27:b7:a3:4a&#34;, ATTR{type}==&#34;1&#34;, KERNEL==&#34;eth*&#34;, NAME=&#34;eth2&#34;
+# PCI device 0x8086:0x100e (e1000)
+ SUBSYSTEM==&#34;net&#34;, ACTION==&#34;add&#34;, DRIVERS==&#34;?*&#34;, ATTR{address}==&#34;08:00:27:94:dd:8c&#34;, ATTR{type}==&#34;1&#34;, KERNEL==&#34;eth*&#34;, NAME=&#34;eth3&#34;</pre>
+<p class=""><span style="color: #000000;">Remove the entries for eth0 and eth1  and rename eth2 to eth0 and eth3 to eth1.</span></p>
+<p class=""><span style="color: #000000;">Now the file should look like below.</span></p>
+<pre class="">[root@riyadh1 ~]# cat /etc/udev/rules.d/70-persistent-net.rules
+# This file was automatically generated by the /lib/udev/write_net_rules
+# program, run by the persistent-net-generator.rules rules file.
+#
+# You can modify it, as long as you keep each rule on a single
+# line, and change only the value of the NAME= key.
+# PCI device 0x8086:0x100e (e1000)
+SUBSYSTEM==&#34;net&#34;, ACTION==&#34;add&#34;, DRIVERS==&#34;?*&#34;, ATTR{address}==&#34;08:00:27:b7:a3:4a&#34;, ATTR{type}==&#34;1&#34;, KERNEL==&#34;eth*&#34;, NAME=&#34;eth0&#34;
+# PCI device 0x8086:0x100e (e1000)
+SUBSYSTEM==&#34;net&#34;, ACTION==&#34;add&#34;, DRIVERS==&#34;?*&#34;, ATTR{address}==&#34;08:00:27:94:dd:8c&#34;, ATTR{type}==&#34;1&#34;, KERNEL==&#34;eth*&#34;, NAME=&#34;eth1&#34;</pre>
+<p class=""><span style="color: #000000;">Reboot the VM2 to reflect the changes.</span></p>
+<p class=""><span style="color: #000000;">To confirm whether changes are done or not , we can run ifconfig.</span></p>
+<pre class="">[root@riyadh1 ~]# ifconfig
+eth0 Link encap:Ethernet HWaddr 08:00:27:B7:A3:4A 
+ inet addr:192.168.100.26 Bcast:192.168.100.255 Mask:255.255.255.0
+ inet6 addr: fe80::a00:27ff:feb7:a34a/64 Scope:Link
+ UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1
+ RX packets:9 errors:0 dropped:0 overruns:0 frame:0
+ TX packets:14 errors:0 dropped:0 overruns:0 carrier:0
+ collisions:0 txqueuelen:1000 
+ RX bytes:650 (650.0 b) TX bytes:900 (900.0 b)
+eth1 Link encap:Ethernet HWaddr 08:00:27:94:DD:8C 
+ inet addr:192.168.10.22 Bcast:192.168.10.255 Mask:255.255.255.0
+ inet6 addr: fe80::a00:27ff:fe94:dd8c/64 Scope:Link
+ UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1
+ RX packets:10 errors:0 dropped:0 overruns:0 frame:0
+ TX packets:11 errors:0 dropped:0 overruns:0 carrier:0
+ collisions:0 txqueuelen:1000 
+ RX bytes:700 (700.0 b) TX bytes:746 (746.0 b)
+lo Link encap:Local Loopback 
+ inet addr:127.0.0.1 Mask:255.0.0.0
+ inet6 addr: ::1/128 Scope:Host
+ UP LOOPBACK RUNNING MTU:16436 Metric:1
+ RX packets:16 errors:0 dropped:0 overruns:0 frame:0
+ TX packets:16 errors:0 dropped:0 overruns:0 carrier:0
+ collisions:0 txqueuelen:0 
+ RX bytes:960 (960.0 b) TX bytes:960 (960.0 b)</pre>
+<p> </p>
+<pre class="">[root@riyadh1 sysconfig]# cat /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=riyadh2.localdomain</pre>
+<p> </p>
+<p><span style="color: #000000;">Add public, private,vip,scan host entries in /etc/hosts file of both node1 and node2.</span></p>
+<p><span style="color: #000000;">So hosts file should look like below.</span></p>
+<p> </p>
+<pre class="">cat /etc/hosts
+127.0.0.1 localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1 localhost localhost.localdomain localhost6 localhost6.localdomain6
+# Private
+192.168.10.21 riyadh1-priv.localdomain riyadh1-priv
+192.168.10.22 riyadh2-priv.localdomain riyadh2-priv
+# Public
+192.168.100.25 riyadh1.localdomain riyadh1
+192.168.100.26 riyadh2.localdomain riyadh2
+# Virtual
+192.168.100.35 riyadh1-vip.localdomain riyadh-vip
+192.168.100.36 riyadh2-vip.localdomain riyadh-vip
+# SCAN
+192.168.100.45 riyadh-scan.localdomain riyadh-scan
+192.168.100.46 riyadh-scan.localdomain riyadh-scan
+192.168.100.47 riyadh-scan.localdomain riyadh-scan</pre>
+<p> </p>
+<h4>Now we will create a shared disk , which will be shared between both node1 and node2.</h4>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/63.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-780" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/63.html" alt="63" width="623" height="468" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/63.jpg 623w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/63-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/63-600x451.jpg 600w" sizes="(max-width: 623px) 100vw, 623px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/64.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-781" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/64.html" alt="64" width="619" height="458" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/64.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/64-300x222.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/64-600x444.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/65.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-782" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/65.html" alt="65" width="502" height="420" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/65.jpg 502w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/65-300x251.jpg 300w" sizes="(max-width: 502px) 100vw, 502px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/66.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-783" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/66.html" alt="66" width="510" height="431" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/66.jpg 510w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/66-300x254.jpg 300w" sizes="(max-width: 510px) 100vw, 510px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/67.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-784" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/67.html" alt="67" width="502" height="430" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/67.jpg 502w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/67-300x257.jpg 300w" sizes="(max-width: 502px) 100vw, 502px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/68.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-785" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/68.html" alt="68" width="429" height="163" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/68.jpg 429w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/68-300x114.jpg 300w" sizes="(max-width: 429px) 100vw, 429px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/69.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-786" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/69.html" alt="69" width="619" height="460" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/69.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/69-300x223.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/69-600x446.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p> </p>
+<p><span style="background-color: #00ffff;">Now go to<em> FILE – &gt; VIRTUAL MEDIA MANAGER</em></span></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/70.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-787" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/70.html" alt="70" width="621" height="494" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/70.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/70-300x239.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/70-600x477.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/711.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-788" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/711.html" alt="71" width="644" height="450" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/711.jpg 644w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/711-300x210.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/711-600x419.jpg 600w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/711-580x405.jpg 580w" sizes="(max-width: 644px) 100vw, 644px"/></a></p>
+<p> </p>
+<p><strong><span style="color: #000000;">Now add the shared disk to node 2 also.</span></strong></p>
+<p> </p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/721.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-789" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/721.html" alt="72" width="622" height="468" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/721.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/721-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/721-600x451.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a> <a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/73.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-790" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/73.html" alt="73" width="635" height="470" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/73.jpg 635w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/73-300x222.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/73-600x444.jpg 600w" sizes="(max-width: 635px) 100vw, 635px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/74.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-791" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/74.html" alt="74" width="618" height="467" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/74.jpg 618w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/74-300x227.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/74-600x453.jpg 600w" sizes="(max-width: 618px) 100vw, 618px"/></a></p>
+<p> </p>
+<p><span style="color: #000000;">Now we will partition the shared storage to create asmdisks.</span></p>
+<p><span style="color: #000000;">Start both the nodes and login to any of the  nodes as root user.</span></p>
+<pre class="">[root@riyadh1 ~]# ls /dev/sd*
+ /dev/sda /dev/sda1 /dev/sda2 /dev/sda3 /dev/sda4 /dev/sda5 /dev/sdb
+[root@riyadh1 ~]#
+[root@riyadh1 ~]# fdisk /dev/sdb
+ Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
+Building a new DOS disklabel with disk identifier 0x4026c989.&gt;
+Changes will remain in memory only, until you decide to write them.
+ After that, of course, the previous content won&#39;t be recoverable.
+Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
+WARNING: DOS-compatible mode is deprecated. It&#39;s strongly recommended to
+switch off the mode (command &#39;c&#39;) and change display units to
+sectors (command &#39;u&#39;).
+Command (m for help): N
+ Command action
+ e extended
+ p primary partition (1-4)
+ p
+ Partition number (1-4): 1
+ First cylinder (1-7754, default 1): 1
+ Last cylinder, +cylinders or +size{K,M,G} (1-7754, default 7754): 
+ Using default value 7754
+Command (m for help): w
+The partition table has been altered!
+Calling ioctl() to re-read partition table.
+Syncing disks.
+[root@riyadh1 ~]# ls /dev/sd*
+ /dev/sda /dev/sda1 /dev/sda2 /dev/sda3 /dev/sda4 /dev/sda5 /dev/sdb /dev/sdb1
+ [root@riyadh1 ~]# oracleasm createdisk DISK1 /dev/sdb1
+ Writing disk header: done
+ Instantiating disk: done
+[root@riyadh1 ~]# oracleasm scandisks
+ Reloading disk partitions: done
+ Cleaning any stale ASM disks...
+ Scanning system for ASM disks...
+[root@riyadh1 ~]# oracleasm listdisks
+ DISK1
+ [root@riyadh1 ~]#
+ Now check in the other node:
+ [root@riyadh2 ~]# oracleasm scandisks
+ Reloading disk partitions: done
+ Cleaning any stale ASM disks...
+ Scanning system for ASM disks...
+ Instantiating disk &#34;DISK1&#34;
+ [root@riyadh2 ~]# oracleasm listdisks
+ DISK1
+ [root@riyadh2 ~]#</pre>
+<p> </p>
+<p><span style="color: #000000;">Now we can see the asm disk is visible to both the nodes.</span></p>
+<p><span style="color: #000000;">Lets configure the ssh connectivity between both the nodes</span>.</p>
+<p><a href="../how-to-enable-ssh-connectivity-between-2-servers/index.html" target="_blank"> click on this link for ssh connectivity establishment.</a></p>
+<p> </p>
+<h4>Lets proceed with GRID INSTALLATION:</h4>
+<p><span style="color: #000000;">Login to node 1 as oracle user</span></p>
+<p><span style="color: #000000;">[oracle@riyadh1 ~]$ cd /media/sf_oracle_sw/grid/</span></p>
+<p><span style="color: #000000;">[oracle@riyadh1 grid]$ ./runInstaller</span></p>
+<p><span style="color: #000000;">Starting Oracle Universal Installer…</span></p>
+<p><span style="color: #000000;">Checking Temp space: must be greater than 415 MB.   Actual 24517 MB    Passed</span></p>
+<p><span style="color: #000000;">Checking swap space: must be greater than 150 MB.   Actual 8999 MB    Passed</span></p>
+<p><span style="color: #000000;">Checking monitor: must be configured to display at least 256 colors.    Actual 16777216    Passed</span></p>
+<p><span style="color: #000000;">Preparing to launch Oracle Universal Installer from /tmp/OraInstall2015-03-18_02-42-21PM. Please wait …</span></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/75.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-792" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/75.html" alt="75" width="617" height="461" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/75.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/75-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/75-600x448.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/76.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-793" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/76.html" alt="76" width="617" height="462" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/76.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/76-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/76-600x449.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/77.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-794" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/77.html" alt="77" width="629" height="471" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/77.jpg 629w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/77-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/77-600x449.jpg 600w" sizes="(max-width: 629px) 100vw, 629px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/78.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-795" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/78.html" alt="78" width="624" height="470" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/78.jpg 624w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/78-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/78-600x452.jpg 600w" sizes="(max-width: 624px) 100vw, 624px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/79.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-796" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/79.html" alt="79" width="616" height="464" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/79.jpg 616w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/79-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/79-600x452.jpg 600w" sizes="(max-width: 616px) 100vw, 616px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/80.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-797" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/80.html" alt="80" width="510" height="252" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/80.jpg 510w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/80-300x148.jpg 300w" sizes="(max-width: 510px) 100vw, 510px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/811.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-798" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/811.html" alt="81" width="623" height="466" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/811.jpg 623w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/811-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/811-600x449.jpg 600w" sizes="(max-width: 623px) 100vw, 623px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/82.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-799" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/82.html" alt="82" width="520" height="178" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/82.jpg 520w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/82-300x103.jpg 300w" sizes="(max-width: 520px) 100vw, 520px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/83.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-800" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/83.html" alt="83" width="622" height="466" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/83.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/83-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/83-600x450.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/84.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-801" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/84.html" alt="84" width="619" height="461" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/84.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/84-300x223.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/84-600x447.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/85.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-802" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/85.html" alt="85" width="628" height="468" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/85.jpg 628w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/85-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/85-600x447.jpg 600w" sizes="(max-width: 628px) 100vw, 628px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/86.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-803" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/86.html" alt="86" width="621" height="470" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/86.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/86-300x227.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/86-600x454.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/87.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-804" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/87.html" alt="87" width="629" height="470" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/87.jpg 629w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/87-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/87-600x448.jpg 600w" sizes="(max-width: 629px) 100vw, 629px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/88.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-805" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/88.html" alt="88" width="624" height="469" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/88.jpg 624w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/88-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/88-600x451.jpg 600w" sizes="(max-width: 624px) 100vw, 624px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/89.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-806" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/89.html" alt="89" width="618" height="463" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/89.jpg 618w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/89-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/89-600x450.jpg 600w" sizes="(max-width: 618px) 100vw, 618px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/90.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-807" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/90.html" alt="90" width="617" height="463" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/90.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/90-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/90-600x450.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/911.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-808" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/911.html" alt="91" width="613" height="462" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/911.jpg 613w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/911-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/911-600x452.jpg 600w" sizes="(max-width: 613px) 100vw, 613px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/92.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-809" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/92.html" alt="92" width="553" height="223" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/92.jpg 553w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/92-300x121.jpg 300w" sizes="(max-width: 553px) 100vw, 553px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/93.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-810" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/93.html" alt="93" width="622" height="467" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/93.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/93-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/93-600x450.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/94.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-811" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/94.html" alt="94" width="622" height="461" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/94.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/94-300x222.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/94-600x445.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/95.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-812" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/95.html" alt="95" width="618" height="464" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/95.jpg 618w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/95-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/95-600x450.jpg 600w" sizes="(max-width: 618px) 100vw, 618px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/96.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-813" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/96.html" alt="96" width="619" height="462" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/96.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/96-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/96-600x448.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/97.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-814" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/97.html" alt="97" width="621" height="463" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/97.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/97-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/97-600x447.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/98.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-815" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/98.html" alt="98" width="555" height="232" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/98.jpg 555w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/98-300x125.jpg 300w" sizes="(max-width: 555px) 100vw, 555px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/99.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-816" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/99.html" alt="99" width="615" height="467" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/99.jpg 615w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/99-300x228.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/99-600x456.jpg 600w" sizes="(max-width: 615px) 100vw, 615px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/100.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-817" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/100.html" alt="100" width="619" height="466" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/100.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/100-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/100-600x452.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/101.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-818" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/101.html" alt="101" width="617" height="461" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/101.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/101-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/101-600x448.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/102.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-819" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/102.html" alt="102" width="617" height="464" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/102.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/102-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/102-600x451.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/103.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-820" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/103.html" alt="103" width="622" height="463" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/103.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/103-300x223.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/103-600x447.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/104.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-821" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/104.html" alt="104" width="617" height="464" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/104.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/104-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/104-600x451.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/105.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-822" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/105.html" alt="105" width="621" height="463" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/105.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/105-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/105-600x447.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p> </p>
+<p><span style="color: #000000;">With this now our grid installation is done.   Lets proceed with oracle binary installation.</span></p>
+<h4><span style="color: #000000;">Oracle rdbms installation:</span></h4>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/106.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-824" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/106.html" alt="106" width="622" height="462" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/106.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/106-300x223.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/106-600x446.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/107.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-825" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/107.html" alt="107" width="621" height="466" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/107.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/107-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/107-600x450.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/108.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-826" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/108.html" alt="108" width="621" height="470" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/108.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/108-300x227.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/108-600x454.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/109.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-827" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/109.html" alt="109" width="617" height="462" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/109.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/109-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/109-600x449.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/110.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-828" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/110.html" alt="110" width="622" height="470" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/110.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/110-300x227.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/110-600x453.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/111.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-829" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/111.html" alt="111" width="620" height="469" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/111.jpg 620w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/111-300x227.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/111-600x454.jpg 600w" sizes="(max-width: 620px) 100vw, 620px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/112.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-830" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/112.html" alt="112" width="619" height="460" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/112.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/112-300x223.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/112-600x446.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/113.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-831" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/113.html" alt="113" width="622" height="461" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/113.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/113-300x222.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/113-600x445.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/114.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-832" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/114.html" alt="114" width="619" height="466" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/114.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/114-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/114-600x452.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/115.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-833" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/115.html" alt="115" width="625" height="474" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/115.jpg 625w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/115-300x228.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/115-600x455.jpg 600w" sizes="(max-width: 625px) 100vw, 625px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/116.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-834" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/116.html" alt="116" width="617" height="465" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/116.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/116-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/116-600x452.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/117.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-835" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/117.html" alt="117" width="619" height="475" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/117.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/117-300x230.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/117-600x460.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/118.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-836" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/118.html" alt="118" width="619" height="462" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/118.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/118-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/118-600x448.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/119.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-837" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/119.html" alt="119" width="622" height="465" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/119.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/119-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/119-600x449.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/120.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-838" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/120.html" alt="120" width="626" height="464" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/120.jpg 626w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/120-300x222.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/120-600x445.jpg 600w" sizes="(max-width: 626px) 100vw, 626px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/121.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-839" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/121.html" alt="121" width="620" height="460" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/121.jpg 620w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/121-300x223.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/121-600x445.jpg 600w" sizes="(max-width: 620px) 100vw, 620px"/></a></p>
+<p> </p>
+<p><span style="color: #000000;">Now create a database.</span></p>
+<h4><span style="color: #000000;">Database creation</span></h4>
+<p><span style="color: #000000;">cd $ORACLE_HOME/bin</span></p>
+<p><span style="color: #000000;">./dbca</span></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/122.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-840" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/122.html" alt="122" width="622" height="466" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/122.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/122-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/122-600x450.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/123.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-841" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/123.html" alt="123" width="618" height="464" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/123.jpg 618w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/123-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/123-600x450.jpg 600w" sizes="(max-width: 618px) 100vw, 618px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/124.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-842" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/124.html" alt="124" width="619" height="462" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/124.jpg 619w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/124-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/124-600x448.jpg 600w" sizes="(max-width: 619px) 100vw, 619px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/125.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-843" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/125.html" alt="125" width="621" height="467" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/125.jpg 621w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/125-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/125-600x451.jpg 600w" sizes="(max-width: 621px) 100vw, 621px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/127.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-845" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/127.html" alt="127" width="624" height="467" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/127.jpg 624w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/127-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/127-600x449.jpg 600w" sizes="(max-width: 624px) 100vw, 624px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/128.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-846" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/128.html" alt="128" width="622" height="472" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/128.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/128-300x228.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/128-600x455.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/129.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-847" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/129.html" alt="129" width="616" height="465" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/129.jpg 616w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/129-300x226.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/129-600x453.jpg 600w" sizes="(max-width: 616px) 100vw, 616px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/130.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-848" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/130.html" alt="130" width="625" height="469" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/130.jpg 625w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/130-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/130-600x450.jpg 600w" sizes="(max-width: 625px) 100vw, 625px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/131.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-849" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/131.html" alt="131" width="623" height="471" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/131.jpg 623w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/131-300x227.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/131-600x454.jpg 600w" sizes="(max-width: 623px) 100vw, 623px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/132.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-850" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/132.html" alt="132" width="616" height="466" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/132.jpg 616w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/132-300x227.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/132-600x454.jpg 600w" sizes="(max-width: 616px) 100vw, 616px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/133.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-851" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/133.html" alt="133" width="617" height="461" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/133.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/133-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/133-600x448.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/134.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-852" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/134.html" alt="134" width="620" height="465" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/134.jpg 620w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/134-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/134-600x450.jpg 600w" sizes="(max-width: 620px) 100vw, 620px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/135.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-853" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/135.html" alt="135" width="616" height="463" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/135.jpg 616w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/135-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/135-600x451.jpg 600w" sizes="(max-width: 616px) 100vw, 616px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/136.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-854" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/136.html" alt="136" width="617" height="460" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/136.jpg 617w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/136-300x224.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/136-600x447.jpg 600w" sizes="(max-width: 617px) 100vw, 617px"/></a></p>
+<p><a href="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/137.html"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-855" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2015/08/137.html" alt="137" width="622" height="467" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/137.jpg 622w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/137-300x225.jpg 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2015/08/137-600x450.jpg 600w" sizes="(max-width: 622px) 100vw, 622px"/></a></p>
+<p> </p>
+<p>Now your oracle database with 2 node RAC is ready.</p>
+<p> </p>
+<p> </p>
+					</div>
+
+					<footer class="entry-meta">
+
+						<span class="tag-links">
+							<i class="fa fa-tags"></i><a href="../../article-tag/rac/index.html" rel="tag">RAC</a>						</span>
+
+						<span class="category-links">
+							<i class="fa fa-archive"></i><a href="../../article-category/oracle-rac/index.html" rel="tag">ORACLE RAC</a>						</span>
+
+					</footer>
+
+			</div>
+
+		</article>
+
+ 
+<script type="text/javascript">
+    google_ad_client = "ca-pub-6186075803958446";
+    google_ad_slot = "9656071019";
+    google_ad_width = 336;
+    google_ad_height = 280;
+</script>
+<!-- ad3 -->
+<script type="text/javascript" src="../../../pagead2.googlesyndication.com/pagead/f.txt">
+</script>
+ 
+		
+		<div id="post-author">
+			<div class="profile-image thumb"><img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=70&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=140&amp;d=mm&amp;r=g 2x" class="avatar avatar-70 photo" height="70" width="70" loading="lazy" decoding="async"/></div>
+				<div class="profile-content">
+					<h4 class="title">About Admin</h4>
+										<div class="profile-link">
+						<a href="../../author/admin/index.html">
+							View all posts by Admin <span class="meta-nav">→</span>						</a>
+					</div><!-- #profile-link	-->
+			</div><!-- .post-entries -->
+			<div class="fix"></div>
+		</div><!-- #post-author -->
+<section id="related-posts" class="clearfix"><h3>Related Articles</h3><ul class="clearfix">
+<li class="format-article"><a href="../how-to-create-asm-disk-using-asm-filter-driverafd/index.html" rel="bookmark" title="How to create asm disk using asm filter driver(AFD)"><i class="fa fa-database"></i>How to create asm disk using asm filter driver(AFD)</a></li><li class="format-article"><a href="../how-to-change-asm-spfile-location-in-oracle-rac/index.html" rel="bookmark" title="How to change asm spfile location in oracle RAC"><i class="fa fa-database"></i>How to change asm spfile location in oracle RAC</a></li><li class="format-article"><a href="../how-to-delete-a-node-from-oracle-rac-19c/index.html" rel="bookmark" title="How to delete a node from oracle RAC 19C"><i class="fa fa-database"></i>How to delete a node from oracle RAC 19C</a></li><li class="format-article"><a href="../how-to-deinstall-oracle-19c-grid-infrastructure/index.html" rel="bookmark" title="How to deinstall oracle 19c grid infrastructure"><i class="fa fa-database"></i>How to deinstall oracle 19c grid infrastructure</a></li><li class="format-article"><a href="../how-to-add-a-node-in-oracle-rac-19c/index.html" rel="bookmark" title="How to add a node in oracle RAC 19c"><i class="fa fa-database"></i>How to add a node in oracle RAC 19c</a></li><li class="format-article"><a href="../ora-15260-permission-denied-on-asm-disk-group/index.html" rel="bookmark" title="ORA-15260: permission denied on ASM disk group"><i class="fa fa-database"></i>ORA-15260: permission denied on ASM disk group</a></li><li class="format-article"><a href="../useful-asmcmd-commands-oracle-cluster/index.html" rel="bookmark" title="Useful asmcmd commands"><i class="fa fa-database"></i>Useful asmcmd commands</a></li><li class="format-article"><a href="../how-to-change-cluster-name-in-oracle-rac/index.html" rel="bookmark" title="How to change cluster name in oracle RAC"><i class="fa fa-database"></i>How to change cluster name in oracle RAC</a></li></ul>
+</section>
+<div id="comments" class="comments-area">
+
+	
+	<h3 class="comments-title">
+		8 thoughts on “oracle  RAC 12c  setup using virtual box”	</h3>
+
+	
+	<ol class="comment-list">
+				<li id="comment-3217" class="comment even thread-even depth-1">
+			<article id="div-comment-3217" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/c4fa4e69149380aba69e73ba9775da85?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/c4fa4e69149380aba69e73ba9775da85?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">U Roy</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-3217"><time datetime="2017-08-17T16:29:52+00:00">August 17, 2017 at 4:29 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Your instructions are good.<br/>
+Can you please tell where should I install Oracle rdbms  and dbca ( node1 or node2 ) ?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-3217" data-commentid="3217" data-postid="166" data-belowelement="div-comment-3217" data-respondelement="respond" data-replyto="Reply to U Roy" aria-label="Reply to U Roy">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-3226" class="comment byuser comment-author-admin bypostauthor odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-3226" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Admin</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-3226"><time datetime="2017-08-19T06:53:38+00:00">August 19, 2017 at 6:53 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Dear Uttam,</p>
+<p>For rdbms , You just need to run ./runInstaller only from one node. The installer will install the rdbms on both the nodes automatically.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-3226" data-commentid="3226" data-postid="166" data-belowelement="div-comment-3226" data-respondelement="respond" data-replyto="Reply to Admin" aria-label="Reply to Admin">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-3834" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-3834" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/212fc6d496f9dc1c11fbdfaeaf3bbc0a?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/212fc6d496f9dc1c11fbdfaeaf3bbc0a?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Sudhakaran</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-3834"><time datetime="2017-10-12T12:07:36+00:00">October 12, 2017 at 12:07 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi,<br/>
+     It’s Very usefull DBA’ kindly post more performance relatted real time scnario’s and add more RAC Oriented real time issues  </p>
+<p>Thanks </p>
+<p>Sudhakaran kasinathan</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-3834" data-commentid="3834" data-postid="166" data-belowelement="div-comment-3834" data-respondelement="respond" data-replyto="Reply to Sudhakaran" aria-label="Reply to Sudhakaran">Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-3854" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-3854" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Admin</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-3854"><time datetime="2017-10-13T18:06:14+00:00">October 13, 2017 at 6:06 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Dear,</p>
+<p>Thanks for suggestions. We will add more articles in performance and Rac topic.</p>
+<p>Admin</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-3854" data-commentid="3854" data-postid="166" data-belowelement="div-comment-3854" data-respondelement="respond" data-replyto="Reply to Admin" aria-label="Reply to Admin">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-88514" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-88514" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/fc239c843862329987d415150acb0511?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/fc239c843862329987d415150acb0511?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">SOUVIK PAUL</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-88514"><time datetime="2020-10-04T15:26:38+00:00">October 4, 2020 at 3:26 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>i am getting error while executing root.sh script every time..</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-88514" data-commentid="88514" data-postid="166" data-belowelement="div-comment-88514" data-respondelement="respond" data-replyto="Reply to SOUVIK PAUL" aria-label="Reply to SOUVIK PAUL">Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-88545" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-88545" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Admin</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-88545"><time datetime="2020-10-05T12:41:43+00:00">October 5, 2020 at 12:41 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>what is the error you are getting?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-88545" data-commentid="88545" data-postid="166" data-belowelement="div-comment-88545" data-respondelement="respond" data-replyto="Reply to Admin" aria-label="Reply to Admin">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-89062" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-89062" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/c9ad110fdc021aa74c6380b015f0d3a4?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/c9ad110fdc021aa74c6380b015f0d3a4?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Rahman</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-89062"><time datetime="2020-10-13T13:39:54+00:00">October 13, 2020 at 1:39 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>networking or IP address able to communicate nodes each other ? struggling here to understand</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-89062" data-commentid="89062" data-postid="166" data-belowelement="div-comment-89062" data-respondelement="respond" data-replyto="Reply to Rahman" aria-label="Reply to Rahman">Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-89063" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-89063" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Admin</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-89063"><time datetime="2020-10-13T13:43:48+00:00">October 13, 2020 at 1:43 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Do you mean by private ips that will be used for communication between the 2 nodes? Please elaborate the exact query. </p>
+<p>Admin</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-89063" data-commentid="89063" data-postid="166" data-belowelement="div-comment-89063" data-respondelement="respond" data-replyto="Reply to Admin" aria-label="Reply to Admin">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+	</ol><!-- .comment-list -->
+
+	
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="index.html#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://dbaclass.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p><p class="comment-form-comment"><label for="comment">Comment <span class="required">*</span></label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required="required"/></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required="required"/></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200" autocomplete="url"/></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"/> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"/> <input type="hidden" name="comment_post_ID" value="166" id="comment_post_ID"/>
+<input type="hidden" name="comment_parent" id="comment_parent" value="0"/>
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="eaee1cc67b"/></p><input type="hidden" id="ak_js" name="ak_js" value="197"/><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea></form>	</div><!-- #respond -->
+	<p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p>
+</div><!-- #comments -->
+
+
+	
+<!-- END #content -->
+</section>
+
+<!-- BEGIN #sidebar -->
+<aside id="sidebar" role="complementary">
+	<div class="box widget widget_text clearfix">			<div class="textwidget"><style type="text/css">
+@import url(../../../cse.google.com/cse/api/branding.css);
+</style>
+<div class="cse-branding-bottom" style="background-color:#FFFFFF;color:#000000">
+  <div class="cse-branding-form">
+    <form action="https://www.google.co.in/" id="cse-search-box" target="_blank">
+      <div>
+        <input type="hidden" name="cx" value="partner-pub-6186075803958446:4803819411"/>
+        <input type="hidden" name="ie" value="UTF-8"/>
+        <input type="text" name="q" size="26"/>
+        <input type="submit" name="sa" value="Search"/>
+      </div>
+    </form>
+  </div>
+  <div class="cse-branding-logo">
+    <img src="../../../www.google.com/images/poweredby_transparent/poweredby_FFFFFF.gif" alt="Google"/>
+  </div>
+  <div class="cse-branding-text">
+    Custom Search
+  </div>
+</div>
+<script type="text/javascript" src="../../../cse.google.com/cse/f.txt"></script>
+<div id="queries"></div>
+<script src="https://www.google.com/cse/api/partner-pub-6186075803958446/cse/4803819411/queries/js?oe=UTF-8&amp;callback=(new+PopularQueryRenderer(document.getElementById(%22queries%22))).render"></script>
+</div>
+		</div>			<div class="box widget widget_nice_article_categories clearfix">			
+			<ul><li><div><span>5</span><a href="../../article-category/ansible/index.html" title="View all posts in ansible">ansible</a> </div></li> <li><div><span>48</span><a href="../../article-category/backup-recovery/index.html" title="View all posts in BACKUP &amp; RECOVERY">BACKUP &amp; RECOVERY</a> </div></li> <li><div><span>6</span><a href="../../article-category/blog/index.html" title="View all posts in BLOG">BLOG</a> </div></li> <li><div><span>16</span><a href="../../article-category/cloud/index.html" title="View all posts in CLOUD">CLOUD</a> </div></li> <li><div><span>59</span><a href="../../article-category/database/index.html" title="View all posts in DATABASE">DATABASE</a> </div></li> <li><div><span>40</span><a href="../../article-category/database-scripts/index.html" title="View all posts in DATABASE SCRIPTS">DATABASE SCRIPTS</a> </div></li> <li><div><span>10</span><a href="../../article-category/database-wiki/index.html" title="View all posts in Database-Wiki">Database-Wiki</a> </div></li> <li><div><span>28</span><a href="../../article-category/dataguard/index.html" title="View all posts in DATAGUARD">DATAGUARD</a> </div></li> <li><div><span>9</span><a href="../../article-category/db-tools/index.html" title="View all posts in DB TOOLS">DB TOOLS</a> </div></li> <li><div><span>18</span><a href="../../article-category/goldengate/index.html" title="View all posts in GOLDENGATE">GOLDENGATE</a> </div></li> <li><div><span>3</span><a href="../../article-category/hadoop/index.html" title="View all posts in HADOOP">HADOOP</a> </div></li> <li><div><span>47</span><a href="../../article-category/how-to/index.html" title="View all posts in HOW TO">HOW TO</a> </div></li> <li><div><span>11</span><a href="../../article-category/interview-qa/index.html" title="View all posts in INTERVIEW QA">INTERVIEW QA</a> </div></li> <li><div><span>61</span><a href="../../article-category/oracle-12c/index.html" title="View all posts in ORACLE 12C">ORACLE 12C</a> </div></li> <li><div><span>5</span><a href="../../article-category/oracle-18c/index.html" title="View all posts in ORACLE 18C">ORACLE 18C</a> </div></li> <li><div><span>12</span><a href="../../article-category/oracle-19c/index.html" title="View all posts in ORACLE 19C">ORACLE 19C</a> </div></li> <li><div><span>59</span><a href="../../article-category/oracle-rac/index.html" title="View all posts in ORACLE RAC">ORACLE RAC</a> </div></li> <li><div><span>13</span><a href="../../article-category/oracle-security/index.html" title="View all posts in ORACLE SECURITY">ORACLE SECURITY</a> </div></li> <li><div><span>30</span><a href="../../article-category/performance-tuning/index.html" title="View all posts in PERFORMANCE TUNING">PERFORMANCE TUNING</a> </div></li> <li><div><span>29</span><a href="../../article-category/postgres/index.html" title="View all posts in POSTGRES">POSTGRES</a> </div></li> <li><div><span>4</span><a href="../../article-category/r-studio/index.html" title="View all posts in R-STUDIO">R-STUDIO</a> </div></li> <li><div><span>13</span><a href="../../article-category/shell-script/index.html" title="View all posts in SHELL SCRIPT">SHELL SCRIPT</a> </div></li> <li><div><span>152</span><a href="../../article-category/troubleshooting/index.html" title="View all posts in TROUBLESHOOTING">TROUBLESHOOTING</a> </div></li> <li><div><span>3</span><a href="../../article-category/weblogic/index.html" title="View all posts in WEBLOGIC">WEBLOGIC</a> </div></li> </ul>
+			</div>					<div class="box widget nice_popular_articles clearfix">			
+			<ul class="clearfix">
+
+															<li class="clearfix format-standard">
+						<a href="../upgrade-database-from-11g-to-12c-manually/index.html" rel="bookmark">Upgrade database from 11g to 12c manually</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 108479 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">16</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../upgrade-database-from-12-1-0-2-to-12-2-0-1/index.html" rel="bookmark">Upgrade database from 12.1.0.2 to 12.2.0.1</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 80840 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">9</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-04036-pga-memory-used-by-the-instance-exceeds-pga_aggregate_limit/index.html" rel="bookmark">ORA-04036: PGA memory used by the instance exceeds PGA_AGGREGATE_LIMIT</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 79607 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">3</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../prerequisite-check-checkactivefilesandexecutables-failed/index.html" rel="bookmark">Prerequisite check “CheckActiveFilesAndExecutables” failed</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 68687 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">3</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../install-oracle-goldengate-12c-on-linux-7/index.html" rel="bookmark">install oracle goldengate 12c on linux 7</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 66825 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">0</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../how-to-run-sql-tuning-advisor-for-a-sql_id/index.html" rel="bookmark">How to run SQL tuning advisor for a sql_id</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 64598 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">9</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../transparent-data-encryption-tde-in-oracle-12c/index.html" rel="bookmark">Transparent Data Encryption (TDE) in oracle 12c</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 54718 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">2</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../how-to-drop-and-recreate-temp-tablespace-in-oracle/index.html" rel="bookmark">How to drop and recreate temp tablespace in oracle</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 54641 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">8</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-01624-log-1-needed-for-crash-recovery-of-instance/index.html" rel="bookmark">ORA-01624: log 1 needed for crash recovery of instance</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 49838 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">2</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-24247-network-access-denied-by-access-control-list-acl/index.html" rel="bookmark">ORA-24247: network access denied by access control list (ACL)</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 49801 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">0</span></span>
+															</span>
+												</li>
+					
+					
+				</ul>
+
+
+			</div>		<div class="box widget widget_tag_cloud clearfix"><h4 class="widgettitle">Tags</h4><div class="tagcloud"><a href="../../article-tag/12c/index.html" class="tag-cloud-link tag-link-54 tag-link-position-1" style="font-size: 13.169230769231pt;" aria-label="12c (14 items)">12c</a>
+<a href="../../article-tag/19c/index.html" class="tag-cloud-link tag-link-239 tag-link-position-2" style="font-size: 9.6153846153846pt;" aria-label="19C (6 items)">19C</a>
+<a href="../../article-tag/archive/index.html" class="tag-cloud-link tag-link-31 tag-link-position-3" style="font-size: 8pt;" aria-label="archive (4 items)">archive</a>
+<a href="../../article-tag/archivelog/index.html" class="tag-cloud-link tag-link-33 tag-link-position-4" style="font-size: 9.6153846153846pt;" aria-label="archivelog (6 items)">archivelog</a>
+<a href="../../article-tag/asm/index.html" class="tag-cloud-link tag-link-39 tag-link-position-5" style="font-size: 14.892307692308pt;" aria-label="ASM (21 items)">ASM</a>
+<a href="../../article-tag/audit/index.html" class="tag-cloud-link tag-link-53 tag-link-position-6" style="font-size: 9.6153846153846pt;" aria-label="Audit (6 items)">Audit</a>
+<a href="../../article-tag/awr/index.html" class="tag-cloud-link tag-link-153 tag-link-position-7" style="font-size: 10.153846153846pt;" aria-label="AWR (7 items)">AWR</a>
+<a href="../../article-tag/backup/index.html" class="tag-cloud-link tag-link-19 tag-link-position-8" style="font-size: 8.8615384615385pt;" aria-label="backup (5 items)">backup</a>
+<a href="../../article-tag/cloning/index.html" class="tag-cloud-link tag-link-129 tag-link-position-9" style="font-size: 8.8615384615385pt;" aria-label="cloning (5 items)">cloning</a>
+<a href="../../article-tag/cloud/index.html" class="tag-cloud-link tag-link-67 tag-link-position-10" style="font-size: 11.661538461538pt;" aria-label="cloud (10 items)">cloud</a>
+<a href="../../article-tag/cluster/index.html" class="tag-cloud-link tag-link-283 tag-link-position-11" style="font-size: 8.8615384615385pt;" aria-label="cluster (5 items)">cluster</a>
+<a href="../../article-tag/database/index.html" class="tag-cloud-link tag-link-89 tag-link-position-12" style="font-size: 8.8615384615385pt;" aria-label="database (5 items)">database</a>
+<a href="../../article-tag/dataguard/index.html" class="tag-cloud-link tag-link-24 tag-link-position-13" style="font-size: 14.892307692308pt;" aria-label="dataguard (21 items)">dataguard</a>
+<a href="../../article-tag/dgmgrl/index.html" class="tag-cloud-link tag-link-227 tag-link-position-14" style="font-size: 10.153846153846pt;" aria-label="dgmgrl (7 items)">dgmgrl</a>
+<a href="../../article-tag/diskgroup/index.html" class="tag-cloud-link tag-link-119 tag-link-position-15" style="font-size: 8.8615384615385pt;" aria-label="DISKGROUP (5 items)">DISKGROUP</a>
+<a href="../../article-tag/edb/index.html" class="tag-cloud-link tag-link-282 tag-link-position-16" style="font-size: 9.6153846153846pt;" aria-label="EDB (6 items)">EDB</a>
+<a href="../../article-tag/expdp/index.html" class="tag-cloud-link tag-link-30 tag-link-position-17" style="font-size: 16.076923076923pt;" aria-label="EXPDP (27 items)">EXPDP</a>
+<a href="../../article-tag/failover/index.html" class="tag-cloud-link tag-link-285 tag-link-position-18" style="font-size: 8.8615384615385pt;" aria-label="failover (5 items)">failover</a>
+<a href="../../article-tag/flashback/index.html" class="tag-cloud-link tag-link-64 tag-link-position-19" style="font-size: 12.092307692308pt;" aria-label="flashback (11 items)">flashback</a>
+<a href="../../article-tag/goldengate/index.html" class="tag-cloud-link tag-link-72 tag-link-position-20" style="font-size: 13.707692307692pt;" aria-label="goldengate (16 items)">goldengate</a>
+<a href="../../article-tag/grid/index.html" class="tag-cloud-link tag-link-40 tag-link-position-21" style="font-size: 11.230769230769pt;" aria-label="grid (9 items)">grid</a>
+<a href="../../article-tag/impdp/index.html" class="tag-cloud-link tag-link-73 tag-link-position-22" style="font-size: 11.230769230769pt;" aria-label="impdp (9 items)">impdp</a>
+<a href="../../article-tag/multitenant/index.html" class="tag-cloud-link tag-link-151 tag-link-position-23" style="font-size: 11.230769230769pt;" aria-label="multitenant (9 items)">multitenant</a>
+<a href="../../article-tag/opatch/index.html" class="tag-cloud-link tag-link-124 tag-link-position-24" style="font-size: 10.692307692308pt;" aria-label="OPATCH (8 items)">OPATCH</a>
+<a href="../../article-tag/ora/index.html" class="tag-cloud-link tag-link-29 tag-link-position-25" style="font-size: 22pt;" aria-label="ORA- (99 items)">ORA-</a>
+<a href="../../article-tag/oracle/index.html" class="tag-cloud-link tag-link-58 tag-link-position-26" style="font-size: 10.153846153846pt;" aria-label="oracle (7 items)">oracle</a>
+<a href="../../article-tag/oracle-12-2/index.html" class="tag-cloud-link tag-link-131 tag-link-position-27" style="font-size: 12.846153846154pt;" aria-label="oracle 12.2. (13 items)">oracle 12.2.</a>
+<a href="../../article-tag/oracle-12c/index.html" class="tag-cloud-link tag-link-86 tag-link-position-28" style="font-size: 11.661538461538pt;" aria-label="oracle 12c (10 items)">oracle 12c</a>
+<a href="../../article-tag/partition/index.html" class="tag-cloud-link tag-link-117 tag-link-position-29" style="font-size: 10.692307692308pt;" aria-label="partition (8 items)">partition</a>
+<a href="../../article-tag/patch/index.html" class="tag-cloud-link tag-link-84 tag-link-position-30" style="font-size: 10.153846153846pt;" aria-label="patch (7 items)">patch</a>
+<a href="../../article-tag/patching/index.html" class="tag-cloud-link tag-link-27 tag-link-position-31" style="font-size: 9.6153846153846pt;" aria-label="patching (6 items)">patching</a>
+<a href="../../article-tag/pdb/index.html" class="tag-cloud-link tag-link-63 tag-link-position-32" style="font-size: 10.692307692308pt;" aria-label="PDB (8 items)">PDB</a>
+<a href="../../article-tag/pluggable/index.html" class="tag-cloud-link tag-link-56 tag-link-position-33" style="font-size: 8pt;" aria-label="pluggable (4 items)">pluggable</a>
+<a href="../../article-tag/postgres/index.html" class="tag-cloud-link tag-link-246 tag-link-position-34" style="font-size: 14.892307692308pt;" aria-label="postgres (21 items)">postgres</a>
+<a href="../../article-tag/rac/index.html" class="tag-cloud-link tag-link-76 tag-link-position-35" style="font-size: 16.830769230769pt;" aria-label="RAC (32 items)">RAC</a>
+<a href="../../article-tag/replication/index.html" class="tag-cloud-link tag-link-187 tag-link-position-36" style="font-size: 11.230769230769pt;" aria-label="replication (9 items)">replication</a>
+<a href="../../article-tag/rman/index.html" class="tag-cloud-link tag-link-18 tag-link-position-37" style="font-size: 15.538461538462pt;" aria-label="rman (24 items)">rman</a>
+<a href="../../article-tag/script/index.html" class="tag-cloud-link tag-link-157 tag-link-position-38" style="font-size: 8.8615384615385pt;" aria-label="SCRIPT (5 items)">SCRIPT</a>
+<a href="../../article-tag/security/index.html" class="tag-cloud-link tag-link-15 tag-link-position-39" style="font-size: 8pt;" aria-label="security (4 items)">security</a>
+<a href="../../article-tag/shell-script/index.html" class="tag-cloud-link tag-link-141 tag-link-position-40" style="font-size: 11.661538461538pt;" aria-label="SHELL script (10 items)">SHELL script</a>
+<a href="../../article-tag/standby/index.html" class="tag-cloud-link tag-link-22 tag-link-position-41" style="font-size: 14.676923076923pt;" aria-label="standby (20 items)">standby</a>
+<a href="../../article-tag/tablespace/index.html" class="tag-cloud-link tag-link-23 tag-link-position-42" style="font-size: 11.230769230769pt;" aria-label="tablespace (9 items)">tablespace</a>
+<a href="../../article-tag/temp/index.html" class="tag-cloud-link tag-link-20 tag-link-position-43" style="font-size: 10.153846153846pt;" aria-label="temp (7 items)">temp</a>
+<a href="../../article-tag/undo/index.html" class="tag-cloud-link tag-link-21 tag-link-position-44" style="font-size: 8pt;" aria-label="undo (4 items)">undo</a>
+<a href="../../article-tag/upgrade/index.html" class="tag-cloud-link tag-link-26 tag-link-position-45" style="font-size: 10.153846153846pt;" aria-label="upgrade (7 items)">upgrade</a></div>
+</div><!-- END #sidebar -->
+</aside>
+
+			<!-- END #container -->
+		</div>
+	
+	
+	<!-- BEGIN #footer -->
+	<footer id="footer">
+
+		
+		<!-- BEGIN #footer-widget --><div id="footer-widgets" class="col-full">
+			<div class="grid footer-grid">
+				<div class="widget-section first  columns-3">
+							<div class="box widget widget_nice_social">				
+				<div class="social-links clearfix">
+
+					<ul id="social">
+						<li id="facebook"><a href="https://www.facebook.com/dbaclass"><i class="fa fa-facebook"></i></a></li><li id="twitter"><a href="https://twitter.com/SupportDbaclass"><i class="fa fa-twitter"></i></a></li><li id="linkedin"><a href="https://www.linkedin.com/in/dbaclass"><i class="fa fa-linkedin"></i></a></li>					</ul>
+
+				</div>
+				
+			</div>
+
+	<div class="box widget widget_text"><h4 class="widgettitle">About DBACLASS</h4>			<div class="textwidget">DBACLASS.COM is a knowledgebase for Oracle Database administrators</div>
+		</div>				</div>
+				<div class="widget-section even  columns-3">
+									</div>
+												<div class="widget-section odd  columns-3 last">
+					<div class="box widget widget_nav_menu"><div class="menu-privacy-policy-container"><ul id="menu-privacy-policy" class="menu"><li id="menu-item-1932" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1932"><a href="../../privacy-policy/index.html">Privacy policy</a></li>
+<li id="menu-item-1992" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1992"><a href="../../terms/index.html">Terms &amp; Conditions</a></li>
+<li id="menu-item-1977" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1977"><a href="../../contactus/index.html">Contact us</a></li>
+<li id="menu-item-1995" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1995"><a href="../../about/index.html">About Us</a></li>
+<li id="menu-item-2979" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2979"><a href="../../write-for-us/index.html">Write for us</a></li>
+<li id="menu-item-3111" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3111"><a href="http://forum.dbaclass.com/">Q&amp;A Forum</a></li>
+</ul></div></div>				</div>
+											</div>
+
+		</div><!-- /#footer-widgets -->
+		
+		<div id="extended-footer">
+			<div class="col-full">
+
+				<p></p>
+				<nav id="footer-navigation">
+									</nav>
+
+			</div>
+
+		</div>
+
+	<!-- END #footer -->
+	</footer>
+
+<!-- END #wrapper -->
+</div>
+
+<script>
+
+jQuery(document).ready(function (e) {
+  jQuery(".AnyBoxFooter").click(function(){
+    jQuery(".AnyBoxFooter:visible").hide();
+    jQuery(".AnyBoxContainer:visible").hide();
+  });
+});
+jQuery(document).ready(function(){
+  jQuery("#footer-navigation").text("©Copyright 2020 The DbaClass Group  ®ALL RIGHTS RESERVED.");
+  jQuery("body>div>a:first").attr("href", "../../about/index.html");
+
+
+});
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66394967-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+			<a href="#" class="backtotop">
+				<i class="fa fa-angle-up"></i>
+			</a>
+		<script type="text/javascript" id="theme-my-login-js-extra">
+/* <![CDATA[ */
+var themeMyLogin = {"action":"","errors":[]};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/theme-my-login/assets/scripts/theme-my-login.min03db.js?ver=7.1.1" id="theme-my-login-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/comment-reply.minadc6.js?ver=6.5.5" id="comment-reply-js" async="async" data-wp-strategy="async"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/imagesloaded.minbb93.js?ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/masonry.min3a05.js?ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery.masonry.minef70.js?ver=3.1.2b" id="jquery-masonry-js"></script>
+<script async="async" type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/akismet/_inc/form5fa1.js?ver=4.1.9" id="akismet-form-js"></script>
+
+<script data-cfasync="false">function _emitEzConsentEvent(){var customEvent=new CustomEvent("ezConsentEvent",{detail:{ezTcfConsent:window.ezTcfConsent},bubbles:true,cancelable:true,});document.dispatchEvent(customEvent);}
+(function(window,document){function _setAllEzConsentTrue(){window.ezTcfConsent.loaded=true;window.ezTcfConsent.store_info=true;window.ezTcfConsent.develop_and_improve_services=true;window.ezTcfConsent.measure_ad_performance=true;window.ezTcfConsent.measure_content_performance=true;window.ezTcfConsent.select_basic_ads=true;window.ezTcfConsent.create_ad_profile=true;window.ezTcfConsent.select_personalized_ads=true;window.ezTcfConsent.create_content_profile=true;window.ezTcfConsent.select_personalized_content=true;window.ezTcfConsent.understand_audiences=true;window.ezTcfConsent.use_limited_data_to_select_content=true;window.ezTcfConsent.select_personalized_content=true;}
+function _clearEzConsentCookie(){document.cookie="ezCMPCookieConsent=tcf2;Domain=.dbaclass.com;Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";}
+_clearEzConsentCookie();if(typeof window.__tcfapi!=="undefined"){window.ezgconsent=false;var amazonHasRun=false;function _ezAllowed(tcdata,purpose){return(tcdata.purpose.consents[purpose]||tcdata.purpose.legitimateInterests[purpose]);}
+function _reloadAds(){if(typeof window.ezorefgsl==="function"&&typeof window.ezslots==="object"){if(typeof __ezapsFetchBids=="function"&&amazonHasRun===false){ezapsFetchBids(__ezaps);if(typeof __ezapsVideo!="undefined"){ezapsFetchBids(__ezapsVideo,"video");}
+amazonHasRun=true;}
+var slots=[];for(var i=0;i<window.ezslots.length;i++){if(window[window.ezslots[i]]&&typeof window[window.ezslots[i]]==="object"){slots.push(window[window.ezslots[i]]);}else{setTimeout(_reloadAds,100);return false;}}
+for(var i=0;i<slots.length;i++){window.ezorefgsl(slots[i]);}}else if(!window.ezadtimeoutset){window.ezadtimeoutset=true;setTimeout(_reloadAds,100);}}
+function _handleConsentDecision(tcdata){window.ezTcfConsent.loaded=true;if(!tcdata.vendor.consents["347"]&&!tcdata.vendor.legitimateInterests["347"]){window._emitEzConsentEvent();return;}
+window.ezTcfConsent.store_info=_ezAllowed(tcdata,"1");window.ezTcfConsent.develop_and_improve_services=_ezAllowed(tcdata,"10");window.ezTcfConsent.measure_content_performance=_ezAllowed(tcdata,"8");window.ezTcfConsent.select_basic_ads=_ezAllowed(tcdata,"2");window.ezTcfConsent.create_ad_profile=_ezAllowed(tcdata,"3");window.ezTcfConsent.select_personalized_ads=_ezAllowed(tcdata,"4");window.ezTcfConsent.create_content_profile=_ezAllowed(tcdata,"5");window.ezTcfConsent.measure_ad_performance=_ezAllowed(tcdata,"7");window.ezTcfConsent.use_limited_data_to_select_content=_ezAllowed(tcdata,"11");window.ezTcfConsent.select_personalized_content=_ezAllowed(tcdata,"6");window.ezTcfConsent.understand_audiences=_ezAllowed(tcdata,"9");window._emitEzConsentEvent();}
+function _handleGoogleConsentV2(tcdata){if(!tcdata||!tcdata.purpose||!tcdata.purpose.consents){return;}
+var googConsentV2={};if(tcdata.purpose.consents[1]){googConsentV2.ad_storage='granted';googConsentV2.analytics_storage='granted';}
+if(tcdata.purpose.consents[3]&&tcdata.purpose.consents[4]){googConsentV2.ad_personalization='granted';}
+if(tcdata.purpose.consents[1]&&tcdata.purpose.consents[7]){googConsentV2.ad_user_data='granted';}
+if(googConsentV2.analytics_storage=='denied'){gtag('set','url_passthrough',true);}
+gtag('consent','update',googConsentV2);}
+__tcfapi("addEventListener",2,function(tcdata,success){if(!success||!tcdata){window._emitEzConsentEvent();return;}
+if(!tcdata.gdprApplies){_setAllEzConsentTrue();window._emitEzConsentEvent();return;}
+if(tcdata.eventStatus==="useractioncomplete"||tcdata.eventStatus==="tcloaded"){if(typeof gtag!='undefined'){_handleGoogleConsentV2(tcdata);}
+_handleConsentDecision(tcdata);if(tcdata.purpose.consents["1"]===true&&tcdata.vendor.consents["755"]!==false){window.ezgconsent=true;(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=0;_reloadAds();}else{_reloadAds();}
+if(window.__ezconsent){__ezconsent.setEzoicConsentSettings(ezConsentCategories);}
+__tcfapi("removeEventListener",2,function(success){return null;},tcdata.listenerId);if(!(tcdata.purpose.consents["1"]===true&&_ezAllowed(tcdata,"2")&&_ezAllowed(tcdata,"3")&&_ezAllowed(tcdata,"4"))){if(typeof __ez=="object"&&typeof __ez.bit=="object"&&typeof window["_ezaq"]=="object"&&typeof window["_ezaq"]["page_view_id"]=="string"){__ez.bit.AddAndFire(window["_ezaq"]["page_view_id"],[new __ezDotData("non_personalized_ads",true),]);}}}});}else{_setAllEzConsentTrue();window._emitEzConsentEvent();}})(window,document);</script></body>
+<!-- Mirrored from dbaclass.com/article/oracle-rac-12c-setup-using-virtual-box/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 17:51:41 GMT -->
+</html>

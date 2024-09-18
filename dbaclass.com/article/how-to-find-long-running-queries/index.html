@@ -1,0 +1,864 @@
+<!DOCTYPE html><!--[if IE 7]>	<html class="ie ie7" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if IE 8]>	<html class="ie ie8" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if IE 9]>	<html class="ie ie9" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if (gt IE 9)|!(IE)]><!--><html lang="en-US" prefix="og: http://ogp.me/ns#"><!--<![endif]-->
+<!-- Mirrored from dbaclass.com/article/how-to-find-long-running-queries/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 18:41:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head><meta charset="UTF-8"/>
+<script>var __ezHttpConsent={setByCat:function(src,tagType,attributes,category,force){var setScript=function(){if(force||window.ezTcfConsent[category]){var scriptElement=document.createElement(tagType);scriptElement.src=src;attributes.forEach(function(attr){for(var key in attr){if(attr.hasOwnProperty(key)){scriptElement.setAttribute(key,attr[key]);}}});var firstScript=document.getElementsByTagName(tagType)[0];firstScript.parentNode.insertBefore(scriptElement,firstScript);}};if(force||(window.ezTcfConsent&&window.ezTcfConsent.loaded)){setScript();}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){setScript();}else{console.error("cannot get ez consent data");force=true;setScript();}});}else{force=true;setScript();console.error("getEzConsentData is not a function");}},};</script>
+<script>var ezTcfConsent=window.ezTcfConsent?window.ezTcfConsent:{loaded:false,store_info:false,develop_and_improve_services:false,measure_ad_performance:false,measure_content_performance:false,select_basic_ads:false,create_ad_profile:false,select_personalized_ads:false,create_content_profile:false,select_personalized_content:false,understand_audiences:false,use_limited_data_to_select_content:false,};function getEzConsentData(){return new Promise(function(resolve){document.addEventListener("ezConsentEvent",function(event){var ezTcfConsent=event.detail.ezTcfConsent;resolve(ezTcfConsent);});});}</script>
+<script>function _setEzCookies(ezConsentData){var cookies=[{name:"ezosuibasgeneris-1",value:"4a088f08-21cd-4642-45a0-25b18b989191; Path=/; Domain=dbaclass.com; Expires=Sat, 13 Sep 2025 17:57:16 UTC; Secure; SameSite=None",tcfCategory:"understand_audiences",isEzoic:"true",}];for(var i=0;i<cookies.length;i++){var cookie=cookies[i];if(ezConsentData&&ezConsentData.loaded&&ezConsentData[cookie.tcfCategory]){document.cookie=cookie.name+"="+cookie.value;}}}
+if(window.ezTcfConsent&&window.ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else{console.error("cannot get ez consent data");_setEzCookies(window.ezTcfConsent);}});}else{console.error("getEzConsentData is not a function");_setEzCookies(window.ezTcfConsent);}</script>
+<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=true;window.__ezScriptHost="//www.ezojs.com";__ez.queue=function(){var e=0,i=0,t=[],n=!1,o=[],r=[],s=!0,a=function(e,i,n,o,r,s,a){var l=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,d=this;this.name=e,this.funcName=i,this.parameters=null===n?null:w(n)?n:[n],this.isBlock=o,this.blockedBy=r,this.deleteWhenComplete=s,this.isError=!1,this.isComplete=!1,this.isInitialized=!1,this.proceedIfError=a,this.fWindow=l,this.isTimeDelay=!1,this.process=function(){u("... func = "+e),d.isInitialized=!0,d.isComplete=!0,u("... func.apply: "+e);var i=d.funcName.split("."),n=null,o=this.fWindow||window;i.length>3||(n=3===i.length?o[i[0]][i[1]][i[2]]:2===i.length?o[i[0]][i[1]]:o[d.funcName]),null!=n&&n.apply(null,this.parameters),!0===d.deleteWhenComplete&&delete t[e],!0===d.isBlock&&(u("----- F'D: "+d.name),m())}},l=function(e,i,t,n,o,r,s){var a=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,l=this;this.name=e,this.path=i,this.async=o,this.defer=r,this.isBlock=t,this.blockedBy=n,this.isInitialized=!1,this.isError=!1,this.isComplete=!1,this.proceedIfError=s,this.fWindow=a,this.isTimeDelay=!1,this.isPath=function(e){return"/"===e[0]&&"/"!==e[1]},this.getSrc=function(e){return void 0!==window.__ezScriptHost&&this.isPath(e)&&"banger.js"!==this.name?window.__ezScriptHost+e:e},this.process=function(){l.isInitialized=!0,u("... file = "+e);var i=this.fWindow?this.fWindow.document:document,t=i.createElement("script");t.src=this.getSrc(this.path),!0===o?t.async=!0:!0===r&&(t.defer=!0),t.onerror=function(){var e={url:window.location.href,name:l.name,path:l.path,user_agent:window.navigator.userAgent};"undefined"!=typeof _ezaq&&(e.pageview_id=_ezaq.page_view_id);var i=encodeURIComponent(JSON.stringify(e)),t=new XMLHttpRequest;t.open("GET.html","//g.ezoic.net/ezqlog?d="+i,!0),t.send(),u("----- ERR'D: "+l.name),l.isError=!0,!0===l.isBlock&&m()},t.onreadystatechange=t.onload=function(){var e=t.readyState;u("----- F'D: "+l.name),e&&!/loaded|complete/.test(e)||(l.isComplete=!0,!0===l.isBlock&&m())},i.getElementsByTagName("head")[0].appendChild(t)}},d=function(e,i){this.name=e,this.path="",this.async=!1,this.defer=!1,this.isBlock=!1,this.blockedBy=[],this.isInitialized=!0,this.isError=!1,this.isComplete=i,this.proceedIfError=!1,this.isTimeDelay=!1,this.process=function(){}};function c(e,i,n,s,a,d,c,f,u){var m=new l(e,i,n,s,a,d,c,u);!0===f?o[e]=m:r[e]=m,t[e]=m,h(m)}function h(e){!0!==f(e)&&0!=s&&e.process()}function f(e){if(!0===e.isTimeDelay&&!1===n)return u(e.name+" blocked = TIME DELAY!"),!0;if(w(e.blockedBy))for(var i=0;i<e.blockedBy.length;i++){var o=e.blockedBy[i];if(!1===t.hasOwnProperty(o))return u(e.name+" blocked = "+o),!0;if(!0===e.proceedIfError&&!0===t[o].isError)return!1;if(!1===t[o].isComplete)return u(e.name+" blocked = "+o),!0}return!1}function u(e){var i=window.location.href,t=new RegExp("[?&]ezq=([^&#]*)","i").exec(i);"1"===(t?t[1]:null)&&console.debug(e)}function m(){++e>200||(u("let's go"),p(o),p(r))}function p(e){for(var i in e)if(!1!==e.hasOwnProperty(i)){var t=e[i];!0===t.isComplete||f(t)||!0===t.isInitialized||!0===t.isError?!0===t.isError?u(t.name+": error"):!0===t.isComplete?u(t.name+": complete already"):!0===t.isInitialized&&u(t.name+": initialized already"):t.process()}}function w(e){return"[object Array]"==Object.prototype.toString.call(e)}return window.addEventListener("load",(function(){setTimeout((function(){n=!0,u("TDELAY -----"),m()}),5e3)}),!1),{addFile:c,addFileOnce:function(e,i,n,o,r,s,a,l,d){t[e]||c(e,i,n,o,r,s,a,l,d)},addDelayFile:function(e,i){var n=new l(e,i,!1,[],!1,!1,!0);n.isTimeDelay=!0,u(e+" ...  FILE! TDELAY"),r[e]=n,t[e]=n,h(n)},addFunc:function(e,n,s,l,d,c,f,u,m,p){!0===c&&(e=e+"_"+i++);var w=new a(e,n,s,l,d,f,u,p);!0===m?o[e]=w:r[e]=w,t[e]=w,h(w)},addDelayFunc:function(e,i,n){var o=new a(e,i,n,!1,[],!0,!0);o.isTimeDelay=!0,u(e+" ...  FUNCTION! TDELAY"),r[e]=o,t[e]=o,h(o)},items:t,processAll:m,setallowLoad:function(e){s=e},markLoaded:function(e){if(e&&0!==e.length){if(e in t){var i=t[e];!0===i.isComplete?u(i.name+" "+e+": error loaded duplicate"):(i.isComplete=!0,i.isInitialized=!0)}else t[e]=new d(e,!0);u("markLoaded dummyfile: "+t[e].name)}},logWhatsBlocked:function(){for(var e in t)!1!==t.hasOwnProperty(e)&&f(t[e])}}}();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot={};__ez.queue.addFile('../../detroitchicago/boise.js', '../../detroitchicago/boisebb26.js?gcb=195-3&amp;cb=5', true, [], true, false, true, false);__ez.queue.addFile('../../parsonsmaize/abilene.js', '../../parsonsmaize/abilene96c6.js?gcb=195-3&amp;cb=35', true, [], true, false, true, false);</script>
+<script type="text/javascript">var _ez_send_requests_through_ezoic = true;</script>
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">window._ezaq = Object.assign({"ad_cache_level":1,"adpicker_placement_cnt":0,"ai_placeholder_cache_level":1,"ai_placeholder_placement_cnt":-1,"domain_id":179613,"ezcache_level":2,"ezcache_skip_code":0,"has_bad_image":0,"has_bad_words":0,"is_sitespeed":0,"lt_cache_level":0,"publish_date":"2015-08-19","response_size":74443,"response_size_orig":68941,"response_time_orig":93,"template_id":5,"url":"https://dbaclass.com/article/how-to-find-long-running-queries/","word_count":0,"worst_bad_word_level":0}, typeof window._ezaq !== "undefined" ? window._ezaq : {});__ez.queue.markLoaded('ezaqBaseReady');</script>
+<script type='text/javascript' data-ezscrex='false' data-cfasync='false'>
+window.ezAnalyticsStatic = true;
+window._ez_send_requests_through_ezoic = true;
+function analyticsAddScript(script) {
+	var ezDynamic = document.createElement('script');
+	ezDynamic.type = 'text/javascript';
+	ezDynamic.innerHTML = script;
+	document.head.appendChild(ezDynamic);
+}
+function getCookiesWithPrefix() {
+    var allCookies = document.cookie.split(';');
+    var cookiesWithPrefix = {};
+
+    for (var i = 0; i < allCookies.length; i++) {
+        var cookie = allCookies[i].trim();
+
+        for (var j = 0; j < arguments.length; j++) {
+            var prefix = arguments[j];
+            if (cookie.indexOf(prefix) === 0) {
+                var cookieParts = cookie.split('=');
+                var cookieName = cookieParts[0];
+                var cookieValue = cookieParts.slice(1).join('=');
+                cookiesWithPrefix[cookieName] = decodeURIComponent(cookieValue);
+                break; // Once matched, no need to check other prefixes
+            }
+        }
+    }
+
+    return cookiesWithPrefix;
+}
+function productAnalytics() {
+	var d = {};
+	d.u = _ezaq.url;
+	d.p = _ezaq.page_view_id;
+	d.v = _ezaq.visit_uuid;
+	d.ab = _ezaq.ab_test_id;
+	d.e = JSON.stringify(_ezaq);
+	d.ref = document.referrer;
+	d.c = getCookiesWithPrefix('active_template', 'ez', 'lp_');
+	if(typeof ez_utmParams !== 'undefined') {
+		d.utm = ez_utmParams;
+	}
+
+	var dataText = JSON.stringify(d);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST.html','//g.ezoic.net/ezais/analytics?cb=1', true);
+	xhr.onload = function () {
+		if (xhr.status!=200) {
+            return;
+		}
+
+        if(document.readyState !== 'loading') {
+            analyticsAddScript(xhr.response);
+            return;
+        }
+
+        var eventFunc = function() {
+            if(document.readyState === 'loading') {
+                return;
+            }
+            document.removeEventListener('readystatechange', eventFunc, false);
+            analyticsAddScript(xhr.response);
+        };
+
+        document.addEventListener('readystatechange', eventFunc, false);
+	};
+	xhr.setRequestHeader('Content-Type','text/plain');
+	xhr.send(dataText);
+}
+__ez.queue.addFunc("productAnalytics", "productAnalytics", null, true, ['ezaqBaseReady'], false, false, false, true);
+</script><base />
+<meta name="google-site-verification" content="6dqsKA6lyLjaiKjPdMYqcSFkU7CVZS2mbDx3X3Oqff4"/>
+
+	
+	<title>How to find long running queries - DBACLASS DBACLASS</title>
+
+	<!-- Pingback -->
+	<link rel="pingback" href="../../xmlrpc.php"/>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+
+	<!-- This site is optimized with the Yoast SEO plugin v22.7 - https://yoast.com/wordpress/plugins/seo/ -->
+	<link rel="canonical" href="index.html"/>
+	<meta property="og:locale" content="en_US"/>
+	<meta property="og:type" content="article"/>
+	<meta property="og:title" content="How to find long running queries - DBACLASS"/>
+	<meta property="og:description" content="Use below script to find the long running queries in your database. select sid,inst_id,opname,totalwork,sofar,start_time,time_remaining from gv$session_longops where totalwork&lt;&gt;sofar / SEE – COMPLETE COLLECTION OF DATABASE SCRIPTS"/>
+	<meta property="og:url" content="https://dbaclass.com/article/how-to-find-long-running-queries/"/>
+	<meta property="og:site_name" content="DBACLASS"/>
+	<meta property="article:modified_time" content="2017-05-16T19:51:11+00:00"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://dbaclass.com/article/how-to-find-long-running-queries/","url":"https://dbaclass.com/article/how-to-find-long-running-queries/","name":"How to find long running queries - DBACLASS","isPartOf":{"@id":"https://dbaclass.com/#website"},"datePublished":"2015-08-19T16:22:40+00:00","dateModified":"2017-05-16T19:51:11+00:00","breadcrumb":{"@id":"https://dbaclass.com/article/how-to-find-long-running-queries/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://dbaclass.com/article/how-to-find-long-running-queries/"]}]},{"@type":"BreadcrumbList","@id":"https://dbaclass.com/article/how-to-find-long-running-queries/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dbaclass.com/"},{"@type":"ListItem","position":2,"name":"How to find long running queries"}]},{"@type":"WebSite","@id":"https://dbaclass.com/#website","url":"https://dbaclass.com/","name":"DBACLASS","description":"database administration","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://dbaclass.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Feed" href="../../feed/index.html"/>
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Comments Feed" href="../../comments/feed/index.html"/>
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » How to find long running queries Comments Feed" href="feed/index.html"/>
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/dbaclass.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.5.5"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel="stylesheet" id="mtq_CoreStyleSheets-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/mtq_core_style583f.css?ver=3.1.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="mtq_ThemeStyleSheets-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/mtq_theme_style583f.css?ver=3.1.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-style-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/styleadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-fancybox-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/jquery.fancyboxadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-fontawesome-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/font-awesome.minadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-bbpress-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/bbpress/bbpressadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<!--[if IE 7]>
+<link rel='stylesheet' id='nice-fontawesome-ie7-css' href='https://dbaclass.com/wp-content/themes/flatbase/includes/css/font-awesome-ie7.min.css?ver=6.5.5' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="nice-options-styles-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/nice-optionsadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="nice-options-styles-inline-css" type="text/css">
+.entry blockquote{ border-left-color:#384047; }
+.nice-infoboxes .item:hover a.read-more{ border-bottom-color:#384047; }
+a, .wp-pagenavi span.current, #extended-footer a:hover, .liked i, .nice-knowledgebase ul li:hover i, span.required { color: #384047; }
+#navigation ul li a .bar, #navigation ul li a .bar:before, #navigation ul li a .bar:after, #navigation ul li a .bar, .nice-contact-form input[type="submit"]:hover, #commentform .button:hover, #respond input[type="submit"]:hover, .single .featured-image a, .post .featured-image a, .blog-masonry #posts-ajax-loader-button:hover, .nice-gallery .thumb a, #tabs .inside .tags a:hover{ background-color: #384047; }
+#header { background-color: #25304e; }
+#header { background-position : left top; }
+#header { background-repeat : repeat; }
+body, .bg-image { background-color : #f0f0f0; }
+body, .bg-image { background-position : left top; }
+body, .bg-image { background-repeat : repeat; }
+#header #top #logo #default-logo, #header #top #logo #retina-logo { height : 65px; }
+
+/* Nice Custom Fonts */
+
+body { font: normal 15px Arial, sans-serif; color: #070808 !important; }
+#navigation .nav li a { font: normal 15px 'Lato', arial, sans-serif; color: #eff2f3 !important; }
+#top #navigation .nav li ul li a { font: normal 12px 'Lato', arial, sans-serif; color: #FFFFFF !important; }
+h1, h2, h3, h4, h5, h6, #call-to-action { font-family: 'Nunito', arial, sans-serif; font-style: normal; color:  !important; }
+.button-primary, .button-blue, .button-secondary, .header .nav li.current-page a, .header .nav-callout, .cta-button, input[type="submit"], button, #commentform .button, #respond input[type="submit"], .nice-contact-form input[type="submit"], .blog-masonry #posts-ajax-loader-button { font-family: 'Nunito', arial, sans-serif; font-style: normal; color:  !important; }
+input, textarea { font-family: 'Lato', arial, sans-serif; font-style: normal; color:  !important; }
+.nice-infoboxes .infobox-title { font: normal 21px 'Nunito', arial, sans-serif; color: #4B4D4B !important; }
+.infobox .entry-excerpt{ font: normal 15px 'Lato', arial, sans-serif; color: #8B989E !important; }
+.welcome-message h2 { font: normal 32px 'Nunito', arial, sans-serif; color: #ffffff !important; }
+.welcome-message p, .welcome-message p a { font: normal 16px 'Lato', arial, sans-serif; color: #dddddd !important; }
+
+</style>
+<style id="wp-emoji-styles-inline-css" type="text/css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel="stylesheet" id="wp-block-library-css" href="../../../cdn-0.dbaclass.com/wp-includes/css/dist/block-library/style.minadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="prismatic-blocks-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/prismatic/css/styles-blocksadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="classic-theme-styles-inline-css" type="text/css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="popupaoc-public-style-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/popup-anything-on-click/assets/css/popupaoc-public-style4b1d.css?ver=1.8" type="text/css" media="all"/>
+<link rel="stylesheet" id="theme-my-login-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/theme-my-login/assets/styles/theme-my-login.min03db.css?ver=7.1.1" type="text/css" media="all"/>
+<link rel="stylesheet" id="wp-pagenavi-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/wp-pagenavi/pagenavi-css44fd.css?ver=2.70" type="text/css" media="all"/>
+<link rel="stylesheet" id="dry_awp_theme_style-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/advanced-wp-columns/assets/css/awp-columnsadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="dry_awp_theme_style-inline-css" type="text/css">
+@media screen and (max-width: 1024px) {	.csColumn {		clear: both !important;		float: none !important;		text-align: center !important;		margin-left:  10% !important;		margin-right: 10% !important;		width: 80% !important;	}	.csColumnGap {		display: none !important;	}}
+</style>
+<link rel="stylesheet" id="sccss_style-css" href="https://cdn-0.dbaclass.com/?sccss=1&amp;ver=6.5.5" type="text/css" media="all"/>
+<meta name="generator" content="Flatbase (shared on wplocker.com) 1.0.2"/>
+<meta name="generator" content="Nice Framework 1.1.5"/>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/script583f.js?ver=3.1.3" id="mtq_script-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/anything-popup/anything-popupadc6.js?ver=6.5.5" id="anything-popup-js-js"></script>
+<script type="text/javascript" id="nice-general-js-extra">
+/* <![CDATA[ */
+var php_data = {"admin_ajax_url":"https:\/\/dbaclass.com\/wp-admin\/admin-ajax.php","play_nice_nonce":"bcb784bd5e"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/generaladc6.js?ver=6.5.5" id="nice-general-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.fancyboxadc6.js?ver=6.5.5" id="nice-fancybox-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/superfishadc6.js?ver=6.5.5" id="nice-superfish-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/imagesloaded.minadc6.js?ver=6.5.5" id="nice-imagesloaded-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/ui/core.min3f14.js?ver=1.13.2" id="jquery-ui-core-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.scrollTo-minadc6.js?ver=6.5.5" id="nice-scrollto-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.localscroll-minadc6.js?ver=6.5.5" id="nice-localscroll-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.livesearchadc6.js?ver=6.5.5" id="nice-livesearch-js-js"></script>
+<link rel="https://api.w.org/" href="../../wp-json/index.html"/><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../xmlrpc0db0.php?rsd"/>
+<meta name="generator" content="WordPress 6.5.5"/>
+<link rel="shortlink" href="../../indexfbc5.html?p=243"/>
+<link rel="alternate" type="application/json+oembed" href="../../wp-json/oembed/1.0/embed31c7.html?url=https%3A%2F%2Fdbaclass.com%2Farticle%2Fhow-to-find-long-running-queries%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="../../wp-json/oembed/1.0/embedc0c8.html?url=https%3A%2F%2Fdbaclass.com%2Farticle%2Fhow-to-find-long-running-queries%2F&amp;format=xml"/>
+
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			var ajaxurl = '../../wp-admin/admin-ajax.html';
+
+						/* ]]> */
+		</script>
+
+	<script>
+
+</script>
+
+        <script type="text/javascript">
+            var jQueryMigrateHelperHasSentDowngrade = false;
+
+			window.onerror = function( msg, url, line, col, error ) {
+				// Break out early, do not processing if a downgrade reqeust was already sent.
+				if ( jQueryMigrateHelperHasSentDowngrade ) {
+					return true;
+                }
+
+				var xhr = new XMLHttpRequest();
+				var nonce = '1d4a45bb2d';
+				var jQueryFunctions = [
+					'andSelf',
+					'browser',
+					'live',
+					'boxModel',
+					'support.boxModel',
+					'size',
+					'swap',
+					'clean',
+					'sub',
+                ];
+				var match_pattern = /\)\.(.+?) is not a function/;
+                var erroredFunction = msg.match( match_pattern );
+
+                // If there was no matching functions, do not try to downgrade.
+                if ( typeof erroredFunction !== 'object' || typeof erroredFunction[1] === "undefined" || -1 === jQueryFunctions.indexOf( erroredFunction[1] ) ) {
+                    return true;
+                }
+
+                // Set that we've now attempted a downgrade request.
+                jQueryMigrateHelperHasSentDowngrade = true;
+
+				xhr.open( 'POST.html', '../../wp-admin/admin-ajax.html' );
+				xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+				xhr.onload = function () {
+					var response,
+                        reload = false;
+
+					if ( 200 === xhr.status ) {
+                        try {
+                        	response = JSON.parse( xhr.response );
+
+                        	reload = response.data.reload;
+                        } catch ( e ) {
+                        	reload = false;
+                        }
+                    }
+
+					// Automatically reload the page if a deprecation caused an automatic downgrade, ensure visitors get the best possible experience.
+					if ( reload ) {
+						location.reload();
+                    }
+				};
+
+				xhr.send( encodeURI( 'action=jquery-migrate-downgrade-version&_wpnonce=' + nonce ) );
+
+				// Suppress error alerts in older browsers
+				return true;
+			}
+        </script>
+
+		
+<!-- Custom Favicon -->
+<link rel="shortcut icon" href="../../wp-content/uploads/2015/08/1439737892_database.ico"/>
+
+<!-- Custom CSS -->
+<link href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/custom.css" rel="stylesheet" type="text/css"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="How to find long running queries"/>
+<meta property="og:url" content="https://dbaclass.com/article/how-to-find-long-running-queries/"/>
+<meta property="og:description" content="Use below script to find the long running queries in your database. select sid,inst_id,opname,totalwork,sofar,start_time,time_remaining from gv$session_longops where totalwork&lt;&gt;sofar / SEE – COMPLETE COLLECTION OF DATABASE SCRIPTS"/>
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			jQuery(document).ready(function($) {
+
+				nicethemes_likes_handler();
+
+			});
+			/* ]]> */
+		</script>
+
+
+		<script type="text/javascript" data-pagespeed-no-defer="">
+		//<![CDATA[
+			jQuery(document).ready(function() {
+				jQuery('#live-search #s').liveSearch({url: 'https://dbaclass.com/?ajax=true&livesearch=true&s='});
+			});
+		//]]>
+		</script>
+
+		
+
+<!-- Nice Google fonts -->
+<link href="https://fonts.googleapis.com/css?family=Nunito|Lato:400,700,400italic" rel="stylesheet" type="text/css"/>
+
+
+<script src="../../../code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../../typeiii.github.io/jquery-csv/src/jquery.csv.html"></script>    
+<script type="text/javascript" src="../../../www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+$.get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/archived_data/archived_time_series/time_series_2019-ncov-Confirmed.csv", function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      console.log(arrayData);
+  });
+      }
+    </script> <link rel="stylesheet" href="../../../cdn-0.dbaclass.com/wp-includes/css/bootstrap.min.css"/>
+
+<style>
+.ui-mobile [data-role=page], .ui-mobile [data-role=dialog], .ui-page {
+    position: relative !important;
+}
+</style>
+
+<script type='text/javascript'>
+var ezoTemplate = 'orig_site';
+var ezouid = '1';
+var ezoFormfactor = '1';
+</script><script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 179613;
+var ezdomain = 'dbaclass.com';
+var ezoicSearchable = 1;
+</script></head>
+
+<body class="article-template-default single single-article postid-243 single-format-standard sidebar-right unknown">
+
+<!-- BEGIN #wrapper -->
+<div id="wrapper">
+
+	<!-- BEGIN #header -->
+	<header id="header" class="clearfix">
+
+		<!-- BEGIN #top -->
+		<div id="top" class="col-full">
+
+			<!-- BEGIN #logo -->
+			<div id="logo" class="fl"><h1><a href="../../index.html" title="DBACLASS"><img id="default-logo" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2018/03/dba_crop.jpg" alt="DBACLASS"/><img id="retina-logo" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2018/03/dba_crop.jpg" alt="DBACLASS"/></a></h1></div>			<!-- END #logo -->
+
+			<a href="#" id="toggle-nav"><i class="fa fa-bars"></i></a>
+
+			<!-- BEGIN #navigation -->
+			<nav id="navigation">
+
+			
+			<div class="menu-menu1-container"><ul id="main-nav" class="nav fl clearfix"><li id="nav-menu-item-1996" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href="../../index.html" class="menu-link main-menu-link">ORACLE DBA<mark class="bar"></mark></a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-163" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-taxonomy menu-item-object-article-category current-article-ancestor current-menu-parent current-article-parent menu-item-has-children"><a href="../../article-category/database/index.html" class="menu-link sub-menu-link">DATABASE</a>
+	<ul class="sub-menu">
+		<li id="nav-menu-item-1625" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../database-10g11g/index.html" class="menu-link sub-menu-link">ADMINISTRATION</a></li>
+		<li id="nav-menu-item-3013" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../performance-tuning/index.html" class="menu-link sub-menu-link">PERFORMANCE TUNING</a></li>
+		<li id="nav-menu-item-1562" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../dataguard/index.html" class="menu-link sub-menu-link">DATAGUARD</a></li>
+		<li id="nav-menu-item-1362" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-security/index.html" class="menu-link sub-menu-link">ORACLE SECURITY</a></li>
+		<li id="nav-menu-item-2448" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../backup-recovery/index.html" class="menu-link sub-menu-link">Backup &amp; Recovery</a></li>
+		<li id="nav-menu-item-1209" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../troubleshoot/index.html" class="menu-link sub-menu-link">TROUBLESHOOT</a></li>
+		<li id="nav-menu-item-4018" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../quizzes/index.html" class="menu-link sub-menu-link">QUIZ</a></li>
+	</ul>
+</li>
+	<li id="nav-menu-item-1179" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-rac/index.html" class="menu-link sub-menu-link">ORACLE RAC</a></li>
+	<li id="nav-menu-item-1187" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-12c/index.html" class="menu-link sub-menu-link">ORACLE 12c-20c</a></li>
+	<li id="nav-menu-item-5465" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-multitenant/index.html" class="menu-link sub-menu-link">ORACLE MULTITENANT</a></li>
+	<li id="nav-menu-item-1269" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oem-12c13c/index.html" class="menu-link sub-menu-link">OEM 12C/13C</a></li>
+	<li id="nav-menu-item-3184" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../goldengate/index.html" class="menu-link sub-menu-link">GOLDENGATE</a></li>
+	<li id="nav-menu-item-3686" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../interview-qa/index.html" class="menu-link sub-menu-link">INTERVIEW QA</a></li>
+	<li id="nav-menu-item-4411" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../dba-cheat-sheet/index.html" class="menu-link sub-menu-link">DBA CHEATSHEET</a></li>
+</ul>
+</li>
+<li id="nav-menu-item-1396" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../monitor-your-db/index.html" class="menu-link main-menu-link">DBA SCRIPTS<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-6323" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../postgres-database-articles/index.html" class="menu-link main-menu-link">POSTGRES<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-5946" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../postgres-db-scripts/index.html" class="menu-link main-menu-link">POSTGRES SCRIPTS<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-7092" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../mysql-db-scripts/index.html" class="menu-link main-menu-link">MYSQL<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-6026" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../ansible/index.html" class="menu-link main-menu-link">DEVOPS<mark class="bar"></mark></a></li>
+</ul></div>
+			<!-- END #navigation -->
+			</nav>
+
+		<!-- END #top -->
+		</div>
+
+		<!-- #live-search -->
+	<section id="live-search" class="clearfix">
+		<div class="container col-full">
+
+			
+			<div id="search-wrap">
+				<form role="search" method="get" id="searchform" class="clearfix" action="https://dbaclass.com/" autocomplete="off">
+					<div class="input">
+					<label for="s">Search.....</label>
+					<input type="text" name="s" id="s"/>
+					<input type="submit" id="searchsubmit" value=""/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- /#live-search -->
+
+
+	<!-- END #header -->
+	</header>
+
+<!-- BEGIN #container -->
+<div id="container" class="clearfix">
+
+<!-- BEGIN #content -->
+<section id="content">
+
+	
+		<article class="post-243 article type-article status-publish format-standard hentry article-category-database article-category-how-to">
+
+						
+			<header>
+					<div class="breadcrumb breadcrumbs nice-breadcrumb"><div class="breadcrumb-trail"><a href="../../index.html" title="DBACLASS" rel="home" class="trail-begin">Home</a> <span class="sep">/</span> <a href="../../article-category/database/index.html" rel="tag">DATABASE</a>, <a href="../../article-category/how-to/index.html" rel="tag">HOW TO</a> <span class="sep">/</span> <span class="trail-end">How to find long running queries</span></div></div>
+					<h1 class="entry-title">How to find long running queries</h1>
+
+					
+	<div class="entry-meta">
+
+				<span class="nice-views">
+						<i class="fa fa-bullseye"></i>7116 views		</span>
+		
+				<span class="nice-reading-time">
+			<i class="fa fa-bookmark"></i>Less than a minute		</span>
+		
+				<a class="nice-like" data-id="243" href="#" title="Like this">
+			<i class="fa fa-heart"></i>
+			<span class="like-count">
+				1			</span>
+		</a>
+		
+		
+	</div>
+
+			</header>
+
+			<div class="entry">
+
+				
+					<div class="post-content">
+						<p>Use below script to find the long running queries in your database.</p>
+<pre class="">select sid,inst_id,opname,totalwork,sofar,start_time,time_remaining 
+from gv$session_longops 
+where totalwork&lt;&gt;sofar
+/
+
+</pre>
+<h3>SEE – <a href="../../monitor-your-db/index.html" target="_blank" rel="noopener noreferrer">COMPLETE COLLECTION OF DATABASE SCRIPTS</a></h3>
+					</div>
+
+					<footer class="entry-meta">
+
+						<span class="tag-links">
+													</span>
+
+						<span class="category-links">
+							<i class="fa fa-archive"></i><a href="../../article-category/database/index.html" rel="tag">DATABASE</a><a href="../../article-category/how-to/index.html" rel="tag">HOW TO</a>						</span>
+
+					</footer>
+
+			</div>
+
+		</article>
+
+ 
+<script type="text/javascript">
+    google_ad_client = "ca-pub-6186075803958446";
+    google_ad_slot = "9656071019";
+    google_ad_width = 336;
+    google_ad_height = 280;
+</script>
+<!-- ad3 -->
+<script type="text/javascript" src="../../../pagead2.googlesyndication.com/pagead/f.txt">
+</script>
+ 
+		
+		<div id="post-author">
+			<div class="profile-image thumb"><img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=70&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=140&amp;d=mm&amp;r=g 2x" class="avatar avatar-70 photo" height="70" width="70" decoding="async"/></div>
+				<div class="profile-content">
+					<h4 class="title">About Admin</h4>
+										<div class="profile-link">
+						<a href="../../author/admin/index.html">
+							View all posts by Admin <span class="meta-nav">→</span>						</a>
+					</div><!-- #profile-link	-->
+			</div><!-- .post-entries -->
+			<div class="fix"></div>
+		</div><!-- #post-author -->
+<section id="related-posts" class="clearfix"><h3>Related Articles</h3><ul class="clearfix">
+<li class="format-article"><a href="../how-to-change-asm-spfile-location-in-oracle-rac/index.html" rel="bookmark" title="How to change asm spfile location in oracle RAC"><i class="fa fa-database"></i>How to change asm spfile location in oracle RAC</a></li><li class="format-article"><a href="../how-to-add-a-node-in-oracle-rac-19c/index.html" rel="bookmark" title="How to add a node in oracle RAC 19c"><i class="fa fa-database"></i>How to add a node in oracle RAC 19c</a></li><li class="format-article"><a href="../how-to-create-database-dbca-slient-mode/index.html" rel="bookmark" title="How to create database using dbca in silent mode – 19C"><i class="fa fa-database"></i>How to create database using dbca in silent mode – 19C</a></li><li class="format-article"><a href="../how-to-modify-scan-name-in-oracle-rac/index.html" rel="bookmark" title="How to modify scan name in oracle RAC"><i class="fa fa-database"></i>How to modify scan name in oracle RAC</a></li><li class="format-article"><a href="../how-to-apply-jdk-patch-in-oracle-database/index.html" rel="bookmark" title="How to apply JDK patch in oracle database"><i class="fa fa-database"></i>How to apply JDK patch in oracle database</a></li><li class="format-article"><a href="../useful-opatch-commands/index.html" rel="bookmark" title="Useful OPATCH commands"><i class="fa fa-database"></i>Useful OPATCH commands</a></li><li class="format-article"><a href="../how-to-change-private-interconnect-details-in-oracle-grid/index.html" rel="bookmark" title="How to change private interconnect details in oracle grid"><i class="fa fa-database"></i>How to change private interconnect details in oracle grid</a></li><li class="format-article"><a href="../how-to-encrypt-a-table-using-dbm_redef-with-zero-down-time/index.html" rel="bookmark" title="How to encrypt a table using dbm_redef with zero down time"><i class="fa fa-database"></i>How to encrypt a table using dbm_redef with zero down time</a></li></ul>
+</section>
+<div id="comments" class="comments-area">
+
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="index.html#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://dbaclass.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p><p class="comment-form-comment"><label for="comment">Comment <span class="required">*</span></label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required="required"/></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required="required"/></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200" autocomplete="url"/></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"/> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"/> <input type="hidden" name="comment_post_ID" value="243" id="comment_post_ID"/>
+<input type="hidden" name="comment_parent" id="comment_parent" value="0"/>
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="a6e3620012"/></p><input type="hidden" id="ak_js" name="ak_js" value="239"/><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea></form>	</div><!-- #respond -->
+	<p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p>
+</div><!-- #comments -->
+
+
+	
+<!-- END #content -->
+</section>
+
+<!-- BEGIN #sidebar -->
+<aside id="sidebar" role="complementary">
+	<div class="box widget widget_text clearfix">			<div class="textwidget"><style type="text/css">
+@import url(../../../cse.google.com/cse/api/branding.css);
+</style>
+<div class="cse-branding-bottom" style="background-color:#FFFFFF;color:#000000">
+  <div class="cse-branding-form">
+    <form action="https://www.google.co.in/" id="cse-search-box" target="_blank">
+      <div>
+        <input type="hidden" name="cx" value="partner-pub-6186075803958446:4803819411"/>
+        <input type="hidden" name="ie" value="UTF-8"/>
+        <input type="text" name="q" size="26"/>
+        <input type="submit" name="sa" value="Search"/>
+      </div>
+    </form>
+  </div>
+  <div class="cse-branding-logo">
+    <img src="../../../www.google.com/images/poweredby_transparent/poweredby_FFFFFF.gif" alt="Google"/>
+  </div>
+  <div class="cse-branding-text">
+    Custom Search
+  </div>
+</div>
+<script type="text/javascript" src="../../../cse.google.com/cse/f.txt"></script>
+<div id="queries"></div>
+<script src="https://www.google.com/cse/api/partner-pub-6186075803958446/cse/4803819411/queries/js?oe=UTF-8&amp;callback=(new+PopularQueryRenderer(document.getElementById(%22queries%22))).render"></script>
+</div>
+		</div>			<div class="box widget widget_nice_article_categories clearfix">			
+			<ul><li><div><span>5</span><a href="../../article-category/ansible/index.html" title="View all posts in ansible">ansible</a> </div></li> <li><div><span>48</span><a href="../../article-category/backup-recovery/index.html" title="View all posts in BACKUP &amp; RECOVERY">BACKUP &amp; RECOVERY</a> </div></li> <li><div><span>6</span><a href="../../article-category/blog/index.html" title="View all posts in BLOG">BLOG</a> </div></li> <li><div><span>16</span><a href="../../article-category/cloud/index.html" title="View all posts in CLOUD">CLOUD</a> </div></li> <li><div><span>59</span><a href="../../article-category/database/index.html" title="View all posts in DATABASE">DATABASE</a> </div></li> <li><div><span>40</span><a href="../../article-category/database-scripts/index.html" title="View all posts in DATABASE SCRIPTS">DATABASE SCRIPTS</a> </div></li> <li><div><span>10</span><a href="../../article-category/database-wiki/index.html" title="View all posts in Database-Wiki">Database-Wiki</a> </div></li> <li><div><span>28</span><a href="../../article-category/dataguard/index.html" title="View all posts in DATAGUARD">DATAGUARD</a> </div></li> <li><div><span>9</span><a href="../../article-category/db-tools/index.html" title="View all posts in DB TOOLS">DB TOOLS</a> </div></li> <li><div><span>18</span><a href="../../article-category/goldengate/index.html" title="View all posts in GOLDENGATE">GOLDENGATE</a> </div></li> <li><div><span>3</span><a href="../../article-category/hadoop/index.html" title="View all posts in HADOOP">HADOOP</a> </div></li> <li><div><span>47</span><a href="../../article-category/how-to/index.html" title="View all posts in HOW TO">HOW TO</a> </div></li> <li><div><span>11</span><a href="../../article-category/interview-qa/index.html" title="View all posts in INTERVIEW QA">INTERVIEW QA</a> </div></li> <li><div><span>61</span><a href="../../article-category/oracle-12c/index.html" title="View all posts in ORACLE 12C">ORACLE 12C</a> </div></li> <li><div><span>5</span><a href="../../article-category/oracle-18c/index.html" title="View all posts in ORACLE 18C">ORACLE 18C</a> </div></li> <li><div><span>12</span><a href="../../article-category/oracle-19c/index.html" title="View all posts in ORACLE 19C">ORACLE 19C</a> </div></li> <li><div><span>59</span><a href="../../article-category/oracle-rac/index.html" title="View all posts in ORACLE RAC">ORACLE RAC</a> </div></li> <li><div><span>13</span><a href="../../article-category/oracle-security/index.html" title="View all posts in ORACLE SECURITY">ORACLE SECURITY</a> </div></li> <li><div><span>30</span><a href="../../article-category/performance-tuning/index.html" title="View all posts in PERFORMANCE TUNING">PERFORMANCE TUNING</a> </div></li> <li><div><span>29</span><a href="../../article-category/postgres/index.html" title="View all posts in POSTGRES">POSTGRES</a> </div></li> <li><div><span>4</span><a href="../../article-category/r-studio/index.html" title="View all posts in R-STUDIO">R-STUDIO</a> </div></li> <li><div><span>13</span><a href="../../article-category/shell-script/index.html" title="View all posts in SHELL SCRIPT">SHELL SCRIPT</a> </div></li> <li><div><span>152</span><a href="../../article-category/troubleshooting/index.html" title="View all posts in TROUBLESHOOTING">TROUBLESHOOTING</a> </div></li> <li><div><span>3</span><a href="../../article-category/weblogic/index.html" title="View all posts in WEBLOGIC">WEBLOGIC</a> </div></li> </ul>
+			</div>					<div class="box widget nice_popular_articles clearfix">			
+			<ul class="clearfix">
+
+															<li class="clearfix format-standard">
+						<a href="../upgrade-database-from-11g-to-12c-manually/index.html" rel="bookmark">Upgrade database from 11g to 12c manually</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 108481 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">16</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../upgrade-database-from-12-1-0-2-to-12-2-0-1/index.html" rel="bookmark">Upgrade database from 12.1.0.2 to 12.2.0.1</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 80841 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">9</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-04036-pga-memory-used-by-the-instance-exceeds-pga_aggregate_limit/index.html" rel="bookmark">ORA-04036: PGA memory used by the instance exceeds PGA_AGGREGATE_LIMIT</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 79612 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">3</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../prerequisite-check-checkactivefilesandexecutables-failed/index.html" rel="bookmark">Prerequisite check “CheckActiveFilesAndExecutables” failed</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 68692 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">3</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../install-oracle-goldengate-12c-on-linux-7/index.html" rel="bookmark">install oracle goldengate 12c on linux 7</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 66826 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">0</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../how-to-run-sql-tuning-advisor-for-a-sql_id/index.html" rel="bookmark">How to run SQL tuning advisor for a sql_id</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 64604 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">9</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../transparent-data-encryption-tde-in-oracle-12c/index.html" rel="bookmark">Transparent Data Encryption (TDE) in oracle 12c</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 54721 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">2</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../how-to-drop-and-recreate-temp-tablespace-in-oracle/index.html" rel="bookmark">How to drop and recreate temp tablespace in oracle</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 54641 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">8</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-01624-log-1-needed-for-crash-recovery-of-instance/index.html" rel="bookmark">ORA-01624: log 1 needed for crash recovery of instance</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 49838 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">2</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-24247-network-access-denied-by-access-control-list-acl/index.html" rel="bookmark">ORA-24247: network access denied by access control list (ACL)</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 49802 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">0</span></span>
+															</span>
+												</li>
+					
+					
+				</ul>
+
+
+			</div>		<div class="box widget widget_tag_cloud clearfix"><h4 class="widgettitle">Tags</h4><div class="tagcloud"><a href="../../article-tag/12c/index.html" class="tag-cloud-link tag-link-54 tag-link-position-1" style="font-size: 13.169230769231pt;" aria-label="12c (14 items)">12c</a>
+<a href="../../article-tag/19c/index.html" class="tag-cloud-link tag-link-239 tag-link-position-2" style="font-size: 9.6153846153846pt;" aria-label="19C (6 items)">19C</a>
+<a href="../../article-tag/archive/index.html" class="tag-cloud-link tag-link-31 tag-link-position-3" style="font-size: 8pt;" aria-label="archive (4 items)">archive</a>
+<a href="../../article-tag/archivelog/index.html" class="tag-cloud-link tag-link-33 tag-link-position-4" style="font-size: 9.6153846153846pt;" aria-label="archivelog (6 items)">archivelog</a>
+<a href="../../article-tag/asm/index.html" class="tag-cloud-link tag-link-39 tag-link-position-5" style="font-size: 14.892307692308pt;" aria-label="ASM (21 items)">ASM</a>
+<a href="../../article-tag/audit/index.html" class="tag-cloud-link tag-link-53 tag-link-position-6" style="font-size: 9.6153846153846pt;" aria-label="Audit (6 items)">Audit</a>
+<a href="../../article-tag/awr/index.html" class="tag-cloud-link tag-link-153 tag-link-position-7" style="font-size: 10.153846153846pt;" aria-label="AWR (7 items)">AWR</a>
+<a href="../../article-tag/backup/index.html" class="tag-cloud-link tag-link-19 tag-link-position-8" style="font-size: 8.8615384615385pt;" aria-label="backup (5 items)">backup</a>
+<a href="../../article-tag/cloning/index.html" class="tag-cloud-link tag-link-129 tag-link-position-9" style="font-size: 8.8615384615385pt;" aria-label="cloning (5 items)">cloning</a>
+<a href="../../article-tag/cloud/index.html" class="tag-cloud-link tag-link-67 tag-link-position-10" style="font-size: 11.661538461538pt;" aria-label="cloud (10 items)">cloud</a>
+<a href="../../article-tag/cluster/index.html" class="tag-cloud-link tag-link-283 tag-link-position-11" style="font-size: 8.8615384615385pt;" aria-label="cluster (5 items)">cluster</a>
+<a href="../../article-tag/database/index.html" class="tag-cloud-link tag-link-89 tag-link-position-12" style="font-size: 8.8615384615385pt;" aria-label="database (5 items)">database</a>
+<a href="../../article-tag/dataguard/index.html" class="tag-cloud-link tag-link-24 tag-link-position-13" style="font-size: 14.892307692308pt;" aria-label="dataguard (21 items)">dataguard</a>
+<a href="../../article-tag/dgmgrl/index.html" class="tag-cloud-link tag-link-227 tag-link-position-14" style="font-size: 10.153846153846pt;" aria-label="dgmgrl (7 items)">dgmgrl</a>
+<a href="../../article-tag/diskgroup/index.html" class="tag-cloud-link tag-link-119 tag-link-position-15" style="font-size: 8.8615384615385pt;" aria-label="DISKGROUP (5 items)">DISKGROUP</a>
+<a href="../../article-tag/edb/index.html" class="tag-cloud-link tag-link-282 tag-link-position-16" style="font-size: 9.6153846153846pt;" aria-label="EDB (6 items)">EDB</a>
+<a href="../../article-tag/expdp/index.html" class="tag-cloud-link tag-link-30 tag-link-position-17" style="font-size: 16.076923076923pt;" aria-label="EXPDP (27 items)">EXPDP</a>
+<a href="../../article-tag/failover/index.html" class="tag-cloud-link tag-link-285 tag-link-position-18" style="font-size: 8.8615384615385pt;" aria-label="failover (5 items)">failover</a>
+<a href="../../article-tag/flashback/index.html" class="tag-cloud-link tag-link-64 tag-link-position-19" style="font-size: 12.092307692308pt;" aria-label="flashback (11 items)">flashback</a>
+<a href="../../article-tag/goldengate/index.html" class="tag-cloud-link tag-link-72 tag-link-position-20" style="font-size: 13.707692307692pt;" aria-label="goldengate (16 items)">goldengate</a>
+<a href="../../article-tag/grid/index.html" class="tag-cloud-link tag-link-40 tag-link-position-21" style="font-size: 11.230769230769pt;" aria-label="grid (9 items)">grid</a>
+<a href="../../article-tag/impdp/index.html" class="tag-cloud-link tag-link-73 tag-link-position-22" style="font-size: 11.230769230769pt;" aria-label="impdp (9 items)">impdp</a>
+<a href="../../article-tag/multitenant/index.html" class="tag-cloud-link tag-link-151 tag-link-position-23" style="font-size: 11.230769230769pt;" aria-label="multitenant (9 items)">multitenant</a>
+<a href="../../article-tag/opatch/index.html" class="tag-cloud-link tag-link-124 tag-link-position-24" style="font-size: 10.692307692308pt;" aria-label="OPATCH (8 items)">OPATCH</a>
+<a href="../../article-tag/ora/index.html" class="tag-cloud-link tag-link-29 tag-link-position-25" style="font-size: 22pt;" aria-label="ORA- (99 items)">ORA-</a>
+<a href="../../article-tag/oracle/index.html" class="tag-cloud-link tag-link-58 tag-link-position-26" style="font-size: 10.153846153846pt;" aria-label="oracle (7 items)">oracle</a>
+<a href="../../article-tag/oracle-12-2/index.html" class="tag-cloud-link tag-link-131 tag-link-position-27" style="font-size: 12.846153846154pt;" aria-label="oracle 12.2. (13 items)">oracle 12.2.</a>
+<a href="../../article-tag/oracle-12c/index.html" class="tag-cloud-link tag-link-86 tag-link-position-28" style="font-size: 11.661538461538pt;" aria-label="oracle 12c (10 items)">oracle 12c</a>
+<a href="../../article-tag/partition/index.html" class="tag-cloud-link tag-link-117 tag-link-position-29" style="font-size: 10.692307692308pt;" aria-label="partition (8 items)">partition</a>
+<a href="../../article-tag/patch/index.html" class="tag-cloud-link tag-link-84 tag-link-position-30" style="font-size: 10.153846153846pt;" aria-label="patch (7 items)">patch</a>
+<a href="../../article-tag/patching/index.html" class="tag-cloud-link tag-link-27 tag-link-position-31" style="font-size: 9.6153846153846pt;" aria-label="patching (6 items)">patching</a>
+<a href="../../article-tag/pdb/index.html" class="tag-cloud-link tag-link-63 tag-link-position-32" style="font-size: 10.692307692308pt;" aria-label="PDB (8 items)">PDB</a>
+<a href="../../article-tag/pluggable/index.html" class="tag-cloud-link tag-link-56 tag-link-position-33" style="font-size: 8pt;" aria-label="pluggable (4 items)">pluggable</a>
+<a href="../../article-tag/postgres/index.html" class="tag-cloud-link tag-link-246 tag-link-position-34" style="font-size: 14.892307692308pt;" aria-label="postgres (21 items)">postgres</a>
+<a href="../../article-tag/rac/index.html" class="tag-cloud-link tag-link-76 tag-link-position-35" style="font-size: 16.830769230769pt;" aria-label="RAC (32 items)">RAC</a>
+<a href="../../article-tag/replication/index.html" class="tag-cloud-link tag-link-187 tag-link-position-36" style="font-size: 11.230769230769pt;" aria-label="replication (9 items)">replication</a>
+<a href="../../article-tag/rman/index.html" class="tag-cloud-link tag-link-18 tag-link-position-37" style="font-size: 15.538461538462pt;" aria-label="rman (24 items)">rman</a>
+<a href="../../article-tag/script/index.html" class="tag-cloud-link tag-link-157 tag-link-position-38" style="font-size: 8.8615384615385pt;" aria-label="SCRIPT (5 items)">SCRIPT</a>
+<a href="../../article-tag/security/index.html" class="tag-cloud-link tag-link-15 tag-link-position-39" style="font-size: 8pt;" aria-label="security (4 items)">security</a>
+<a href="../../article-tag/shell-script/index.html" class="tag-cloud-link tag-link-141 tag-link-position-40" style="font-size: 11.661538461538pt;" aria-label="SHELL script (10 items)">SHELL script</a>
+<a href="../../article-tag/standby/index.html" class="tag-cloud-link tag-link-22 tag-link-position-41" style="font-size: 14.676923076923pt;" aria-label="standby (20 items)">standby</a>
+<a href="../../article-tag/tablespace/index.html" class="tag-cloud-link tag-link-23 tag-link-position-42" style="font-size: 11.230769230769pt;" aria-label="tablespace (9 items)">tablespace</a>
+<a href="../../article-tag/temp/index.html" class="tag-cloud-link tag-link-20 tag-link-position-43" style="font-size: 10.153846153846pt;" aria-label="temp (7 items)">temp</a>
+<a href="../../article-tag/undo/index.html" class="tag-cloud-link tag-link-21 tag-link-position-44" style="font-size: 8pt;" aria-label="undo (4 items)">undo</a>
+<a href="../../article-tag/upgrade/index.html" class="tag-cloud-link tag-link-26 tag-link-position-45" style="font-size: 10.153846153846pt;" aria-label="upgrade (7 items)">upgrade</a></div>
+</div><!-- END #sidebar -->
+</aside>
+
+			<!-- END #container -->
+		</div>
+	
+	
+	<!-- BEGIN #footer -->
+	<footer id="footer">
+
+		
+		<!-- BEGIN #footer-widget --><div id="footer-widgets" class="col-full">
+			<div class="grid footer-grid">
+				<div class="widget-section first  columns-3">
+							<div class="box widget widget_nice_social">				
+				<div class="social-links clearfix">
+
+					<ul id="social">
+						<li id="facebook"><a href="https://www.facebook.com/dbaclass"><i class="fa fa-facebook"></i></a></li><li id="twitter"><a href="https://twitter.com/SupportDbaclass"><i class="fa fa-twitter"></i></a></li><li id="linkedin"><a href="https://www.linkedin.com/in/dbaclass"><i class="fa fa-linkedin"></i></a></li>					</ul>
+
+				</div>
+				
+			</div>
+
+	<div class="box widget widget_text"><h4 class="widgettitle">About DBACLASS</h4>			<div class="textwidget">DBACLASS.COM is a knowledgebase for Oracle Database administrators</div>
+		</div>				</div>
+				<div class="widget-section even  columns-3">
+									</div>
+												<div class="widget-section odd  columns-3 last">
+					<div class="box widget widget_nav_menu"><div class="menu-privacy-policy-container"><ul id="menu-privacy-policy" class="menu"><li id="menu-item-1932" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1932"><a href="../../privacy-policy/index.html">Privacy policy</a></li>
+<li id="menu-item-1992" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1992"><a href="../../terms/index.html">Terms &amp; Conditions</a></li>
+<li id="menu-item-1977" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1977"><a href="../../contactus/index.html">Contact us</a></li>
+<li id="menu-item-1995" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1995"><a href="../../about/index.html">About Us</a></li>
+<li id="menu-item-2979" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2979"><a href="../../write-for-us/index.html">Write for us</a></li>
+<li id="menu-item-3111" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3111"><a href="http://forum.dbaclass.com/">Q&amp;A Forum</a></li>
+</ul></div></div>				</div>
+											</div>
+
+		</div><!-- /#footer-widgets -->
+		
+		<div id="extended-footer">
+			<div class="col-full">
+
+				<p></p>
+				<nav id="footer-navigation">
+									</nav>
+
+			</div>
+
+		</div>
+
+	<!-- END #footer -->
+	</footer>
+
+<!-- END #wrapper -->
+</div>
+
+<script>
+
+jQuery(document).ready(function (e) {
+  jQuery(".AnyBoxFooter").click(function(){
+    jQuery(".AnyBoxFooter:visible").hide();
+    jQuery(".AnyBoxContainer:visible").hide();
+  });
+});
+jQuery(document).ready(function(){
+  jQuery("#footer-navigation").text("©Copyright 2020 The DbaClass Group  ®ALL RIGHTS RESERVED.");
+  jQuery("body>div>a:first").attr("href", "../../about/index.html");
+
+
+});
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66394967-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+			<a href="#" class="backtotop">
+				<i class="fa fa-angle-up"></i>
+			</a>
+		<script type="text/javascript" id="theme-my-login-js-extra">
+/* <![CDATA[ */
+var themeMyLogin = {"action":"","errors":[]};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/theme-my-login/assets/scripts/theme-my-login.min03db.js?ver=7.1.1" id="theme-my-login-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/comment-reply.minadc6.js?ver=6.5.5" id="comment-reply-js" async="async" data-wp-strategy="async"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/imagesloaded.minbb93.js?ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/masonry.min3a05.js?ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery.masonry.minef70.js?ver=3.1.2b" id="jquery-masonry-js"></script>
+<script async="async" type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/akismet/_inc/form5fa1.js?ver=4.1.9" id="akismet-form-js"></script>
+
+<script data-cfasync="false">function _emitEzConsentEvent(){var customEvent=new CustomEvent("ezConsentEvent",{detail:{ezTcfConsent:window.ezTcfConsent},bubbles:true,cancelable:true,});document.dispatchEvent(customEvent);}
+(function(window,document){function _setAllEzConsentTrue(){window.ezTcfConsent.loaded=true;window.ezTcfConsent.store_info=true;window.ezTcfConsent.develop_and_improve_services=true;window.ezTcfConsent.measure_ad_performance=true;window.ezTcfConsent.measure_content_performance=true;window.ezTcfConsent.select_basic_ads=true;window.ezTcfConsent.create_ad_profile=true;window.ezTcfConsent.select_personalized_ads=true;window.ezTcfConsent.create_content_profile=true;window.ezTcfConsent.select_personalized_content=true;window.ezTcfConsent.understand_audiences=true;window.ezTcfConsent.use_limited_data_to_select_content=true;window.ezTcfConsent.select_personalized_content=true;}
+function _clearEzConsentCookie(){document.cookie="ezCMPCookieConsent=tcf2;Domain=.dbaclass.com;Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";}
+_clearEzConsentCookie();if(typeof window.__tcfapi!=="undefined"){window.ezgconsent=false;var amazonHasRun=false;function _ezAllowed(tcdata,purpose){return(tcdata.purpose.consents[purpose]||tcdata.purpose.legitimateInterests[purpose]);}
+function _reloadAds(){if(typeof window.ezorefgsl==="function"&&typeof window.ezslots==="object"){if(typeof __ezapsFetchBids=="function"&&amazonHasRun===false){ezapsFetchBids(__ezaps);if(typeof __ezapsVideo!="undefined"){ezapsFetchBids(__ezapsVideo,"video");}
+amazonHasRun=true;}
+var slots=[];for(var i=0;i<window.ezslots.length;i++){if(window[window.ezslots[i]]&&typeof window[window.ezslots[i]]==="object"){slots.push(window[window.ezslots[i]]);}else{setTimeout(_reloadAds,100);return false;}}
+for(var i=0;i<slots.length;i++){window.ezorefgsl(slots[i]);}}else if(!window.ezadtimeoutset){window.ezadtimeoutset=true;setTimeout(_reloadAds,100);}}
+function _handleConsentDecision(tcdata){window.ezTcfConsent.loaded=true;if(!tcdata.vendor.consents["347"]&&!tcdata.vendor.legitimateInterests["347"]){window._emitEzConsentEvent();return;}
+window.ezTcfConsent.store_info=_ezAllowed(tcdata,"1");window.ezTcfConsent.develop_and_improve_services=_ezAllowed(tcdata,"10");window.ezTcfConsent.measure_content_performance=_ezAllowed(tcdata,"8");window.ezTcfConsent.select_basic_ads=_ezAllowed(tcdata,"2");window.ezTcfConsent.create_ad_profile=_ezAllowed(tcdata,"3");window.ezTcfConsent.select_personalized_ads=_ezAllowed(tcdata,"4");window.ezTcfConsent.create_content_profile=_ezAllowed(tcdata,"5");window.ezTcfConsent.measure_ad_performance=_ezAllowed(tcdata,"7");window.ezTcfConsent.use_limited_data_to_select_content=_ezAllowed(tcdata,"11");window.ezTcfConsent.select_personalized_content=_ezAllowed(tcdata,"6");window.ezTcfConsent.understand_audiences=_ezAllowed(tcdata,"9");window._emitEzConsentEvent();}
+function _handleGoogleConsentV2(tcdata){if(!tcdata||!tcdata.purpose||!tcdata.purpose.consents){return;}
+var googConsentV2={};if(tcdata.purpose.consents[1]){googConsentV2.ad_storage='granted';googConsentV2.analytics_storage='granted';}
+if(tcdata.purpose.consents[3]&&tcdata.purpose.consents[4]){googConsentV2.ad_personalization='granted';}
+if(tcdata.purpose.consents[1]&&tcdata.purpose.consents[7]){googConsentV2.ad_user_data='granted';}
+if(googConsentV2.analytics_storage=='denied'){gtag('set','url_passthrough',true);}
+gtag('consent','update',googConsentV2);}
+__tcfapi("addEventListener",2,function(tcdata,success){if(!success||!tcdata){window._emitEzConsentEvent();return;}
+if(!tcdata.gdprApplies){_setAllEzConsentTrue();window._emitEzConsentEvent();return;}
+if(tcdata.eventStatus==="useractioncomplete"||tcdata.eventStatus==="tcloaded"){if(typeof gtag!='undefined'){_handleGoogleConsentV2(tcdata);}
+_handleConsentDecision(tcdata);if(tcdata.purpose.consents["1"]===true&&tcdata.vendor.consents["755"]!==false){window.ezgconsent=true;(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=0;_reloadAds();}else{_reloadAds();}
+if(window.__ezconsent){__ezconsent.setEzoicConsentSettings(ezConsentCategories);}
+__tcfapi("removeEventListener",2,function(success){return null;},tcdata.listenerId);if(!(tcdata.purpose.consents["1"]===true&&_ezAllowed(tcdata,"2")&&_ezAllowed(tcdata,"3")&&_ezAllowed(tcdata,"4"))){if(typeof __ez=="object"&&typeof __ez.bit=="object"&&typeof window["_ezaq"]=="object"&&typeof window["_ezaq"]["page_view_id"]=="string"){__ez.bit.AddAndFire(window["_ezaq"]["page_view_id"],[new __ezDotData("non_personalized_ads",true),]);}}}});}else{_setAllEzConsentTrue();window._emitEzConsentEvent();}})(window,document);</script></body>
+<!-- Mirrored from dbaclass.com/article/how-to-find-long-running-queries/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 18:41:21 GMT -->
+</html>

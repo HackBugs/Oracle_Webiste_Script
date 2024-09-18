@@ -1,0 +1,1672 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>DATAGUARD Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-category/dataguard/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-category/dataguard/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 15 Dec 2022 02:50:02 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Convert physical standby to snapshot standby using dgmgrl</title>
+		<link>https://dbaclass.com/article/convert-physical-standby-to-snapshot-standby-using-dgmgrl/</link>
+					<comments>https://dbaclass.com/article/convert-physical-standby-to-snapshot-standby-using-dgmgrl/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 05 Jun 2022 18:15:52 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=7613</guid>
+
+					<description><![CDATA[<p>In our earlier article, we explained how to convert physical standby to snapshot standby manually . Convert Physical standby to snapshot standby manually(Without DGMGRL) However in this article, I will explain how can we achieve this using dgmgrl. To use dgmgrl , make sure dg broker is enabled.Follow below article to implement. How to set [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/convert-physical-standby-to-snapshot-standby-using-dgmgrl/">Convert physical standby to snapshot standby using dgmgrl</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>In our earlier article, we explained how to convert physical standby to snapshot standby manually .</p>
+<p><a href="https://dbaclass.com/article/convert-physical-standby-to-snapshot-standby-database/" target="_blank" rel="noopener noreferrer">Convert Physical standby to snapshot standby manually(Without DGMGRL)</a></p>
+<p>However in this article, I will explain how can we achieve this using dgmgrl.</p>
+<p>To use dgmgrl , make sure dg broker is enabled.Follow below article to implement.</p>
+<p><a href="https://dbaclass.com/article/setup-dataguard-broker-configuration-dg-broker/" target="_blank" rel="noopener noreferrer">How to set up dataguard broker ( dgmgrl)</a></p>
+<h4>1. Make sure flashback is on on standby database.</h4>
+<pre><code class="language-">
+SQL&gt; <strong>show parameter db_recovery</strong>
+
+NAME                                 TYPE
+------------------------------------ --------------------------------
+VALUE
+------------------------------
+db_recovery_file_dest                string
++FRA
+db_recovery_file_dest_size           big integer
+200G
+SQL&gt; <strong>select flashback_on from v$database;</strong>
+
+FLASHBACK_ON
+------------------
+NO
+
+
+SQL&gt; <strong>select open_mode from v$database;</strong>
+
+OPEN_MODE
+--------------------
+READ ONLY WITH APPLY
+
+SQL&gt; <strong>alter database flashback on;</strong>
+alter database flashback on
+*
+ERROR at line 1:
+ORA-01153: an incompatible media recovery is active
+
+
+SQL&gt; <strong>recover managed standby database cancel;</strong>
+Media recovery complete.
+SQL&gt; <strong>alter database flashback on;
+</strong>
+Database altered.
+
+SQL&gt;  <strong>select flashback_on from v$database;
+</strong>
+FLASHBACK_ON
+------------------
+YES
+
+
+SQL&gt; <strong>alter database recover managed standby database using current logfile disconnect from session;
+</strong>
+Database altered.
+
+</code></pre>
+<h4>2. Check the configuration:</h4>
+<p>Check the configuration, if any issues are there, then fix it before proceeding further.</p>
+<pre><code class="language-">
+
+DGMGRL&gt;  <strong>show configuration
+</strong>
+Configuration - dg_config_mum
+
+  Protection Mode: MaxPerformance
+  Members:
+  MUM      - Primary database
+    MUMDR    - Physical standby database
+      Error: ORA-16810: multiple errors or warnings detected for the member
+
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+ERROR   (status updated 46 seconds ago)
+
+
+DGMGRL&gt; <strong>validate database MUMDR
+</strong>
+  Database Role:     Physical standby database
+  Primary Database:  MUM
+
+  Ready for Switchover:  Yes
+  Ready for Failover:    Yes (Primary Running)
+
+  Flashback Database Status:
+    MUM  :  Off
+    MUMDR:  On
+
+  Managed by Clusterware:
+    MUM  :  YES
+    MUMDR:  YES
+
+DGMGRL&gt; <strong>show configuration</strong>
+
+Configuration - dg_config_mum
+
+  Protection Mode: MaxPerformance
+  Members:
+  MUM      - Primary database
+<strong>    MUMDR    - Physical standby database
+</strong>
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS   (status updated 6 seconds ago)
+</code></pre>
+<h4>3. Convert physical to snapshot standby.</h4>
+<pre><code class="language-">
+DGMGRL&gt; <strong>convert database MUMDR to snapshot standby;</strong>
+Converting database "MUMDR" to a Snapshot Standby database, please wait...
+Database "MUMDR" converted successfully
+DGMGRL&gt; <strong>show configuration</strong>
+
+Configuration - dg_config_mum
+
+  Protection Mode: MaxPerformance
+  Members:
+  MUM      - Primary database
+<strong>    MUMDR    - Snapshot standby database
+</strong>
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS   (status updated 52 seconds ago)
+
+
+
+
+SQL&gt; <strong>select open_mode,database_role from v$database;
+</strong>
+OPEN_MODE            DATABASE_ROLE
+-------------------- ----------------
+READ WRITE           SNAPSHOT STANDBY
+
+
+</code></pre>
+<p>Now the database is open in read write mode. So you can do any changes or testing on the database.</p>
+<p>Once your activity is done, you can revert it back to physical standby using below command.</p>
+<h4>4. Convert snapshot to physical standby</h4>
+<pre><code class="language-">
+DGMGRL&gt; <strong>convert database MUMDR to physical standby;</strong>
+Converting database "MUMDR" to a Physical Standby database, please wait...
+Operation requires a connection to database "ne"
+Connecting ...
+Connected to "MUM"
+Connected as SYSDBA.
+Oracle Clusterware is restarting database "MUMDR" ...
+Connected to "MUMDR"
+Connected to "MUMDR"
+Continuing to convert database "MUMDR" ...
+Database "MUMDR" converted successfully
+DGMGRL&gt;
+
+
+
+
+DGMGRL&gt; <strong>show configuration;</strong>
+
+Configuration - dg_config_mum
+
+  Protection Mode: MaxPerformance
+  Members:
+  MUM      - Primary database
+<strong>    MUMDR    - Physical standby database
+</strong>
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS   (status updated 4 seconds ago)
+
+DGMGRL&gt;
+
+</code></pre>
+<p>The post <a href="https://dbaclass.com/article/convert-physical-standby-to-snapshot-standby-using-dgmgrl/">Convert physical standby to snapshot standby using dgmgrl</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/convert-physical-standby-to-snapshot-standby-using-dgmgrl/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Warning: ORA-16854: apply lag could not be determined</title>
+		<link>https://dbaclass.com/article/warning-ora-16854-apply-lag-could-not-be-determined/</link>
+					<comments>https://dbaclass.com/article/warning-ora-16854-apply-lag-could-not-be-determined/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 03 Jun 2022 13:59:47 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=7605</guid>
+
+					<description><![CDATA[<p>PROBLEM: I was getting Warning: ORA-16854: apply lag could not be determined in dgmgrl show configuration command. , despite my dataguard replication was working fine and no errors were in any of the alert logs. I tried validate database command , still warning was there. DGMGRL&#62; show configuration; Configuration - my_dg_leo Protection Mode: MaxPerformance Members: [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/warning-ora-16854-apply-lag-could-not-be-determined/">Warning: ORA-16854: apply lag could not be determined</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h3>PROBLEM:</h3>
+<p>I was getting Warning: ORA-16854: apply lag could not be determined in dgmgrl show configuration command. , despite my dataguard replication was working fine and no errors were in any of the alert logs. I tried validate database command , still warning was there.</p>
+<pre><code class="language-">
+DGMGRL&gt; <strong>show configuration;</strong>
+
+Configuration - my_dg_leo
+
+Protection Mode: MaxPerformance
+Members:
+leo - Primary database
+leodr - Physical standby database
+<span style="color: #800000;"><strong>Warning: ORA-16854: apply lag could not be determined
+</strong></span>
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+
+SQL&gt; <strong>select process,status from gv$managed_standby;</strong>
+
+PROCESS STATUS
+--------- ------------
+DGRD ALLOCATED
+ARCH CLOSING
+DGRD ALLOCATED
+ARCH CONNECTED
+ARCH CONNECTED
+ARCH CLOSING
+RFS IDLE
+RFS IDLE
+RFS IDLE
+RFS IDLE
+RFS IDLE
+
+PROCESS STATUS
+--------- ------------
+MRP0 APPLYING_LOG
+
+12 rows selected.
+
+</code></pre>
+<h3>SOLUTION:</h3>
+<p>The solution i tried is , cancelling the recovery and restarting the MRP again on standby db.</p>
+<pre><code class="language-">
+
+SQL&gt; <strong>alter database recover managed standby database cancel;</strong>
+
+Database altered.
+
+SQL&gt; <strong>alter database recover managed standby database using current logfile disconnect from session;
+</strong>
+Database altered.
+
+DGMGRL&gt; <strong>show configuration;</strong>
+
+Configuration - my_dg_leo
+
+Protection Mode: MaxPerformance
+Members:
+leo - Primary database
+leodr - Physical standby database
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS (status updated 9 seconds ago)
+
+</code></pre>
+<p>And the error is gone.</p>
+<p>If you faced similar issue and used any other alternative workaround to fix the issue. please update in the comment section. It will be helpful to the DBA community.</p>
+<p>The post <a href="https://dbaclass.com/article/warning-ora-16854-apply-lag-could-not-be-determined/">Warning: ORA-16854: apply lag could not be determined</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/warning-ora-16854-apply-lag-could-not-be-determined/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Recover standby database from primary using service in oracle 18c</title>
+		<link>https://dbaclass.com/article/recover-standby-database-from-primary-using-service-in-oracle-18c/</link>
+					<comments>https://dbaclass.com/article/recover-standby-database-from-primary-using-service-in-oracle-18c/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 17 Sep 2021 15:39:13 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=7144</guid>
+
+					<description><![CDATA[<p>If your standby database is out of sync from primary or some archive logs got deleted before it is being shipped or applied to standby ,then you can follow below method to sync standby database with primary. We can call this process as  rolling forward of standby database. In oracle 11g, this process is purely [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/recover-standby-database-from-primary-using-service-in-oracle-18c/">Recover standby database from primary using service in oracle 18c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>If your standby database is out of sync from primary or some archive logs got deleted before it is being shipped or applied to standby ,then you can follow below method to sync standby database with primary. We can call this process as  rolling forward of standby database.</p>
+<p>In oracle 11g, this process is purely manual , which involves lot of steps. And this process saw a major improvement in oracle 12c.</p>
+<p>And again in oracle 18c it is just one command to refresh the standby database from primary.</p>
+<p>See below articles for 11g and 12c version:</p>
+<p><a href="https://dbaclass.com/article/how-to-recover-standby-database-when-archive-logs-are-missing-in-primary/" target="_blank" rel="noopener noreferrer">For Oracle 11g database : How To Recover Standby Database When Archive Logs Are Missing In Primary</a></p>
+<p><a href="https://dbaclass.com/article/rolling-forward-standby-database-when-archives-missing-in-primary-in-12c/" target="_blank" rel="noopener noreferrer">For Oracle 12c database : Rolling Forward Standby Database When Archives Missing In Primary In 12c</a></p>
+<p><strong>EXAMPLE:</strong></p>
+<p><span style="font-family: verdana, geneva, sans-serif; background-color: #ffcc00;">primary database: CLSPROD</span><br />
+<span style="font-family: verdana, geneva, sans-serif; background-color: #ffcc00;">standby database: CLSTDBY</span><br />
+<span style="font-family: verdana, geneva, sans-serif; background-color: #ffcc00;">database_type:     2 node RAC</span></p>
+<p>&nbsp;</p>
+<h4>1. Cancel recovery of standby database:</h4>
+<pre><code class="language-">SQL&gt; recover managed standby database cancel;
+Media recovery complete.
+</code></pre>
+<h4>2. Keep the standby database in mount state from one node only:</h4>
+<p>As our standby database is a RAC, so we will shutdown the database from all nodes and mount the database from only one node.</p>
+<pre><code class="language-">[oracle@stdby-host]$<span style="color: #993300;"><strong>srvctl stop database -d CLSTDBY</strong></span>
+
+sqlplus / as sysdba 
+SQL&gt; <span style="color: #993300;"><strong>startup mount;
+
+</strong></span></code></pre>
+<h4>3. Connect with rman and run recovery command: [ ON STANDBY ]</h4>
+<p><em><strong><span style="text-decoration: underline;">SYNTAX</span> &#8211; &gt; RECOVER STANDBY DATABASE FROM SERVICE</strong></em></p>
+<p>Here CLSPROD &#8211; is the primary database service_name(TNS):</p>
+<pre><code class="language-">
+[oracle@stdby-host admin]$ <span style="color: #993300;"><strong>rman target /</strong></span>
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Thu Sep 9 15:39:06 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: CLSPROD (DBID=2290300697, not open)
+
+RMAN&gt;  <span style="color: #993300;"><strong>RECOVER STANDBY DATABASE FROM SERVICE CLSPROD;</strong></span>
+
+
+Starting recover at 09-SEP-21
+Oracle instance started
+
+Total System Global Area   53687090008 bytes
+
+Fixed Size                    30145368 bytes
+Variable Size               7247757312 bytes
+Database Buffers           46305116160 bytes
+Redo Buffers                 104071168 bytes
+
+contents of Memory Script:
+{
+   restore standby controlfile from service  'CLSPROD';
+   alter database mount standby database;
+}
+executing Memory Script
+
+Starting restore at 09-SEP-21
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=1334 instance=CLSDR1 device type=DISK
+
+channel ORA_DISK_1: starting datafile backup set restore
+channel ORA_DISK_1: using network backup set from service CLSPROD
+channel ORA_DISK_1: restoring control file
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:03
+output file name=+DATA/CLSDR/control01.ctl
+output file name=+FRA/CLSDR/control02.ctl
+Finished restore at 09-SEP-21
+
+released channel: ORA_DISK_1
+Statement processed
+Executing: alter system set standby_file_management=manual
+
+contents of Memory Script:
+{
+set newname for tempfile  2 to
+ "+DATA/CLSDR/TEMPFILE/temp.295.1068761213";
+   switch tempfile all;
+set newname for datafile  1 to
+ "+DATA/CLSDR/DATAFILE/system01.dbf";
+set newname for datafile  2 to
+ "+DATA/CLSDR/DATAFILE/sysaux01.dbf";
+set newname for datafile  3 to
+ "+DATA/CLSDR/DATAFILE/undotbs01.dbf";
+set newname for datafile  4 to
+ "+DATA/CLSDR/DATAFILE/users01.dbf";
+set newname for datafile  5 to
+ "+DATA/CLSDR/DATAFILE/undotbs1.290.1068759067";
+set newname for datafile  6 to
+ "+DATA/CLSDR/DATAFILE/dwe.259.1068759067";
+set newname for datafile  7 to
+ "+DATA/CLSDR/DATAFILE/dwe_ndx.258.1068759067";
+.
+ "+DATA/CLSDR/DATAFILE/dwe.304.1081717387";
+   catalog datafilecopy  "+DATA/CLSDR/DATAFILE/system01.dbf",
+ "+DATA/CLSDR/DATAFILE/sysaux01.dbf",
+ "+DATA/CLSDR/DATAFILE/undotbs01.dbf",
+ "+DATA/CLSDR/DATAFILE/users01.dbf",
+ "+DATA/CLSDR/DATAFILE/undotbs1.290.1068759067",
+ "+DATA/CLSDR/DATAFILE/dwe.259.1068759067",
+ "+DATA/CLSDR/DATAFILE/dwe_ndx.258.1068759067",
+ "+DATA/CLSDR/DATAFILE/dwh.264.1068759067",
+ "+DATA/CLSDR/DATAFILE/dwh_ndx.263.1068759067",
+ "+DATA/CLSDR/DATAFILE/dww.266.1068759067",
+ "+DATA/CLSDR/DATAFILE/dww_ndx.262.1068759067",
+
+..
+..
+executing Memory Script
+
+executing command: SET NEWNAME
+
+Starting implicit crosscheck backup at 09-SEP-21
+allocated channel: ORA_DISK_1
+Crosschecked 6 objects
+Finished implicit crosscheck backup at 09-SEP-21
+
+Starting implicit crosscheck copy at 09-SEP-21
+using channel ORA_DISK_1
+Crosschecked 2 objects
+Finished implicit crosscheck copy at 09-SEP-21
+
+searching for all files in the recovery area
+cataloging files...
+cataloging done
+
+List of Cataloged Files
+=======================
+File Name: +FRA/CLSDR/AUTOBACKUP/2021_08_27/s_1081649857.272.1081649889
+File Name: +FRA/CLSDR/AUTOBACKUP/2021_08_27/s_1081671425.333.1081671459
+File Name: +FRA/CLSDR/ARCHIVELOG/2021_09_07/thread_1_seq_1764.323.1082613623
+File Name: +FRA/CLSDR/ARCHIVELOG/2021_09_07/thread_1_seq_1765.288.1082634551
+File Name: +FRA/CLSDR/ARCHIVELOG/2021_09_07/thread_1_seq_1766.283.1082646769
+File Name: +FRA/CLSDR/ARCHIVELOG/2021_09_07/thread_1_seq_1767.315.1082656825
+File Name: +FRA/CLSDR/ARCHIVELOG/2021_09_07/thread_1_seq_1768.376.1082663419
+File Name: +FRA/CLSDR/ARCHIVELOG/2021_09_07/thread_1_seq_1769.348.1082671631
+
+..
+renamed tempfile 2 to +DATA/CLSDR/TEMPFILE/temp.295.1068761213 in control file
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+executing command: SET NEWNAME
+
+..
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/system01.dbf RECID=82 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/sysaux01.dbf RECID=83 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/undotbs01.dbf RECID=84 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/users01.dbf RECID=85 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/undotbs1.290.1068759067 RECID=86 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/dwe.259.1068759067 RECID=87 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/dwe_ndx.258.1068759067 RECID=88 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/dwh.264.1068759067 RECID=89 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/dwh_ndx.263.1068759067 RECID=90 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/dww.266.1068759067 RECID=91 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/dww_ndx.262.1068759067 RECID=92 STAMP=1082821215
+cataloged datafile copy
+datafile copy file name=+DATA/CLSDR/DATAFILE/dwe.267.1068759067 RECID=93 STAMP=1082821215
+
+...
+..
+datafile 1 switched to datafile copy
+input datafile copy RECID=82 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/system01.dbf
+datafile 2 switched to datafile copy
+input datafile copy RECID=83 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/sysaux01.dbf
+datafile 3 switched to datafile copy
+input datafile copy RECID=84 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/undotbs01.dbf
+datafile 4 switched to datafile copy
+input datafile copy RECID=85 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/users01.dbf
+datafile 5 switched to datafile copy
+input datafile copy RECID=86 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/undotbs1.290.1068759067
+datafile 6 switched to datafile copy
+input datafile copy RECID=87 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/dwe.259.1068759067
+datafile 7 switched to datafile copy
+input datafile copy RECID=88 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/dwe_ndx.258.1068759067
+datafile 8 switched to datafile copy
+input datafile copy RECID=89 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/dwh.264.1068759067
+datafile 9 switched to datafile copy
+input datafile copy RECID=90 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/dwh_ndx.263.1068759067
+datafile 10 switched to datafile copy
+input datafile copy RECID=91 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/dww.266.1068759067
+datafile 11 switched to datafile copy
+input datafile copy RECID=92 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/dww_ndx.262.1068759067
+datafile 12 switched to datafile copy
+input datafile copy RECID=93 STAMP=1082821215 file name=+DATA/CLSDR/DATAFILE/dwe.267.1068759067
+datafile 13 switched to datafile copy
+input datafile copy RECID=94 STAMP=1082821216 file name=+DATA/CLSDR/DATAFILE/dwe.269.1068759067
+datafile 14 switched to datafile copy
+..
+
+
+contents of Memory Script:
+{
+  recover database from service  'CLSPROD';
+}
+executing Memory Script
+
+Starting recover at 09-SEP-21
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: using network backup set from service CLSPROD
+destination for restore of datafile 00001: +DATA/CLSDR/DATAFILE/system01.dbf
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:07
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: using network backup set from service CLSPROD
+destination for restore of datafile 00002: +DATA/CLSDR/DATAFILE/sysaux01.dbf
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:35
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: using network backup set from service CLSPROD
+destination for restore of datafile 00003: +DATA/CLSDR/DATAFILE/undotbs01.dbf
+channel ORA_DISK_1: restore complete, elapsed time: 00:01:15
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: using network backup set from service CLSPROD
+destination for restore of datafile 00004: +DATA/CLSDR/DATAFILE/users01.dbf
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:02
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: using network backup set from service CLSPROD
+destination for restore of datafile 00005: +DATA/CLSDR/DATAFILE/undotbs1.290.1068759067
+
+channel ORA_DISK_1: restore complete, elapsed time: 00:01:25
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: using network backup set from service CLSPROD
+destination for restore of datafile 00006: +DATA/CLSDR/DATAFILE/dwe.259.1068759067
+
+channel ORA_DISK_1: restore complete, elapsed time: 00:02:46
+channel ORA_
+...
+..
+destination for restore of datafile 00038: +DATA/CLSDR/DATAFILE/dww.305.1081717339
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:36
+channel ORA_DISK_1: starting incremental datafile backup set restore
+channel ORA_DISK_1: using network backup set from service CLSPROD
+destination for restore of datafile 00039: +DATA/CLSDR/DATAFILE/dwe.304.1081717387
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:15
+
+starting media recovery
+
+archived log for thread 1 with sequence 1782 is already on disk as file +FRA/CLSDR/ARCHIVELOG/2021_09_09/thread_1_seq_1782.438.1082821213
+archived log file name=+FRA/CLSDR/ARCHIVELOG/2021_09_09/thread_1_seq_1782.438.1082821213 thread=1 sequence=1782
+media recovery complete, elapsed time: 00:00:02
+Finished recover at 09-SEP-21
+Executing: alter system set standby_file_management=auto
+Finished recover at 09-SEP-21
+
+
+</code></pre>
+<h4>4. Recover the standby database upto consistent mode .</h4>
+<pre><code class="language-">
+SQL&gt; <span style="color: #993300;"><strong>select name,open_Mode from v$database;</strong></span>
+
+NAME      OPEN_MODE
+--------- --------------------
+CLSPROD  MOUNTED
+
+SQL&gt; <span style="color: #993300;"><strong>ALTER DATABASE RECOVER MANAGED STANDBY DATABASE UNTIL CONSISTENT;</strong></span>
+
+Database altered.
+
+Note - &gt; If the above command is hung and taking long time to complete, then do alter system switch logfile ; from primary database.
+
+SQL&gt;<span style="color: #993300;"><strong>select name,open_Mode from v$database;</strong></span>
+
+NAME      OPEN_MODE
+--------- --------------------
+CLSPROD  MOUNTED
+
+SQL&gt; <span style="color: #993300;"><strong>alter database open read only;
+</strong></span>
+Database altered.
+
+SQL&gt; <span style="color: #993300;"><strong>select name,open_mode from v$database;
+</strong></span>
+NAME      OPEN_MODE
+--------- --------------------
+CLSPROD  READ ONLY
+
+SQL&gt; <span style="color: #993300;"><strong>alter database recover managed standby database using current logfile disconnect from session;
+</strong></span>
+Database altered.
+
+SQL&gt; <span style="color: #993300;"><strong>select name,open_mode from v$database;</strong></span>
+
+NAME      OPEN_MODE
+--------- --------------------
+CLSPROD  READ ONLY WITH APPLY
+
+</code></pre>
+<p>But at this stage, real time changes on the primary will not be reflected on standby database. So we need to recreate the standby redologs on standby database.</p>
+<h4>5. Recreate standby redologs: [ ON STANDBY ]</h4>
+<p>As our standby database is a 2 node RAC, we are 2 thread, ( one for each node). In case of standby database, no need to worry about thread concept.</p>
+<pre><code class="language-">--- First cancel the recovery:
+
+SQL&gt; <span style="color: #993300;"><strong>recover managed standby database cancel;</strong></span>
+Media recovery complete.
+
+
+SQL&gt;  <span style="color: #993300;"><strong>select inst_id,GROUP#,TYPE,MEMBER from gv$logfile where TYPE='STANDBY' WHERE INST_ID=1;
+</strong></span>
+   INST_ID     GROUP# TYPE    MEMBER
+---------- ---------- ------- --------------------------------------------------
+         1         15 STANDBY +DATA/CLSPROD/ONLINELOG/group_15.326.1081670395
+         1         15 STANDBY +FRA/CLSPROD/ONLINELOG/group_15.355.1081670397
+         1         16 STANDBY +DATA/CLSPROD/ONLINELOG/group_16.325.1081670425
+         1         16 STANDBY +FRA/CLSPROD/ONLINELOG/group_16.346.1081670429
+         1         17 STANDBY +DATA/CLSPROD/ONLINELOG/group_17.324.1081670447
+         1         17 STANDBY +FRA/CLSPROD/ONLINELOG/group_17.379.1081670451
+         1         18 STANDBY +DATA/CLSPROD/ONLINELOG/group_18.334.1081670457
+         1         18 STANDBY +FRA/CLSPROD/ONLINELOG/group_18.385.1081670459
+
+SQL&gt; <span style="color: #993300;"><strong>select inst_id,thread#,group# from gv$standby_log;</strong></span>
+
+   INST_ID    THREAD#     GROUP#
+---------- ---------- ----------
+         1          1         15
+         1          1         16
+         1          1         17
+         1          1         18
+         2          1         15
+         2          1         16
+         2          1         17
+         2          1         18
+
+
+-- Drop all standby redologs:
+
+alter database drop standby logfile group 15;
+alter database drop standby logfile group 16;
+alter database drop standby logfile group 17;
+alter database drop standby logfile group 18;
+
+-- Create standby redolog for both threads:
+
+ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 GROUP 15 ('+DATA','+FRA') SIZE 1G;
+ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 GROUP 16 ('+DATA','+FRA') SIZE 1G;
+ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 GROUP 17 ('+DATA','+FRA') SIZE 1G;
+ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 GROUP 18 ('+DATA','+FRA') SIZE 1G;
+ALTER DATABASE ADD STANDBY LOGFILE THREAD 2 GROUP 15 ('+DATA','+FRA') SIZE 1G;
+ALTER DATABASE ADD STANDBY LOGFILE THREAD 2 GROUP 16 ('+DATA','+FRA') SIZE 1G;
+ALTER DATABASE ADD STANDBY LOGFILE THREAD 2 GROUP 17 ('+DATA','+FRA') SIZE 1G;
+ALTER DATABASE ADD STANDBY LOGFILE THREAD 2 GROUP 18 ('+DATA','+FRA') SIZE 1G;
+
+--- Once standby redologs are created start recovery:
+
+SQL&gt;<span style="color: #993300;"><strong> alter database recover managed standby database using current logfile disconnect from session;
+</strong></span>
+Database altered.
+
+SQL&gt; <span style="color: #993300;"><strong>select open_mode from v$database;</strong></span>
+
+OPEN_MODE
+--------------------
+READ ONLY WITH APPLY
+
+
+</code></pre>
+<p>Now all real time changes on primary will be reflected on standby database.</p>
+<p>&nbsp;</p>
+<h3><strong>TROUBLESHOOTING:</strong></h3>
+<p><strong><span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">1. RMAN-05150: Managed Recovery Process must be disabled before running RECOVER STANDBY DATABASE.</span></strong></p>
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 14px;"><strong>PROBLEM</strong>: below error ,while running recover standby database command,</span></p>
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">RMAN&gt; RECOVER STANDBY DATABASE FROM SERVICE CLSPROD;</span></p>
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">Starting recover at 09-SEP-21</span><br />
+<span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">RMAN-00571: ===========================================================</span><br />
+<span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============</span><br />
+<span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">RMAN-00571: ===========================================================</span><br />
+<span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">RMAN-03002: failure of recover command at 09/09/2021 15:38:47</span><br />
+<span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">RMAN-05150: Managed Recovery Process must be disabled before running RECOVER STANDBY DATABASE.</span></p>
+<p><strong><span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">SOLUTION:</span></strong></p>
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">First cancel recovery , and then start recover standby database.</span></p>
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">SQL&gt; recover managed standby database cancel;</span><br />
+<span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">Media recovery complete.</span></p>
+<p><span style="font-family: verdana, geneva, sans-serif; font-size: 14px;">RMAN&gt; RECOVER STANDBY DATABASE FROM SERVICE CLSPROD;</span></p>
+<p>The post <a href="https://dbaclass.com/article/recover-standby-database-from-primary-using-service-in-oracle-18c/">Recover standby database from primary using service in oracle 18c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/recover-standby-database-from-primary-using-service-in-oracle-18c/feed/</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to disable enable log shipping in standby using dgmgrl</title>
+		<link>https://dbaclass.com/article/disable-enable-log-shipping-standby-using-dgmgrl/</link>
+					<comments>https://dbaclass.com/article/disable-enable-log-shipping-standby-using-dgmgrl/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 07 Oct 2020 12:07:33 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=6112</guid>
+
+					<description><![CDATA[<p>Sometimes OS team may request for outage on standby database server for maintenance activites. In that we need to stop the log shipping to avoid error in the alert log. Run below commands to disable and enable the log shipping. primary db -&#62; prod standby db &#8211; &#62; proddr 1. Login to primary db server [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/disable-enable-log-shipping-standby-using-dgmgrl/">How to disable enable log shipping in standby using dgmgrl</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Sometimes OS team may request for outage on standby database server for maintenance activites. In that we need to stop the log shipping to avoid error in the alert log.</p>
+<p>Run below commands to disable and enable the log shipping.</p>
+<p><span style="font-family: terminal, monaco, monospace;"><strong>primary db -&gt; prod</strong></span><br />
+<span style="font-family: terminal, monaco, monospace;"><strong> standby db &#8211; &gt; proddr</strong></span></p>
+<p><strong>1. Login to primary db server</strong></p>
+<pre>$dgmgrl sys/manager@prod
+DGMGRL for Linux: Release 12.2.0.1.0 - Production on Wed Oct 7 14:32:15 2020
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+
+Welcome to DGMGRL, type "help" for information.
+Conprodcted to "prod"
+Conprodcted as SYSDBA.
+DGMGRL&gt; show configuration
+
+Configuration - dg_config_prod
+
+  Protection Mode: MaxPerformance
+  Members:
+  prod       - Primary database
+    proddr     - Physical standby database
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS   (status updated 8 seconds ago)
+
+</pre>
+<p><strong>2. Check the apply and transport status:</strong></p>
+<pre>DGMGRL&gt; show database proddr
+
+Database - proddr
+
+  Role:               PHYSICAL STANDBY
+  Intended State:     APPLY-ON
+  Transport Lag:      0 seconds (computed 0 seconds ago)
+  Apply Lag:          0 seconds (computed 0 seconds ago)
+  Average Apply Rate: 335.00 KByte/s
+  Real Time Query:    ON
+  Instance(s):
+    proddr
+
+Database Status:
+SUCCESS
+</pre>
+<p><strong>3. Disable shipping and apply process:</strong></p>
+<pre>DGMGRL&gt; edit database proddrstby  set state='APPLY-OFF';
+Succeeded.
+DGMGRL&gt; edit database proddrstby  set state='LOG-TRANSPORT-OFF';
+
+
+DGMGRL&gt;  show database proddrstby
+
+Database - proddrstby
+
+  Role:               PHYSICAL STANDBY
+  Intended State:     TRANSPORT-OFF
+  Transport Lag:      0 seconds (computed 1 second ago)
+  Apply Lag:          (unknown)
+  Average Apply Rate: (unknown)
+  Real Time Query:    OFF
+  Instance(s):
+    proddrstby
+
+Database Status:
+SUCCESS
+
+
+</pre>
+<p><strong>4. Now enable shipping and apply process:</strong></p>
+<pre>DGMGRL&gt; edit database proddrstby  set state='APPLY-ON';
+Succeeded.
+DGMGRL&gt; edit database proddrstby  set state='TRANSPORT-ON';
+
+
+DGMGRL&gt;  show database proddrstby
+
+Database - proddrstby
+
+  Role:               PHYSICAL STANDBY
+  Intended State:     APPLY-ON
+  Transport Lag:      0 seconds (computed 1 second ago)
+  Apply Lag:          (unknown)
+  Average Apply Rate: (unknown)
+  Real Time Query:    ON
+  Instance(s):
+    proddrstby
+
+Database Status:
+SUCCESS
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/disable-enable-log-shipping-standby-using-dgmgrl/">How to disable enable log shipping in standby using dgmgrl</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/disable-enable-log-shipping-standby-using-dgmgrl/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Shell script to monitor lag in standby datbase using dgmgrl</title>
+		<link>https://dbaclass.com/article/shell-script-monitor-lag-standby-datbase-using-dgmgrl/</link>
+					<comments>https://dbaclass.com/article/shell-script-monitor-lag-standby-datbase-using-dgmgrl/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 13 Nov 2019 13:42:21 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4412</guid>
+
+					<description><![CDATA[<p>Below script is helpful in monitoring lag in standby database and send mail to DBAs in case the lag is increasing. For the script to work, make sure dataguard broker is enabled between primary and standby database. &#160; SEE DGBROKER ARTICLE:  How to setup dgbroker in oracle 12c: Useful dgmgrl commands: &#160; SCRIPT PREPARATION: PRIMARY [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/shell-script-monitor-lag-standby-datbase-using-dgmgrl/">Shell script to monitor lag in standby datbase using dgmgrl</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below script is helpful in monitoring lag in standby database and send mail to DBAs in case the lag is increasing. For the script to work, make sure dataguard broker is enabled between primary and standby database.</p>
+<p>&nbsp;</p>
+<blockquote><p><em><strong>SEE DGBROKER ARTICLE:</strong></em></p>
+<p><a href="https://dbaclass.com/article/setup-dataguard-broker-configuration-dg-broker/" target="_blank" rel="noopener noreferrer"> How to setup dgbroker in oracle 12c:</a></p>
+<p><a href="https://dbaclass.com/article/useful-dgmgrl-commands-in-oracle-dataguard/" target="_blank" rel="noopener noreferrer">Useful dgmgrl commands:</a></p>
+<p>&nbsp;</p></blockquote>
+<p><span style="text-decoration: underline;"><strong>SCRIPT PREPARATION:</strong></span></p>
+<p><span style="font-family: verdana, geneva, sans-serif;">PRIMARY DB UNIQUE_NAME &#8211; &gt; PRIMDB</span><br />
+<span style="font-family: verdana, geneva, sans-serif;"> STANDBY DB UNIQUE_NAME -&gt; STYDB</span></p>
+<p><strong><span style="font-family: verdana, geneva, sans-serif;">cat /home/oracle/dgmgrl_standby_lag.sh</span></strong></p>
+<p><span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;">#!/bin/bash</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> export ORACLE_HOME=/oracle/app/oracle/product/12.1.0/dbhome_1</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> export ORACLE_SID=primdb</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> export PATH=$ORACLE_HOME/bin:$PATH</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> echo -e &#8220;show database stydb”|${ORACLE_HOME}/bin/dgmgrl sys/orcl1234 &gt; DB_DG_DATABASE.log</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> cat /home/oracle/DB_DG_DATABASE.log  | grep &#8220;Apply Lag&#8221;  &gt; FILTERED_DB_DG_DATABASE.log</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> time_value=`cut -d &#8221; &#8221; -f 14 FILTERED_DB_DG_DATABASE.log`</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> time_param=`cut -d &#8221; &#8221; -f 15 FILTERED_DB_DG_DATABASE.log`</span></em></span></p>
+<p><span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;">if [[ &#8220;$time_param&#8221; == &#8220;minutes&#8221; &amp;&amp; &#8220;$time_value&#8221; -ge 1 ]]</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> then</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> mailx -s &#8220;DREAIDB LAG is in minutes &#8221;  suppor@dbaclass.com&lt;DB_DG_DATABASE.log</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> else</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> if [[ &#8220;$time_param&#8221; == &#8220;seconds&#8221; &amp;&amp; &#8220;$time_value&#8221; -ge 30 ]]</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> then</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> mailx -s &#8220;DREAIDB LAG is in seconds &#8221;   support@dbaclass.com&lt;DB_DG_DATABASE.log</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> else</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> if  [[ &#8220;$time_param&#8221; == &#8220;hour(s)&#8221; &amp;&amp; &#8220;$time_value&#8221; -ge 1 ]]</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> then</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> mailx -s &#8220;DREAIDB LAG is in hours &#8221;   support@dbaclass.com &lt;DB_DG_DATABASE.log</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> fi</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> fi</span></em></span><br />
+<span style="font-size: 14px;"><em><span style="font-family: verdana, geneva, sans-serif; color: #008000;"> fi</span></em></span></p>
+<p>&nbsp;</p>
+<p>##########################</p>
+<p><strong>Now configure the the script in crontab</strong></p>
+<pre class="">00,10,20,30,40,50 * * * * /home/oracle/dgmgrl_standby_lag.sh &gt; /tmp/dg_lag.log
+</pre>
+<p>The post <a href="https://dbaclass.com/article/shell-script-monitor-lag-standby-datbase-using-dgmgrl/">Shell script to monitor lag in standby datbase using dgmgrl</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/shell-script-monitor-lag-standby-datbase-using-dgmgrl/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Useful DGMGRL commands in oracle dataguard</title>
+		<link>https://dbaclass.com/article/useful-dgmgrl-commands-in-oracle-dataguard/</link>
+					<comments>https://dbaclass.com/article/useful-dgmgrl-commands-in-oracle-dataguard/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 04 Nov 2019 08:48:48 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4385</guid>
+
+					<description><![CDATA[<p>This articles contains useful dgmgrl commands to manage the dataguard environments. 1. Setup DG broker in the standby setup.(Run on both primary and standby) - For standalone db : ALTER SYSTEM SET dg_broker_config_file1 = '\U01\oradata\dr1node.dat' scope=both sid='*'; ALTER SYSTEM SET dg_broker_config_file2 = '\U01\oradata\dr2node.dat' scope=both sid='*'; -- For oracle RAC/ASM file system; ALTER SYSTEM SET dg_broker_config_file1 [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/useful-dgmgrl-commands-in-oracle-dataguard/">Useful DGMGRL commands in oracle dataguard</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>This articles contains useful dgmgrl commands to manage the dataguard environments.</p>
+<p><strong>1. Setup DG broker in the standby setup.(Run on both primary and standby)</strong></p>
+<pre>- For standalone db  :
+
+ALTER SYSTEM SET dg_broker_config_file1 = '\U01\oradata\dr1node.dat' scope=both sid='*';
+ALTER SYSTEM SET dg_broker_config_file2 = '\U01\oradata\dr2node.dat' scope=both sid='*';
+
+-- For oracle RAC/ASM file system;
+
+ALTER SYSTEM SET dg_broker_config_file1 = '+DATA/broker/dr1node.dat' scope=both sid='*';
+ALTER SYSTEM SET dg_broker_config_file2 = '+DATA/broker/dr2node.dat' scope=both sid='*';
+
+
+ALTER SYSTEM SET DG_BROKER_START=TRUE scope=both sid='*'; 
+
+</pre>
+<p><strong>2. Create configuration in dgbroker:</strong></p>
+<pre>-- on primary
+$dgmgl
+
+DGMGRL&gt; CONNECT sys/;
+Connected.
+
+-- create configuration with primary db_unique_name and its service name .
+
+DGMGRL&gt; CREATE CONFIGURATION 'PROD_DG' AS PRIMARY DATABASE IS 'PRIMDB' CONNECT IDENTIFIER IS PRIMDB;
+
+Configuration "PRIMDB" created with primary database "PRIMDB"
+
+--- Add standby in the configuration:
+
+DGMGRL&gt; ADD DATABASE 'STYDB' AS CONNECT IDENTIFIER IS STYDB MAINTAINED AS PHYSICAL;
+
+Database "STYDB" added
+</pre>
+<p><strong>3. Enable the configuration</strong></p>
+<pre>DGMGRL&gt; ENABLE CONFIGURATION;
+Enabled.
+
+</pre>
+<p>At this stage our dg broker setup is completed.</p>
+<p><strong>4. View configuration of dgbroker:</strong></p>
+<pre>DGMGRL&gt; show configuration
+ 
+DGMGRL&gt; show configuration verbose 
+</pre>
+<p><strong>5. view database informations:</strong></p>
+<pre>-- Here PRIMDB and STYDB are db_unique_name of primary and standby db 
+
+
+DGMGRL&gt; show database 'PRIMDB'
+DGMGRL &gt; show database 'STYDB'
+DGMGRL&gt; show database verbose 'PRIMDB'
+
+
+</pre>
+<p><strong>6. View statusreport of databases</strong></p>
+<pre>-- Here PRIMDB and STYDB are db_unique_name of primary and standby db 
+
+show database PRIMDB statusreport
+
+</pre>
+<p><strong>7. View database inconsistent properties</strong></p>
+<pre class="">-- Here PRIMDB and STYDB are db_unique_name of primary and standby db 
+
+show database PRIMDB InconsistentProperties
+show database PRIMDB InconsistentLogXptProps
+
+show database STYDB InconsistentProperties
+show database STYDB InconsistentLogXptProps
+</pre>
+<p><strong>8. Check whether all logfiles are archived or not( on primary)</strong></p>
+<pre>show database PRIMDB sendQentries
+
+
+PRIMARY_SEND_QUEUE
+        STANDBY_NAME       STATUS     RESETLOGS_ID           THREAD              LOG_SEQ       TIME_GENERATED       TIME_COMPLETED    FIRST_CHANGE#     NEXT_CHANGE#       SIZE (KBs)
+                          CURRENT       1022762318                1                  294  10/30/2019 11:09:26                        12298130044308                            274219
+
+</pre>
+<p><strong>9. Check information of received log sequence(not applied) ( Run for standby)</strong></p>
+<pre>DGMGRL&gt;show database STYDB recvqentries
+
+STANDBY_RECEIVE_QUEUE
+              STATUS     RESETLOGS_ID           THREAD              LOG_SEQ       TIME_GENERATED       TIME_COMPLETED    FIRST_CHANGE#     NEXT_CHANGE#       SIZE (KBs)
+         NOT_APPLIED       1022762318                1                  293  10/30/2019 10:03:06  10/30/2019 11:09:26   12298109948824   12298130044308          3487164
+
+</pre>
+<p><strong>10. Check database wait events:</strong></p>
+<pre>DGMGRL&gt;show database PRIMDB topwaitevents
+</pre>
+<p><strong>11.Validate database information:</strong></p>
+<pre>dgmgrl&gt; validate database verbose 'PRIMDB'
+
+dgmgrl&gt; validate database 'PRIMDB'
+
+dgmgrl&gt; validate database 'STYDB'
+
+
+</pre>
+<p><strong>12. Enable tracing for troubleshooting:</strong></p>
+<pre>-- For standalone:
+
+DGMGRL&gt; edit configuration set property tracelevel=support;
+DGMGRL&gt; edit database PRIMDB set property LogArchiveTrace=8191;
+DGMGRL&gt; edit database STYDB set property LogArchiveTrace=8191;
+
+
+-- For RAC:
+
+DGMGRL&gt; EDIT INSTANCE * ON DATABASE 'PRIMDB' SET PROPERTY LogArchiveTrace=8191;
+
+
+</pre>
+<p><strong>13. Disable tracing:</strong></p>
+<pre>DGMGRL&gt; edit configuration reset property tracelevel ;
+DGMGRL&gt; edit database PRIMDB reset property logarchivetrace;
+DGMGRL&gt; edit database STYDB reset property logarchivetrace;
+
+
+</pre>
+<p><strong>14. Switchover using dgmgrl:</strong></p>
+<pre class="">DGMGRL&gt; connect sys/oracle
+Password:
+Connected as sys.
+
+
+
+DGMGRL&gt; switchover to STYDB
+Performing switchover NOW, please wait...
+Operation requires a connection to instance "STYDB1" on database "STYDB"
+Connecting to instance "STYDB1"...
+Connected as SYSDBA.
+New primary database "STYDB" is opening...
+Oracle Clusterware is restarting database "PRIMDB" ...
+Switchover succeeded, new primary is "STYDB"
+
+
+</pre>
+<p><strong>15. Convert physical standby to snapshot standby</strong></p>
+<pre>DGMGRL&gt; convert database 'STYDB' to snapshot standby;
+
+</pre>
+<p><strong>16. Convert snapshot to physical standby db</strong></p>
+<pre>DGMGRL&gt; CONVERT DATABASE 'STYDB' to PHYSICAL STANDBY;
+</pre>
+<p>The post <a href="https://dbaclass.com/article/useful-dgmgrl-commands-in-oracle-dataguard/">Useful DGMGRL commands in oracle dataguard</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/useful-dgmgrl-commands-in-oracle-dataguard/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to setup dataguard broker configuration (DG broker) in 12c</title>
+		<link>https://dbaclass.com/article/setup-dataguard-broker-configuration-dg-broker/</link>
+					<comments>https://dbaclass.com/article/setup-dataguard-broker-configuration-dg-broker/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 17 Oct 2018 08:15:24 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3856</guid>
+
+					<description><![CDATA[<p>Dataguard broker is used to automate monitoring and controlling standby setups. It is very much useful, when the organization has multiple standby sites. In this article, we will see, how to enable dg broker configuration in existing standby setup. NOTE &#8211; Before setting dgbroker, make sure standby setup is ready. SEE ALSO &#8211; Setup physical [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/setup-dataguard-broker-configuration-dg-broker/">How to setup dataguard broker configuration (DG broker) in 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Dataguard broker is used to automate monitoring and controlling standby setups. It is very much useful, when the organization has multiple standby sites.</p>
+<p>In this article, we will see, how to enable dg broker configuration in existing standby setup.</p>
+<blockquote><p>NOTE &#8211; Before setting dgbroker, make sure standby setup is ready.</p>
+<p><a href="https://dbaclass.com/article/how-to-create-physical-standby-database/" target="_blank" rel="noopener noreferrer">SEE ALSO &#8211; Setup physical standby setup</a></p></blockquote>
+<p><strong>ENVIRONMENT DETAILS:</strong></p>
+<p><span style="font-family: 'andale mono', monospace;">PRIMARY UNIQUE DB NAME &#8211; &gt; <strong>POCDB</strong></span><br />
+<span style="font-family: 'andale mono', monospace;">STANDBY UNIQUE DB NAME &#8211; &gt; <strong>POCDSBY</strong></span></p>
+<p><strong>1. Set dg_broker_start to true [ ON BOTH PRIMARY AND STANDBY DB]</strong></p>
+<pre>POCDB&gt; alter system set dg_broker_start=true sid='*';
+
+System altered.
+
+
+POCDSBY&gt; alter system set dg_broker_start=true sid='*';
+
+System altered.
+
+
+</pre>
+<p><strong>2. Add primary </strong>db<strong> configuration [ ON PRIMARY]</strong></p>
+<pre>$dgmgrl
+DGMGRL for Solaris: Release 12.2.0.1.0 - Production on Sun Apr 8 12:22:13 2018
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+
+Welcome to DGMGRL, type "help" for information.
+DGMGRL&gt; connect sysdg
+Password:
+Connected to "POCD"
+Connected as SYSDG.
+
+
+DGMGRL&gt; CREATE CONFIGURATION 'poc_dg' AS PRIMARY DATABASE IS 'POCD' CONNECT IDENTIFIER IS POCD;
+Configuration "poc_dg" created with primary database "POCD"
+
+
+DGMGRL&gt; SHOW CONFIGURATION
+
+Configuration - poc_dg
+
+  Protection Mode: MaxPerformance
+  Members:
+  POCD - Primary database
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+DISABLED
+
+
+</pre>
+<p><strong>3. Add standby configuration [ ON PRIMARY ]</strong></p>
+<pre>DGMGRL&gt;  add database POCDSBY as connect identifier is POCDSBY;
+Database "pocdsby" added
+
+
+</pre>
+<pre>DGMGRL&gt; show configuration
+
+Configuration - poc_dg
+
+  Protection Mode: MaxPerformance
+  Members:
+  POCD    - Primary database
+    pocdsby - Physical standby database
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+DISABLED
+</pre>
+<blockquote><p>If you are getting error as ORA-16698: member has a LOG_ARCHIVE_DEST_n parameter with SERVICE attribute set, then<br />
+To fix this error, disable any log_archive_dest_n parameter set on standby( excluding log_archive_dest_1)</p>
+<p>On standby:</p>
+<p>SQL&gt; alter system set log_Archive_dest_2=&#8221;;</p>
+<p>System altered.</p></blockquote>
+<p><strong>4. Enable configuration: [ ON PRIMARY]</strong></p>
+<pre>DGMGRL&gt; show configuration
+
+Configuration - poc_dg
+
+  Protection Mode: MaxPerformance
+  Members:
+  POCD    - Primary database
+    pocdsby - Physical standby database
+      Warning: ORA-16792: configurable property value is inconsistent with member setting
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+WARNING   (status updated 57 seconds ago)
+
+
+</pre>
+<p>Now let&#8217;s troubleshoot the <em><strong>ORA-16792</strong></em> error, We are getting error standby database.</p>
+<p><strong>Check the properties for inconsistency.</strong></p>
+<pre>DGMGRL&gt; show database 'pocdsby' InconsistentProperties;
+INCONSISTENT PROPERTIES
+   INSTANCE_NAME        PROPERTY_NAME         MEMORY_VALUE         SPFILE_VALUE         BROKER_VALUE
+         POCDSBY StandbyFileManagement               MANUAL                                    MANUAL
+         POCDSBY     ArchiveLagTarget                    0                                         0
+         POCDSBY LogArchiveMaxProcesses                    4                                         4
+         POCDSBY LogArchiveMinSucceedDest                    1                                         1
+         POCDSBY DataGuardSyncLatency                    0                                         0
+         POCDSBY      LogArchiveTrace                    0            (missing)                    0
+         POCDSBY     LogArchiveFormat         %t_%s_%r.dbf            (missing)         %t_%s_%r.dbf
+
+
+
+
+</pre>
+<p>We can see one critical parameter StandbyFileManagement is set to <strong>MANUAL</strong> . To fix the error set it to auto and try again.</p>
+<p><strong>&#8212; On standby</strong></p>
+<pre>SQL&gt; alter system set standby_file_management=AUTO scope=both;
+
+System altered.
+</pre>
+<p><strong>Enable the configuration again:</strong></p>
+<pre>DGMGRL&gt; enable configuration
+Enabled.
+
+DGMGRL&gt; show database 'pocdsby' InconsistentProperties;
+INCONSISTENT PROPERTIES
+   INSTANCE_NAME        PROPERTY_NAME         MEMORY_VALUE         SPFILE_VALUE         BROKER_VALUE
+
+</pre>
+<pre>DGMGRL&gt; show configuration
+
+Configuration - poc_dg
+
+  Protection Mode: MaxPerformance
+  Members:
+  POCD    - Primary database
+    pocdsby - Physical standby database
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS   (status updated 49 seconds ago)
+
+
+</pre>
+<p>Our dgbroker setup is ready and we can do switchover and failover using dgmgrl easily.</p>
+<p>The post <a href="https://dbaclass.com/article/setup-dataguard-broker-configuration-dg-broker/">How to setup dataguard broker configuration (DG broker) in 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/setup-dataguard-broker-configuration-dg-broker/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Oracle dataguard &#8211; Interview Questions</title>
+		<link>https://dbaclass.com/article/oracle-dataguard-interview-questions/</link>
+					<comments>https://dbaclass.com/article/oracle-dataguard-interview-questions/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 28 Feb 2018 07:59:24 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3617</guid>
+
+					<description><![CDATA[<p>1. What is the use of standby redolog? The Advantage of having Standby Redo Logs is that every records written into the Online RedoLogs of the Primary Database is transferred to the Standby database and written into the Standby Redo Logs at the same time. therefore, you it minimizes the probability of Data Loss on [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/oracle-dataguard-interview-questions/">Oracle dataguard &#8211; Interview Questions</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">1. What is the use of standby redolog?</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">The Advantage of having Standby Redo Logs is that every records written into the Online RedoLogs of the Primary Database</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> is transferred to the Standby database and written into the Standby Redo Logs at the same time.</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> therefore, you it minimizes the probability of Data Loss on the Standby Database.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">For real time apply, it is mandatory to have standby redolog on standby database.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Without Standby Redo Logs, an Archived Redo Log is created by the RFS process and when it has completed,</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> this Archived Redo Log is applied to the Standby Database by the MRP process . An incomplete ArchiveLog file cannot be applied on the Standby Database and will not be used in a Failover situation. This causes a certain data loss.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">If you have Standby Redo Logs whenever a record is inserted into oracle redolog , the RFS process will write into the Standby Redo Log  of standby redolog and it gets applied by MRP , which ensures real time sync. When a log switch occurs, the Archiver Process of the Standby Database will archive this Standby Redo Log to an Archived Redo Log, while the MRP process applies the information to the Standby Database. In a Failover situation, you will also have access to the information already written in the Standby Redo Logs, so the information will not be lost.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">   Oracle recommends to keep standby redologs on both primary and standby database.(Though SLR is not mandatory for primary, it will make the switchover quick without any additional DBA activity. i.e If you don&#8217;t standby redologs on primary, whenever we do switchover, we need to create the SLR .</span></p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">2. How many standby logs need to be created? What should be the size?</span></h3>
+<p>It is recommended to create one additional standby log group per thread . And its size should be same as that of primary redo log.</p>
+<p>Suppose, we have 4 number of redo log groups of 200M on primary , Then we need to create 5 standby redo logs of 200M.</p>
+<p>Why extra:</p>
+<p>During heavy dml activity on primary, this extra standby log will help as a buffer in coping with the sync up.</p>
+<p>Please note, Oracle recommends not to multiplex the standby redologs on , As it puts unnecessary i/o overhead during log shipping.</p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">3. Explain different protection modes in dataguard?</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">There are three modes .</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong>1. MAXIMUM PROTECTION</strong></span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> This mode provides maximum protection. It guarantees zero data loss. In this mode the redo/transaction data must be written to both primary redo log and standby redo log. For any reason(mostly N/W issue) if it is unable to write to standby, Then primary database will get shutdown. i.e if a user commits transaction, then that commit will not be be completed, unless primary receives a confirmation that write is completed on standby.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong>2. MAXIMUM AVAILABILITY:</strong></span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> It provides the highest level of data protection that is possible without affecting the availability of the primary database.Transactions are not allowed to commit until all redo data are written to the online redo logs and propagated to at least one synchronized secondary database. If for any reason, the primary database cannot propagate its redo stream to one secondary database, the primary will NOT shutdown and operates as it it were in maximum performance mode until issues are fixed.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong>3. MAXIMUM PERFORMANCE:(default one)</strong></span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> This is the default protection mode. With this protection mode, a transaction is committed as soon as the redo data needed to recover the transaction is written to the local (online) redo log.</span></p>
+<p>&nbsp;</p>
+<p><a href="https://dbaclass.com/article/oracle-dataguard-interview-questions/screenshot-2022-02-27-at-9-56-16-pm/" rel="attachment wp-att-7298"><img fetchpriority="high" decoding="async" class="aligncenter size-full wp-image-7298" src="https://dbaclass.com/wp-content/uploads/2018/02/Screenshot-2022-02-27-at-9.56.16-PM.png" alt="" width="584" height="545" srcset="https://dbaclass.com/wp-content/uploads/2018/02/Screenshot-2022-02-27-at-9.56.16-PM.png 584w, https://dbaclass.com/wp-content/uploads/2018/02/Screenshot-2022-02-27-at-9.56.16-PM-300x280.png 300w" sizes="(max-width: 584px) 100vw, 584px" /></a></p>
+<p>&nbsp;</p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">4. What is snapshot standby database.</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">Snapshot standby is a feature in Oracle 11g that allows doing a read-write operation on the standby database i. e</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> we can convert the physical standby database to snapshot standby for testing purpose.  On that, we can do all types of testing (BOTH READ/WRITE) or can be </span><span style="font-family: arial, helvetica, sans-serif;">used as a development database (which is an exact replication of production ). Once the testing is over we can again convert</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> the snapshot database to physical standby. Once it is converted physical standby database, whatever changes were done to the snapshot standby will be reverted.</span></p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">5. Support my dataguard setups is having one primary and standby and it is in maximum protection mode. Can i convert the standby to snapshot standby database?</span></h3>
+<p>No we cannot covert the standby database to snapshot in maximum protection, when this is the only standby db.  Because  in maximum protection mode , transaction data must be written to standby redo , before proceeding further.</p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">6. What is the difference between switchover and failover:</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">A switchover means just switching roles between the primary database and standby db.</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> nswitchover, the primary database changed to a standby role, and the standby database changed to the primary role.</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> This is typically done for planned maintenance of the primary db server.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">A failover is when the primary database fails and one of the standby databases is transitioned to take over the primary role. Failover is performed only in the event of a catastrophic failure of the primary database, and there is no possibility of recovering the primary database in a timely manner. Failover may or may not result in data loss depending on the protection mode in effect at the time of the failover.</span></p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">7. What is the process to apply a psu patch in dataguard setup.</span></h3>
+<ul>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Make sure lag between primary and standby is zero.</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Cancel the recovery (MRP) on standby.</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;">Shutdown standby db and listener.</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Apply patch to  the standby database oracle home binary using opatch apply command.</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Once patch applied to binary , startup the listener and standby in mount stage or OPEN(if active dataguard).</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Now shutdown primary db and listener.</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Apply patch to primary database home binary using opatch apply command.</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Once patch applied to binary , startup open  the primary database and listener </span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Start the MRP recovery process on standby .</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;"> Run post patching script catbundle.sql(if 11g)  or datapatch -verbose command( if 12c) on primary database </span></li>
+</ul>
+<p>For exact steps  &#8211; <a href="https://dbaclass.com/article/steps-apply-psu-patch-oracle-11g-database/" target="_blank" rel="noopener noreferrer">How to apply patch in standby database</a></p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">8. What is fal_client and fal_server parameter:</span></h3>
+<p>&nbsp;</p>
+<p>FAL Means &#8211; Fetch Archive log. FAL_CLIENT and FAL_SERVER parameters are used on standby database for archive gap resolution.</p>
+<p>FAL_SERVER and FAL_CLIENT parameters are required on standby database only .</p>
+<p><strong>FAL_SERVER</strong>: Specify an Oracle Net Service Name (TNS-Alias or Connect Descriptor) that points to the Database from where the missing ArchiveLog(s) should be requested i.e the tns alias of the primary db.</p>
+<p><strong>FAL_CLIENT</strong>: Specify an Oracle Net Service Name (TNS-Alias or Connect Descriptor) that points  from FAL_SERVER TO standby db. i.e the tns alias of the standby db. This parameter has been deprecated.</p>
+<p>fal_server = &#8216;primdb&#8217;<br />
+fal_client = &#8216;stdbydb&#8217;</p>
+<p>&nbsp;</p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">9. What are different types of dataguard and their difference.</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">There are three types of dataguard setups. PHYSICAL and LOGICA and SNAPSHOT.</span></p>
+<h4><span style="font-family: arial, helvetica, sans-serif;"><strong>PHYSICAL STANDBY:</strong></span></h4>
+<p><span style="font-family: arial, helvetica, sans-serif;">A physical standby database is an exact, block-for-block copy of a primary database. A physical standby is</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> maintained as an exact copy through a process called REDO APPLY, in which redo data received from a</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> primary database is continuously applied to a physical standby database using the database recovery mechanisms. So it will be always in sync with primary.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">This Standby database can be opened in read only mode( knows as ACTIVE DATA GUARD), for reporting purpose. Most of the corporations use physical standby for dataguard</span><br />
+<span style="font-family: arial, helvetica, sans-serif;"> configuration.</span></p>
+<p>Physical standby database is suitable for high availability and disaster recovery</p>
+<h4><span style="font-family: arial, helvetica, sans-serif;"><strong>LOGICAL STANDBY:</strong></span></h4>
+<p><span style="font-family: arial, helvetica, sans-serif;">The logical standby database is kept synchronized with the primary database through SQL APPLY, which transforms the data in the redo received  from the primary database into SQL statements and then executes the SQL statements on the standby database. So it contains same logical information as that of production , but physical structure of data can be different.</span></p>
+<p>Logical standby is suitable for reporting purpose, Where we can do read,write operations. ( But we should not modify the standby objects, that exists on primary). This also helps in  near zero down time database upgrade.</p>
+<h4><span style="font-family: arial, helvetica, sans-serif;"><strong>SNAPSHOT STANDBY:</strong></span></h4>
+<h3></h3>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">10. What is standby_file_management parameter oracle.</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">Standby_file_management parameter can be have two values. MANUAL or AUTO(Recommended).</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong>AUTO</strong> &#8211; &gt; Datafiles created on primary will be create automatically on standby . </span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;"><strong>MANUAL</strong> &#8211; &gt; Datafiles created on primary , will not be replicated to standby. The datafile need to be created manually on Standby</span></p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">11.  With standby_file_management set to AUTO, If I rename a datafile in primary, will the changes be propagated to standby . </span></h3>
+<p>No, for renaming  a data file, the rename command need to be run on standby database as well .</p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">12. What is active dataguard. Does it needs additional licensing??</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">Active dataguard means, the standby database is open with read only mode, when redo logs are getting applied in real time.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Below are the benefit of using active dataguard.</span></p>
+<ul>
+<li><span style="font-family: arial, helvetica, sans-serif;">Reporting queries can be offloaded to standby database.</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;">Physical block corruptions are repaired automatically either at primary or physical standby database.</span></li>
+<li><span style="font-family: arial, helvetica, sans-serif;">RMAN backups can be initiated from standby , instead  of primary which will reduce cpu load from primary.</span></li>
+</ul>
+<p><span style="font-family: arial, helvetica, sans-serif;">NOTE – To use active dataguard, you need additional license from oracle</span></p>
+<p>&nbsp;</p>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">13. Lets say, few of archive logs are missing from primary db server, before it is shipped to standby. In this case, How you will resolve the gap and keep the standby in sync with that of primary??</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">Recover the standby database by taking an incremental backup of primary db (using scn of standby db) . Refer the below link for complete article.</span></p>
+<blockquote class="wp-embedded-content"><p><a href="https://dbaclass.com/article/how-to-recover-standby-database-when-archive-logs-are-missing-in-primary/">How to recover standby database when archive logs are missing in primary</a></p></blockquote>
+<h3></h3>
+<h3><span style="font-family: arial, helvetica, sans-serif; color: #008080;">14.The support DBA , added a tempfile on primary database, but the tempfile is not reflecting on standby database despite, the standby_file_management is set to AUTO.</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">Adding tempfiles to TEMP tablespaces in primary database, will not automatically create on standby database. Because no redo is generated, while adding tempfile. So DBA have to add the temp file manually.</span></p>
+<p>&nbsp;</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">15. What are the different types of redo transport services in dataguard.</span></h3>
+<p>1 . ARCH transportation mode:</p>
+<p>In this mode, logs are sent by ARCH process. LNS process is not active here. Also standby redologs are not mandatory. i.e Real time APPLY will not happen here. In this mode.  Archive logs will be copied to standby server and will be applied there.</p>
+<p><span style="font-family: arial, helvetica, sans-serif;">2. SYNC and ASYNC transportation mode:( real time apply) </span></p>
+<p>In below cases, standby redologs will be required.  Redo is read and sent from redo log buffer to standby by LNS process.</p>
+<p>If redo logs buffer is flushed to online redolog , before redo being sent to standby, then LNS will read the online redo log files and sent to standby.</p>
+<p><strong><span style="font-family: arial, helvetica, sans-serif;">SYNC(SYNCHRONOUS):</span></strong></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">This mode is used for maximum protection and maximum availability protection mode. The synchronous redo transport mode transmits redo data synchronously with respect to transaction commitment. A transaction cannot commit until all redo generated by that transaction has been successfully sent to every standby destinations.</span></p>
+<p><strong><span style="font-family: arial, helvetica, sans-serif;">ASYNC(ASYNCHRONOUS):</span></strong></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">This mode is used for maximum performance mode. A transaction can commit without waiting for the redo generated by that transaction to be successfully sent to any redo transport destination that uses the asynchronous redo transport mode.</span></p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">16. Which parameter defines the attributes of redo log transport service.</span></h3>
+<p>log_archive_dest_2(n) &#8211; &gt; This parameter defines the service name of the standby database and whether this is SYNC or ASYNC mode and the attributes like AFFIRM/NOAFFIRM.</p>
+<p>Apart From that , there are additional attributes like ,</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">17. What are the different types of Apply services in dataguard.</span></h3>
+<p><span style="text-decoration: underline;"><strong><span style="font-family: arial, helvetica, sans-serif;">REDO APPLY:</span></strong></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">With redo apply, apply services waits for a standby redo log file to be archived before applying the redo to standby. </span></p>
+<p><span style="text-decoration: underline;"><strong><span style="font-family: arial, helvetica, sans-serif;">REAL TIME APPLY:</span></strong></span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">If the real-time apply feature is enabled, then apply services can apply redo data ( either from redo log buffer or redo log file)as it is received, without waiting for the current standby redo log file to be archived.</span></p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">18. What is fast start failover(FSFO)?</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">Fast-Start Failover is a feature that allows the Oracle Data Guard broker to failover a failed primary database automatically to a predetermined standby database.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Observer process which runs on different server than that of primary and standby , continuously checks the availability of primary database. If both observer and standby database  both are unable to connect with primary database for a pre defined time, Then failover will be initiated automatically. The <strong>FastStartFailoverThreshold </strong>paramter defines the time limit for failover.</span></p>
+<p>And post failover, If observer is able to establish the connection with old primary, then it will reinstate the database using flashback.</p>
+<p>&nbsp;</p>
+<p><span style="text-decoration: underline;"><strong>Prerequisites for FSFO:</strong></span></p>
+<ul>
+<li>Flashback should be enabled on both primary and standby database.</li>
+<li>Observer need to present on a server different from primary and standby .</li>
+</ul>
+<p>&nbsp;</p>
+<p>NOTE &#8211; We can run observer on either primary or standby . But it is always recommended to run observer on a different server.</p>
+<p>Because , Lets say, you are running observer on primary and if primary server goes does, then observer cannot take any action , it is also not available.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">19. Let&#8217;s say, Fast start failover is configured in the dataguard setup. And the DBA shutdown the primary database using Shutdown immediate, Then will failover happen?</span></h3>
+<p>No. failover will not initiate if shutdown immediate or shutdown normal issued on primary by user action.</p>
+<p>But if shutdown abort is issued, then automatic failover will be initiated.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">20. What will be the impact on standby setup , when observer is down?</span></h3>
+<p>If the observer is down, then there will be no impact on the dataguard setup. But FSFO i.e automatic failover will not happen if primary becomes inaccessible.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">21. What is a far sync instance in dataguard?</span></h3>
+<p><span style="font-family: arial, helvetica, sans-serif;">T Far sync instance is an proxy/dummy instance, which receives redos from primary in sync mode and ships them to  one or multiple standby databases (upto 30 members) in async mode.</span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">It has only standby control file. It doesn&#8217;t have any user data file. And the instance will be always in mount state. This feature need s active data guard license. </span></p>
+<p><span style="font-family: arial, helvetica, sans-serif;">Far sync instance is usually useful, when primary and standby databases are far away.Far sync instances stay close to primary database and manages the near real time apply data.</span></p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">22. What are the new features of oracle 19c /20c/21c dataguard?</span></h3>
+<p><span style="text-decoration: underline;"><strong>Automatic flashback of standby db( in. 19c)</strong> </span>&#8211; If you flashback the primary database, then standby database will also be flashed back automatically.</p>
+<p><span style="text-decoration: underline;"><strong>Restore Point Replication( in. 19c) &#8211;</strong></span> If we create a restore on primary , then same restore point will be created on the standby database.</p>
+<p><span style="text-decoration: underline;"><strong>Active Dataguard DML Redirection(ADR)</strong> </span>&#8211; If you run a DML statement on standby , then it will be redirected to primary and the requested data will be send to standby again.</p>
+<p><b><u>Database Buffer cache status maintained(18c)</u></b>&#8211;  Database buffer cache status will be maintained after role transition  on standby also. Users on the standby will be able to continue exactly where they left off after a role change (switchover of failover) with the same performance .</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">23. What is dataguard broker and how it is useful?</span></h3>
+<p>Dgbroker is used for easy management and administration of one or multiple standby databases.  It helps in simple switchover, failover, FSFO, role transitions etc.</p>
+<p>DMON process run when dataguard broker is enabled.</p>
+<p>dgmgrl utility is used for administration of dgbroker.</p>
+<p>Whenever we issue any command from dgmgrl prompt, dmon process will process the request on primary and coordinate the same all standby databases. And it will update the configurations if required.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">24. How the apply process in ORACLE RAC dataguard works?</span></h3>
+<p>Prior to 12.2, The MRP ( recovery process) can be  started only on one node . However from 12.2 onwards, MRP can started on multiple or all nodes.</p>
+<p><span style="text-decoration: underline;">Below is the command: </span></p>
+<div class="highlight">
+<p class="highlight shell"><span style="font-family: arial, helvetica, sans-serif;"><code><span class="nt">--</span> Start MRP from all the instances available:<br />
+</code></span></p>
+<p class="highlight shell"><span style="font-family: arial, helvetica, sans-serif;"><code>ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION INSTANCES ALL<span class="p">;</span></code></span></p>
+<p class="highlight shell"><span style="font-family: arial, helvetica, sans-serif;"><code></code></span></p>
+<p><span class="nt">&#8212;</span> Start MRP on 2 Instances:</p>
+<p class="highlight shell"><span style="font-family: arial, helvetica, sans-serif;"><code>ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION INSTANCES 2<span class="p">;</span><br />
+</code></span></p>
+</div>
+<p>&nbsp;</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">25. Why we need to enable force logging on primary database, before setting up standby.</span></h3>
+<p>If somone does nologging operations on primary, then these data will be missed on standby, which will make the standby inconsistent with primary. So to ensure all the transaction on primary should generate redolog , force logging is enabled.</p>
+<p>&nbsp;</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">26. Which additional parameters we add in primary for configuring standby database.</span></h3>
+<p>log_archive_config: &#8211;</p>
+<p>db_unique_name</p>
+<p>standby_file_management=auto</p>
+<p>log_archive_dest_2  &#8211; tns details of standby database, to which logs will be shipped</p>
+<p>log_archive_dest_state_2</p>
+<p>db_file_name_convert &#8211; for mapping the database files of primary and standby db ( when directory structures are different on primary and standby)</p>
+<p>log_file_name_convert &#8211; For mapping redologs of primary and standby</p>
+<p>fal_server &#8211; &gt; This defines from where the standby database should request the missing archive logs. i.e on standby database its values will be the tns service_name of primary .</p>
+<p>&nbsp;</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">27. Will the db_name and db_unique_name will same for primary and standby databases?</span></h3>
+<p>DB_NAME will be same for primary and its standby databases. But everyone will have a different db_unique_name.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">28. Except snapshot standby method, is there any way we can open the standby database in read write  mode for testing and revert it back once testing is done.</span></h3>
+<p>Flashback method can be used.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">29. For security reason, you are not allowed to use sys user for redo transport service. Is there any alternative way or we need use sys user only.</span></h3>
+<p>If we want to use an user other than SYS, then we can create a user with sysoper privilege and set the parameter REDO_TRANSPORT_USER to that username.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">30. Explain the standby database /dataguard related background process.</span></h3>
+<p>MRP &#8211; &gt; Managed recovery process, which is responsible for read and redo and apply , through multiple parallel process like Pr(n) process.</p>
+<p>RFS &#8211; &gt; Remote file service.</p>
+<p>LNS &#8211; &gt; Log network service ( From 12c LNS is replaced with NSS( FOR SYNC) and NSA( For ASYNC).</p>
+<p>DMON &#8211; &gt; DG BROKER monitor</p>
+<p>FSFP &#8211; &gt; Fast start failover process.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">31. How oracle detects gaps and resolves it?</span></h3>
+<p>Two methods are there.</p>
+<p><span style="text-decoration: underline;"><strong>Automatic gap resolution:</strong></span></p>
+<p>This is done by log transport service. When there is a mismatch between currently transfered redo with that of last received log in standby, then RFS will request the missing log sequences from primary via arch-rfs hearbeat ping.</p>
+<p>No special setting is required.</p>
+<p><span style="text-decoration: underline;"><strong>Fetch archive log( FAL Method):</strong></span></p>
+<p>FAL_SERVER &#8211; specifies the tns service database from where the missing archive logs need to be fetched.</p>
+<p>When a archive is shipped to standby , it gets registered in the standby controlfile. When log apply service detects a gap , it sends a request to fal server to resend the missing logs.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">32.  We did failover, and the standby became the new primary. Now we need to make the old primary as new standby. But the database is very high , So rebuilding it will take time. Is there any way to fix it?</span></h3>
+<p>There is a way, But only if flashback is enabled. If flashback is enabled , then we can get the current scn from the new primary database and flashback the old primary(new standby) upto that scn.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">33.  Can we convert the physical standby database to logical standby database.</span></h3>
+<p>Yes it is possible to convert physical to logical standby.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">34.  Can we enable tracing in dataguard . </span></h3>
+<p>Yes we can set LOG_ARCHIVE_TRACE parameter to trace redo transport and apply services on primary and standby.</p>
+<p>possible values are 0(default means no tracing) , 1,2,4,8,16,32,64 &#8230;. 8192</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">35.  Some one configured the dataguard setup, without enabling force_logging on primary. And in primary  few nologging operations happened . So getting error like data block was loading using NOLOGGINE option. How can We fix it?</span></h3>
+<p>In that case, we can get <strong>FIRST_NONLOGGED_SCN</strong> value from v$datafile on standby database.  Then we can take an incremental backup using the SCN  from Primary. and apply the same on standby.</p>
+<p>&nbsp;</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">36.  Explain the physical standby  architecture . How standby gets synced with primary?</span></h3>
+<p>&nbsp;</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">37. What is AFFIRM/NOAFFIRM in dataguard?</span></h3>
+<p>&nbsp;</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">38. What are the common issues you face in dataguard environments?</span></h3>
+<ol>
+<li>Replication issues due to network issues</li>
+<li>Archive  log Missing errors</li>
+<li>If a datafile is renamed on primary, then also error will come in standby.</li>
+<li>Issue may occur if someone mistakenly changes the dataguard related parameters like log_archive_config, log_archive_dest parameters.</li>
+</ol>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">39. What is FastSync?</span></h3>
+<p>Fast Sync provides an easy way of improving performance in synchronous zero data loss configurations. Fast Sync allows a standby to acknowledge the primary database as soon as it receives redo in memory, without waiting for disk I/O to a standby redo log file (SYNC NOAFFIRM). This reduces the impact of synchronous transport on primary database performance by shortening the total round-trip time between primary and standby.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">40. What is Multi instance Redo Apply? How can we enable this?</span></h3>
+<p>Prior to 12.2 , If your dataguard is RAC, then MRP process can be run only on one node. However From 12.2 Onward, We can enable MIRA( Multi instance Redo apply), i.e MRP can be run on multiple instances or all the nodes.</p>
+<p><span style="text-decoration: underline;"><strong>Below are the syntax:</strong></span></p>
+<div class="highlight">
+<pre class="highlight shell"><code><span class="nt">--</span> Start MRP from all the instances available:
+ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION INSTANCES ALL<span class="p">;</span>
+
+<span class="nt">--</span> Start MRP on 2 Instances:
+ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION INSTANCES 2<span class="p">;</span>
+</code></pre>
+</div>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">41. If there is any block corruption on standby database, How can we recover that?</span></h3>
+<pre>--- First check on standby which blocks got corrupted.
+
+SQL&gt; Select * from v$database_block_corruption ;
+
+----Cancel the Recovery:
+
+alter database Recover managed standby database Cancel;
+
+--Restore the datafile, 
+
+ SQL&gt; Restore datafile 9 FORCE  from service 'PRIM_DB' ;
+
+-- Start MRP:
+
+SQL&gt; alter database Recover managed standby database using current logfile disconnect from session;
+</pre>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">42. Can i generate awr report in a standby database? If yes how?</span></h3>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">43. Can i run sql tuning advisor in standby database?</span></h3>
+<p>Yes we can do that , using the concept of db_link.</p>
+<p>in dbms_sqltune module, there is a parameter database_link_to which we can se to a database_link(db_link with connect SYS$UMF , pointing to primary). and then we can run the task on standby.</p>
+<p>Reference     &#8211;<a href="https://fatdba.com/2022/01/15/part-1-running-sql-tuning-advisor-for-a-slow-sql-in-a-read-only-standby-database/#:~:text=You%20can%20issue%20SQL%20Tuning,write%20the%20SQL%20tuning%20data."> https://fatdba.com/2022/01/15/part-1-running-sql-tuning-advisor-for-a-slow-sql-in-a-read-only-standby-database/#:~:text=You%20can%20issue%20SQL%20Tuning,write%20the%20SQL%20tuning%20data. </a></p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">44. We are having dataguard setup in maximum protection mode , and we created one datafile in a new diskgroup on primary, But that diskgroup was not present in standby? What will be the outcome?</span></h3>
+<p>the primary will shutdown .</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">45. Can i set sync,, AFFIRM with ARCH in log_archive_dest_n paramter?</span></h3>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">46.Which process on standby receive the changes from primary?</span></h3>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">47. Can i run expdp command on standby?</span></h3>
+<p>Yes we can run expdp on standby database by createing  db_link and using  network_link parameter in expdp.</p>
+<p><a href="https://dbaclass.com/article/use-expdp-export-data-physical-standby-database/" target="_blank" rel="noopener noreferrer">How to run expdp on physical standby database</a></p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">48. Can I take full backup on standby and incremental backup on primary?</span></h3>
+<p>Yes we can do that.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">49. Is there any prerequisite for converting physical standby to snapshot standby database?</span></h3>
+<p>You need to set db_recovery_file_dest and db_recovery_file_dest_size parameter on standby and then enable flashback.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">50. Some one mistakenly truncated a table on primary database. We already have a dataguard setup. Is there any way we can recover that table? </span></h3>
+<p>Below are the steps.</p>
+<h3><span style="color: #008080; font-family: arial, helvetica, sans-serif;">51. If observor is unable to connect with primary , but it can connect with standby, then what will happen?</span></h3>
+<p>If the observor is unable to connect to primary, then it will check the status of primary, through standby.</p>
+<pre></pre>
+<p>The post <a href="https://dbaclass.com/article/oracle-dataguard-interview-questions/">Oracle dataguard &#8211; Interview Questions</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/oracle-dataguard-interview-questions/feed/</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to add a tempfile in primary database in dataguard</title>
+		<link>https://dbaclass.com/article/add-tempfile-primary-database-dataguard/</link>
+					<comments>https://dbaclass.com/article/add-tempfile-primary-database-dataguard/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 26 Feb 2018 13:42:10 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3613</guid>
+
+					<description><![CDATA[<p>If standby_file_management is set to AUTO, as soon as we add a datafile on primary database, same will be created automatically on standby database. But will the same valid for tempfile?? Answer is NO. Adding tempfiles to TEMP tablespaces in primary database, will not automatically create on standby database. Because no redo is generated, while [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/add-tempfile-primary-database-dataguard/">How to add a tempfile in primary database in dataguard</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>If standby_file_management is set to AUTO, as soon as we add a datafile on primary database, same will be created automatically on standby database.<br />
+But will the same valid for tempfile?? Answer is NO.</p>
+<p><strong><em>Adding tempfiles to TEMP tablespaces in primary database, will not automatically create on standby database. Because no redo is generated, while adding tempfile. So DBA have to add the temp file manually.</em></strong></p>
+<h3>EXAMPLE:</h3>
+<p><strong>Add a tempfile on primary:</strong></p>
+<pre class="">SQL&gt; select file_name from dba_temp_files;
+
+FILE_NAME
+--------------------------------------------------------------------------------
++DATA/DB/TEMPFILE/temp.311.958108775
++DATA/DB/TEMPFILE/temp.310.958108773
+
+
+
+ALTER TABLESPACE TEMP ADD TEMPFILE '+DATA' size 5G;
+
+
+SQL&gt; select file_name from dba_temp_files;
+
+FILE_NAME
+--------------------------------------------------------------------------------
++DATA/DB/TEMPFILE/temp.311.958108775
++DATA/DB/TEMPFILE/temp.310.958108773
++DATA/DB/TEMPFILE/temp.313.958108777
+</pre>
+<p><strong>check tempfiles present in standby:</strong></p>
+<pre>SQL&gt; select file_name from dba_temp_files;
+
+FILE_NAME
+--------------------------------------------------------------------------------
++DATA/DB/TEMPFILE/temp.311.958108775
++DATA/DB/TEMPFILE/temp.310.958108773
+</pre>
+<p>We can see the tempfile didnt created in standby. So we have to create the same manually in standby.</p>
+<h3>CREATING TEMPFILE ON STANDBY:</h3>
+<p><strong>Steps if active dataguard( i.e standby in read only mode):</strong></p>
+<pre class="">ALTER TABLESPACE TEMP ADD TEMPFILE '+DATA' size 5G;
+
+
+SQL&gt; select file_name from dba_temp_files;
+
+FILE_NAME
+--------------------------------------------------------------------------------
++DATA/DB/TEMPFILE/temp.311.958108775
++DATA/DB/TEMPFILE/temp.310.958108773
++DATA/DB/TEMPFILE/temp.313.958108777
+</pre>
+<p><strong>Steps if standby database in mount stage:</strong></p>
+<pre class="">--- cancel recovery:
+recover managed standby database cancel;
+
+
+-- Open database
+
+alter database open readonly;
+
+-- Add tempfile
+
+ALTER TABLESPACE TEMP ADD TEMPFILE '+DATA' size 5G;
+
+restart the db in mount stage:
+
+shutdown immediate;
+
+startup mount;
+
+---- Start the recovery process:
+
+alter database recovery managed standby database disconnect from session;</pre>
+<pre class="">SQL&gt; select file_name from dba_temp_files;
+
+FILE_NAME
+--------------------------------------------------------------------------------
++DATA/DB/TEMPFILE/temp.311.958108775
++DATA/DB/TEMPFILE/temp.310.958108773
++DATA/DB/TEMPFILE/temp.313.958108777</pre>
+<p>The post <a href="https://dbaclass.com/article/add-tempfile-primary-database-dataguard/">How to add a tempfile in primary database in dataguard</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/add-tempfile-primary-database-dataguard/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Standby redologs  in oracle dataguard</title>
+		<link>https://dbaclass.com/article/standby-redologs-oracle-dataguard/</link>
+					<comments>https://dbaclass.com/article/standby-redologs-oracle-dataguard/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 26 Feb 2018 07:43:08 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3601</guid>
+
+					<description><![CDATA[<p>The Advantage of having Standby Redo Logs (SLR) is that every records written into the Online RedoLogs of the Primary Database is transferred to the Standby database and written into the Standby Redo Logs at the same time. therefore, you it minimizes the probability of Data Loss on the Standby Database. Without Standby Redo Logs, [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/standby-redologs-oracle-dataguard/">Standby redologs  in oracle dataguard</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>The Advantage of having Standby Redo Logs (SLR) is that every records written into the Online RedoLogs of the Primary Database is transferred to the Standby database and written into the Standby Redo Logs at the same time.<br />
+therefore, you it minimizes the probability of Data Loss on the Standby Database.</p>
+<p>Without Standby Redo Logs, an Archived Redo Log is created by the RFS process and when it has completed,<br />
+this Archived Redo Log is applied to the Standby Database by the MRP process . An incomplete ArchiveLog file cannot be applied on the Standby Database and will not be used in a Failover situation. This causes a certain data loss.</p>
+<p>If you have Standby Redo Logs, the RFS process will write into the Standby Redo Log ,when there record entered in online redolog and when a log switch occurs, the Archiver Process of the Standby Database will archive this Standby Redo Log to an Archived Redo Log, while the MRP process applies the information to the Standby Database. <em><strong>In a Failover situation, you will also have access to the </strong></em><em><strong>information already written in the Standby Redo Logs, so the information will not be lost.</strong></em></p>
+<h3>NOTE:</h3>
+<ul>
+<li>Size of standby redolog should be same as that of primary online redolog.</li>
+<li>The standby redo log must have at least one more redo log group than the redo log at the redo source database.</li>
+<li>Standby redolog is mandatory for realtime apply</li>
+<li>In 12c DEFAULT MRP will go to REAL TIME APPLY mode.</li>
+<li>Oracle recommends to keep standby redologs on both primary and standby database.(Though SLR is not mandatory for primary, it will make the switchover quick without any additional DBA activity.</li>
+</ul>
+<p>&nbsp;</p>
+<h4><strong>Steps to add standby redolog:</strong></h4>
+<p>1. If you are setting up standby database newly, i.e standby database is not created yet, then add the standby redologs on primary database, So that after duplicating standby database from primary, similar standby logs will be created in standby.</p>
+<p>Just add the SLR on primary:</p>
+<pre>alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo1.log' size 2G;
+alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo2.log' size 2G;
+alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo3.log' size 2G;
+</pre>
+<p>&nbsp;</p>
+<p>2. If the standby database is already created without standby redolog. Then add the standby redolog on both primary and standby db as below.</p>
+<p>Primary:</p>
+<pre>alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo1.log' size 2G;
+alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo2.log' size 2G;
+alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo3.log' size 2G;
+</pre>
+<p>&nbsp;</p>
+<p>Standby database:</p>
+<p>cancel recovery:</p>
+<pre>alter database recover managed standby database cancel;
+</pre>
+<p>Make standby_file_management Manual:</p>
+<pre>alter system set  standby_file_management='MANUAL' scope=both;
+</pre>
+<p>add standby redolog:</p>
+<pre>alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo1.log' size 2G;
+alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo2.log' size 2G;
+alter database add standby logfile '+PROD/stdby/onlinelog/standbyredo3.log' size 2G;
+</pre>
+<p>Revert standby_file_management to AUTO:</p>
+<pre>alter system set  standby_file_management='AUTO' scope=both;
+</pre>
+<p>Start MRP with real time:</p>
+<pre>alter database recover managed standby database using current logfile disconnect from session;
+</pre>
+<p>The post <a href="https://dbaclass.com/article/standby-redologs-oracle-dataguard/">Standby redologs  in oracle dataguard</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/standby-redologs-oracle-dataguard/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

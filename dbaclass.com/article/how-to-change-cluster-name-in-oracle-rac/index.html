@@ -1,0 +1,1373 @@
+<!DOCTYPE html><!--[if IE 7]>	<html class="ie ie7" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if IE 8]>	<html class="ie ie8" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if IE 9]>	<html class="ie ie9" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if (gt IE 9)|!(IE)]><!--><html lang="en-US" prefix="og: http://ogp.me/ns#"><!--<![endif]-->
+<!-- Mirrored from dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 17:50:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head><meta charset="UTF-8"/>
+<script>var __ezHttpConsent={setByCat:function(src,tagType,attributes,category,force){var setScript=function(){if(force||window.ezTcfConsent[category]){var scriptElement=document.createElement(tagType);scriptElement.src=src;attributes.forEach(function(attr){for(var key in attr){if(attr.hasOwnProperty(key)){scriptElement.setAttribute(key,attr[key]);}}});var firstScript=document.getElementsByTagName(tagType)[0];firstScript.parentNode.insertBefore(scriptElement,firstScript);}};if(force||(window.ezTcfConsent&&window.ezTcfConsent.loaded)){setScript();}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){setScript();}else{console.error("cannot get ez consent data");force=true;setScript();}});}else{force=true;setScript();console.error("getEzConsentData is not a function");}},};</script>
+<script>var ezTcfConsent=window.ezTcfConsent?window.ezTcfConsent:{loaded:false,store_info:false,develop_and_improve_services:false,measure_ad_performance:false,measure_content_performance:false,select_basic_ads:false,create_ad_profile:false,select_personalized_ads:false,create_content_profile:false,select_personalized_content:false,understand_audiences:false,use_limited_data_to_select_content:false,};function getEzConsentData(){return new Promise(function(resolve){document.addEventListener("ezConsentEvent",function(event){var ezTcfConsent=event.detail.ezTcfConsent;resolve(ezTcfConsent);});});}</script>
+<script>function _setEzCookies(ezConsentData){var cookies=[{name:"ezosuibasgeneris-1",value:"5d5c851b-448b-4b9f-5b2b-cc4a77fcab5c; Path=/; Domain=dbaclass.com; Expires=Sat, 13 Sep 2025 17:35:07 UTC; Secure; SameSite=None",tcfCategory:"understand_audiences",isEzoic:"true",}];for(var i=0;i<cookies.length;i++){var cookie=cookies[i];if(ezConsentData&&ezConsentData.loaded&&ezConsentData[cookie.tcfCategory]){document.cookie=cookie.name+"="+cookie.value;}}}
+if(window.ezTcfConsent&&window.ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else{console.error("cannot get ez consent data");_setEzCookies(window.ezTcfConsent);}});}else{console.error("getEzConsentData is not a function");_setEzCookies(window.ezTcfConsent);}</script>
+<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=true;window.__ezScriptHost="//www.ezojs.com";__ez.queue=function(){var e=0,i=0,t=[],n=!1,o=[],r=[],s=!0,a=function(e,i,n,o,r,s,a){var l=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,d=this;this.name=e,this.funcName=i,this.parameters=null===n?null:w(n)?n:[n],this.isBlock=o,this.blockedBy=r,this.deleteWhenComplete=s,this.isError=!1,this.isComplete=!1,this.isInitialized=!1,this.proceedIfError=a,this.fWindow=l,this.isTimeDelay=!1,this.process=function(){u("... func = "+e),d.isInitialized=!0,d.isComplete=!0,u("... func.apply: "+e);var i=d.funcName.split("."),n=null,o=this.fWindow||window;i.length>3||(n=3===i.length?o[i[0]][i[1]][i[2]]:2===i.length?o[i[0]][i[1]]:o[d.funcName]),null!=n&&n.apply(null,this.parameters),!0===d.deleteWhenComplete&&delete t[e],!0===d.isBlock&&(u("----- F'D: "+d.name),m())}},l=function(e,i,t,n,o,r,s){var a=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,l=this;this.name=e,this.path=i,this.async=o,this.defer=r,this.isBlock=t,this.blockedBy=n,this.isInitialized=!1,this.isError=!1,this.isComplete=!1,this.proceedIfError=s,this.fWindow=a,this.isTimeDelay=!1,this.isPath=function(e){return"/"===e[0]&&"/"!==e[1]},this.getSrc=function(e){return void 0!==window.__ezScriptHost&&this.isPath(e)&&"banger.js"!==this.name?window.__ezScriptHost+e:e},this.process=function(){l.isInitialized=!0,u("... file = "+e);var i=this.fWindow?this.fWindow.document:document,t=i.createElement("script");t.src=this.getSrc(this.path),!0===o?t.async=!0:!0===r&&(t.defer=!0),t.onerror=function(){var e={url:window.location.href,name:l.name,path:l.path,user_agent:window.navigator.userAgent};"undefined"!=typeof _ezaq&&(e.pageview_id=_ezaq.page_view_id);var i=encodeURIComponent(JSON.stringify(e)),t=new XMLHttpRequest;t.open("GET.html","//g.ezoic.net/ezqlog?d="+i,!0),t.send(),u("----- ERR'D: "+l.name),l.isError=!0,!0===l.isBlock&&m()},t.onreadystatechange=t.onload=function(){var e=t.readyState;u("----- F'D: "+l.name),e&&!/loaded|complete/.test(e)||(l.isComplete=!0,!0===l.isBlock&&m())},i.getElementsByTagName("head")[0].appendChild(t)}},d=function(e,i){this.name=e,this.path="",this.async=!1,this.defer=!1,this.isBlock=!1,this.blockedBy=[],this.isInitialized=!0,this.isError=!1,this.isComplete=i,this.proceedIfError=!1,this.isTimeDelay=!1,this.process=function(){}};function c(e,i,n,s,a,d,c,f,u){var m=new l(e,i,n,s,a,d,c,u);!0===f?o[e]=m:r[e]=m,t[e]=m,h(m)}function h(e){!0!==f(e)&&0!=s&&e.process()}function f(e){if(!0===e.isTimeDelay&&!1===n)return u(e.name+" blocked = TIME DELAY!"),!0;if(w(e.blockedBy))for(var i=0;i<e.blockedBy.length;i++){var o=e.blockedBy[i];if(!1===t.hasOwnProperty(o))return u(e.name+" blocked = "+o),!0;if(!0===e.proceedIfError&&!0===t[o].isError)return!1;if(!1===t[o].isComplete)return u(e.name+" blocked = "+o),!0}return!1}function u(e){var i=window.location.href,t=new RegExp("[?&]ezq=([^&#]*)","i").exec(i);"1"===(t?t[1]:null)&&console.debug(e)}function m(){++e>200||(u("let's go"),p(o),p(r))}function p(e){for(var i in e)if(!1!==e.hasOwnProperty(i)){var t=e[i];!0===t.isComplete||f(t)||!0===t.isInitialized||!0===t.isError?!0===t.isError?u(t.name+": error"):!0===t.isComplete?u(t.name+": complete already"):!0===t.isInitialized&&u(t.name+": initialized already"):t.process()}}function w(e){return"[object Array]"==Object.prototype.toString.call(e)}return window.addEventListener("load",(function(){setTimeout((function(){n=!0,u("TDELAY -----"),m()}),5e3)}),!1),{addFile:c,addFileOnce:function(e,i,n,o,r,s,a,l,d){t[e]||c(e,i,n,o,r,s,a,l,d)},addDelayFile:function(e,i){var n=new l(e,i,!1,[],!1,!1,!0);n.isTimeDelay=!0,u(e+" ...  FILE! TDELAY"),r[e]=n,t[e]=n,h(n)},addFunc:function(e,n,s,l,d,c,f,u,m,p){!0===c&&(e=e+"_"+i++);var w=new a(e,n,s,l,d,f,u,p);!0===m?o[e]=w:r[e]=w,t[e]=w,h(w)},addDelayFunc:function(e,i,n){var o=new a(e,i,n,!1,[],!0,!0);o.isTimeDelay=!0,u(e+" ...  FUNCTION! TDELAY"),r[e]=o,t[e]=o,h(o)},items:t,processAll:m,setallowLoad:function(e){s=e},markLoaded:function(e){if(e&&0!==e.length){if(e in t){var i=t[e];!0===i.isComplete?u(i.name+" "+e+": error loaded duplicate"):(i.isComplete=!0,i.isInitialized=!0)}else t[e]=new d(e,!0);u("markLoaded dummyfile: "+t[e].name)}},logWhatsBlocked:function(){for(var e in t)!1!==t.hasOwnProperty(e)&&f(t[e])}}}();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot={};__ez.queue.addFile('../../detroitchicago/boise.js', '../../detroitchicago/boisebb26.js?gcb=195-3&amp;cb=5', true, [], true, false, true, false);__ez.queue.addFile('../../parsonsmaize/abilene.js', '../../parsonsmaize/abilene96c6.js?gcb=195-3&amp;cb=35', true, [], true, false, true, false);</script>
+<script type="text/javascript">var _ez_send_requests_through_ezoic = true;</script>
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">window._ezaq = Object.assign({"ad_cache_level":1,"adpicker_placement_cnt":0,"ai_placeholder_cache_level":1,"ai_placeholder_placement_cnt":-1,"domain_id":179613,"ezcache_level":2,"ezcache_skip_code":0,"has_bad_image":0,"has_bad_words":0,"is_sitespeed":0,"lt_cache_level":0,"publish_date":"2021-05-22","response_size":112384,"response_size_orig":106882,"response_time_orig":69,"template_id":5,"url":"https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/","word_count":0,"worst_bad_word_level":0}, typeof window._ezaq !== "undefined" ? window._ezaq : {});__ez.queue.markLoaded('ezaqBaseReady');</script>
+<script type='text/javascript' data-ezscrex='false' data-cfasync='false'>
+window.ezAnalyticsStatic = true;
+window._ez_send_requests_through_ezoic = true;
+function analyticsAddScript(script) {
+	var ezDynamic = document.createElement('script');
+	ezDynamic.type = 'text/javascript';
+	ezDynamic.innerHTML = script;
+	document.head.appendChild(ezDynamic);
+}
+function getCookiesWithPrefix() {
+    var allCookies = document.cookie.split(';');
+    var cookiesWithPrefix = {};
+
+    for (var i = 0; i < allCookies.length; i++) {
+        var cookie = allCookies[i].trim();
+
+        for (var j = 0; j < arguments.length; j++) {
+            var prefix = arguments[j];
+            if (cookie.indexOf(prefix) === 0) {
+                var cookieParts = cookie.split('=');
+                var cookieName = cookieParts[0];
+                var cookieValue = cookieParts.slice(1).join('=');
+                cookiesWithPrefix[cookieName] = decodeURIComponent(cookieValue);
+                break; // Once matched, no need to check other prefixes
+            }
+        }
+    }
+
+    return cookiesWithPrefix;
+}
+function productAnalytics() {
+	var d = {};
+	d.u = _ezaq.url;
+	d.p = _ezaq.page_view_id;
+	d.v = _ezaq.visit_uuid;
+	d.ab = _ezaq.ab_test_id;
+	d.e = JSON.stringify(_ezaq);
+	d.ref = document.referrer;
+	d.c = getCookiesWithPrefix('active_template', 'ez', 'lp_');
+	if(typeof ez_utmParams !== 'undefined') {
+		d.utm = ez_utmParams;
+	}
+
+	var dataText = JSON.stringify(d);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST.html','//g.ezoic.net/ezais/analytics?cb=1', true);
+	xhr.onload = function () {
+		if (xhr.status!=200) {
+            return;
+		}
+
+        if(document.readyState !== 'loading') {
+            analyticsAddScript(xhr.response);
+            return;
+        }
+
+        var eventFunc = function() {
+            if(document.readyState === 'loading') {
+                return;
+            }
+            document.removeEventListener('readystatechange', eventFunc, false);
+            analyticsAddScript(xhr.response);
+        };
+
+        document.addEventListener('readystatechange', eventFunc, false);
+	};
+	xhr.setRequestHeader('Content-Type','text/plain');
+	xhr.send(dataText);
+}
+__ez.queue.addFunc("productAnalytics", "productAnalytics", null, true, ['ezaqBaseReady'], false, false, false, true);
+</script><base />
+<meta name="google-site-verification" content="6dqsKA6lyLjaiKjPdMYqcSFkU7CVZS2mbDx3X3Oqff4"/>
+
+	
+	<title>How to change cluster name in oracle RAC - DBACLASS DBACLASS</title>
+
+	<!-- Pingback -->
+	<link rel="pingback" href="../../xmlrpc.php"/>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+
+	<!-- This site is optimized with the Yoast SEO plugin v22.7 - https://yoast.com/wordpress/plugins/seo/ -->
+	<meta name="description" content=" Changing the cluster_name in ORACLE RAC means grid infrastructure need to be reconfigured . But asmdisks will be untouched. Lets see below example."/>
+	<link rel="canonical" href="index.html"/>
+	<meta property="og:locale" content="en_US"/>
+	<meta property="og:type" content="article"/>
+	<meta property="og:title" content="How to change cluster name in oracle RAC - DBACLASS"/>
+	<meta property="og:description" content=" Changing the cluster_name in ORACLE RAC means grid infrastructure need to be reconfigured . But asmdisks will be untouched. Lets see below example."/>
+	<meta property="og:url" content="https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/"/>
+	<meta property="og:site_name" content="DBACLASS"/>
+	<meta property="article:modified_time" content="2021-06-24T08:30:15+00:00"/>
+	<meta property="og:image" content="https://dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.17.30-PM.png"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:label1" content="Est. reading time"/>
+	<meta name="twitter:data1" content="12 minutes"/>
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/","url":"https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/","name":"How to change cluster name in oracle RAC - DBACLASS","isPartOf":{"@id":"https://dbaclass.com/#website"},"primaryImageOfPage":{"@id":"https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/#primaryimage"},"image":{"@id":"https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/#primaryimage"},"thumbnailUrl":"https://dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.17.30-PM.png","datePublished":"2021-05-22T18:56:35+00:00","dateModified":"2021-06-24T08:30:15+00:00","description":" Changing the cluster_name in ORACLE RAC means grid infrastructure need to be reconfigured . But asmdisks will be untouched. Lets see below example.","breadcrumb":{"@id":"https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/#primaryimage","url":"https://dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.17.30-PM.png","contentUrl":"https://dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.17.30-PM.png","width":813,"height":630},{"@type":"BreadcrumbList","@id":"https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dbaclass.com/"},{"@type":"ListItem","position":2,"name":"How to change cluster name in oracle RAC"}]},{"@type":"WebSite","@id":"https://dbaclass.com/#website","url":"https://dbaclass.com/","name":"DBACLASS","description":"database administration","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://dbaclass.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Feed" href="../../feed/index.html"/>
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Comments Feed" href="../../comments/feed/index.html"/>
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » How to change cluster name in oracle RAC Comments Feed" href="feed/index.html"/>
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/dbaclass.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.5.5"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel="stylesheet" id="mtq_CoreStyleSheets-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/mtq_core_style583f.css?ver=3.1.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="mtq_ThemeStyleSheets-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/mtq_theme_style583f.css?ver=3.1.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-style-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/styleadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-fancybox-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/jquery.fancyboxadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-fontawesome-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/font-awesome.minadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-bbpress-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/bbpress/bbpressadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<!--[if IE 7]>
+<link rel='stylesheet' id='nice-fontawesome-ie7-css' href='https://dbaclass.com/wp-content/themes/flatbase/includes/css/font-awesome-ie7.min.css?ver=6.5.5' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="nice-options-styles-css" href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/css/nice-optionsadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="nice-options-styles-inline-css" type="text/css">
+.entry blockquote{ border-left-color:#384047; }
+.nice-infoboxes .item:hover a.read-more{ border-bottom-color:#384047; }
+a, .wp-pagenavi span.current, #extended-footer a:hover, .liked i, .nice-knowledgebase ul li:hover i, span.required { color: #384047; }
+#navigation ul li a .bar, #navigation ul li a .bar:before, #navigation ul li a .bar:after, #navigation ul li a .bar, .nice-contact-form input[type="submit"]:hover, #commentform .button:hover, #respond input[type="submit"]:hover, .single .featured-image a, .post .featured-image a, .blog-masonry #posts-ajax-loader-button:hover, .nice-gallery .thumb a, #tabs .inside .tags a:hover{ background-color: #384047; }
+#header { background-color: #25304e; }
+#header { background-position : left top; }
+#header { background-repeat : repeat; }
+body, .bg-image { background-color : #f0f0f0; }
+body, .bg-image { background-position : left top; }
+body, .bg-image { background-repeat : repeat; }
+#header #top #logo #default-logo, #header #top #logo #retina-logo { height : 65px; }
+
+/* Nice Custom Fonts */
+
+body { font: normal 15px Arial, sans-serif; color: #070808 !important; }
+#navigation .nav li a { font: normal 15px 'Lato', arial, sans-serif; color: #eff2f3 !important; }
+#top #navigation .nav li ul li a { font: normal 12px 'Lato', arial, sans-serif; color: #FFFFFF !important; }
+h1, h2, h3, h4, h5, h6, #call-to-action { font-family: 'Nunito', arial, sans-serif; font-style: normal; color:  !important; }
+.button-primary, .button-blue, .button-secondary, .header .nav li.current-page a, .header .nav-callout, .cta-button, input[type="submit"], button, #commentform .button, #respond input[type="submit"], .nice-contact-form input[type="submit"], .blog-masonry #posts-ajax-loader-button { font-family: 'Nunito', arial, sans-serif; font-style: normal; color:  !important; }
+input, textarea { font-family: 'Lato', arial, sans-serif; font-style: normal; color:  !important; }
+.nice-infoboxes .infobox-title { font: normal 21px 'Nunito', arial, sans-serif; color: #4B4D4B !important; }
+.infobox .entry-excerpt{ font: normal 15px 'Lato', arial, sans-serif; color: #8B989E !important; }
+.welcome-message h2 { font: normal 32px 'Nunito', arial, sans-serif; color: #ffffff !important; }
+.welcome-message p, .welcome-message p a { font: normal 16px 'Lato', arial, sans-serif; color: #dddddd !important; }
+
+</style>
+<style id="wp-emoji-styles-inline-css" type="text/css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel="stylesheet" id="wp-block-library-css" href="../../../cdn-0.dbaclass.com/wp-includes/css/dist/block-library/style.minadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="prismatic-blocks-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/prismatic/css/styles-blocksadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="classic-theme-styles-inline-css" type="text/css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="popupaoc-public-style-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/popup-anything-on-click/assets/css/popupaoc-public-style4b1d.css?ver=1.8" type="text/css" media="all"/>
+<link rel="stylesheet" id="theme-my-login-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/theme-my-login/assets/styles/theme-my-login.min03db.css?ver=7.1.1" type="text/css" media="all"/>
+<link rel="stylesheet" id="wp-pagenavi-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/wp-pagenavi/pagenavi-css44fd.css?ver=2.70" type="text/css" media="all"/>
+<link rel="stylesheet" id="dry_awp_theme_style-css" href="../../../cdn-0.dbaclass.com/wp-content/plugins/advanced-wp-columns/assets/css/awp-columnsadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="dry_awp_theme_style-inline-css" type="text/css">
+@media screen and (max-width: 1024px) {	.csColumn {		clear: both !important;		float: none !important;		text-align: center !important;		margin-left:  10% !important;		margin-right: 10% !important;		width: 80% !important;	}	.csColumnGap {		display: none !important;	}}
+</style>
+<link rel="stylesheet" id="sccss_style-css" href="https://cdn-0.dbaclass.com/?sccss=1&amp;ver=6.5.5" type="text/css" media="all"/>
+<meta name="generator" content="Flatbase (shared on wplocker.com) 1.0.2"/>
+<meta name="generator" content="Nice Framework 1.1.5"/>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/mtouch-quiz/script583f.js?ver=3.1.3" id="mtq_script-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/anything-popup/anything-popupadc6.js?ver=6.5.5" id="anything-popup-js-js"></script>
+<script type="text/javascript" id="nice-general-js-extra">
+/* <![CDATA[ */
+var php_data = {"admin_ajax_url":"https:\/\/dbaclass.com\/wp-admin\/admin-ajax.php","play_nice_nonce":"8ed9cd9b31"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/generaladc6.js?ver=6.5.5" id="nice-general-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.fancyboxadc6.js?ver=6.5.5" id="nice-fancybox-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/superfishadc6.js?ver=6.5.5" id="nice-superfish-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/imagesloaded.minadc6.js?ver=6.5.5" id="nice-imagesloaded-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/ui/core.min3f14.js?ver=1.13.2" id="jquery-ui-core-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.scrollTo-minadc6.js?ver=6.5.5" id="nice-scrollto-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.localscroll-minadc6.js?ver=6.5.5" id="nice-localscroll-js-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/includes/js/jquery.livesearchadc6.js?ver=6.5.5" id="nice-livesearch-js-js"></script>
+<link rel="https://api.w.org/" href="../../wp-json/index.html"/><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../xmlrpc0db0.php?rsd"/>
+<meta name="generator" content="WordPress 6.5.5"/>
+<link rel="shortlink" href="../../index9016.html?p=6459"/>
+<link rel="alternate" type="application/json+oembed" href="../../wp-json/oembed/1.0/embed6212.html?url=https%3A%2F%2Fdbaclass.com%2Farticle%2Fhow-to-change-cluster-name-in-oracle-rac%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="../../wp-json/oembed/1.0/embed4925.html?url=https%3A%2F%2Fdbaclass.com%2Farticle%2Fhow-to-change-cluster-name-in-oracle-rac%2F&amp;format=xml"/>
+
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			var ajaxurl = '../../wp-admin/admin-ajax.html';
+
+						/* ]]> */
+		</script>
+
+	<script>
+
+</script>
+
+        <script type="text/javascript">
+            var jQueryMigrateHelperHasSentDowngrade = false;
+
+			window.onerror = function( msg, url, line, col, error ) {
+				// Break out early, do not processing if a downgrade reqeust was already sent.
+				if ( jQueryMigrateHelperHasSentDowngrade ) {
+					return true;
+                }
+
+				var xhr = new XMLHttpRequest();
+				var nonce = '78881c2797';
+				var jQueryFunctions = [
+					'andSelf',
+					'browser',
+					'live',
+					'boxModel',
+					'support.boxModel',
+					'size',
+					'swap',
+					'clean',
+					'sub',
+                ];
+				var match_pattern = /\)\.(.+?) is not a function/;
+                var erroredFunction = msg.match( match_pattern );
+
+                // If there was no matching functions, do not try to downgrade.
+                if ( typeof erroredFunction !== 'object' || typeof erroredFunction[1] === "undefined" || -1 === jQueryFunctions.indexOf( erroredFunction[1] ) ) {
+                    return true;
+                }
+
+                // Set that we've now attempted a downgrade request.
+                jQueryMigrateHelperHasSentDowngrade = true;
+
+				xhr.open( 'POST.html', '../../wp-admin/admin-ajax.html' );
+				xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+				xhr.onload = function () {
+					var response,
+                        reload = false;
+
+					if ( 200 === xhr.status ) {
+                        try {
+                        	response = JSON.parse( xhr.response );
+
+                        	reload = response.data.reload;
+                        } catch ( e ) {
+                        	reload = false;
+                        }
+                    }
+
+					// Automatically reload the page if a deprecation caused an automatic downgrade, ensure visitors get the best possible experience.
+					if ( reload ) {
+						location.reload();
+                    }
+				};
+
+				xhr.send( encodeURI( 'action=jquery-migrate-downgrade-version&_wpnonce=' + nonce ) );
+
+				// Suppress error alerts in older browsers
+				return true;
+			}
+        </script>
+
+		
+<!-- Custom Favicon -->
+<link rel="shortcut icon" href="../../wp-content/uploads/2015/08/1439737892_database.ico"/>
+
+<!-- Custom CSS -->
+<link href="../../../cdn-0.dbaclass.com/wp-content/themes/flatbase/custom.css" rel="stylesheet" type="text/css"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="How to change cluster name in oracle RAC"/>
+<meta property="og:url" content="https://dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/"/>
+<meta property="og:description" content="NOTE – You can follow this method for deinstall and reinstall of  grid infrastructure without losing your database data(asm disk data)   Changing the cluster_name in ORACLE RAC means grid infrastructure need to be reconfigured( which is a complex activity). You will need downtime to do this activity and you will lose your cluster services, […]"/>
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			jQuery(document).ready(function($) {
+
+				nicethemes_likes_handler();
+
+			});
+			/* ]]> */
+		</script>
+
+
+		<script type="text/javascript" data-pagespeed-no-defer="">
+		//<![CDATA[
+			jQuery(document).ready(function() {
+				jQuery('#live-search #s').liveSearch({url: 'https://dbaclass.com/?ajax=true&livesearch=true&s='});
+			});
+		//]]>
+		</script>
+
+		
+
+<!-- Nice Google fonts -->
+<link href="https://fonts.googleapis.com/css?family=Nunito|Lato:400,700,400italic" rel="stylesheet" type="text/css"/>
+
+
+<script src="../../../code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../../typeiii.github.io/jquery-csv/src/jquery.csv.html"></script>    
+<script type="text/javascript" src="../../../www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+$.get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/archived_data/archived_time_series/time_series_2019-ncov-Confirmed.csv", function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      console.log(arrayData);
+  });
+      }
+    </script> <link rel="stylesheet" href="../../../cdn-0.dbaclass.com/wp-includes/css/bootstrap.min.css"/>
+
+<style>
+.ui-mobile [data-role=page], .ui-mobile [data-role=dialog], .ui-page {
+    position: relative !important;
+}
+</style>
+
+<script type='text/javascript'>
+var ezoTemplate = 'orig_site';
+var ezouid = '1';
+var ezoFormfactor = '1';
+</script><script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 179613;
+var ezdomain = 'dbaclass.com';
+var ezoicSearchable = 1;
+</script></head>
+
+<body class="article-template-default single single-article postid-6459 single-format-standard sidebar-right chrome">
+
+<!-- BEGIN #wrapper -->
+<div id="wrapper">
+
+	<!-- BEGIN #header -->
+	<header id="header" class="clearfix">
+
+		<!-- BEGIN #top -->
+		<div id="top" class="col-full">
+
+			<!-- BEGIN #logo -->
+			<div id="logo" class="fl"><h1><a href="../../index.html" title="DBACLASS"><img id="default-logo" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2018/03/dba_crop.jpg" alt="DBACLASS"/><img id="retina-logo" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2018/03/dba_crop.jpg" alt="DBACLASS"/></a></h1></div>			<!-- END #logo -->
+
+			<a href="#" id="toggle-nav"><i class="fa fa-bars"></i></a>
+
+			<!-- BEGIN #navigation -->
+			<nav id="navigation">
+
+			
+			<div class="menu-menu1-container"><ul id="main-nav" class="nav fl clearfix"><li id="nav-menu-item-1996" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href="../../index.html" class="menu-link main-menu-link">ORACLE DBA<mark class="bar"></mark></a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-163" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-taxonomy menu-item-object-article-category menu-item-has-children"><a href="../../article-category/database/index.html" class="menu-link sub-menu-link">DATABASE</a>
+	<ul class="sub-menu">
+		<li id="nav-menu-item-1625" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../database-10g11g/index.html" class="menu-link sub-menu-link">ADMINISTRATION</a></li>
+		<li id="nav-menu-item-3013" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../performance-tuning/index.html" class="menu-link sub-menu-link">PERFORMANCE TUNING</a></li>
+		<li id="nav-menu-item-1562" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../dataguard/index.html" class="menu-link sub-menu-link">DATAGUARD</a></li>
+		<li id="nav-menu-item-1362" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-security/index.html" class="menu-link sub-menu-link">ORACLE SECURITY</a></li>
+		<li id="nav-menu-item-2448" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../backup-recovery/index.html" class="menu-link sub-menu-link">Backup &amp; Recovery</a></li>
+		<li id="nav-menu-item-1209" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../troubleshoot/index.html" class="menu-link sub-menu-link">TROUBLESHOOT</a></li>
+		<li id="nav-menu-item-4018" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../quizzes/index.html" class="menu-link sub-menu-link">QUIZ</a></li>
+	</ul>
+</li>
+	<li id="nav-menu-item-1179" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-rac/index.html" class="menu-link sub-menu-link">ORACLE RAC</a></li>
+	<li id="nav-menu-item-1187" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-12c/index.html" class="menu-link sub-menu-link">ORACLE 12c-20c</a></li>
+	<li id="nav-menu-item-5465" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-multitenant/index.html" class="menu-link sub-menu-link">ORACLE MULTITENANT</a></li>
+	<li id="nav-menu-item-1269" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oem-12c13c/index.html" class="menu-link sub-menu-link">OEM 12C/13C</a></li>
+	<li id="nav-menu-item-3184" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../goldengate/index.html" class="menu-link sub-menu-link">GOLDENGATE</a></li>
+	<li id="nav-menu-item-3686" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../interview-qa/index.html" class="menu-link sub-menu-link">INTERVIEW QA</a></li>
+	<li id="nav-menu-item-4411" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../dba-cheat-sheet/index.html" class="menu-link sub-menu-link">DBA CHEATSHEET</a></li>
+</ul>
+</li>
+<li id="nav-menu-item-1396" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../monitor-your-db/index.html" class="menu-link main-menu-link">DBA SCRIPTS<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-6323" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../postgres-database-articles/index.html" class="menu-link main-menu-link">POSTGRES<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-5946" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../postgres-db-scripts/index.html" class="menu-link main-menu-link">POSTGRES SCRIPTS<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-7092" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../mysql-db-scripts/index.html" class="menu-link main-menu-link">MYSQL<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-6026" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../ansible/index.html" class="menu-link main-menu-link">DEVOPS<mark class="bar"></mark></a></li>
+</ul></div>
+			<!-- END #navigation -->
+			</nav>
+
+		<!-- END #top -->
+		</div>
+
+		<!-- #live-search -->
+	<section id="live-search" class="clearfix">
+		<div class="container col-full">
+
+			
+			<div id="search-wrap">
+				<form role="search" method="get" id="searchform" class="clearfix" action="https://dbaclass.com/" autocomplete="off">
+					<div class="input">
+					<label for="s">Search.....</label>
+					<input type="text" name="s" id="s"/>
+					<input type="submit" id="searchsubmit" value=""/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- /#live-search -->
+
+
+	<!-- END #header -->
+	</header>
+
+<!-- BEGIN #container -->
+<div id="container" class="clearfix">
+
+<!-- BEGIN #content -->
+<section id="content">
+
+	
+		<article class="post-6459 article type-article status-publish format-standard hentry article-category-oracle-19c article-category-oracle-rac">
+
+						
+			<header>
+					<div class="breadcrumb breadcrumbs nice-breadcrumb"><div class="breadcrumb-trail"><a href="../../index.html" title="DBACLASS" rel="home" class="trail-begin">Home</a> <span class="sep">/</span> <a href="../../article-category/oracle-19c/index.html" rel="tag">ORACLE 19C</a>, <a href="../../article-category/oracle-rac/index.html" rel="tag">ORACLE RAC</a> <span class="sep">/</span> <span class="trail-end">How to change cluster name in oracle RAC</span></div></div>
+					<h1 class="entry-title">How to change cluster name in oracle RAC</h1>
+
+					
+	<div class="entry-meta">
+
+				<span class="nice-views">
+						<i class="fa fa-bullseye"></i>1027 views		</span>
+		
+				<span class="nice-reading-time">
+			<i class="fa fa-bookmark"></i> 7 min , 50 sec read		</span>
+		
+				<a class="nice-like" data-id="6459" href="#" title="Like this">
+			<i class="fa fa-heart"></i>
+			<span class="like-count">
+				1			</span>
+		</a>
+		
+		
+	</div>
+
+			</header>
+
+			<div class="entry">
+
+				
+					<div class="post-content">
+						<blockquote><p><span style="font-size: 20px;"><strong>NOTE</strong> – You can follow this method for deinstall and reinstall of  grid infrastructure without losing your database data(asm disk data)</span></p>
+<p> </p></blockquote>
+<p>Changing the cluster_name in ORACLE RAC means grid infrastructure need to be reconfigured( which is a complex activity). You will need downtime to do this activity and you will lose your cluster services, But good thing is you won’t lose your data. The data (ASM DISKS) will be intact. In the below example, We will show you , how to do that.</p>
+<p> </p>
+<p>In the below example we will change the cluster_name from <span style="color: #ff0000;"><strong>clsprd</strong></span> to <span style="color: #ff0000;"><strong>clsrep</strong></span>.</p>
+<p><span style="font-family: terminal, monaco, monospace;"><strong>NODES</strong>        = classbtc03(local node), classbtc04 ( remote node)</span><br/>
+<span style="font-family: terminal, monaco, monospace;"><strong>GRID VERSION</strong> = 19C</span><br/>
+<span style="font-family: terminal, monaco, monospace;"><strong>GRID_HOME</strong>    = /gridapp/app/oracle/product/19c/</span><br/>
+<span style="font-family: terminal, monaco, monospace;"><strong>ORACLE_HOME</strong>  = /oracle/app/oracle/product/19.3.0/dbhome_1</span><br/>
+<span style="font-family: terminal, monaco, monospace;"><strong>CLUSTER_NAME</strong> = clsprd</span><br/>
+<span style="font-family: terminal, monaco, monospace;"><strong>DATABASES</strong>    = CLASSREP</span></p>
+<h3><strong>1. Check the existing cluster_name:</strong></h3>
+<pre><code class="language-">
+
+[root@install]#  <span style="color: #ff0000;"><strong>/gridapp/app/oracle/product/19c/bin/olsnodes -c</strong></span>
+clsprd
+
+</code></pre>
+<h3>2. Notedown cluster  resource details and the config of database and services.</h3>
+<pre><code class="language-">
+
+
+[oracle@classbtc03 ~]$ <span style="color: #ff0000;"><strong>crsctl stat res -t</strong></span>
+--------------------------------------------------------------------------------
+Name           Target  State        Server                   State details
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       classbtc03               STABLE
+               ONLINE  ONLINE       classbtc04               STABLE
+ora.MGMT.GHCHKPT.advm
+               OFFLINE OFFLINE      classbtc03               STABLE
+               OFFLINE OFFLINE      classbtc04               STABLE
+ora.chad
+               ONLINE  ONLINE       classbtc03               STABLE
+               ONLINE  ONLINE       classbtc04               STABLE
+ora.helper
+               OFFLINE OFFLINE      classbtc03               STABLE
+               OFFLINE OFFLINE      classbtc04               IDLE,STABLE
+ora.mgmt.ghchkpt.acfs
+               OFFLINE OFFLINE      classbtc03               volume /opt/oracle/r
+                                                             hp_images/chkbase is
+                                                             unmounted,STABLE
+               OFFLINE OFFLINE      classbtc04               STABLE
+ora.net1.network
+               ONLINE  ONLINE       classbtc03               STABLE
+               ONLINE  ONLINE       classbtc04               STABLE
+ora.ons
+               ONLINE  ONLINE       classbtc03               STABLE
+               ONLINE  ONLINE       classbtc04               STABLE
+ora.proxy_advm
+               OFFLINE OFFLINE      classbtc03               STABLE
+               OFFLINE OFFLINE      classbtc04               STABLE
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+<span style="color: #ff0000;">ora.ARCH.dg(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               STABLE
+      2        ONLINE  ONLINE       classbtc04               STABLE
+      3        ONLINE  OFFLINE                               STABLE
+</span>ora.ASMNET1LSNR_ASM.lsnr(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               STABLE
+      2        ONLINE  ONLINE       classbtc04               STABLE
+      3        OFFLINE OFFLINE                               STABLE
+<span style="color: #ff0000;">ora.DATA.dg(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               STABLE
+      2        ONLINE  ONLINE       classbtc04               STABLE
+      3        ONLINE  OFFLINE                               STABLE
+</span>ora.LISTENER_SCAN1.lsnr
+      1        ONLINE  ONLINE       classbtc04               STABLE
+ora.LISTENER_SCAN2.lsnr
+      1        ONLINE  ONLINE       classbtc03               STABLE
+ora.LISTENER_SCAN3.lsnr
+      1        ONLINE  ONLINE       classbtc03               STABLE
+ora.MGMT.dg(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               STABLE
+      2        ONLINE  ONLINE       classbtc04               STABLE
+      3        OFFLINE OFFLINE                               STABLE
+<span style="color: #ff0000;">ora.OCRVD.dg(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               STABLE
+      2        ONLINE  ONLINE       classbtc04               STABLE
+      3        OFFLINE OFFLINE                               STABLE
+ora.REDOA.dg(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               STABLE
+      2        ONLINE  ONLINE       classbtc04               STABLE
+      3        ONLINE  OFFLINE                               STABLE
+ora.REDOB.dg(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               STABLE
+      2        ONLINE  ONLINE       classbtc04               STABLE
+      3        ONLINE  OFFLINE                               STABLE
+</span>ora.asm(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               Started,STABLE
+      2        ONLINE  ONLINE       classbtc04               Started,STABLE
+      3        OFFLINE OFFLINE                               STABLE
+ora.asmnet1.asmnetwork(ora.asmgroup)
+      1        ONLINE  ONLINE       classbtc03               STABLE
+      2        ONLINE  ONLINE       classbtc04               STABLE
+      3        OFFLINE OFFLINE                               STABLE
+ora.cvu
+      1        ONLINE  ONLINE       classbtc03               STABLE
+ora.classbtc03.vip
+      1        ONLINE  ONLINE       classbtc03               STABLE
+ora.classbtc04.vip
+      1        ONLINE  ONLINE       classbtc04               STABLE
+<span style="color: #ff0000;">ora.classrep.db --&gt; This is the database 
+      1        ONLINE  ONLINE       classbtc03               Open,HOME=/oracle/ap
+                                                             p/oracle/product/19.
+                                                             3.0/dbhome_1,STABLE
+      2        ONLINE  ONLINE       classbtc04               Open,HOME=/oracle/ap
+                                                             p/oracle/product/19.
+                                                             3.0/dbhome_1,STABLE
+</span>ora.mgmtdb
+      1        ONLINE  ONLINE       classbtc03               Open,STABLE
+ora.qosmserver
+      1        ONLINE  ONLINE       classbtc03               STABLE
+ora.rhpserver
+      1        OFFLINE OFFLINE                               STABLE
+ora.scan1.vip
+      1        ONLINE  ONLINE       classbtc04               STABLE
+ora.scan2.vip
+      1        ONLINE  ONLINE       classbtc03               STABLE
+ora.scan3.vip
+      1        ONLINE  ONLINE       classbtc03               STABLE
+--------------------------------------------------------------------------------
+
+You can see there is only one database present in the cluster i.e classrep(highlighted) . If there any other services like TAF , then you note down the config information. 
+
+[oracle@classbtc03 ~]$ <span style="color: #ff0000;"><strong>srvctl config database -d classrep</strong></span>
+Database unique name: classrep
+Database name:
+Oracle home: /oracle/app/oracle/product/19.3.0/dbhome_1
+Oracle user: oracle
+Spfile: +DATA/classrep/PARAMETERFILE/spfile.263.1070311859
+Password file:
+Domain:
+Start options: open
+Stop options: immediate
+Database role: PRIMARY
+Management policy: AUTOMATIC
+Server pools:
+Disk Groups: REDOA,REDOB,DATA
+Mount point paths:
+Services:
+Type: RAC
+Start concurrency:
+Stop concurrency:
+OSDBA group: dba
+OSOPER group: dba
+Database instances: classrep1,classrep2
+Configured nodes: classbtc03,classbtc04
+CSS critical: no
+CPU count: 0
+Memory target: 0
+Maximum memory: 0
+Default network number for database services:
+Database is administrator managed
+
+
+
+
+</code></pre>
+<h3>3. Deconfig the remote node:[ as root user ]</h3>
+<pre><code class="language-">
+
+[root@classbtc04 install]# /gridapp/app/oracle/product/19c/crs/install/rootcrs.sh  -deconfig -force -verbose
+Using configuration parameter file: /gridapp/app/oracle/product/19c/crs/install/crsconfig_params
+The log of current session can be found at:
+  /gridapp/app/oracle_base/crsdata/classbtc04/crsconfig/crsdeconfig_classbtc04_2021-04-20_06-22-27PM.log
+2021/04/20 18:25:26 CLSRSC-4006: Removing Oracle Trace File Analyzer (TFA) Collector.
+2021/04/20 18:27:25 CLSRSC-4007: Successfully removed Oracle Trace File Analyzer (TFA) Collector.
+2021/04/20 18:27:26 CLSRSC-336: Successfully deconfigured Oracle Clusterware stack on this node
+
+</code></pre>
+<p>If you have more than 2 nodes, then run the same on other nodes , excluding the local node.</p>
+<h3>4. Deconfig on local node: [ as root ]</h3>
+<pre><code class="language-">
+
+[root@classbtc03 install]# /gridapp/app/oracle/product/19c/crs/install/rootcrs.sh -deconfig -force -verbose -lastnode
+Using configuration parameter file: /gridapp/app/oracle/product/19c/crs/install/crsconfig_params
+The log of current session can be found at:
+  /gridapp/app/oracle_base/crsdata/classbtc03/crsconfig/crsdeconfig_classbtc03_2021-04-20_06-29-45PM.log
+2021/04/20 18:29:48 CLSRSC-332: CRS resources for listeners are still configured
+CRS-2673: Attempting to stop &#39;ora.crsd&#39; on &#39;classbtc03&#39;
+CRS-2677: Stop of &#39;ora.crsd&#39; on &#39;classbtc03&#39; succeeded
+ASM de-configuration trace file location: /gridapp/app/oracle_base/cfgtoollogs/asmca/asmcadc_clean2021-04-20_06-37-11PM.log
+ASM Clean Configuration START
+ASM Clean Configuration END
+
+ASM instance deleted successfully. Check /gridapp/app/oracle_base/cfgtoollogs/asmca/asmcadc_clean2021-04-20_06-37-11PM.log for details.
+
+2021/04/20 18:40:10 CLSRSC-4006: Removing Oracle Trace File Analyzer (TFA) Collector.
+2021/04/20 18:41:58 CLSRSC-4007: Successfully removed Oracle Trace File Analyzer (TFA) Collector.
+2021/04/20 18:42:01 CLSRSC-336: Successfully deconfigured Oracle Clusterware stack on this node
+2021/04/20 18:42:01 CLSRSC-559: Ensure that the GPnP profile data under the &#39;gpnp&#39; directory in /gridapp/app/oracle/product/19c is deleted on each node before using the software in the current Grid Infrastructure home for reconfiguration.
+[root@classbtc03 install]#
+
+
+</code></pre>
+<h3>5.Delete the grid_home directory from both nodes:</h3>
+<pre><code class="language-">
+echo $ORACLE_HOME
+/gridapp/app/oracle/product/19c
+
+cd /gridapp/app
+rm -rf oracle
+
+</code></pre>
+<h3>6. Change the permission of mount point from root to grid_owner on both nodes:</h3>
+<pre><code class="language-">
+cd /
+chown oracle:oinstall gridapp
+
+</code></pre>
+<h3>6. Remove the crs=true keyword from inventory.xml file from both nodes:</h3>
+<pre><code class="language-">
+[oracle@classbtc04 gpnp]$ cd /gridapp/app/oraInventory/ContentsXML
+
+[oracle@classbtc04 ContentsXML]$ cat  inventory.xml | grep CRS
+
+
+</code></pre>
+<p>Remove the CRS=”true” keyword.</p>
+<pre><code class="language-">
+
+[oracle@classbtc04 ContentsXML]$ cat  inventory.xml | grep CRS
+
+
+</code></pre>
+<h3>7.remove the entry for grid_home from oratab entry [ both nodes]</h3>
+<pre><code class="language-">
+cat  /etc/oratab
+</code></pre>
+<p> </p>
+<h3>8. Copy the grid software to grid_home location and unzip it.</h3>
+<pre><code class="language-">
+mkdir -p /gridapp/app/oracle/product/19c/
+cp grid_home19c.zip /gridapp/app/oracle/product/19c/
+cd  /gridapp/app/oracle/product/19c/
+unzip grid_home19c.zip
+</code></pre>
+<h3>9. Start the gridsetup installer in GUI mode:[ on local node as oracle user]</h3>
+<p><strong><span style="color: #ff0000;">./gridSetup.sh</span></strong></p>
+<p> </p>
+<p><a href="screenshot-2021-04-20-at-9-17-30-pm/index.html" rel="attachment wp-att-6461"><img fetchpriority="high" decoding="async" class="aligncenter size-full wp-image-6461" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.17.30-PM.png" alt="" width="813" height="630" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.17.30-PM.png 813w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.17.30-PM-300x232.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.17.30-PM-768x595.png 768w" sizes="(max-width: 813px) 100vw, 813px"/></a></p>
+<p><a href="screenshot-2021-04-20-at-9-22-31-pm/index.html" rel="attachment wp-att-6462"><img decoding="async" class="aligncenter size-full wp-image-6462" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.22.31-PM.html" alt="" width="809" height="624" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.22.31-PM.png 809w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.22.31-PM-300x231.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.22.31-PM-768x592.png 768w" sizes="(max-width: 809px) 100vw, 809px"/></a></p>
+<p> </p>
+<p>On the screen, we will use the new cluster_name <span style="color: #ff0000;"><strong>clsrep </strong></span></p>
+<p><a href="screenshot-2021-04-20-at-9-23-43-pm/index.html" rel="attachment wp-att-6463"><img decoding="async" class="aligncenter size-full wp-image-6463" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.23.43-PM.html" alt="" width="808" height="628" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.23.43-PM.png 808w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.23.43-PM-300x233.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.23.43-PM-768x597.png 768w" sizes="(max-width: 808px) 100vw, 808px"/></a></p>
+<p><a href="screenshot-2021-04-20-at-9-26-00-pm/index.html" rel="attachment wp-att-6464"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6464" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.00-PM.html" alt="" width="814" height="634" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.00-PM.png 814w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.00-PM-300x234.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.00-PM-768x598.png 768w" sizes="(max-width: 814px) 100vw, 814px"/></a></p>
+<p><a href="screenshot-2021-04-20-at-9-26-42-pm/index.html" rel="attachment wp-att-6465"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6465" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.42-PM.html" alt="" width="808" height="635" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.42-PM.png 808w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.42-PM-300x236.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.42-PM-768x604.png 768w" sizes="(max-width: 808px) 100vw, 808px"/></a></p>
+<p><a href="screenshot-2021-04-20-at-9-26-55-pm/index.html" rel="attachment wp-att-6466"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6466" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.55-PM.html" alt="" width="814" height="631" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.55-PM.png 814w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.55-PM-300x233.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.26.55-PM-768x595.png 768w" sizes="(max-width: 814px) 100vw, 814px"/></a></p>
+<p><a href="screenshot-2021-04-20-at-9-27-12-pm/index.html" rel="attachment wp-att-6467"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6467" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.27.12-PM.html" alt="" width="815" height="635" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.27.12-PM.png 815w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.27.12-PM-300x234.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.27.12-PM-768x598.png 768w" sizes="(max-width: 815px) 100vw, 815px"/></a></p>
+<p><a href="screenshot-2021-04-20-at-9-30-41-pm/index.html" rel="attachment wp-att-6468"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6468" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.30.41-PM.html" alt="" width="810" height="634" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.30.41-PM.png 810w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.30.41-PM-300x235.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.30.41-PM-768x601.png 768w" sizes="(max-width: 810px) 100vw, 810px"/></a></p>
+<p><a href="screenshot-2021-04-20-at-9-30-57-pm/index.html" rel="attachment wp-att-6469"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6469" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.30.57-PM.html" alt="" width="817" height="635" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.30.57-PM.png 817w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.30.57-PM-300x233.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.30.57-PM-768x597.png 768w" sizes="(max-width: 817px) 100vw, 817px"/></a></p>
+<p><a href="screenshot-2021-04-20-at-9-32-56-pm/index.html" rel="attachment wp-att-6471"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6471" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.32.56-PM.html" alt="" width="799" height="625" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.32.56-PM.png 799w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.32.56-PM-300x235.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.32.56-PM-768x601.png 768w" sizes="(max-width: 799px) 100vw, 799px"/></a></p>
+<p> </p>
+<p> </p>
+<p><a href="screenshot-2021-04-20-at-9-33-20-pm/index.html" rel="attachment wp-att-6472"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6472" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.33.20-PM.html" alt="" width="816" height="640" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.33.20-PM.png 816w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.33.20-PM-300x235.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-20-at-9.33.20-PM-768x602.png 768w" sizes="(max-width: 816px) 100vw, 816px"/></a></p>
+<p> </p>
+<p><a href="screenshot-2021-04-19-at-5-17-53-pm/index.html" rel="attachment wp-att-6473"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6473" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.17.53-PM.html" alt="" width="1031" height="683" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.17.53-PM.png 1031w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.17.53-PM-300x199.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.17.53-PM-1024x678.png 1024w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.17.53-PM-768x509.png 768w" sizes="(max-width: 1031px) 100vw, 1031px"/></a></p>
+<p> </p>
+<p> </p>
+<pre><code class="language-">
+
+ON NODE 1:
+
+[root@classbtc03 ~]# /gridapp/app/oracle/product/19c/root.sh
+Performing root user operation.
+
+The following environment variables are set as:
+    ORACLE_OWNER= oracle
+    ORACLE_HOME=  /gridapp/app/oracle/product/19c
+
+Enter the full pathname of the local bin directory: [/usr/local/bin]:
+The contents of &#34;dbhome&#34; have not changed. No need to overwrite.
+The contents of &#34;oraenv&#34; have not changed. No need to overwrite.
+The contents of &#34;coraenv&#34; have not changed. No need to overwrite.
+
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root script.
+Now product-specific root actions will be performed.
+Relinking oracle with rac_on option
+Using configuration parameter file: /gridapp/app/oracle/product/19c/crs/install/crsconfig_params
+The log of current session can be found at:
+  /gridapp/app/oracle_base/crsdata/classbtc03/crsconfig/rootcrs_classbtc03_2021-04-20_07-38-41PM.log
+2021/04/20 19:38:51 CLSRSC-594: Executing installation step 1 of 19: &#39;SetupTFA&#39;.
+2021/04/20 19:38:51 CLSRSC-594: Executing installation step 2 of 19: &#39;ValidateEnv&#39;.
+2021/04/20 19:38:51 CLSRSC-363: User ignored prerequisites during installation
+2021/04/20 19:38:51 CLSRSC-594: Executing installation step 3 of 19: &#39;CheckFirstNode&#39;.
+2021/04/20 19:38:54 CLSRSC-594: Executing installation step 4 of 19: &#39;GenSiteGUIDs&#39;.
+2021/04/20 19:38:55 CLSRSC-594: Executing installation step 5 of 19: &#39;SetupOSD&#39;.
+2021/04/20 19:38:55 CLSRSC-594: Executing installation step 6 of 19: &#39;CheckCRSConfig&#39;.
+2021/04/20 19:38:55 CLSRSC-594: Executing installation step 7 of 19: &#39;SetupLocalGPNP&#39;.
+2021/04/20 19:39:08 CLSRSC-594: Executing installation step 8 of 19: &#39;CreateRootCert&#39;.
+2021/04/20 19:39:13 CLSRSC-594: Executing installation step 9 of 19: &#39;ConfigOLR&#39;.
+2021/04/20 19:39:18 CLSRSC-4002: Successfully installed Oracle Trace File Analyzer (TFA) Collector.
+2021/04/20 19:39:28 CLSRSC-594: Executing installation step 10 of 19: &#39;ConfigCHMOS&#39;.
+2021/04/20 19:39:28 CLSRSC-594: Executing installation step 11 of 19: &#39;CreateOHASD&#39;.
+2021/04/20 19:39:34 CLSRSC-594: Executing installation step 12 of 19: &#39;ConfigOHASD&#39;.
+2021/04/20 19:39:34 CLSRSC-330: Adding Clusterware entries to file &#39;oracle-ohasd.service&#39;
+2021/04/20 19:41:00 CLSRSC-594: Executing installation step 13 of 19: &#39;InstallAFD&#39;.
+2021/04/20 19:41:07 CLSRSC-594: Executing installation step 14 of 19: &#39;InstallACFS&#39;.
+2021/04/20 19:43:05 CLSRSC-594: Executing installation step 15 of 19: 
+
+
+&#39;InstallKA&#39;.
+2021/04/20 19:43:11 CLSRSC-594: Executing installation step 16 of 19: &#39;InitConfig&#39;.
+
+ASM has been created and started successfully.
+
+[DBT-30001] Disk groups created successfully. Check /gridapp/app/oracle_base/cfgtoollogs/asmca/asmca-210420PM074341.log for details.
+
+2021/04/20 19:44:42 CLSRSC-482: Running command: &#39;/gridapp/app/oracle/product/19c/bin/ocrconfig -upgrade oracle oinstall&#39;
+CRS-4256: Updating the profile
+Successful addition of voting disk fc8c0a7f04194f8ebf8e97dd16ab4aec.
+Successful addition of voting disk d2e1c1b390e74f5ebf85e1d2a1faad4b.
+Successful addition of voting disk 94cd701b38884fd5bfb1cae446950101.
+Successfully replaced voting disk group with +OCRVD.
+CRS-4256: Updating the profile
+CRS-4266: Voting file(s) successfully replaced
+##  STATE    File Universal Id                File Name Disk group
+--  -----    -----------------                --------- ---------
+ 1. ONLINE   fc8c0a7f04194f8ebf8e97dd16ab4aec (/dev/oracleasm/disks/OCRVD1) [OCRVD]
+ 2. ONLINE   d2e1c1b390e74f5ebf85e1d2a1faad4b (/dev/oracleasm/disks/OCRVD2) [OCRVD]
+ 3. ONLINE   94cd701b38884fd5bfb1cae446950101 (/dev/oracleasm/disks/OCRVD3) [OCRVD]
+Located 3 voting disk(s).
+2021/04/20 19:46:14 CLSRSC-594: Executing installation step 17 of 19: &#39;StartCluster&#39;.
+2021/04/20 19:47:24 CLSRSC-343: Successfully started Oracle Clusterware stack
+2021/04/20 19:47:24 CLSRSC-594: Executing installation step 18 of 19: &#39;ConfigNode&#39;.
+
+
+
+2021/04/20 20:04:02 CLSRSC-594: Executing installation step 19 of 19: &#39;PostConfig&#39;.
+
+[INFO] [DBT-30001] Disk groups created successfully. Check /gridapp/app/oracle_base/cfgtoollogs/asmca/asmca-210420PM080406.log for details.
+
+
+2021/04/20 20:05:32 CLSRSC-325: Configure Oracle Grid Infrastructure for a Cluster ... succeeded
+[root@classbtc03 ~]#
+[root@classbtc03 ~]#
+
+
+ON NODE 2:
+
+[root@classbtc04 oracle]# /gridapp/app/oracle/product/19c/root.sh
+Performing root user operation.
+
+The following environment variables are set as:
+    ORACLE_OWNER= oracle
+    ORACLE_HOME=  /gridapp/app/oracle/product/19c
+
+Enter the full pathname of the local bin directory: [/usr/local/bin]:
+The contents of &#34;dbhome&#34; have not changed. No need to overwrite.
+The contents of &#34;oraenv&#34; have not changed. No need to overwrite.
+The contents of &#34;coraenv&#34; have not changed. No need to overwrite.
+
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root script.
+Now product-specific root actions will be performed.
+Relinking oracle with rac_on option
+Using configuration parameter file: /gridapp/app/oracle/product/19c/crs/install/crsconfig_params
+The log of current session can be found at:
+  /gridapp/app/oracle_base/crsdata/classbtc04/crsconfig/rootcrs_classbtc04_2021-04-20_08-06-20PM.log
+2021/04/20 20:06:25 CLSRSC-594: Executing installation step 1 of 19: &#39;SetupTFA&#39;.
+2021/04/20 20:06:25 CLSRSC-594: Executing installation step 2 of 19: &#39;ValidateEnv&#39;.
+2021/04/20 20:06:25 CLSRSC-363: User ignored prerequisites during installation
+2021/04/20 20:06:25 CLSRSC-594: Executing installation step 3 of 19: &#39;CheckFirstNode&#39;.
+2021/04/20 20:06:26 CLSRSC-594: Executing installation step 4 of 19: &#39;GenSiteGUIDs&#39;.
+2021/04/20 20:06:26 CLSRSC-594: Executing installation step 5 of 19: &#39;SetupOSD&#39;.
+2021/04/20 20:06:27 CLSRSC-594: Executing installation step 6 of 19: &#39;CheckCRSConfig&#39;.
+2021/04/20 20:06:27 CLSRSC-594: Executing installation step 7 of 19: &#39;SetupLocalGPNP&#39;.
+2021/04/20 20:06:28 CLSRSC-594: Executing installation step 8 of 19: &#39;CreateRootCert&#39;.
+2021/04/20 20:06:28 CLSRSC-594: Executing installation step 9 of 19: &#39;ConfigOLR&#39;.
+2021/04/20 20:06:37 CLSRSC-594: Executing installation step 10 of 19: &#39;ConfigCHMOS&#39;.
+2021/04/20 20:06:37 CLSRSC-594: Executing installation step 11 of 19: &#39;CreateOHASD&#39;.
+2021/04/20 20:06:38 CLSRSC-594: Executing installation step 12 of 19: &#39;ConfigOHASD&#39;.
+2021/04/20 20:06:38 CLSRSC-330: Adding Clusterware entries to file &#39;oracle-ohasd.service&#39;
+2021/04/20 20:06:52 CLSRSC-4002: Successfully installed Oracle Trace File Analyzer (TFA) Collector.
+2021/04/20 20:07:56 CLSRSC-594: Executing installation step 13 of 19: &#39;InstallAFD&#39;.
+2021/04/20 20:07:58 CLSRSC-594: Executing installation step 14 of 19: &#39;InstallACFS&#39;.
+2021/04/20 20:09:46 CLSRSC-594: Executing installation step 15 of 19: &#39;InstallKA&#39;.
+2021/04/20 20:09:48 CLSRSC-594: Executing installation step 16 of 19: &#39;InitConfig&#39;.
+2021/04/20 20:09:56 CLSRSC-594: Executing installation step 17 of 19: &#39;StartCluster&#39;.
+2021/04/20 20:10:47 CLSRSC-343: Successfully started Oracle Clusterware stack
+2021/04/20 20:10:47 CLSRSC-594: Executing installation step 18 of 19: &#39;ConfigNode&#39;.
+2021/04/20 20:11:01 CLSRSC-594: Executing installation step 19 of 19: &#39;PostConfig&#39;.
+2021/04/20 20:11:07 CLSRSC-325: Configure Oracle Grid Infrastructure for a Cluster ... succeeded
+
+
+</code></pre>
+<p> </p>
+<p><a href="screenshot-2021-04-19-at-5-35-23-pm/index.html" rel="attachment wp-att-6474"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6474" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.35.23-PM.html" alt="" width="818" height="637" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.35.23-PM.png 818w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.35.23-PM-300x234.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-5.35.23-PM-768x598.png 768w" sizes="(max-width: 818px) 100vw, 818px"/></a></p>
+<p><a href="screenshot-2021-04-19-at-6-02-37-pm/index.html" rel="attachment wp-att-6475"><img loading="lazy" decoding="async" class="aligncenter size-full wp-image-6475" src="../../../cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-6.02.37-PM.html" alt="" width="811" height="626" srcset="https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-6.02.37-PM.png 811w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-6.02.37-PM-300x232.png 300w, https://cdn-0.dbaclass.com/wp-content/uploads/2021/05/Screenshot-2021-04-19-at-6.02.37-PM-768x593.png 768w" sizes="(max-width: 811px) 100vw, 811px"/></a></p>
+<p> </p>
+<p>Now your grid setup is completed.</p>
+<p> </p>
+<h3>10. Verify the cluster_name:</h3>
+<pre><code class="language-">
+[root@classbtc04 install]#  /gridapp/app/oracle/product/19c/bin/olsnodes -c
+clspre
+</code></pre>
+<p>We can see the cluster_name has been updated as per our requirement.</p>
+<h3>11. Scan the asm disks on both nodes:[ as root user]</h3>
+<pre><code class="language-">
+[root]# oracleasm scandisks
+[root ~]$ oracleasm scandisks
+Reloading disk partitions: done
+Cleaning any stale ASM disks...
+Scanning system for ASM disks...
+Instantiating disk &#34;DATA0&#34;
+Instantiating disk &#34;DATA1&#34;
+Instantiating disk &#34;DATA2&#34;
+Instantiating disk &#34;ARCH0&#34;
+Instantiating disk &#34;ARCH1&#34;
+Instantiating disk &#34;REDOA&#34;
+Instantiating disk &#34;REDOB&#34;
+</code></pre>
+<h3>12.Mount the diskgroups on both nodes:</h3>
+<pre><code class="language-">
+
+echo $ORACLE_SID=+ASM1
+echo $ORACLE_HOME=/gridapp/app/oracle/product/19c
+[oracle@classbtc03]$ asmcmd
+
+ASMCMD&gt; <span style="color: #ff0000;"><strong>lsdg</strong></span>
+State    Type    Rebal  Sector  Logical_Sector  Block       AU  Total_MB  Free_MB  Req_mir_free_MB  Usable_file_MB  Offline_disks  Voting_files  Name
+MOUNTED  EXTERN  N         512             512   4096  4194304     40952    15960                0           15960              0             N  MGMT/
+MOUNTED  NORMAL  N         512             512   4096  4194304     61428    60512            20476           20018              0             Y  OCRVD/
+
+--- This will mount all diskgroups:
+
+ASMCMD &gt; <span style="color: #ff0000;"><strong>mount -a</strong></span>
+
+ASMCMD&gt; lsdg 
+State    Type    Rebal  Sector  Logical_Sector  Block       AU  Total_MB  Free_MB  Req_mir_free_MB  Usable_file_MB  Offline_disks  Voting_files  Name
+MOUNTED  EXTERN  N         512             512   4096  4194304    511996   511568                0          511568              0             N  ARCH/
+MOUNTED  EXTERN  N         512             512   4096  4194304    511996   508788                0          508788              0             N  DATA/
+MOUNTED  EXTERN  N         512             512   4096  4194304     40952    15960                0           15960              0             N  MGMT/
+MOUNTED  NORMAL  N         512             512   4096  4194304     61428    60512            20476           20018              0             Y  OCRVD/
+MOUNTED  EXTERN  N         512             512   4096  4194304    102396   101412                0          101412              0             N  REDOA/
+MOUNTED  EXTERN  N         512             512   4096  4194304    102396   101412                0          101412              0             N  REDOB/
+
+</code></pre>
+<p>We can see the all diskgroups are intact .</p>
+<h3>13 .Now register the database in the CRS and start it.</h3>
+<pre><code class="language-">
+
+[oracle@classbtc03 dbs]$ srvctl add database -d classrep -oraclehome /oracle/app/oracle/product/19.3.0/dbhome_1
+[oracle@classbtc03 dbs]$ srvctl add instance -d classrep -i classrep1 -node classbtc03
+[oracle@classbtc03 dbs]$ srvctl add instance -d classrep -i classrep2 -node classbtc04
+[oracle@classbtc03 dbs]$ srvctl modify database -db classrep -spfile &#39;+DATA/classrep/PARAMETERFILE/spfile.263.1070311859&#39;
+
+[oracle@classbtc03 dbs]$ srvctl config database -d classrep
+[oracle@classbtc03 dbs]$ srvctl start database -db classrep
+
+</code></pre>
+<h3>14.Connect the the database and verify details:</h3>
+<pre><code class="language-">
+
+SQL&gt; <span style="color: #ff0000;"><strong>select name,open_mode from gv$database;</strong></span>
+
+NAME      OPEN_MODE
+--------- --------------------
+classrep   READ WRITE
+classrep   READ WRITE
+
+SQL&gt; <span style="color: #ff0000;"><strong>select file_name from dba_data_files;</strong></span>
+
+FILE_NAME
+--------------------------------------------------------------------------------
++DATA/classrep/DATAFILE/system.257.1070310095
++DATA/classrep/DATAFILE/sysaux.258.1070310097
++DATA/classrep/DATAFILE/undotbs1.259.1070310099
++DATA/classrep/DATAFILE/undotbs2.261.1070310105
++DATA/classrep/DATAFILE/users.262.1070310105
+
+SQL&gt;
+
+</code></pre>
+<p>Our data is fine and we have successfully renamed the cluster_name, though it involved a long tedious process.</p>
+<blockquote><p><span style="font-size: 20px;"><strong>NOTE</strong> – &gt; If you are doing this on production, make sure you have proper backup of everything like grid binary, database etc. Also, do proper dryrun on testing environment before proceeding to production.  For any doubts/queries you can put in the comment section.</span></p></blockquote>
+<p> </p>
+<p> </p>
+					</div>
+
+					<footer class="entry-meta">
+
+						<span class="tag-links">
+													</span>
+
+						<span class="category-links">
+							<i class="fa fa-archive"></i><a href="../../article-category/oracle-19c/index.html" rel="tag">ORACLE 19C</a><a href="../../article-category/oracle-rac/index.html" rel="tag">ORACLE RAC</a>						</span>
+
+					</footer>
+
+			</div>
+
+		</article>
+
+ 
+<script type="text/javascript">
+    google_ad_client = "ca-pub-6186075803958446";
+    google_ad_slot = "9656071019";
+    google_ad_width = 336;
+    google_ad_height = 280;
+</script>
+<!-- ad3 -->
+<script type="text/javascript" src="../../../pagead2.googlesyndication.com/pagead/f.txt">
+</script>
+ 
+		
+		<div id="post-author">
+			<div class="profile-image thumb"><img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=70&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=140&amp;d=mm&amp;r=g 2x" class="avatar avatar-70 photo" height="70" width="70" loading="lazy" decoding="async"/></div>
+				<div class="profile-content">
+					<h4 class="title">About Admin</h4>
+										<div class="profile-link">
+						<a href="../../author/admin/index.html">
+							View all posts by Admin <span class="meta-nav">→</span>						</a>
+					</div><!-- #profile-link	-->
+			</div><!-- .post-entries -->
+			<div class="fix"></div>
+		</div><!-- #post-author -->
+<section id="related-posts" class="clearfix"><h3>Related Articles</h3><ul class="clearfix">
+<li class="format-article"><a href="../how-to-create-asm-disk-using-asm-filter-driverafd/index.html" rel="bookmark" title="How to create asm disk using asm filter driver(AFD)"><i class="fa fa-database"></i>How to create asm disk using asm filter driver(AFD)</a></li><li class="format-article"><a href="../recover-standby-database-from-primary-using-service-in-oracle-18c/index.html" rel="bookmark" title="Recover standby database from primary using service in oracle 18c"><i class="fa fa-database"></i>Recover standby database from primary using service in oracle 18c</a></li><li class="format-article"><a href="../how-to-change-asm-spfile-location-in-oracle-rac/index.html" rel="bookmark" title="How to change asm spfile location in oracle RAC"><i class="fa fa-database"></i>How to change asm spfile location in oracle RAC</a></li><li class="format-article"><a href="../automate-oracle-client-installation-using-ansible/index.html" rel="bookmark" title="Automate oracle client installation using ansible"><i class="fa fa-database"></i>Automate oracle client installation using ansible</a></li><li class="format-article"><a href="../how-to-delete-a-node-from-oracle-rac-19c/index.html" rel="bookmark" title="How to delete a node from oracle RAC 19C"><i class="fa fa-database"></i>How to delete a node from oracle RAC 19C</a></li><li class="format-article"><a href="../how-to-deinstall-oracle-19c-grid-infrastructure/index.html" rel="bookmark" title="How to deinstall oracle 19c grid infrastructure"><i class="fa fa-database"></i>How to deinstall oracle 19c grid infrastructure</a></li><li class="format-article"><a href="../how-to-add-a-node-in-oracle-rac-19c/index.html" rel="bookmark" title="How to add a node in oracle RAC 19c"><i class="fa fa-database"></i>How to add a node in oracle RAC 19c</a></li><li class="format-article"><a href="../ora-15260-permission-denied-on-asm-disk-group/index.html" rel="bookmark" title="ORA-15260: permission denied on ASM disk group"><i class="fa fa-database"></i>ORA-15260: permission denied on ASM disk group</a></li></ul>
+</section>
+<div id="comments" class="comments-area">
+
+	
+	<h3 class="comments-title">
+		One thought on “How to change cluster name in oracle RAC”	</h3>
+
+	
+	<ol class="comment-list">
+				<li id="comment-116804" class="comment even thread-even depth-1">
+			<article id="div-comment-116804" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/c39a76a4e3862bb9b7d1955f7cd83dae?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/c39a76a4e3862bb9b7d1955f7cd83dae?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Sumeet S.</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-116804"><time datetime="2021-07-11T12:26:34+00:00">July 11, 2021 at 12:26 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Great post !  Will use it whenever possible ..</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-116804" data-commentid="116804" data-postid="6459" data-belowelement="div-comment-116804" data-respondelement="respond" data-replyto="Reply to Sumeet S." aria-label="Reply to Sumeet S.">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+	</ol><!-- .comment-list -->
+
+	
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="index.html#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://dbaclass.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p><p class="comment-form-comment"><label for="comment">Comment <span class="required">*</span></label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required="required"/></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required="required"/></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200" autocomplete="url"/></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"/> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"/> <input type="hidden" name="comment_post_ID" value="6459" id="comment_post_ID"/>
+<input type="hidden" name="comment_parent" id="comment_parent" value="0"/>
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ed00aa6f85"/></p><input type="hidden" id="ak_js" name="ak_js" value="151"/><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea></form>	</div><!-- #respond -->
+	<p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p>
+</div><!-- #comments -->
+
+
+	
+<!-- END #content -->
+</section>
+
+<!-- BEGIN #sidebar -->
+<aside id="sidebar" role="complementary">
+	<div class="box widget widget_text clearfix">			<div class="textwidget"><style type="text/css">
+@import url(../../../cse.google.com/cse/api/branding.css);
+</style>
+<div class="cse-branding-bottom" style="background-color:#FFFFFF;color:#000000">
+  <div class="cse-branding-form">
+    <form action="https://www.google.co.in/" id="cse-search-box" target="_blank">
+      <div>
+        <input type="hidden" name="cx" value="partner-pub-6186075803958446:4803819411"/>
+        <input type="hidden" name="ie" value="UTF-8"/>
+        <input type="text" name="q" size="26"/>
+        <input type="submit" name="sa" value="Search"/>
+      </div>
+    </form>
+  </div>
+  <div class="cse-branding-logo">
+    <img src="../../../www.google.com/images/poweredby_transparent/poweredby_FFFFFF.gif" alt="Google"/>
+  </div>
+  <div class="cse-branding-text">
+    Custom Search
+  </div>
+</div>
+<script type="text/javascript" src="../../../cse.google.com/cse/f.txt"></script>
+<div id="queries"></div>
+<script src="https://www.google.com/cse/api/partner-pub-6186075803958446/cse/4803819411/queries/js?oe=UTF-8&amp;callback=(new+PopularQueryRenderer(document.getElementById(%22queries%22))).render"></script>
+</div>
+		</div>			<div class="box widget widget_nice_article_categories clearfix">			
+			<ul><li><div><span>5</span><a href="../../article-category/ansible/index.html" title="View all posts in ansible">ansible</a> </div></li> <li><div><span>48</span><a href="../../article-category/backup-recovery/index.html" title="View all posts in BACKUP &amp; RECOVERY">BACKUP &amp; RECOVERY</a> </div></li> <li><div><span>6</span><a href="../../article-category/blog/index.html" title="View all posts in BLOG">BLOG</a> </div></li> <li><div><span>16</span><a href="../../article-category/cloud/index.html" title="View all posts in CLOUD">CLOUD</a> </div></li> <li><div><span>59</span><a href="../../article-category/database/index.html" title="View all posts in DATABASE">DATABASE</a> </div></li> <li><div><span>40</span><a href="../../article-category/database-scripts/index.html" title="View all posts in DATABASE SCRIPTS">DATABASE SCRIPTS</a> </div></li> <li><div><span>10</span><a href="../../article-category/database-wiki/index.html" title="View all posts in Database-Wiki">Database-Wiki</a> </div></li> <li><div><span>28</span><a href="../../article-category/dataguard/index.html" title="View all posts in DATAGUARD">DATAGUARD</a> </div></li> <li><div><span>9</span><a href="../../article-category/db-tools/index.html" title="View all posts in DB TOOLS">DB TOOLS</a> </div></li> <li><div><span>18</span><a href="../../article-category/goldengate/index.html" title="View all posts in GOLDENGATE">GOLDENGATE</a> </div></li> <li><div><span>3</span><a href="../../article-category/hadoop/index.html" title="View all posts in HADOOP">HADOOP</a> </div></li> <li><div><span>47</span><a href="../../article-category/how-to/index.html" title="View all posts in HOW TO">HOW TO</a> </div></li> <li><div><span>11</span><a href="../../article-category/interview-qa/index.html" title="View all posts in INTERVIEW QA">INTERVIEW QA</a> </div></li> <li><div><span>61</span><a href="../../article-category/oracle-12c/index.html" title="View all posts in ORACLE 12C">ORACLE 12C</a> </div></li> <li><div><span>5</span><a href="../../article-category/oracle-18c/index.html" title="View all posts in ORACLE 18C">ORACLE 18C</a> </div></li> <li><div><span>12</span><a href="../../article-category/oracle-19c/index.html" title="View all posts in ORACLE 19C">ORACLE 19C</a> </div></li> <li><div><span>59</span><a href="../../article-category/oracle-rac/index.html" title="View all posts in ORACLE RAC">ORACLE RAC</a> </div></li> <li><div><span>13</span><a href="../../article-category/oracle-security/index.html" title="View all posts in ORACLE SECURITY">ORACLE SECURITY</a> </div></li> <li><div><span>30</span><a href="../../article-category/performance-tuning/index.html" title="View all posts in PERFORMANCE TUNING">PERFORMANCE TUNING</a> </div></li> <li><div><span>29</span><a href="../../article-category/postgres/index.html" title="View all posts in POSTGRES">POSTGRES</a> </div></li> <li><div><span>4</span><a href="../../article-category/r-studio/index.html" title="View all posts in R-STUDIO">R-STUDIO</a> </div></li> <li><div><span>13</span><a href="../../article-category/shell-script/index.html" title="View all posts in SHELL SCRIPT">SHELL SCRIPT</a> </div></li> <li><div><span>152</span><a href="../../article-category/troubleshooting/index.html" title="View all posts in TROUBLESHOOTING">TROUBLESHOOTING</a> </div></li> <li><div><span>3</span><a href="../../article-category/weblogic/index.html" title="View all posts in WEBLOGIC">WEBLOGIC</a> </div></li> </ul>
+			</div>					<div class="box widget nice_popular_articles clearfix">			
+			<ul class="clearfix">
+
+															<li class="clearfix format-standard">
+						<a href="../upgrade-database-from-11g-to-12c-manually/index.html" rel="bookmark">Upgrade database from 11g to 12c manually</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 108609 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">16</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../upgrade-database-from-12-1-0-2-to-12-2-0-1/index.html" rel="bookmark">Upgrade database from 12.1.0.2 to 12.2.0.1</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 80933 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">9</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-04036-pga-memory-used-by-the-instance-exceeds-pga_aggregate_limit/index.html" rel="bookmark">ORA-04036: PGA memory used by the instance exceeds PGA_AGGREGATE_LIMIT</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 79703 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">3</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../prerequisite-check-checkactivefilesandexecutables-failed/index.html" rel="bookmark">Prerequisite check “CheckActiveFilesAndExecutables” failed</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 68774 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">3</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../install-oracle-goldengate-12c-on-linux-7/index.html" rel="bookmark">install oracle goldengate 12c on linux 7</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 66844 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">0</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../how-to-run-sql-tuning-advisor-for-a-sql_id/index.html" rel="bookmark">How to run SQL tuning advisor for a sql_id</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 64623 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">9</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../transparent-data-encryption-tde-in-oracle-12c/index.html" rel="bookmark">Transparent Data Encryption (TDE) in oracle 12c</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 54757 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">2</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../how-to-drop-and-recreate-temp-tablespace-in-oracle/index.html" rel="bookmark">How to drop and recreate temp tablespace in oracle</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 54666 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">8</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-01624-log-1-needed-for-crash-recovery-of-instance/index.html" rel="bookmark">ORA-01624: log 1 needed for crash recovery of instance</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 49908 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">2</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-24247-network-access-denied-by-access-control-list-acl/index.html" rel="bookmark">ORA-24247: network access denied by access control list (ACL)</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 49812 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">0</span></span>
+															</span>
+												</li>
+					
+					
+				</ul>
+
+
+			</div>		<div class="box widget widget_tag_cloud clearfix"><h4 class="widgettitle">Tags</h4><div class="tagcloud"><a href="../../article-tag/12c/index.html" class="tag-cloud-link tag-link-54 tag-link-position-1" style="font-size: 13.169230769231pt;" aria-label="12c (14 items)">12c</a>
+<a href="../../article-tag/19c/index.html" class="tag-cloud-link tag-link-239 tag-link-position-2" style="font-size: 9.6153846153846pt;" aria-label="19C (6 items)">19C</a>
+<a href="../../article-tag/archive/index.html" class="tag-cloud-link tag-link-31 tag-link-position-3" style="font-size: 8pt;" aria-label="archive (4 items)">archive</a>
+<a href="../../article-tag/archivelog/index.html" class="tag-cloud-link tag-link-33 tag-link-position-4" style="font-size: 9.6153846153846pt;" aria-label="archivelog (6 items)">archivelog</a>
+<a href="../../article-tag/asm/index.html" class="tag-cloud-link tag-link-39 tag-link-position-5" style="font-size: 14.892307692308pt;" aria-label="ASM (21 items)">ASM</a>
+<a href="../../article-tag/audit/index.html" class="tag-cloud-link tag-link-53 tag-link-position-6" style="font-size: 9.6153846153846pt;" aria-label="Audit (6 items)">Audit</a>
+<a href="../../article-tag/awr/index.html" class="tag-cloud-link tag-link-153 tag-link-position-7" style="font-size: 10.153846153846pt;" aria-label="AWR (7 items)">AWR</a>
+<a href="../../article-tag/backup/index.html" class="tag-cloud-link tag-link-19 tag-link-position-8" style="font-size: 8.8615384615385pt;" aria-label="backup (5 items)">backup</a>
+<a href="../../article-tag/cloning/index.html" class="tag-cloud-link tag-link-129 tag-link-position-9" style="font-size: 8.8615384615385pt;" aria-label="cloning (5 items)">cloning</a>
+<a href="../../article-tag/cloud/index.html" class="tag-cloud-link tag-link-67 tag-link-position-10" style="font-size: 11.661538461538pt;" aria-label="cloud (10 items)">cloud</a>
+<a href="../../article-tag/cluster/index.html" class="tag-cloud-link tag-link-283 tag-link-position-11" style="font-size: 8.8615384615385pt;" aria-label="cluster (5 items)">cluster</a>
+<a href="../../article-tag/database/index.html" class="tag-cloud-link tag-link-89 tag-link-position-12" style="font-size: 8.8615384615385pt;" aria-label="database (5 items)">database</a>
+<a href="../../article-tag/dataguard/index.html" class="tag-cloud-link tag-link-24 tag-link-position-13" style="font-size: 14.892307692308pt;" aria-label="dataguard (21 items)">dataguard</a>
+<a href="../../article-tag/dgmgrl/index.html" class="tag-cloud-link tag-link-227 tag-link-position-14" style="font-size: 10.153846153846pt;" aria-label="dgmgrl (7 items)">dgmgrl</a>
+<a href="../../article-tag/diskgroup/index.html" class="tag-cloud-link tag-link-119 tag-link-position-15" style="font-size: 8.8615384615385pt;" aria-label="DISKGROUP (5 items)">DISKGROUP</a>
+<a href="../../article-tag/edb/index.html" class="tag-cloud-link tag-link-282 tag-link-position-16" style="font-size: 9.6153846153846pt;" aria-label="EDB (6 items)">EDB</a>
+<a href="../../article-tag/expdp/index.html" class="tag-cloud-link tag-link-30 tag-link-position-17" style="font-size: 16.076923076923pt;" aria-label="EXPDP (27 items)">EXPDP</a>
+<a href="../../article-tag/failover/index.html" class="tag-cloud-link tag-link-285 tag-link-position-18" style="font-size: 8.8615384615385pt;" aria-label="failover (5 items)">failover</a>
+<a href="../../article-tag/flashback/index.html" class="tag-cloud-link tag-link-64 tag-link-position-19" style="font-size: 12.092307692308pt;" aria-label="flashback (11 items)">flashback</a>
+<a href="../../article-tag/goldengate/index.html" class="tag-cloud-link tag-link-72 tag-link-position-20" style="font-size: 13.707692307692pt;" aria-label="goldengate (16 items)">goldengate</a>
+<a href="../../article-tag/grid/index.html" class="tag-cloud-link tag-link-40 tag-link-position-21" style="font-size: 11.230769230769pt;" aria-label="grid (9 items)">grid</a>
+<a href="../../article-tag/impdp/index.html" class="tag-cloud-link tag-link-73 tag-link-position-22" style="font-size: 11.230769230769pt;" aria-label="impdp (9 items)">impdp</a>
+<a href="../../article-tag/multitenant/index.html" class="tag-cloud-link tag-link-151 tag-link-position-23" style="font-size: 11.230769230769pt;" aria-label="multitenant (9 items)">multitenant</a>
+<a href="../../article-tag/opatch/index.html" class="tag-cloud-link tag-link-124 tag-link-position-24" style="font-size: 10.692307692308pt;" aria-label="OPATCH (8 items)">OPATCH</a>
+<a href="../../article-tag/ora/index.html" class="tag-cloud-link tag-link-29 tag-link-position-25" style="font-size: 22pt;" aria-label="ORA- (99 items)">ORA-</a>
+<a href="../../article-tag/oracle/index.html" class="tag-cloud-link tag-link-58 tag-link-position-26" style="font-size: 10.153846153846pt;" aria-label="oracle (7 items)">oracle</a>
+<a href="../../article-tag/oracle-12-2/index.html" class="tag-cloud-link tag-link-131 tag-link-position-27" style="font-size: 12.846153846154pt;" aria-label="oracle 12.2. (13 items)">oracle 12.2.</a>
+<a href="../../article-tag/oracle-12c/index.html" class="tag-cloud-link tag-link-86 tag-link-position-28" style="font-size: 11.661538461538pt;" aria-label="oracle 12c (10 items)">oracle 12c</a>
+<a href="../../article-tag/partition/index.html" class="tag-cloud-link tag-link-117 tag-link-position-29" style="font-size: 10.692307692308pt;" aria-label="partition (8 items)">partition</a>
+<a href="../../article-tag/patch/index.html" class="tag-cloud-link tag-link-84 tag-link-position-30" style="font-size: 10.153846153846pt;" aria-label="patch (7 items)">patch</a>
+<a href="../../article-tag/patching/index.html" class="tag-cloud-link tag-link-27 tag-link-position-31" style="font-size: 9.6153846153846pt;" aria-label="patching (6 items)">patching</a>
+<a href="../../article-tag/pdb/index.html" class="tag-cloud-link tag-link-63 tag-link-position-32" style="font-size: 10.692307692308pt;" aria-label="PDB (8 items)">PDB</a>
+<a href="../../article-tag/pluggable/index.html" class="tag-cloud-link tag-link-56 tag-link-position-33" style="font-size: 8pt;" aria-label="pluggable (4 items)">pluggable</a>
+<a href="../../article-tag/postgres/index.html" class="tag-cloud-link tag-link-246 tag-link-position-34" style="font-size: 14.892307692308pt;" aria-label="postgres (21 items)">postgres</a>
+<a href="../../article-tag/rac/index.html" class="tag-cloud-link tag-link-76 tag-link-position-35" style="font-size: 16.830769230769pt;" aria-label="RAC (32 items)">RAC</a>
+<a href="../../article-tag/replication/index.html" class="tag-cloud-link tag-link-187 tag-link-position-36" style="font-size: 11.230769230769pt;" aria-label="replication (9 items)">replication</a>
+<a href="../../article-tag/rman/index.html" class="tag-cloud-link tag-link-18 tag-link-position-37" style="font-size: 15.538461538462pt;" aria-label="rman (24 items)">rman</a>
+<a href="../../article-tag/script/index.html" class="tag-cloud-link tag-link-157 tag-link-position-38" style="font-size: 8.8615384615385pt;" aria-label="SCRIPT (5 items)">SCRIPT</a>
+<a href="../../article-tag/security/index.html" class="tag-cloud-link tag-link-15 tag-link-position-39" style="font-size: 8pt;" aria-label="security (4 items)">security</a>
+<a href="../../article-tag/shell-script/index.html" class="tag-cloud-link tag-link-141 tag-link-position-40" style="font-size: 11.661538461538pt;" aria-label="SHELL script (10 items)">SHELL script</a>
+<a href="../../article-tag/standby/index.html" class="tag-cloud-link tag-link-22 tag-link-position-41" style="font-size: 14.676923076923pt;" aria-label="standby (20 items)">standby</a>
+<a href="../../article-tag/tablespace/index.html" class="tag-cloud-link tag-link-23 tag-link-position-42" style="font-size: 11.230769230769pt;" aria-label="tablespace (9 items)">tablespace</a>
+<a href="../../article-tag/temp/index.html" class="tag-cloud-link tag-link-20 tag-link-position-43" style="font-size: 10.153846153846pt;" aria-label="temp (7 items)">temp</a>
+<a href="../../article-tag/undo/index.html" class="tag-cloud-link tag-link-21 tag-link-position-44" style="font-size: 8pt;" aria-label="undo (4 items)">undo</a>
+<a href="../../article-tag/upgrade/index.html" class="tag-cloud-link tag-link-26 tag-link-position-45" style="font-size: 10.153846153846pt;" aria-label="upgrade (7 items)">upgrade</a></div>
+</div><!-- END #sidebar -->
+</aside>
+
+			<!-- END #container -->
+		</div>
+	
+	
+	<!-- BEGIN #footer -->
+	<footer id="footer">
+
+		
+		<!-- BEGIN #footer-widget --><div id="footer-widgets" class="col-full">
+			<div class="grid footer-grid">
+				<div class="widget-section first  columns-3">
+							<div class="box widget widget_nice_social">				
+				<div class="social-links clearfix">
+
+					<ul id="social">
+						<li id="facebook"><a href="https://www.facebook.com/dbaclass"><i class="fa fa-facebook"></i></a></li><li id="twitter"><a href="https://twitter.com/SupportDbaclass"><i class="fa fa-twitter"></i></a></li><li id="linkedin"><a href="https://www.linkedin.com/in/dbaclass"><i class="fa fa-linkedin"></i></a></li>					</ul>
+
+				</div>
+				
+			</div>
+
+	<div class="box widget widget_text"><h4 class="widgettitle">About DBACLASS</h4>			<div class="textwidget">DBACLASS.COM is a knowledgebase for Oracle Database administrators</div>
+		</div>				</div>
+				<div class="widget-section even  columns-3">
+									</div>
+												<div class="widget-section odd  columns-3 last">
+					<div class="box widget widget_nav_menu"><div class="menu-privacy-policy-container"><ul id="menu-privacy-policy" class="menu"><li id="menu-item-1932" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1932"><a href="../../privacy-policy/index.html">Privacy policy</a></li>
+<li id="menu-item-1992" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1992"><a href="../../terms/index.html">Terms &amp; Conditions</a></li>
+<li id="menu-item-1977" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1977"><a href="../../contactus/index.html">Contact us</a></li>
+<li id="menu-item-1995" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1995"><a href="../../about/index.html">About Us</a></li>
+<li id="menu-item-2979" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2979"><a href="../../write-for-us/index.html">Write for us</a></li>
+<li id="menu-item-3111" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3111"><a href="http://forum.dbaclass.com/">Q&amp;A Forum</a></li>
+</ul></div></div>				</div>
+											</div>
+
+		</div><!-- /#footer-widgets -->
+		
+		<div id="extended-footer">
+			<div class="col-full">
+
+				<p></p>
+				<nav id="footer-navigation">
+									</nav>
+
+			</div>
+
+		</div>
+
+	<!-- END #footer -->
+	</footer>
+
+<!-- END #wrapper -->
+</div>
+
+<script>
+
+jQuery(document).ready(function (e) {
+  jQuery(".AnyBoxFooter").click(function(){
+    jQuery(".AnyBoxFooter:visible").hide();
+    jQuery(".AnyBoxContainer:visible").hide();
+  });
+});
+jQuery(document).ready(function(){
+  jQuery("#footer-navigation").text("©Copyright 2020 The DbaClass Group  ®ALL RIGHTS RESERVED.");
+  jQuery("body>div>a:first").attr("href", "../../about/index.html");
+
+
+});
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66394967-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+			<a href="#" class="backtotop">
+				<i class="fa fa-angle-up"></i>
+			</a>
+		<script type="text/javascript" id="theme-my-login-js-extra">
+/* <![CDATA[ */
+var themeMyLogin = {"action":"","errors":[]};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/theme-my-login/assets/scripts/theme-my-login.min03db.js?ver=7.1.1" id="theme-my-login-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/comment-reply.minadc6.js?ver=6.5.5" id="comment-reply-js" async="async" data-wp-strategy="async"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/imagesloaded.minbb93.js?ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/masonry.min3a05.js?ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-includes/js/jquery/jquery.masonry.minef70.js?ver=3.1.2b" id="jquery-masonry-js"></script>
+<script async="async" type="text/javascript" src="../../../cdn-0.dbaclass.com/wp-content/plugins/akismet/_inc/form5fa1.js?ver=4.1.9" id="akismet-form-js"></script>
+
+<script data-cfasync="false">function _emitEzConsentEvent(){var customEvent=new CustomEvent("ezConsentEvent",{detail:{ezTcfConsent:window.ezTcfConsent},bubbles:true,cancelable:true,});document.dispatchEvent(customEvent);}
+(function(window,document){function _setAllEzConsentTrue(){window.ezTcfConsent.loaded=true;window.ezTcfConsent.store_info=true;window.ezTcfConsent.develop_and_improve_services=true;window.ezTcfConsent.measure_ad_performance=true;window.ezTcfConsent.measure_content_performance=true;window.ezTcfConsent.select_basic_ads=true;window.ezTcfConsent.create_ad_profile=true;window.ezTcfConsent.select_personalized_ads=true;window.ezTcfConsent.create_content_profile=true;window.ezTcfConsent.select_personalized_content=true;window.ezTcfConsent.understand_audiences=true;window.ezTcfConsent.use_limited_data_to_select_content=true;window.ezTcfConsent.select_personalized_content=true;}
+function _clearEzConsentCookie(){document.cookie="ezCMPCookieConsent=tcf2;Domain=.dbaclass.com;Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";}
+_clearEzConsentCookie();if(typeof window.__tcfapi!=="undefined"){window.ezgconsent=false;var amazonHasRun=false;function _ezAllowed(tcdata,purpose){return(tcdata.purpose.consents[purpose]||tcdata.purpose.legitimateInterests[purpose]);}
+function _reloadAds(){if(typeof window.ezorefgsl==="function"&&typeof window.ezslots==="object"){if(typeof __ezapsFetchBids=="function"&&amazonHasRun===false){ezapsFetchBids(__ezaps);if(typeof __ezapsVideo!="undefined"){ezapsFetchBids(__ezapsVideo,"video");}
+amazonHasRun=true;}
+var slots=[];for(var i=0;i<window.ezslots.length;i++){if(window[window.ezslots[i]]&&typeof window[window.ezslots[i]]==="object"){slots.push(window[window.ezslots[i]]);}else{setTimeout(_reloadAds,100);return false;}}
+for(var i=0;i<slots.length;i++){window.ezorefgsl(slots[i]);}}else if(!window.ezadtimeoutset){window.ezadtimeoutset=true;setTimeout(_reloadAds,100);}}
+function _handleConsentDecision(tcdata){window.ezTcfConsent.loaded=true;if(!tcdata.vendor.consents["347"]&&!tcdata.vendor.legitimateInterests["347"]){window._emitEzConsentEvent();return;}
+window.ezTcfConsent.store_info=_ezAllowed(tcdata,"1");window.ezTcfConsent.develop_and_improve_services=_ezAllowed(tcdata,"10");window.ezTcfConsent.measure_content_performance=_ezAllowed(tcdata,"8");window.ezTcfConsent.select_basic_ads=_ezAllowed(tcdata,"2");window.ezTcfConsent.create_ad_profile=_ezAllowed(tcdata,"3");window.ezTcfConsent.select_personalized_ads=_ezAllowed(tcdata,"4");window.ezTcfConsent.create_content_profile=_ezAllowed(tcdata,"5");window.ezTcfConsent.measure_ad_performance=_ezAllowed(tcdata,"7");window.ezTcfConsent.use_limited_data_to_select_content=_ezAllowed(tcdata,"11");window.ezTcfConsent.select_personalized_content=_ezAllowed(tcdata,"6");window.ezTcfConsent.understand_audiences=_ezAllowed(tcdata,"9");window._emitEzConsentEvent();}
+function _handleGoogleConsentV2(tcdata){if(!tcdata||!tcdata.purpose||!tcdata.purpose.consents){return;}
+var googConsentV2={};if(tcdata.purpose.consents[1]){googConsentV2.ad_storage='granted';googConsentV2.analytics_storage='granted';}
+if(tcdata.purpose.consents[3]&&tcdata.purpose.consents[4]){googConsentV2.ad_personalization='granted';}
+if(tcdata.purpose.consents[1]&&tcdata.purpose.consents[7]){googConsentV2.ad_user_data='granted';}
+if(googConsentV2.analytics_storage=='denied'){gtag('set','url_passthrough',true);}
+gtag('consent','update',googConsentV2);}
+__tcfapi("addEventListener",2,function(tcdata,success){if(!success||!tcdata){window._emitEzConsentEvent();return;}
+if(!tcdata.gdprApplies){_setAllEzConsentTrue();window._emitEzConsentEvent();return;}
+if(tcdata.eventStatus==="useractioncomplete"||tcdata.eventStatus==="tcloaded"){if(typeof gtag!='undefined'){_handleGoogleConsentV2(tcdata);}
+_handleConsentDecision(tcdata);if(tcdata.purpose.consents["1"]===true&&tcdata.vendor.consents["755"]!==false){window.ezgconsent=true;(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=0;_reloadAds();}else{_reloadAds();}
+if(window.__ezconsent){__ezconsent.setEzoicConsentSettings(ezConsentCategories);}
+__tcfapi("removeEventListener",2,function(success){return null;},tcdata.listenerId);if(!(tcdata.purpose.consents["1"]===true&&_ezAllowed(tcdata,"2")&&_ezAllowed(tcdata,"3")&&_ezAllowed(tcdata,"4"))){if(typeof __ez=="object"&&typeof __ez.bit=="object"&&typeof window["_ezaq"]=="object"&&typeof window["_ezaq"]["page_view_id"]=="string"){__ez.bit.AddAndFire(window["_ezaq"]["page_view_id"],[new __ezDotData("non_personalized_ads",true),]);}}}});}else{_setAllEzConsentTrue();window._emitEzConsentEvent();}})(window,document);</script></body>
+<!-- Mirrored from dbaclass.com/article/how-to-change-cluster-name-in-oracle-rac/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 17:50:21 GMT -->
+</html>

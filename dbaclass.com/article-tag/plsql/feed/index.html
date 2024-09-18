@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>PL/SQL Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/plsql/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/plsql/</link>
+	<description>database administration</description>
+	<lastBuildDate>Tue, 27 Mar 2018 15:10:48 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>DBMS_PARALLEL_EXECUTE  in oracle PL/SQL</title>
+		<link>https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/</link>
+					<comments>https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 27 Mar 2018 15:10:48 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3701</guid>
+
+					<description><![CDATA[<p>From oracle 11gr2, DBMS_PARALLEL_EXECUTE package can be used for updating large tables in parallel using chunk option. Basically, it does two steps. 1. Divides the table data into small chunks. 2. Apply DML change on each chunk parallely. This method improves the performance the large DML operations, without consuming too much of rollback segment. Lets [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/">DBMS_PARALLEL_EXECUTE  in oracle PL/SQL</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>From oracle 11gr2, <code>DBMS_PARALLEL_EXECUTE</code> package can be used for updating large tables in parallel using chunk option.</p>
+<p>Basically, it does two steps.</p>
+<p><span style="font-family: 'andale mono', monospace;">1. Divides the table data into small chunks.</span><br />
+<span style="font-family: 'andale mono', monospace;"> 2. Apply DML change on each chunk parallely.</span></p>
+<p>This method improves the performance the large DML operations, without consuming too much of rollback segment.</p>
+<p>Lets check the below example.</p>
+<p><span style="font-family: 'andale mono', monospace;"><strong>TABLE_OWNER </strong>  -&gt; DBACLASS</span><br />
+<span style="font-family: 'andale mono', monospace;"><strong> TABLE_NAME </strong>   -&gt;  TEST100</span><br />
+<span style="font-family: 'andale mono', monospace;"><strong> DML STATEMENT</strong> -&gt; Update dbaclass.test100 set OBJECT_ID=10 where NAMESPACE=1;</span></p>
+<p><strong>1. Create one task:</strong></p>
+<pre> SQL&gt; execute DBMS_PARALLEL_EXECUTE.CREATE_TASK(TASK_NAME=&gt;'query_test100_update');
+
+PL/SQL procedure successfully completed.
+</pre>
+<p><strong>2. CHUNK the table by row_id:</strong></p>
+<pre>BEGIN
+    DBMS_PARALLEL_EXECUTE.CREATE_CHUNKS_BY_ROWID
+  (
+                TASK_NAME=&gt; 'query_test100_update',
+                TABLE_OWNER =&gt;'DBACLASS',
+                TABLE_NAME =&gt; 'TEST100',
+                BY_ROW=&gt; TRUE,
+                CHUNK_SIZE =&gt; 10000
+  );
+END;
+/
+
+</pre>
+<p><strong>3. Run the DML update procedure(RUN_TASK)</strong></p>
+<pre>SET SERVEROUTPUT ON
+DECLARE
+  l_sql_stmt VARCHAR2(32767);
+BEGIN 
+ -- DML to be execute in parallel
+  l_sql_stmt := 'Update dbaclass.test100 set OBJECT_ID=10 where NAMESPACE=1 and rowid BETWEEN :start_id AND :end_id';
+
+  -- Run the task
+  DBMS_PARALLEL_EXECUTE.RUN_TASK
+  (
+    TASK_NAME      =&gt; 'query_test100_update',
+    SQL_STMT       =&gt; l_sql_stmt,
+    LANGUAGE_FLAG  =&gt; DBMS_SQL.NATIVE,
+    PARALLEL_LEVEL =&gt; 10
+  );  
+END;
+/
+
+ 
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:00:21.07
+
+</pre>
+<p>DML completed successfully and it took 21 seconds only.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/">DBMS_PARALLEL_EXECUTE  in oracle PL/SQL</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/dbms_parallel_execute-oracle-plsql/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>VARIABLE new feature  in Oracle 12.2</title>
+		<link>https://dbaclass.com/article/variable-new-feature-in-oracle-12-2/</link>
+					<comments>https://dbaclass.com/article/variable-new-feature-in-oracle-12-2/#respond</comments>
+		
+		<dc:creator><![CDATA[Skant Gupta]]></dc:creator>
+		<pubDate>Mon, 27 Feb 2017 13:23:32 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=2165</guid>
+
+					<description><![CDATA[<p>You may use SQL*Plus to test queries with bind variables. Here is what you do before 12.2: SQL&#62; variable text char SQL&#62; exec :text:='X' PL/SQL procedure successfully completed. SQL&#62; select * from DUAL where DUMMY=:text; D - X Now in 12.2 is so simple SQL&#62; variable text char='X' SQL&#62; select * from DUAL where DUMMY=:text; [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/variable-new-feature-in-oracle-12-2/">VARIABLE new feature  in Oracle 12.2</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>You may use SQL*Plus to test queries with bind variables. Here is what you do before 12.2:</p>
+<pre>SQL&gt; variable text char
+SQL&gt; exec :text:='X'
+
+PL/SQL procedure successfully completed.
+
+SQL&gt; select * from DUAL where DUMMY=:text;
+
+D
+-
+X
+
+</pre>
+<p>Now in 12.2 is so simple</p>
+<pre>SQL&gt; variable text char='X'
+SQL&gt; select * from DUAL where DUMMY=:text;
+
+D
+-
+X
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/variable-new-feature-in-oracle-12-2/">VARIABLE new feature  in Oracle 12.2</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/variable-new-feature-in-oracle-12-2/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>
+	Comments on: Upgrade oracle  grid infrastructure from 11g to 12C	</title>
+	<atom:link href="https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/</link>
+	<description>database administration</description>
+	<lastBuildDate>Mon, 19 Nov 2018 10:57:54 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>
+		By: Deshraj		</title>
+		<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-23443</link>
+
+		<dc:creator><![CDATA[Deshraj]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 10:57:54 +0000</pubDate>
+		<guid isPermaLink="false">http://dbaclass.com/?page_id=1441#comment-23443</guid>
+
+					<description><![CDATA[when we run the script at node-1 it suspends the VM node and keep suspended situation and need to to restart the node-1 to come up again. Thus not completing the upgrade.
+
+
+[root@pp-ora01-nic grid]# ./rootupgrade.sh
+Performing root user operation.
+
+The following environment variables are set as:
+    ORACLE_OWNER= grid
+    ORACLE_HOME=  /GRID_HOME_12C/app/12.1.0.2/grid
+
+Enter the full pathname of the local bin directory: [/usr/local/bin]:
+The contents of &quot;dbhome&quot; have not changed. No need to overwrite.
+The contents of &quot;oraenv&quot; have not changed. No need to overwrite.
+The contents of &quot;coraenv&quot; have not changed. No need to overwrite.
+
+Entries will be added to the /etc/oratab file as needed by
+Database Configuration Assistant when a database is created
+Finished running generic part of root script.
+Now product-specific root actions will be performed.
+Using configuration parameter file: /GRID_HOME_12C/app/12.1.0.2/grid/crs/install/crsconfig_params
+2018/11/19 13:33:40 CLSRSC-4015: Performing install or upgrade action for Oracle Trace File Analyzer (TFA) Collector.
+
+2018/11/19 13:33:40 CLSRSC-4012: Shutting down Oracle Trace File Analyzer (TFA) Collector.
+
+2018/11/19 13:33:48 CLSRSC-4013: Successfully shut down Oracle Trace File Analyzer (TFA) Collector.
+
+2018/11/19 13:33:59 CLSRSC-4003: Successfully patched Oracle Trace File Analyzer (TFA) Collector.
+
+2018/11/19 13:34:01 CLSRSC-464: Starting retrieval of the cluster configuration data
+
+2018/11/19 13:34:07 CLSRSC-465: Retrieval of the cluster configuration data has successfully completed.
+
+2018/11/19 13:34:07 CLSRSC-363: User ignored prerequisites during installation
+
+2018/11/19 13:34:12 CLSRSC-468: Setting Oracle Clusterware and ASM to rolling migration mode
+
+2018/11/19 13:34:12 CLSRSC-482: Running command: &#039;/GRID_HOME_12C/app/12.1.0.2/grid/bin/asmca -silent -upgradeNodeASM -nonRolling false -oldCRSHome /GRID_HOME/app/11.2.0/grid -oldCRSVersion 11.2.0.4.0 -nodeNumber 1 -firstNode true -startRolling true&#039;
+
+
+ASM configuration upgraded in local node successfully.
+
+2018/11/19 13:34:15 CLSRSC-469: Successfully set Oracle Clusterware and ASM to rolling migration mode
+
+2018/11/19 13:34:16 CLSRSC-466: Starting shutdown of the current Oracle Grid Infrastructure stack
+
+2018/11/19 13:34:41 CLSRSC-467: Shutdown of the current Oracle Grid Infrastructure stack has successfully completed.
+
+Write failed: Broken pipe]]></description>
+			<content:encoded><![CDATA[<p>when we run the script at node-1 it suspends the VM node and keep suspended situation and need to to restart the node-1 to come up again. Thus not completing the upgrade.</p>
+<p>[root@pp-ora01-nic grid]# ./rootupgrade.sh<br />
+Performing root user operation.</p>
+<p>The following environment variables are set as:<br />
+    ORACLE_OWNER= grid<br />
+    ORACLE_HOME=  /GRID_HOME_12C/app/12.1.0.2/grid</p>
+<p>Enter the full pathname of the local bin directory: [/usr/local/bin]:<br />
+The contents of &#8220;dbhome&#8221; have not changed. No need to overwrite.<br />
+The contents of &#8220;oraenv&#8221; have not changed. No need to overwrite.<br />
+The contents of &#8220;coraenv&#8221; have not changed. No need to overwrite.</p>
+<p>Entries will be added to the /etc/oratab file as needed by<br />
+Database Configuration Assistant when a database is created<br />
+Finished running generic part of root script.<br />
+Now product-specific root actions will be performed.<br />
+Using configuration parameter file: /GRID_HOME_12C/app/12.1.0.2/grid/crs/install/crsconfig_params<br />
+2018/11/19 13:33:40 CLSRSC-4015: Performing install or upgrade action for Oracle Trace File Analyzer (TFA) Collector.</p>
+<p>2018/11/19 13:33:40 CLSRSC-4012: Shutting down Oracle Trace File Analyzer (TFA) Collector.</p>
+<p>2018/11/19 13:33:48 CLSRSC-4013: Successfully shut down Oracle Trace File Analyzer (TFA) Collector.</p>
+<p>2018/11/19 13:33:59 CLSRSC-4003: Successfully patched Oracle Trace File Analyzer (TFA) Collector.</p>
+<p>2018/11/19 13:34:01 CLSRSC-464: Starting retrieval of the cluster configuration data</p>
+<p>2018/11/19 13:34:07 CLSRSC-465: Retrieval of the cluster configuration data has successfully completed.</p>
+<p>2018/11/19 13:34:07 CLSRSC-363: User ignored prerequisites during installation</p>
+<p>2018/11/19 13:34:12 CLSRSC-468: Setting Oracle Clusterware and ASM to rolling migration mode</p>
+<p>2018/11/19 13:34:12 CLSRSC-482: Running command: &#8216;/GRID_HOME_12C/app/12.1.0.2/grid/bin/asmca -silent -upgradeNodeASM -nonRolling false -oldCRSHome /GRID_HOME/app/11.2.0/grid -oldCRSVersion 11.2.0.4.0 -nodeNumber 1 -firstNode true -startRolling true&#8217;</p>
+<p>ASM configuration upgraded in local node successfully.</p>
+<p>2018/11/19 13:34:15 CLSRSC-469: Successfully set Oracle Clusterware and ASM to rolling migration mode</p>
+<p>2018/11/19 13:34:16 CLSRSC-466: Starting shutdown of the current Oracle Grid Infrastructure stack</p>
+<p>2018/11/19 13:34:41 CLSRSC-467: Shutdown of the current Oracle Grid Infrastructure stack has successfully completed.</p>
+<p>Write failed: Broken pipe</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Admin		</title>
+		<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-23417</link>
+
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 19 Nov 2018 07:02:06 +0000</pubDate>
+		<guid isPermaLink="false">http://dbaclass.com/?page_id=1441#comment-23417</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-23358&quot;&gt;Deshraj&lt;/a&gt;.
+
+Rootupgrade.sh script should take care of everything.  Please let us know if it is reporting any other error.??
+
+Regards
+Admin]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-23358">Deshraj</a>.</p>
+<p>Rootupgrade.sh script should take care of everything.  Please let us know if it is reporting any other error.??</p>
+<p>Regards<br />
+Admin</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Deshraj		</title>
+		<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-23358</link>
+
+		<dc:creator><![CDATA[Deshraj]]></dc:creator>
+		<pubDate>Sun, 18 Nov 2018 20:53:00 +0000</pubDate>
+		<guid isPermaLink="false">http://dbaclass.com/?page_id=1441#comment-23358</guid>
+
+					<description><![CDATA[in my case during upgrade when we run rootupgrade.sh script on local node. The node is shut down and cluster is down now. second node was also down and cluster is down. how we can make cluster up and continue upgrade further. Can you advise.]]></description>
+			<content:encoded><![CDATA[<p>in my case during upgrade when we run rootupgrade.sh script on local node. The node is shut down and cluster is down now. second node was also down and cluster is down. how we can make cluster up and continue upgrade further. Can you advise.</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: ahtesham		</title>
+		<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-17174</link>
+
+		<dc:creator><![CDATA[ahtesham]]></dc:creator>
+		<pubDate>Wed, 26 Sep 2018 18:21:45 +0000</pubDate>
+		<guid isPermaLink="false">http://dbaclass.com/?page_id=1441#comment-17174</guid>
+
+					<description><![CDATA[very fine ,brief and covering all things ..manythanks ..looking more docs :-)]]></description>
+			<content:encoded><![CDATA[<p>very fine ,brief and covering all things ..manythanks ..looking more docs 🙂</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: sys		</title>
+		<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-6987</link>
+
+		<dc:creator><![CDATA[sys]]></dc:creator>
+		<pubDate>Thu, 26 Apr 2018 05:35:35 +0000</pubDate>
+		<guid isPermaLink="false">http://dbaclass.com/?page_id=1441#comment-6987</guid>
+
+					<description><![CDATA[Simple and Ok. Tks]]></description>
+			<content:encoded><![CDATA[<p>Simple and Ok. Tks</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Fazla Rabbi		</title>
+		<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-6771</link>
+
+		<dc:creator><![CDATA[Fazla Rabbi]]></dc:creator>
+		<pubDate>Tue, 24 Apr 2018 05:12:11 +0000</pubDate>
+		<guid isPermaLink="false">http://dbaclass.com/?page_id=1441#comment-6771</guid>
+
+					<description><![CDATA[excellen. like it]]></description>
+			<content:encoded><![CDATA[<p>excellen. like it</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Anurag		</title>
+		<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-6059</link>
+
+		<dc:creator><![CDATA[Anurag]]></dc:creator>
+		<pubDate>Tue, 10 Apr 2018 03:15:40 +0000</pubDate>
+		<guid isPermaLink="false">http://dbaclass.com/?page_id=1441#comment-6059</guid>
+
+					<description><![CDATA[Excellent]]></description>
+			<content:encoded><![CDATA[<p>Excellent</p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Vijaygooe		</title>
+		<link>https://dbaclass.com/upgrade-oracle-grid-infrastructure-from-11g-to-12c/#comment-1780</link>
+
+		<dc:creator><![CDATA[Vijaygooe]]></dc:creator>
+		<pubDate>Fri, 23 Dec 2016 11:50:03 +0000</pubDate>
+		<guid isPermaLink="false">http://dbaclass.com/?page_id=1441#comment-1780</guid>
+
+					<description><![CDATA[Good One!]]></description>
+			<content:encoded><![CDATA[<p>Good One!</p>
+]]></content:encoded>
+		
+			</item>
+	</channel>
+</rss>

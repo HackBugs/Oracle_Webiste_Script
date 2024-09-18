@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>datapump Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/datapump/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/datapump/</link>
+	<description>database administration</description>
+	<lastBuildDate>Tue, 30 Jan 2018 08:24:30 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to use expdp to export data from physical standby database</title>
+		<link>https://dbaclass.com/article/use-expdp-export-data-physical-standby-database/</link>
+					<comments>https://dbaclass.com/article/use-expdp-export-data-physical-standby-database/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 30 Jan 2018 08:12:59 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3543</guid>
+
+					<description><![CDATA[<p>During peak business hours, It is not advised to export data from production .(as it might impact the performance). So if we have a physical standby database, we can export data using datapump from standby database. PRE-REQUISITES: 1. Physical standby database should be in READ-ONLY MODE (ACTIVE DATAGUARD) 2.We cannot run expdp directly on physical [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/use-expdp-export-data-physical-standby-database/">How to use expdp to export data from physical standby database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>During peak business hours, It is not advised to export data from production .(as it might impact the performance).<br />
+So if we have a physical standby database, we can export data using datapump from standby database.</p>
+<h4><strong>PRE-REQUISITES:</strong></h4>
+<p><span style="font-family: 'andale mono', monospace;">1. Physical standby database should be in READ-ONLY MODE (<strong>ACTIVE DATAGUARD</strong>)</span><br />
+<span style="font-family: 'andale mono', monospace;"> 2.We cannot run expdp directly on physical standby database. Because datapump job can be created only on a read-write database(OPEN).</span><br />
+<span style="font-family: 'andale mono', monospace;"> So to achieve this, we will use the <strong>NETWORK_LINK</strong> parameter and run the expdp job from any non-standby database(OPEN database)</span></p>
+<p>&nbsp;</p>
+<blockquote><p><span style="font-size: 20px;">Refer <a href="https://dbaclass.com/article/enable-active-dataguard-physical-standby-database/" target="_blank" rel="noopener noreferrer">open physical standby database in read only mode </a></span></p></blockquote>
+<h4><strong>STEPS:</strong></h4>
+<p><strong>1. Check whether standby database is in read only mode:</strong></p>
+<pre>SQL&gt; select database_name,DATABASE_ROLE,open_mode  from v$database;
+
+DATABASE_NAME  DATABASE_ROLE    OPEN_MODE
+-------------- ---------------- --------------------
+SALPROD        PHYSICAL STANDBY READ ONLY WITH APPLY
+</pre>
+<p><strong>2. create a database link on non standby database.[POINTING TO STANDBY DB]</strong></p>
+<pre>SQL&gt;  create public database link LINK_EXPDP connect to BSSDBA identified by BSSDBA442 using 'SALdbr';
+
+Database link created.
+
+
+SQL&gt; select sysdate from dual@LINK_EXPDP;
+
+SYSDATE
+---------
+30-JAN-18
+
+</pre>
+<p><strong>3. Create db directory on non-standby server:</strong></p>
+<pre>create directory ERIC_DUMP as '/dumparea/dump/ERIC_DUMP'
+
+</pre>
+<p><strong>4. Run expdp from non-standby database server:</strong></p>
+<pre class="">expdp  directory=ERIC_DUMP network_link=LINK_EXPDP dumpfile=standby_schema.dmp logfile=standby_schema.log tables=EMP_USER.CHANNEL_NUMBER
+
+
+Export: Release 12.1.0.2.0 - Production on Tue Jan 30 10:38:59 2018
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, Automatic Storage Management, OLAP, Advanced Analytics
+and Real Application Testing options
+FLASHBACK automatically enabled to preserve database integrity.
+Starting "SYS"."SYS_EXPORT_TABLE_01":  /******** AS SYSDBA directory=ERIC_DUMP network_link=LINK_EXPDP dumpfile=standby_schema.dmp logfile=standby_schema.log tables=EMP_USER.CHANNEL_NUMBER
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 320 KB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/GRANT/OWNER_GRANT/OBJECT_GRANT
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported "EMP_USER"."CHANNEL_NUMBER"                 171.2 KB   20000 rows
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /dumparea/dump/ERIC_DUMP/standby_schema.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Tue Jan 30 10:47:54 2018 elapsed 0 00:07:14
+
+</pre>
+<p>We have successfully generated the export dump from standby database.</p>
+<p>The post <a href="https://dbaclass.com/article/use-expdp-export-data-physical-standby-database/">How to use expdp to export data from physical standby database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/use-expdp-export-data-physical-standby-database/feed/</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Datapump New features in Oracle 12.2</title>
+		<link>https://dbaclass.com/article/datapump-new-features-in-oracle-12-2/</link>
+					<comments>https://dbaclass.com/article/datapump-new-features-in-oracle-12-2/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 21 Feb 2017 09:07:51 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=1918</guid>
+
+					<description><![CDATA[<p>          A lot of enhancements has been done in Oracle 12.2 Release.  In this article We will explain the new features of datapump utility in oracle 12.2 Release. 1.Parfile content  written to logfile: Till now, log file of expdp or impdp, doesn&#8217;t store the content of parfile, The log file used to [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/datapump-new-features-in-oracle-12-2/">Datapump New features in Oracle 12.2</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">          A lot of enhancements has been done in Oracle 12.2 Release.  In this </span>article<span style="color: #000000;"> We will explain the new features of </span>datapump<span style="color: #000000;"> utility in oracle 12.2 Release.</span></p>
+<h4><span style="color: #000000;">1.</span>Parfile<span style="color: #000000;"> content  written to </span>logfile<span style="color: #000000;">:</span></h4>
+<p><span style="color: #000000;">Till now, </span>log<span style="color: #000000;"> file of </span>expdp<span style="color: #000000;"> or </span>impdp,<span style="color: #000000;"> doesn&#8217;t store the content of </span>parfile<span style="color: #000000;">, The log file used to look as below.</span></p>
+<pre>Export: Release 12.1.0.2.0 - Production on Tue Feb 21 11:50:56 2017
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+;;;
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_FULL_01":  /******** AS SYSDBA parfile=expdp_full.par
+Estimate in progress using BLOCKS method...
+Processing object type DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+</pre>
+<p><span style="color: #000000;">So if the </span>parfile<span style="color: #000000;"> is missing, From the </span>logfile<span style="color: #000000;">, we </span>can&#8217;t<span style="color: #000000;"> find the details about the </span>expdp<span style="color: #000000;">/</span>impdp<span style="color: #000000;">.</span></p>
+<p><span style="color: #000000;"><strong>With Oracle 12.2,</strong> The content of the </span>parfile<span style="color: #000000;"> is written to </span>logfile<span style="color: #000000;">.</span></p>
+<pre class="">--- PARFILE CONTENT 
+
+$cat expdp_full.par
+dumpfile=test_schema.dmp
+logfile=test.log
+directory=TEST2
+schemas=BSSTDBA
+
+-- RUN EXPDP 
+
+expdp parfile=expdp_full.par
+
+Export: Release 12.2.0.1.0 - Production on Tue Feb 21 10:58:39 2017
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+Starting "SYS"."SYS_EXPORT_SCHEMA_01":  /******** AS SYSDBA parfile=expdp_full.par
+Processing object type SCHEMA_EXPORT/TABLE/TABLE_DATA
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+
+Processing object type SCHEMA_EXPORT/STATISTICS/MARKER
+
+
+
+--- LOGFILE CONTENT
+
+oracle@bttstdev64:~/TEST$ cat test.log
+;;;
+Export: Release 12.2.0.1.0 - Production on Tue Feb 21 10:58:39 2017
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+;;;
+Connected to: Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+;;; **************************************************************************
+;;; Parfile values:
+;;;  parfile:  schemas=BSSTDBA
+;;;  parfile:  directory=TEST2
+;;;  parfile:  logfile=test.log
+;;;  parfile:  dumpfile=test_schema.dmp
+;;; **************************************************************************
+Starting "SYS"."SYS_EXPORT_SCHEMA_01":  /******** AS SYSDBA parfile=expdp_full.par
+Processing object type SCHEMA_EXPORT/TABLE/TABLE_DATA
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+
+
+</pre>
+<p><span style="color: #000000;">We can see that the </span>parfile<span style="color: #000000;"> has been printed in the </span>logfile<span style="color: #000000;">. So no need to worry, if the </span>parfile<span style="color: #000000;"> is missing <img src="https://s.w.org/images/core/emoji/15.0.3/72x72/1f642.png" alt="🙂" class="wp-smiley" style="height: 1em; max-height: 1em;" /></span></p>
+<p>&nbsp;</p>
+<h4><span style="color: #000000;">2. Parallel operation for metadata during </span>expdp<span style="color: #000000;">/</span>impdp:</h4>
+<p><span style="color: #000000;">Till Oracle 12cR1, parallel operation </span>doesnt<span style="color: #000000;"> work for </span>expdp<span style="color: #000000;">/</span>impdp<span style="color: #000000;"> of </span>metadatas<span style="color: #000000;">. Even if we use more parallel option, it will take always 1 thread.</span></p>
+<p>Lets<span style="color: #000000;"> try to both the 12cR1 and </span>12cR2 .</p>
+<p><strong><span style="color: #000000;">12CR1:</span></strong></p>
+<pre class="">-- PARFILE CONTENT
+
+dumpfile=test_%U.dmp
+logfile=test.log
+directory=TEST2
+parallel=4
+content=metadata_only
+full=y
+
+-- RUN EXPDP 
+# expdp parfile=expdp_full.par
+
+Export: Release 12.1.0.2.0 - Production on Tue Feb 21 11:50:56 2017
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_FULL_01":  /******** AS SYSDBA parfile=expdp_full.par
+Estimate in progress using BLOCKS method...
+Processing object type DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+^C
+Export&gt; status
+
+Job: SYS_EXPORT_FULL_01
+  Operation: EXPORT
+  Mode: FULL
+  State: EXECUTING
+  Bytes Processed: 0
+  Current Parallelism: 4
+  Job Error Count: 0
+  Dump File: /export/home/oracle/test_01.dmp
+    bytes written: 4,096
+  Dump File: /export/home/oracle/test_%u.dmp
+
+Worker 1 Status:
+  Instance ID: 1
+  Instance name: OMDEVBAU
+  Host name: sec60-1
+  Process Name: DW00
+  State: EXECUTING
+  Object Schema: WMSYS
+  Object Name: WM$EXP_MAP
+  Object Type: DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+  Completed Objects: 10
+  Worker Parallelism: 1
+
+</pre>
+<p><span style="color: #000000;">So in Oracle 12cR1, Despite giving </span>parallel=4 ,<span style="color: #000000;"> Only one worker process was allocated.</span></p>
+<p>Lets<span style="color: #000000;"> try the same Oracle 12cR2(12.2)</span></p>
+<p><strong><span style="color: #000000;">12CR2:</span></strong></p>
+<pre>dumpfile=test_%U.dmp
+logfile=test.log
+directory=TEST2
+parallel=4
+content=metadata_only
+full=y
+
+$ expdp parfile=expdp_full.par
+
+Export: Release 12.2.0.1.0 - Production on Tue Feb 21 10:53:46 2017
+
+Copyright (c) 1982, 2017, Oracle and/or its affiliates.  All rights reserved.
+
+Username: / as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+Starting "SYS"."SYS_EXPORT_FULL_01":  /******** AS SYSDBA parfile=expdp_full.par
+
+
+Export&gt; status
+
+Job: SYS_EXPORT_FULL_01
+  Operation: EXPORT
+  Mode: FULL
+  State: EXECUTING
+  Bytes Processed: 0
+  Current Parallelism: 4
+  Job Error Count: 0
+  Job heartbeat: 1
+  Dump File: /export/home/oracle/TEST/test_%u.dmp
+  Dump File: /export/home/oracle/TEST/test_01.dmp
+    bytes written: 32,768
+  Dump File: /export/home/oracle/TEST/test_02.dmp
+    bytes written: 20,480
+  Dump File: /export/home/oracle/TEST/test_03.dmp
+    bytes written: 49,152
+  Dump File: /export/home/oracle/TEST/test_04.dmp
+    bytes written: 20,480
+
+Worker 1 Status:
+  Instance ID: 1
+  Instance name: DB12C
+  Host name: bttstdev64
+  Object start time: Tuesday, 21 February, 2017 10:54:29
+  Object status at: Tuesday, 21 February, 2017 10:54:56
+  Process Name: DW00
+  State: EXECUTING
+
+Worker 2 Status:
+  Instance ID: 1
+  Instance name: DB12C
+  Host name: bttstdev64
+  Object start time: Tuesday, 21 February, 2017 10:55:04
+  Object status at: Tuesday, 21 February, 2017 10:55:07
+  Process Name: DW01
+  State: EXECUTING
+
+Worker 3 Status:
+  Instance ID: 1
+  Instance name: DB12C
+  Host name: bttstdev64
+  Object start time: Tuesday, 21 February, 2017 10:55:05
+  Object status at: Tuesday, 21 February, 2017 10:55:07
+  Process Name: DW02
+  State: EXECUTING
+
+Worker 4 Status:
+  Instance ID: 1
+  Instance name: DB12C
+  Host name: bttstdev64
+  Object start time: Tuesday, 21 February, 2017 10:54:23
+  Object status at: Tuesday, 21 February, 2017 10:54:24
+  Process Name: DW03
+  State: EXECUTING
+
+</pre>
+<p><span style="color: #000000;">So here we used parallel=4, and 4 worker processes were created. Which is a very important enhancement in term metadata </span>expdp performance.</p>
+<h4><span style="color: #000000;">3. New substitution variable for DUMPFILE parameter</span></h4>
+<p><span style="color: #000000;">Now new substitution variable like %D,%M,%T etc </span>is<span style="color: #000000;"> available for DUMPFILE </span>parameter, which<span style="color: #000000;"> we use to suffix or prefix the timestamp in the </span>dumpfile<span style="color: #000000;">.</span></p>
+<pre>expdp dumpfile=test_schema_%T.dmp logfile=test.log directory=TEST2 schemas=BSSTDBA
+
+--  GENERATED DUMPFILE 
+-rw-r-----   1 oracle   oinstall   12288 Feb 21 12:20 test_schema_20170221.dmp
+</pre>
+<p><span style="color: #000000;">Other available variables:</span></p>
+<p>&nbsp;</p>
+<table width="876">
+<tbody>
+<tr>
+<td width="144">DUMPFILE  FORMAT</td>
+<td width="324">DUMPFILE OUTPUT</td>
+<td width="408">EXAMPLE</td>
+</tr>
+<tr>
+<td>%y, %Y</td>
+<td>Specifies the year in this format: YYYY.</td>
+<td>dumpfile=test_schema_%Y.dmp -&gt; test_schema_2017.dmp</td>
+</tr>
+<tr>
+<td>%d, %D</td>
+<td>Specifies current date in DD</td>
+<td>dumpfile=test_schema_%D.dmp -&gt; test_schema_21.dmp</td>
+</tr>
+<tr>
+<td>%m, %M</td>
+<td>Specifies current month in MM</td>
+<td>dumpfile=test_schema_%M.dmp -&gt; test_schema_02.dmp</td>
+</tr>
+<tr>
+<td>%t, %T</td>
+<td>Specifies the current date with YYYYMMDD</td>
+<td>dumpfile=test_schema_%T.dmp -&gt; test_schema_20170221.dmp</td>
+</tr>
+<tr>
+<td>%l, %L</td>
+<td>Specifies a system-generated unique file name</td>
+<td>dumpfile=test_schema_%L.dmp -&gt; test_schema_01.dmp</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>Apart from above, there are few more features in datapump, Which we will discuss soon.</p>
+<p>&nbsp;</p>
+<h4><span style="color: #000000;">4. Import LONG column using NETWORK_LINK</span></h4>
+<p>Till Now, we are not able to import table with LONG column using NETWORK_LINK.  It throws below error during impdp.</p>
+<p>ORA-00997: illegal use of LONG datatype error</p>
+<p>But with 12cR2, we can import LONG column through NETWORK_LINK.</p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/datapump-new-features-in-oracle-12-2/">Datapump New features in Oracle 12.2</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/datapump-new-features-in-oracle-12-2/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>views_as_tables parameter in datapump of oracle 12c</title>
+		<link>https://dbaclass.com/article/views_as_tables-parameter-in-datapump-of-oracle-12c/</link>
+					<comments>https://dbaclass.com/article/views_as_tables-parameter-in-datapump-of-oracle-12c/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sat, 22 Aug 2015 14:48:09 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=286</guid>
+
+					<description><![CDATA[<p> VIEWS_AS_TABLES parameter has been introduced in datapump of 12c. With this we can export a view at source database and import as table in target database. Create a view: SQL&#62; create view dba_view( emp_number) as select emp from dbatool; View created. SQL&#62; select owner,object_name,object_type from dba_objects where object_name='DBA_VIEW'; OWNER OBJECT_NAM OBJECT_TYPE ------------------ ---------- ----------------------- SYS [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/views_as_tables-parameter-in-datapump-of-oracle-12c/">views_as_tables parameter in datapump of oracle 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong> VIEWS_AS_TABLES</strong> parameter has been introduced in datapump of 12c. With this we can export a view at source database and import as table in target database.</p>
+<p>Create a view:</p>
+<pre>SQL&gt; create view dba_view( emp_number) as select emp from dbatool;
+
+View created.
+
+SQL&gt; select owner,object_name,object_type from dba_objects where object_name='DBA_VIEW';
+
+
+OWNER		   OBJECT_NAM OBJECT_TYPE
+------------------ ---------- -----------------------
+SYS		   DBA_VIEW   VIEW
+
+</pre>
+<p>&nbsp;</p>
+<p>Take export of this view as table using views_as_tables parameter:</p>
+<p>&nbsp;</p>
+<pre>[oracle@localhost ~]$ expdp dumpfile=view.dmp logfile=view.log directory=DUMP views_as_tables=DBA_VIEW
+
+Export: Release 12.1.0.2.0 - Production on Sat Aug 22 07:07:54 2015
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: sys/oracle@ORCL as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting "SYS"."SYS_EXPORT_TABLE_01":  sys/********@ORCL AS SYSDBA dumpfile=view.dmp logfile=view.log directory=DUMP views_as_tables=DBA_VIEW 
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/VIEWS_AS_TABLES/TABLE_DATA
+Total estimation using BLOCKS method: 64 KB
+Processing object type TABLE_EXPORT/VIEWS_AS_TABLES/TABLE
+. . exported "SYS"."DBA_VIEW"                            5.117 KB       8 rows
+Master table "SYS"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /home/oracle/DUMP/view.dmp
+Job "SYS"."SYS_EXPORT_TABLE_01" successfully completed at Sat Aug 22 07:08:17 2015 elapsed 0 00:00:11
+
+</pre>
+<p>&nbsp;</p>
+<p>Now drop the view and import the same from the export dump which we have taken.</p>
+<p>&nbsp;</p>
+<pre>SQL&gt; drop view dba_view;
+
+View dropped.
+
+SQL&gt; exit
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+[oracle@localhost ~]$ expdp dumpfile=view.dmp logfile=view.log directory=DUMP view_as_tables=D^C
+[oracle@localhost ~]$ 
+[oracle@localhost ~]$ impdp dumpfile=view.dmp logfile=view.log directory=DUMP tables=DBA_VIEW
+
+Import: Release 12.1.0.2.0 - Production on Sat Aug 22 07:09:09 2015
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+Username: sys/oracle@ORCL as sysdba
+
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Master table "SYS"."SYS_IMPORT_TABLE_01" successfully loaded/unloaded
+Starting "SYS"."SYS_IMPORT_TABLE_01":  sys/********@ORCL AS SYSDBA dumpfile=view.dmp logfile=view.log directory=DUMP tables=DBA_VIEW 
+Processing object type TABLE_EXPORT/VIEWS_AS_TABLES/TABLE
+Processing object type TABLE_EXPORT/VIEWS_AS_TABLES/TABLE_DATA
+. . imported "SYS"."DBA_VIEW"                            5.117 KB       8 rows
+Job "SYS"."SYS_IMPORT_TABLE_01" successfully completed at Sat Aug 22 07:10:21 2015 elapsed 0 00:00:04
+
+</pre>
+<p>&nbsp;</p>
+<p>Now check the object_type:</p>
+<p>&nbsp;</p>
+<pre>[oracle@localhost ~]$ sqlplus sys/oracle@orcl as sysdba
+
+SQL*Plus: Release 12.1.0.2.0 Production on Sat Aug 22 07:10:25 2015
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+
+SQL&gt; set pagesize 200            
+SQL&gt; set lines 200
+SQL&gt; set long 999
+SQL&gt; col owner for a9
+SQL&gt; col object_name for a10
+SQL&gt; select owner,object_name,object_type from dba_objects where object_name='DBA_VIEW';
+
+OWNER	  OBJECT_NAM OBJECT_TYPE
+--------- ---------- -----------------------
+SYS	  DBA_VIEW   TABLE
+
+</pre>
+<p>We can see DBA_VIEW which we exported as view has imported as table.</p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/article/views_as_tables-parameter-in-datapump-of-oracle-12c/">views_as_tables parameter in datapump of oracle 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/views_as_tables-parameter-in-datapump-of-oracle-12c/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

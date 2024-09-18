@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>hint Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/hint/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/hint/</link>
+	<description>database administration</description>
+	<lastBuildDate>Fri, 06 Oct 2017 08:40:06 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>_optimizer_ignore_hint</title>
+		<link>https://dbaclass.com/article/_optimizer_ignore_hint/</link>
+					<comments>https://dbaclass.com/article/_optimizer_ignore_hint/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 06 Oct 2017 08:40:06 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3408</guid>
+
+					<description><![CDATA[<p>Sometimes application queries come with the specific hint, which may impact your database performance. And it is difficult to find and remove these hints from each query. Oracle provided an undocumented hidden parameter, _optimizer_ignore_hint. If this parameter is set to true, Then it will ignore the hints mentioned in the SQL queries. DEFAULT VALUE OF [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/_optimizer_ignore_hint/">_optimizer_ignore_hint</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Sometimes application queries come with the specific hint, which may impact your database performance. And it is difficult to find and remove these hints from each query.</p>
+<p>Oracle provided an undocumented hidden parameter, <strong>_optimizer_ignore_hint</strong>. If this parameter is set to true, Then it will ignore the hints mentioned in the SQL queries.</p>
+<p><em><strong>DEFAULT VALUE OF _optimizer_ignore_hint is FALSE.</strong></em></p>
+<p>Let&#8217;s run a test, to see how it behaves.</p>
+<h4>EXAMPLE:<br />
+Parameter is set to FALSE:(DEFAULT)</h4>
+<pre>SQL&gt; show parameter _optimizer
+
+NAME                          TYPE   			VALUE
+------------------           -----------           -------------
+_optimizer_ignore_hints       boolean                  FALSE
+</pre>
+<p><strong>Execute a query with a  HINT.</strong></p>
+<pre class="">SQL&gt; select /*+ FULL(TEST5) */ count(*) from TEST5 where owner='SYS';
+
+
+  COUNT(*)
+----------
+     42814
+
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 529722805
+
+----------------------------------------------------------------------------
+| Id  | Operation          | Name  | Rows  | Bytes | Cost (%CPU)| Time     |
+----------------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |       |     1 |     7 |   480   (1)| 00:00:01 |
+|   1 |  SORT AGGREGATE    |       |     1 |     7 |            |          |
+|*  2 |   TABLE ACCESS FULL| TEST5 |  1184 |  8288 |   480   (1)| 00:00:01 | ------- &gt;&gt;&gt;&gt; .FULL SCAN DUE TO FULL HINT
+----------------------------------------------------------------------------
+</pre>
+<p>We can see, as we have used a <strong>FULL</strong> hint, <strong>TABLE ACCESS FULL</strong> is used. That does not change the query behavior.</p>
+<p>Now, lets set it to TRUE and re-run the same query.</p>
+<p><strong>The parameter is set to TRUE:</strong></p>
+<pre>SQL&gt; alter session set "_optimizer_ignore_hints"=TRUE ;
+
+Session altered.
+
+SQL&gt; select /*+ FULL(TEST5) */ count(*) from TEST5 where owner='SYS';
+
+  COUNT(*)
+----------
+     42814
+
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 1056693648
+
+--------------------------------------------------------------------------
+| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |
+--------------------------------------------------------------------------
+|   0 | SELECT STATEMENT  |      |     1 |     7 |     3   (0)| 00:00:01 |
+|   1 |  SORT AGGREGATE   |      |     1 |     7 |            |          |
+|*  2 |   INDEX RANGE SCAN| TE   |  1184 |  8288 |     3   (0)| 00:00:01 | ------ &gt;&gt;&gt;&gt; IGNORED FULL HINT, WENT FOR INDEX . 
+--------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - access("OWNER"='SYS')
+
+
+</pre>
+<p>Now despite using a FULL hint, it was ignored because of the parameter _optimizer_ignore_hints.</p>
+<blockquote><p><strong>NOTE &#8211; Don&#8217;t use in production database without proper testing, Because it will disable all the hints used in sql queries, which might be recommended by your Application.</strong></p></blockquote>
+<h4>EXCEPTION:</h4>
+<p>One interesting point, we observed is that, this parameter is <strong>not having any impact on PARALLEL hint</strong>. I.e even if we set this to TRUE, PARALLEL hint will work as expected.</p>
+<pre class="">
+SQL&gt; show parameter _optimizer
+
+NAME                          TYPE   			VALUE
+------------------           -----------           -------------
+_optimizer_ignore_hints       boolean                  TRUE
+
+
+SQL&gt;  select /*+ parallel(4) */ count(*) from TEST5;
+
+  COUNT(*)
+----------
+    107708
+
+Execution Plan
+----------------------------------------------------------
+Plan hash value: 4160549356
+
+--------------------------------------------------------------------------------------------------------
+| Id  | Operation              | Name     | Rows  | Cost (%CPU)| Time     |    TQ  |IN-OUT| PQ Distrib |
+--------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT       |          |     1 |   133   (0)| 00:00:01 |        |      |            |
+|   1 |  SORT AGGREGATE        |          |     1 |            |          |        |      |            |
+|   2 |   PX COORDINATOR       |          |       |            |          |        |      |            |
+|   3 |    PX SEND QC (RANDOM) | :TQ10000 |     1 |            |          |  Q1,00 | P-&gt;S | QC (RAND)  |
+|   4 |     SORT AGGREGATE     |          |     1 |            |          |  Q1,00 | PCWP |            |
+|   5 |      PX BLOCK ITERATOR |          |   107K|   133   (0)| 00:00:01 |  Q1,00 | PCWC |            |
+|   6 |       TABLE ACCESS FULL| TEST5    |   107K|   133   (0)| 00:00:01 |  Q1,00 | PCWP |            |
+--------------------------------------------------------------------------------------------------------
+
+Note
+-----
+   - Degree of Parallelism is 4 because of hint
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/_optimizer_ignore_hint/">_optimizer_ignore_hint</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/_optimizer_ignore_hint/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>ENABLE_PARALLEL_DML hint in oracle 12c</title>
+		<link>https://dbaclass.com/article/enable_parallel_dml-hint-oracle-12c/</link>
+					<comments>https://dbaclass.com/article/enable_parallel_dml-hint-oracle-12c/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 30 Aug 2017 13:58:31 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3332</guid>
+
+					<description><![CDATA[<p>Till oracle 12c, For doing DML transactions in parallel, we need to enable PDML (parallel DML) at session level. I.e before any DML statement, we need to issue below statement. ALTER SESSION ENABLE PARALLEL DML; -- Then parallel dml statement insert /*+ parallel(8) */ into TEST2 select * from TEST2; In oracle 12c, it introduced [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/enable_parallel_dml-hint-oracle-12c/">ENABLE_PARALLEL_DML hint in oracle 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Till oracle 12c, For doing <code>DML</code> transactions in parallel, we need to enable PDML (parallel DML) at session level.<br />
+I.e before any DML statement, we need to issue below statement.</p>
+<pre class="">ALTER SESSION ENABLE PARALLEL DML;
+
+-- Then parallel dml statement
+
+insert /*+ parallel(8) */ into TEST2 select * from TEST2;
+</pre>
+<p>In oracle 12c, it introduced a hint for parallel dml, <code>ENABLE_PARALLEL_DML</code> , which we can use directly inside the dml sql statement. No need to issuing alter session statement.</p>
+<p>It will look as below:</p>
+<pre> insert /*+ parallel(8)  enable_parallel_dml */ into TEST2 select * from TEST2;
+</pre>
+<p>Lets compare the execution plan with and without <code>ENABLE_PARALLEL_DML</code></p>
+<p><strong>WITHOUT ENABLE_PARALLEL_DML:</strong></p>
+<pre>SQL&gt; explain plan for insert /*+ parallel(8) */ into TEST2 select * from TEST2;
+
+Explained.
+
+
+PLAN_TABLE_OUTPUT
+-----------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+Plan hash value: 2876518734
+
+------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                | Name     | Rows  | Bytes | Cost (%CPU)| Time     |    TQ  |IN-OUT| PQ Distrib |
+------------------------------------------------------------------------------------------------------------------
+|   0 | INSERT STATEMENT         |          |   122K|    13M|    82   (2)| 00:00:01 |        |      |            |
+|   1 |  LOAD TABLE CONVENTIONAL | TEST2    |       |       |            |          |        |      |            |  ----- &gt; NOT UNDER PX CORDIN..
+|   2 |   PX COORDINATOR         |          |       |       |            |          |        |      |            |
+|   3 |    PX SEND QC (RANDOM)   | :TQ10000 |   122K|    13M|    82   (2)| 00:00:01 |  Q1,00 | P-&gt;S | QC (RAND)  |
+|   4 |     PX BLOCK ITERATOR    |          |   122K|    13M|    82   (2)| 00:00:01 |  Q1,00 | PCWC |            |
+|   5 |      TABLE ACCESS FULL   | TEST2    |   122K|    13M|    82   (2)| 00:00:01 |  Q1,00 | PCWP |            |
+
+PLAN_TABLE_OUTPUT
+-----------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+
+Note
+-----
+   - Degree of Parallelism is 8 because of hint
+   - PDML is disabled in current session --- &gt;          --- &gt;&gt;&gt;  IT INDICATED PDML IS DISABLED
+
+17 rows selected.
+</pre>
+<p>&nbsp;</p>
+<p><strong>WITH ENABLE_PARALLEL_DML hint:</strong></p>
+<pre class="">SQL&gt; explain plan for insert /*+ parallel(8) enable_parallel_dml */ into TEST2 select * from TEST2;
+
+Explained.
+
+SQL&gt; set lines 299
+SQL&gt; select * from table(dbms_xplan.display);
+
+PLAN_TABLE_OUTPUT
+-----------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+Plan hash value: 4043334015
+
+-----------------------------------------------------------------------------------------------------------------------
+| Id  | Operation                          | Name     | Rows  | Bytes | Cost (%CPU)| Time     |    TQ  |IN-OUT| PQ Dist
+-----------------------------------------------------------------------------------------------------------------------
+|   0 | INSERT STATEMENT                   |          | 61649 |  6863K|    40   (3)| 00:00:01 |        |      |        
+|   1 |  PX COORDINATOR                    |          |       |       |            |          |        |      |         
+|   2 |   PX SEND QC (RANDOM)              | :TQ10000 | 61649 |  6863K|    40   (3)| 00:00:01 |  Q1,00 | P-&gt;S | QC (RAN --- &gt; LOAD IS UNDER PX COORDINATOR
+|   3 |    LOAD AS SELECT (HYBRID TSM/HWMB)| TEST2    |       |       |            |          |  Q1,00 | PCWP |        
+|   4 |     PX BLOCK ITERATOR              |          | 61649 |  6863K|    40   (3)| 00:00:01 |  Q1,00 | PCWC |        
+|   5 |      TABLE ACCESS FULL             | TEST2    | 61649 |  6863K|    40   (3)| 00:00:01 |  Q1,00 | PCWP |        
+
+PLAN_TABLE_OUTPUT
+-----------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
+
+Note
+-----
+   - Degree of Parallelism is 8 because of hint         - PARALLEL IS ENABLED 
+
+16 rows selected.
+</pre>
+<p>We can see, With this ENABLE_PARALLEL_DML hint, even without the alter session command, PDML is enabled.</p>
+<p>Similarly <code>DISABLE_PARALLEL_DML</code> for disabling the PDML.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>SEE ALSO:</h3>
+<p><a href="https://dbaclass.com/oracle-12-2/">New features of oracle 12.2.</a></p>
+<p>The post <a href="https://dbaclass.com/article/enable_parallel_dml-hint-oracle-12c/">ENABLE_PARALLEL_DML hint in oracle 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/enable_parallel_dml-hint-oracle-12c/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

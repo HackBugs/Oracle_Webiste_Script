@@ -1,0 +1,1485 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>DATABASE Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-category/database/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-category/database/</link>
+	<description>database administration</description>
+	<lastBuildDate>Tue, 29 Jun 2021 16:59:04 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to create database using dbca in silent mode &#8211; 19C</title>
+		<link>https://dbaclass.com/article/how-to-create-database-dbca-slient-mode/</link>
+					<comments>https://dbaclass.com/article/how-to-create-database-dbca-slient-mode/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 11 May 2021 15:03:35 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=6452</guid>
+
+					<description><![CDATA[<p>From oracle 19c onward, we can create a database using dbca in silent mode with help of response file. default response file location: export ORACLE_HOME=/oracle/app/oracle/product/19.9.0.0/dbhome_1 cd $ORACLE_HOME/assistants/dbca By using the default response files, you can create a new response file, as per your requirement. Below is the response file i have created. cat /export/home/oracle/db_create.rsp responseFileVersion=/oracle/assistants/rspfmt_dbca_response_schema_v12.2.0 [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-create-database-dbca-slient-mode/">How to create database using dbca in silent mode &#8211; 19C</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>From oracle 19c onward, we can create a database using dbca in silent mode with help of response file.</p>
+<p><span style="text-decoration: underline;"><strong>default response file location:</strong></span><br />
+<span style="font-family: 'trebuchet ms', geneva, sans-serif;">export ORACLE_HOME=/oracle/app/oracle/product/19.9.0.0/dbhome_1</span><br />
+<span style="font-family: 'trebuchet ms', geneva, sans-serif;">cd $ORACLE_HOME/assistants/dbca</span></p>
+<p>By using the default response files, you can create a new response file, as per your requirement.</p>
+<h3><span style="text-decoration: underline;"><strong>Below is the response file i have created.</strong></span></h3>
+<pre><code class="language-">
+cat /export/home/oracle/db_create.rsp
+
+
+
+responseFileVersion=/oracle/assistants/rspfmt_dbca_response_schema_v12.2.0
+gdbName=DBACLASS9
+sid=DBACLASS9
+databaseConfigType=SI
+policyManaged=false
+createServerPool=false
+createAsContainerDatabase=false
+templateName=/oracle/app/oracle/product/19.9.0.0/dbhome_1/assistants/dbca/templates/New_Database.dbt
+sysPassword=oracle#123	
+systemPassword=oracle#123
+runCVUChecks=FALSE
+dvConfiguration=false
+olsConfiguration=false
+datafileJarLocation=
+datafileDestination=/oradata/{DB_UNIQUE_NAME}/
+storageType=FS
+characterSet=AL32UTF8
+nationalCharacterSet=UTF8
+listeners=LISTENER_B2COM
+variables=ORACLE_BASE_HOME=/oracle/app/oracle/product/19.9.0.0/dbhome_1,DB_UNIQUE_NAME=DBACLASS9,ORACLE_BASE=/oracle/app/oracle,PDB_NAME=,DB_NAME=DBACLASS9,ORACLE_HOME=/oracle/app/oracle/product/19.9.0.0/dbhome_1,SID=DBACLASS9
+initParams=undo_tablespace=UNDOTBS1,sga_target=10093MB,db_block_size=8192BYTES,log_archive_dest_1='LOCATION=/archive/DBACLASS9',nls_language=AMERICAN,dispatchers=(PROTOCOL=TCP) (SERVICE=DBACLASS9XDB),diagnostic_dest={ORACLE_BASE},control_files=("/oradata/{DB_UNIQUE_NAME}/control01.ctl", "/oradata/{DB_UNIQUE_NAME}/control02.ctl"),remote_login_passwordfile=EXCLUSIVE,audit_file_dest={ORACLE_BASE}/admin/{DB_UNIQUE_NAME}/adump,processes=1400,pga_aggregate_target=3365MB,nls_territory=AMERICA,local_listener=LISTENER_DBACLASS9,open_cursors=300,log_archive_format=%t_%s_%r.dbf,compatible=19.0.0,db_name=DBACLASS9,audit_trail=db
+sampleSchema=false
+memoryPercentage=40
+databaseType=MULTIPURPOSE
+automaticMemoryManagement=false
+totalMemory=0  
+
+
+
+</code></pre>
+<p><strong><span style="text-decoration: underline;">Before creating the database, make sure</span></strong></p>
+<p><span style="font-family: 'trebuchet ms', geneva, sans-serif;">1. Oracle binary/home is already installed</span><br />
+<span style="font-family: 'trebuchet ms', geneva, sans-serif;">2. Requirement directory structure is already created</span></p>
+<h3>Now run DBCA in silent mode:</h3>
+<pre><code class="language-">
+
+
+oracle@b2bdev:~$ dbca -silent -createDatabase -responseFile /export/home/oracle/db_create.rsp
+[WARNING] [DBT-06208] The 'SYS' password entered does not conform to the Oracle recommended standards.
+   CAUSE:
+a. Oracle recommends that the password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9].
+b.The password entered is a keyword that Oracle does not recommend to be used as password
+   ACTION: Specify a strong password. If required refer Oracle documentation for guidelines.
+[WARNING] [DBT-06208] The 'SYSTEM' password entered does not conform to the Oracle recommended standards.
+   CAUSE:
+a. Oracle recommends that the password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9].
+b.The password entered is a keyword that Oracle does not recommend to be used as password
+   ACTION: Specify a strong password. If required refer Oracle documentation for guidelines.
+Prepare for db operation
+5% complete
+Creating and starting Oracle instance
+6% complete
+9% complete
+Creating database files
+10% complete
+14% complete
+Creating data dictionary views
+15% complete
+18% complete
+19% complete
+22% complete
+23% complete
+25% complete
+27% complete
+Oracle JVM
+34% complete
+41% complete
+48% complete
+50% complete
+Oracle Text
+51% complete
+54% complete
+55% complete
+Oracle Multimedia
+68% complete
+Oracle OLAP
+69% complete
+70% complete
+71% complete
+72% complete
+73% complete
+Oracle Spatial
+74% complete
+82% complete
+Completing Database Creation
+85% complete
+86% complete
+Executing Post Configuration Actions
+100% complete
+Database creation complete. For details check the logfiles at:
+ /oracle/app/oracle/cfgtoollogs/dbca/DBACLASS9.
+Database Information:
+Global Database Name:DBACLASS9
+System Identifier(SID):DBACLASS9
+Look at the log file "/oracle/app/oracle/cfgtoollogs/dbca/DBACLASS9/DBACLASS9.log" for further details.
+
+
+
+</code></pre>
+<p>DB has been created successfully</p>
+<p>post check:</p>
+<p>&nbsp;</p>
+<pre><code class="language-">
+
+SQL&gt; select name,open_mode from v$database;
+
+NAME      OPEN_MODE
+--------- --------------------
+DBACLASS9    READ WRITE
+
+SQL&gt; select comp_id,status from dba_registry;
+
+COMP_ID                        STATUS
+------------------------------ --------------------------------------------
+CATALOG                        VALID
+CATPROC                        VALID
+RAC                            OPTION OFF
+JAVAVM                         VALID
+XML                            VALID
+CATJAVA                        VALID
+APS                            VALID
+XDB                            VALID
+OWM                            VALID
+CONTEXT                        VALID
+ORDIM                          VALID
+
+COMP_ID                        STATUS
+------------------------------ --------------------------------------------
+SDO                            VALID
+XOQ                            VALID
+
+
+</code></pre>
+<p>The post <a href="https://dbaclass.com/article/how-to-create-database-dbca-slient-mode/">How to create database using dbca in silent mode &#8211; 19C</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-create-database-dbca-slient-mode/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to apply JDK patch in oracle database</title>
+		<link>https://dbaclass.com/article/how-to-apply-jdk-patch-in-oracle-database/</link>
+					<comments>https://dbaclass.com/article/how-to-apply-jdk-patch-in-oracle-database/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 11 Apr 2021 16:36:36 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=6425</guid>
+
+					<description><![CDATA[<p>Recently we got a notification from security Team, that the java versions inside the ORACLE_HOME were outdated, and those need to be updated to the latest one. So We checked in  oracle support portal and found out what is the latest jdk patch available and then applied the same on respective servers. In this below [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-apply-jdk-patch-in-oracle-database/">How to apply JDK patch in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Recently we got a notification from security Team, that the java versions inside the ORACLE_HOME were outdated, and those need to be updated to the latest one. So We checked in  oracle support portal and found out what is the latest jdk patch available and then applied the same on respective servers.</p>
+<p>In this below example we will show how to apply the jdk patch for standalone and grid database</p>
+<p><strong>1. Find the latest jdk patch available.</strong></p>
+<p><a href="https://support.oracle.com/epmos/faces/SearchDocDisplay?_adf.ctrl-state=o039d9z8e_4&amp;_afrLoop=37006654818123" target="_blank" rel="noopener noreferrer">JDK and PERL Patches for Oracle Database Home and Grid Home (Doc ID 2584628.1)</a></p>
+<p>&nbsp;</p>
+<p>Download the jdk patch for your respective database version and copy the zip file to your db server.</p>
+<p><a href="https://dbaclass.com/article/how-to-apply-jdk-patch-in-oracle-database/screenshot-2021-04-11-at-8-25-23-pm/" rel="attachment wp-att-6426"><img fetchpriority="high" decoding="async" class="aligncenter size-full wp-image-6426" src="https://dbaclass.com/wp-content/uploads/2021/04/Screenshot-2021-04-11-at-8.25.23-PM.png" alt="" width="1020" height="529" srcset="https://dbaclass.com/wp-content/uploads/2021/04/Screenshot-2021-04-11-at-8.25.23-PM.png 1020w, https://dbaclass.com/wp-content/uploads/2021/04/Screenshot-2021-04-11-at-8.25.23-PM-300x156.png 300w, https://dbaclass.com/wp-content/uploads/2021/04/Screenshot-2021-04-11-at-8.25.23-PM-768x398.png 768w" sizes="(max-width: 1020px) 100vw, 1020px" /></a></p>
+<h2><span style="text-decoration: underline;"><strong> Steps for applying jdk patch on  standalone database:</strong></span></h2>
+<p>&nbsp;</p>
+<p>For standalone database, we need to apply only to the database_home i.e is the rdbms home.</p>
+<p><strong>1. Check the existing jdk version:</strong></p>
+<pre><code class="language-">
+[oracle@dbhost-1 bin]$ /u01/app/oracle/product/12.2/dbhome_1/jdk/bin/java -version
+java version "<span style="color: #800000;"><strong>1.8.0_271</strong></span>"
+Java(TM) SE Runtime Environment (build 1.8.0_271-b09)
+Java HotSpot(TM) 64-Bit Server VM (build 25.271-b09, mixed mode)
+</code></pre>
+<p><strong>2. Shutdown database</strong></p>
+<pre><code class="language-">
+SQL&gt; SHUTDOWN IMMEDIATE;
+</code></pre>
+<p><strong>3. unzip the patch:</strong></p>
+<pre><code class="language-">
+cd /backup/software/
+unzip 32162748_patch.zip
+cd 32162748
+</code></pre>
+<p><strong>4. Apply the patch:</strong></p>
+<blockquote><p><strong>Note &#8211;  &gt; Please ensure that latest opatch utility installed.</strong></p></blockquote>
+<pre><code class="language-">
+export ORACLE_HOME=/u01/app/oracle/product/12.2/dbhome_1
+cd /backup/software/32162748
+
+
+[oracle@dbhost-1 32162748]$ $ORACLE_HOME/OPatch/opatch apply
+Oracle Interim Patch Installer version 12.2.0.1.23
+Copyright (c) 2021, Oracle Corporation.  All rights reserved.
+
+
+Oracle Home       : /u01/app/oracle/product/12.2/dbhome_1
+Central Inventory : /u01/app/oraInventory
+   from           : /u01/app/oracle/product/12.2/dbhome_1//oraInst.loc
+OPatch version    : 12.2.0.1.23
+OUI version       : 12.2.0.1.4
+Log file location : /u01/app/oracle/product/12.2/dbhome_1/cfgtoollogs/opatch/opatch2021-03-25_12-57-53PM_1.log
+
+Verifying environment and performing prerequisite checks...
+OPatch continues with these patches:   32162748
+
+Do you want to proceed? [y|n]
+y
+User Responded with: Y
+All checks passed.
+Backing up files...
+Applying interim patch '32162748' to OH '/u01/app/oracle/product/12.2/dbhome_1'
+
+Patching component oracle.jdk, 1.8.0.91.0...
+Patch 32162748 successfully applied.
+Log file location: /u01/app/oracle/product/12.2/dbhome_1/cfgtoollogs/opatch/opatch2021-03-25_12-57-53PM_1.log
+
+OPatch succeeded.
+
+</code></pre>
+<p><strong>5. Start the database:</strong></p>
+<pre><code class="language-">
+
+SQL&gt; startup
+ORACLE instance started.
+
+Total System Global Area 1.6267E+11 bytes
+Fixed Size                 29864856 bytes
+Variable Size            3.4897E+10 bytes
+Database Buffers         1.2724E+11 bytes
+Redo Buffers              507002880 bytes
+Database mounted.
+Database opened.
+SQL&gt;
+</code></pre>
+<p><strong>6. Now check the jdk version again:</strong></p>
+<pre><code class="language-">
+[oracle@dbhost-1 32162748]$  /u01/app/oracle/product/12.2/dbhome_1/jdk/bin/java -version
+java version "<span style="color: #800000;"><strong>1.8.0_281</strong></span>"
+Java(TM) SE Runtime Environment (build 1.8.0_281-b09)
+Java HotSpot(TM) 64-Bit Server VM (build 25.281-b09, mixed mode)
+
+</code></pre>
+<p>We can see JDK has version has been change from 1.8.0_271 to 1.8.0_281</p>
+<h2><span style="text-decoration: underline;">Steps for Applying JDK patch on GRID /RAC database:</span></h2>
+<p>In case of RAC database, we need to apply jdk patch on both RDBMS home and GRID home.</p>
+<p>First we will start with GRID_HOME on node 1:</p>
+<p><strong>1. Unlock the crs: [ from root]</strong></p>
+<pre><code class="language-"><span style="color: #800000;"><span style="color: #000000;">[root@dbhost-1]#</span> <strong>cd $GRID_HOME/crs/install</strong></span>
+<span style="color: #800000;"><span style="color: #000000;">[root@dbhost-1 install]</span><strong><span style="color: #000000;">#</span> ./rootcrs.sh -prepatch</strong></span>
+Using configuration parameter file: /u01/app/12.2/grid/crs/install/crsconfig_params
+The log of current session can be found at:
+  /u01/app/grid/crsdata/dbhost-1/crsconfig/crspatch_2021-03-25_01-02-53PM.log
+2021/03/25 13:03:14 CLSRSC-347: Successfully unlock /u01/app/12.2/grid
+
+</code></pre>
+<blockquote><p><strong>NOTE &#8211;  &gt; In case of standalone grid , use <span style="color: #800000;">roothas.sh &#8211; prepatch</span> command</strong></p></blockquote>
+<p><strong>2. Apply the patch on grid_home:</strong></p>
+<pre><code class="language-">
+[oracle@dbhost-1 32162748]$ cd /backup/software/32162748
+[oracle@dbhost-1 32162748]$
+[oracle@dbhost-1 32162748]$ <span style="color: #800000;"><strong>$ORACLE_HOME/OPatch/opatch apply</strong></span>
+Oracle Interim Patch Installer version 12.2.0.1.23
+Copyright (c) 2021, Oracle Corporation.  All rights reserved.
+
+
+Oracle Home       : /u01/app/12.2/grid
+Central Inventory : /u01/app/oraInventory
+   from           : /u01/app/12.2/grid/oraInst.loc
+OPatch version    : 12.2.0.1.23
+OUI version       : 12.2.0.1.4
+Log file location : /u01/app/12.2/grid/cfgtoollogs/opatch/opatch2021-03-25_13-04-13PM_1.log
+
+Verifying environment and performing prerequisite checks...
+OPatch continues with these patches:   32162748
+
+Do you want to proceed? [y|n]
+y
+User Responded with: Y
+All checks passed.
+Backing up files...
+Applying interim patch '32162748' to OH '/u01/app/12.2/grid'
+
+Patching component oracle.jdk, 1.8.0.91.0...
+Patch 32162748 successfully applied.
+Log file location: /u01/app/12.2/grid/cfgtoollogs/opatch/opatch2021-03-25_13-04-13PM_1.log
+
+OPatch succeeded.
+</code></pre>
+<p><strong>3. Now lock the CRS: [ from root ]</strong></p>
+<pre><code class="language-"><span style="color: #800000;"><span style="color: #000000;">[root@dbhost-1]#</span><strong> cd $GRID_HOME/crs/install</strong></span>
+[root@dbhost-1 install]# <span style="color: #800000;"><strong>./rootcrs.sh -postpatch</strong></span>
+Using configuration parameter file: /u01/app/12.2/grid/crs/install/crsconfig_params
+The log of current session can be found at:
+  /u01/app/grid/crsdata/dbhost-1/crsconfig/crspatch_2021-03-25_01-04-55PM.log
+2021/03/25 13:04:57 CLSRSC-329: Replacing Clusterware entries in file '.....'
+
+
+</code></pre>
+<p><strong>NOTE &#8211;  &gt; In case of standalone grid , use <span style="color: #800000;">roothas.sh &#8211; postpatch</span> command</strong></p>
+<p><strong>4. Now on RDBMS HOME on node 1:</strong></p>
+<pre><code class="language-">
+
+SQL&gt;shutdown immediate
+SQL&gt; exit
+
+
+export ORACLE_HOME=/u01/app/oracle/product/12.2/dbhome_1
+cd /backup/software/32162748
+
+
+[oracle@dbhost-1 32162748]$ <span style="color: #800000;"><strong>$ORACLE_HOME/OPatch/opatch apply</strong></span>
+Oracle Interim Patch Installer version 12.2.0.1.23
+Copyright (c) 2021, Oracle Corporation.  All rights reserved.
+
+
+Oracle Home       : /u01/app/oracle/product/12.2/dbhome_1
+Central Inventory : /u01/app/oraInventory
+   from           : /u01/app/oracle/product/12.2/dbhome_1//oraInst.loc
+OPatch version    : 12.2.0.1.23
+OUI version       : 12.2.0.1.4
+Log file location : /u01/app/oracle/product/12.2/dbhome_1/cfgtoollogs/opatch/opatch2021-03-25_12-57-53PM_1.log
+
+Verifying environment and performing prerequisite checks...
+OPatch continues with these patches:   32162748
+
+Do you want to proceed? [y|n]
+y
+User Responded with: Y
+All checks passed.
+Backing up files...
+Applying interim patch '32162748' to OH '/u01/app/oracle/product/12.2/dbhome_1'
+
+Patching component oracle.jdk, 1.8.0.91.0...
+Patch 32162748 successfully applied.
+Log file location: /u01/app/oracle/product/12.2/dbhome_1/cfgtoollogs/opatch/opatch2021-03-25_12-57-53PM_1.log
+
+OPatch succeeded.
+
+
+SQL&gt; startup
+ORACLE instance started.
+
+Total System Global Area 1.6267E+11 bytes
+Fixed Size                 29864856 bytes
+Variable Size            3.4897E+10 bytes
+Database Buffers         1.2724E+11 bytes
+Redo Buffers              507002880 bytes
+Database mounted.
+Database opened.
+SQL&gt;
+
+
+</code></pre>
+<p>Once both grid_home and rdbms_home patching is done, we need to do the same steps on other node also.</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-apply-jdk-patch-in-oracle-database/">How to apply JDK patch in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-apply-jdk-patch-in-oracle-database/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Useful OPATCH commands</title>
+		<link>https://dbaclass.com/article/useful-opatch-commands/</link>
+					<comments>https://dbaclass.com/article/useful-opatch-commands/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 21 Dec 2020 07:18:36 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=6365</guid>
+
+					<description><![CDATA[<p>1. list inventory details of patch. $ORACLE_HOME/OPatch/opatch lsinventory 2. list patchsets applied : $ORACLE_HOME/OPatch/opatch lspatches 3. Find opatch version: $ORACLE_HOME/OPatch/opatch version 4. Find details of a particular patch(before applying): $ORACLE_HOME/OPatch/opatch query -all {PATCH_PATH} $ORACLE_HOME/OPatch/opatch query -all /software/PSUPATCH/30089984 5. Apply a patch to RDBMS HOME: -- You may need to shutdown the database and listener services: [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/useful-opatch-commands/">Useful OPATCH commands</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<h4>1. list inventory details of patch.</h4>
+<pre><code class="language-">
+$ORACLE_HOME/OPatch/opatch lsinventory
+</code></pre>
+<h4>2. list patchsets applied :</h4>
+<pre><code class="language-">
+$ORACLE_HOME/OPatch/opatch lspatches
+</code></pre>
+<h4>3. Find opatch version:</h4>
+<pre><code class="language-">
+$ORACLE_HOME/OPatch/opatch version
+</code></pre>
+<h4>4. Find details of a particular patch(before applying):</h4>
+<pre><code class="language-">
+$ORACLE_HOME/OPatch/opatch query -all {PATCH_PATH}
+
+$ORACLE_HOME/OPatch/opatch query -all /software/PSUPATCH/30089984
+
+</code></pre>
+<h4>5. Apply a patch to RDBMS HOME:</h4>
+<pre><code class="language-">
+-- You may need to shutdown the database and listener services:
+
+cd /SOFTWARE/PSUPATCH/30089984 -- Go to the patch path:
+$ORACLE_HOME/OPatch/opatch apply
+</code></pre>
+<h4>6. Rollback an patch from RDBMS HOME:</h4>
+<pre><code class="language-">
+$ORACLE_HOME/OPatch/opatch rollback -id [patch_id]
+$ORACLE_HOME/OPatch/opatch rollback -id 30089984
+</code></pre>
+<h4>7. Apply one off patch in grid_home:</h4>
+<pre><code class="language-">
+
+root # $GI_HOME/crs/install/rootcrs.sh -prepatch. 
+
+
+oracle$ cd /SOFTWARE/PSUPATCH/30089984 -- Go to the patch path:
+oracle$ $GRID_HOME/OPatch/opatch apply
+
+
+root# $GI_HOME/crs/install/rootcrs.sh -postpatch
+
+</code></pre>
+<h4>8. Check conflict against ORACLE_HOME</h4>
+<pre><code class="language-">
+- go to patch folder.
+cd 27734982
+
+[27734982]$ $ORACLE_HOME/OPatch/opatch prereq CheckConflictAgainstOHWithDetail -ph ./
+
+</code></pre>
+<h4>9.Check whether active executables are running:</h4>
+<pre><code class="language-">
+- go to patch folder.
+cd 27734982
+
+
+[27734982]$ $ORACLE_HOME/OPatch/opatch prereq CheckActiveFilesAndExecutables -ph ./
+
+</code></pre>
+<h4>10.Opatch command using different inventory location:</h4>
+<pre><code class="language-">
+$ORACLE_HOME/OPatch/opatch lsinventory -invPtrLoc /etc/orainv/orainventory
+</code></pre>
+<p>The post <a href="https://dbaclass.com/article/useful-opatch-commands/">Useful OPATCH commands</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/useful-opatch-commands/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>sec_case_sensitive_logon parameter in oracle</title>
+		<link>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/</link>
+					<comments>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 24 Feb 2020 07:39:29 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4842</guid>
+
+					<description><![CDATA[<p>         sec_case_sensitive_logon &#8211; &#62; This initialisation(init) parameter enables or disabled password case sensitivity in the database. when sec_case_sensitive_logon is TRUE &#8211; -&#62; t he database use login passwords are case sensitive. when sec_case_sensitive_logon is FALSE &#8211; -&#62; means database use login passwords are case insensitive. DEFAULT VALUE IS TRUE . Lets see [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/">sec_case_sensitive_logon parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>         sec_case_sensitive_logon</strong> &#8211; &gt; This initialisation(init) parameter enables or disabled password case sensitivity in the database.</p>
+<p><span style="font-family: 'andale mono', monospace;"><strong>when sec_case_sensitive_logon is TRUE</strong></span> &#8211; -&gt; t he database use login passwords are case sensitive.</p>
+<p><strong><span style="font-family: 'andale mono', monospace;">when sec_case_sensitive_logon is FALSE</span></strong> &#8211; -&gt; means database use login passwords are case insensitive.</p>
+<p>DEFAULT VALUE IS TRUE .</p>
+<p>Lets see below DEMO:</p>
+<p><strong>DEMO:</strong></p>
+<p><strong>1. When sec_case_sensitive_logon is TRUE.</strong></p>
+<pre>
+SQL&gt; show parameter sec_case
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sec_case_sensitive_logon             boolean     TRUE
+
+
+
+SQL&gt; alter user DBACLASS identified by DBAclass;
+
+User altered.
+
+
+
+SQL&gt; connect DBACLASS/dbaclass
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+
+
+
+SQL&gt; connect  DBACLASS/DBAclass
+Connected.
+
+
+</pre>
+<p>We can see the the password is case sensitive.</p>
+<p><strong>2. When sec_case_sensitive_logon is FALSE.</strong></p>
+<p>Lets make the parameter to false:</p>
+<pre>
+
+SQL&gt; ALTER SYSTEM SET sec_case_sensitive_logon=FALSE scope=both;
+
+database altered.
+
+
+SQL&gt; show parameter sec_case
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sec_case_sensitive_logon             boolean     FALSE
+
+SQL&gt; alter user DBACLASS identified by DBAclass;
+
+User altered.
+
+
+Now try to connect with any case(small or caps)  
+
+SQL&gt;
+SQL&gt; connect DBACLASS/dbaclass
+Connected.
+SQL&gt;  connect DBACLASS/DBACLASS
+Connected.
+
+</pre>
+<p>We can see password is case insensitive.</p>
+<p>The post <a href="https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/">sec_case_sensitive_logon parameter in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/sec_case_sensitive_logon-parameter-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to multiplex control file in standalone database</title>
+		<link>https://dbaclass.com/article/multiplex-control-file-standalone-database/</link>
+					<comments>https://dbaclass.com/article/multiplex-control-file-standalone-database/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Mon, 24 Feb 2020 07:00:20 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4839</guid>
+
+					<description><![CDATA[<p>Multiplexing in control_file is one of the best practices of oracle database setup. It means keeping control files in different mount point or disk groups , so that in case one mount points is inaccessible, control file can be accessed from the available mount point. NOTE &#8211; &#62; This activity needs downtime.       [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/multiplex-control-file-standalone-database/">How to multiplex control file in standalone database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Multiplexing in <code>control_file</code> is one of the best practices of oracle database setup. It means keeping control files in different mount point or disk groups , so that in case one mount points is inaccessible, control file can be accessed from the available mount point.</p>
+<p>NOTE &#8211; &gt; This activity needs downtime.</p>
+<blockquote><p>         <strong>FOR MULTIPLEXING IN RAC</strong> &#8211; &gt; <a href="https://dbaclass.com/article/multiplex-controlfile-in-oracle-rac/" target="_blank" rel="noopener noreferrer">STEPS FOR MULTIPLEXING IN ORACLE RAC</a></p></blockquote>
+<p>In this below DEMO, we will explain the steps for multiplexing control files.</p>
+<p>&nbsp;</p>
+<h2>DEMO:</h2>
+<p><strong>1. Check current control files:</strong></p>
+<pre>SQL&gt; select name from gv$controlfile
+  2  ;
+
+NAME
+--------------------------------------------------------------------------------
+/dmdata02/oradata/BSDMSIT2/control01.ctl
+/dmdata02/oradata/BSDMSIT2/control02.ctl
+/dmdata07/oradata/control03.ctl
+
+SQL&gt; show parameter control_file
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+control_file_record_keep_time        integer     7
+control_files                        string      /dmdata02/oradata/BSDMSIT2/con
+                                                 trol01.ctl, /dmdata02/oradata/
+                                                 BSDMSIT2/control02.ctl
+</pre>
+<p>Create a directory in the new mount point, where we will keep the new control file.</p>
+<pre class="">mkdir -p /dmdata07/oradata
+
+</pre>
+<p><strong>2. update the control_files parameter by adding the new path also</strong></p>
+<pre>SQL&gt; alter system set control_files='/dmdata02/oradata/BSDMSIT2/control01.ctl','/dmdata02/oradata/BSDMSIT2/control02.ctl','/dmdata07/oradata/control03.ctl' scope=spfile;
+
+System altered.
+
+</pre>
+<p><strong>3. Shutdown the database and start with nomount:</strong></p>
+<pre>SQL&gt; shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL&gt; startup nomount
+ORA-32004: obsolete or deprecated parameter(s) specified for RDBMS instance
+ORACLE instance started.
+
+Total System Global Area 8388608000 bytes
+Fixed Size                  5303664 bytes
+Variable Size            3623879312 bytes
+Database Buffers         4747952128 bytes
+Redo Buffers               11472896 bytes
+SQL&gt; exit
+
+</pre>
+<p><strong>4. restore the controlfile from existing control file .</strong></p>
+<pre>$ rman target /
+
+Recovery Manager: Release 12.1.0.2.0 - Production on Mon Feb 24 08:50:19 2020
+
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: BSDMSIT2 (not mounted)
+
+RMAN&gt; restore controlfile from '/dmdata02/oradata/BSDMSIT2/control01.ctl';
+
+Starting restore at 24-FEB-20
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=1058 device type=DISK
+
+channel ORA_DISK_1: copied control file copy
+output file name=/dmdata02/oradata/BSDMSIT2/control01.ctl
+output file name=/dmdata02/oradata/BSDMSIT2/control02.ctl
+output file name=/dmdata07/oradata/control03.ctl
+Finished restore at 24-FEB-20
+
+RMAN&gt; exit
+
+</pre>
+<p><strong>5. Restart the database:</strong></p>
+<pre>SQL&gt; shutdown immediate;
+startup
+ORA-01507: database not mounted
+
+
+ORACLE instance shut down.
+SQL&gt; ORA-32004: obsolete or deprecated parameter(s) specified for RDBMS instance
+ORACLE instance started.
+
+Total System Global Area 8388608000 bytes
+Fixed Size                  5303664 bytes
+Variable Size            3623879312 bytes
+Database Buffers         4747952128 bytes
+Redo Buffers               11472896 bytes
+Database mounted.
+Database opened.
+
+</pre>
+<p><strong>6. Check whether new control file is available or not :</strong></p>
+<pre>SQL&gt; show parameter control_files
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+control_files                        string      /dmdata02/oradata/BSDMSIT2/con
+                                                 trol01.ctl, /dmdata02/oradata/
+                                                 BSDMSIT2/control02.ctl, /dmdat
+                                                 a07/oradata/control03.ctl
+                                             NUMBER
+
+SQL&gt; select name from gv$controlfile;
+
+NAME
+--------------------------------------------------------------------------------
+/dmdata02/oradata/BSDMSIT2/control01.ctl
+/dmdata02/oradata/BSDMSIT2/control02.ctl
+/dmdata07/oradata/control03.ctl
+
+
+</pre>
+<p>We can observe controlfile is available now on all 3 locations.</p>
+<p>The post <a href="https://dbaclass.com/article/multiplex-control-file-standalone-database/">How to multiplex control file in standalone database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/multiplex-control-file-standalone-database/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Useful gather statistics commands in oracle</title>
+		<link>https://dbaclass.com/article/useful-gather-statistics-commands-oracle/</link>
+					<comments>https://dbaclass.com/article/useful-gather-statistics-commands-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 05 Nov 2019 12:00:34 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4396</guid>
+
+					<description><![CDATA[<p>This article contains all the useful gather statistics related commands. 1. Gather dictionary stats: -- It gathers statistics for dictionary schemas 'SYS', 'SYSTEM' and other internal schemas. EXEC DBMS_STATS.gather_dictionary_stats; 2. Gather fixed object stats: --- Fixed object means gv$ or v$views EXEC DBMS_STATS.GATHER_FIXED_OBJECTS_STATS; 3. Gather full database stats: EXEC DBMS_STATS.gather_database_stats; -- With estimate_percent to 15 [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/useful-gather-statistics-commands-oracle/">Useful gather statistics commands in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>This article contains all the useful gather statistics related commands.</p>
+<p><strong>1. Gather dictionary stats:</strong></p>
+<pre>-- It gathers statistics for dictionary schemas 'SYS', 'SYSTEM' and other internal schemas.
+
+EXEC DBMS_STATS.gather_dictionary_stats;
+
+</pre>
+<p><strong>2. Gather fixed object stats:</strong></p>
+<pre>--- Fixed object means gv$ or v$views
+
+EXEC DBMS_STATS.GATHER_FIXED_OBJECTS_STATS;
+
+</pre>
+<p><strong>3. Gather full database stats:</strong></p>
+<pre>EXEC DBMS_STATS.gather_database_stats;
+
+-- With estimate_percent to 15 percent or any other value , if the db size very huge. 
+
+EXEC DBMS_STATS.gather_database_stats(estimate_percent =&gt; 15);
+EXEC DBMS_STATS.gather_database_stats(estimate_percent =&gt; 15, cascade =&gt; TRUE);
+
+-- With auto sample size and parallel degree 
+
+EXEC DBMS_STATS.gather_database_stats(estimate_percent =&gt; DBMS_STATS.AUTO_SAMPLE_SIZE,degree =&gt; 8);
+
+
+</pre>
+<p><strong>4. Gather schema statistics:</strong></p>
+<pre>EXEC DBMS_STATS.gather_schema_stats('DBACLSS');
+
+EXEC DBMS_STATS.gather_schema_stats('DBACLASS', estimate_percent =&gt; 25);
+
+EXEC DBMS_STATS.gather_schema_stats('DBACLASS', estimate_percent =&gt; 100, cascade =&gt; TRUE);
+
+-- STATS WITH AUTO ESTIMATION and degree 8 
+
+exec dbms_stats.gather_schema_stats( ownname =&gt; 'DBACLASS',method_opt =&gt; 'FOR ALL COLUMNS SIZE 1', 
+granularity =&gt; 'ALL', degree =&gt; 8, cascade =&gt; TRUE, 
+estimate_percent=&gt;dbms_stats.auto_sample_size);
+
+</pre>
+<p><strong>5. Gather table statistics:</strong></p>
+<pre class="">EXEC DBMS_STATS.gather_table_stats('DBACLASS', 'EMP');
+EXEC DBMS_STATS.gather_table_stats('DBACLASS', 'EMP', estimate_percent =&gt; 15);
+EXEC DBMS_STATS.gather_table_stats('DBACLASS', 'EMP', estimate_percent =&gt; 15, cascade =&gt; TRUE);
+
+exec DBMS_STATS.GATHER_TABLE_STATS  (ownname =&gt; 'DBACLASS' , tabname =&gt; 'EMP',cascade =&gt; true, 
+method_opt=&gt;'for all indexed columns size 1', granularity =&gt; 'ALL', degree =&gt; 8);
+
+exec DBMS_STATS.GATHER_TABLE_STATS (ownname =&gt; 'DBACLASS' , tabname =&gt; 'EMP',
+cascade =&gt; true, method_opt=&gt;'FOR ALL COLUMNS SIZE 1', granularity =&gt; 'ALL', degree =&gt; 8);
+
+</pre>
+<p><strong>6. Gather stats for single partition of a table:</strong></p>
+<pre>BEGIN
+DBMS_STATS.GATHER_TABLE_STATS (
+ownname =&gt; 'SCOTT',
+tabname =&gt; 'TEST', --- TABLE NAME
+partname =&gt; 'TEST_JAN2016' --- PARTITOIN NAME
+method_opt=&gt;'for all indexed columns size 1',
+GRANULARITY =&gt; 'APPROX_GLOBAL AND PARTITION',
+degree =&gt; 8);
+END;
+/
+</pre>
+<p><strong>7. Lock/unlock statistics:</strong></p>
+<pre>-- Lock stats of a schema:
+EXEC DBMS_STATS.lock_schema_stats('DBACLASS');
+
+-- Lock stats of a table:
+EXEC DBMS_STATS.lock_table_stats('DBACLASS', 'EMP');
+
+-- Lock stats of a partition:
+EXEC DBMS_STATS.lock_partition_stats('DBACLASS', 'EMP', 'EMP');
+
+-- unlock stats of a schema:
+
+EXEC DBMS_STATS.unlock_schema_stats('DBACLASS');
+-- unlock stats of a table:
+
+EXEC DBMS_STATS.unlock_table_stats('DBACLASS', 'DBACLASS');
+--unlock stats of a partition:
+
+EXEC DBMS_STATS.unlock_partition_stats('DBACLASS', 'EMP', 'TEST_JAN2016');
+
+--- check stats status:
+
+SELECT stattype_locked FROM dba_tab_statistics WHERE table_name = 'TEST' and owner = 'SCOTT';
+
+
+</pre>
+<p><strong>8 . Delete statistics:</strong></p>
+<pre class="">-- Delete complete db statistics:
+EXEC DBMS_STATS.delete_database_stats;
+
+-- Delete schema statistics:
+EXEC DBMS_STATS.delete_schema_stats('DBACLASS');
+
+-- Delete table statistics:
+EXEC DBMS_STATS.delete_table_stats('DBACLASS', 'EMP');
+
+-- Delete column statistics:
+EXEC DBMS_STATS.delete_column_stats('DBACLASS', 'EMP', 'EMPNO');
+
+-- Delete index statistics:
+
+EXEC DBMS_STATS.delete_index_stats('DBACLASS', 'EMP_PK');
+
+-- Delete dictionary statistics:
+EXEC DBMS_STATS.delete_dictionary_stats;
+
+
+-- Delete fixed object statistics:
+
+exec dbms_stats.delete_fixed_objects_stats;
+
+-- Delete system statistics:
+
+exec dbms_stats.delete_system_stats('STAT_TAB');
+
+
+</pre>
+<p><strong>8. Setting statistics preference:</strong></p>
+<pre class="">-- View preference details for the database:
+
+SELECT dbms_stats.get_prefs('PUBLISH') EST_PCT FROM dual;
+
+-- View Publish preference for table 
+
+
+-- View Publish preference for schema:
+
+select dbms_stats.get_prefs('PUBLISH', 'SCOTT') from dual
+
+-- View preference details for table
+
+select dbms_stats.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'PUBLISH') FROM DUAL;
+select  DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'INCREMENTAL') FROM DUAL;
+select  DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'GRANULARITY') FROM DUAL;
+select  DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'STALE_PERCENT')  FROM DUAL;
+select   DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'ESTIMATE_PERCENT')  FROM DUAL;
+select   DBMS_STATS.get_prefs(ownname=&gt;'DBACLASS',tabname=&gt;'EMP',pname=&gt;'DEGREE')  FROM DUAL;
+
+
+-- Set table  preferences
+
+exec dbms_stats.set_table_prefs('DBACLASS','EMP','PUBLISH','FALSE');
+exec dbms_stats.set_table_prefs('DBACLASS','EMP','ESTIMATE_PERCENT','20');
+exec dbms_stats.set_table_prefs('DBACLASS','EMP','DEGREE','8');
+
+
+
+
+-- Set schema preferences:
+
+exec dbms_stats.SET_SCHEMA_PREFS('DBATEST','PUBLISH','FALSE');
+exec dbms_stats.SET_SCHEMA_PREFS('DBATEST','ESTIMATE_PERCENT','20');
+exec dbms_stats.SET_SCHEMA_PREFS('DBATEST','CASCADE','TRUE');
+
+
+-- Set database preference:
+
+exec dbms_stats.set_database_prefs('PUBLISH', 'TRUE');
+exec dbms_stats.set_database_prefs('DEGREE', '16');
+
+
+-- Set global preference:
+
+exec dbms_stats.set_global_prefs('PUBLISH', 'TRUE');
+exec dbms_stats.set_global_prefs('DEGREE', '16');
+
+
+
+</pre>
+<p><strong>9 . Deleting preferences :</strong></p>
+<pre>-- Deleting schema preference:
+
+exec dbms_stats.delete_schema_prefs('DBACLASS', 'DEGREE');
+exec dbms_stats.delete_schema_prefs('DBACLASS', 'CASCADE');
+
+
+-- Delete database preference:
+exec dbms_stats.delete_database_prefs('ESTIMATE_PERCENT', FALSE);
+exec dbms_stats.delete_database_prefs('DEGREE', FALSE);
+
+
+
+
+</pre>
+<p><strong>10 . Publish pending statistics:</strong></p>
+<pre>-- For schema DBACLASS
+exec dbms_stats.publish_pending_stats('DBACLASS',null);
+
+-- For table DBACLASS.EMP
+EXEC DBMS_STATS.PUBLISH_PENDING_STATS ('DBACLASS','EMP');
+</pre>
+<p><strong>11. Delete pending statistics:</strong></p>
+<pre>-- for table DBACLASS.EMP
+exec dbms_stats.delete_pending_stats('DBACLASS', 'EMP');
+
+-- For schema DBACLASS
+exec dbms_stats.delete_pending_stats('DBACLASS', null);
+
+</pre>
+<p><strong>12. Upgrade stats table:</strong></p>
+<pre>----- If we are importing stats table from higher version to lower version,
+then before importing in the database, we need to upgrade the stats table.
+
+
+EXECUTE DBMS_STATS.UPGRADE_STAT_TABLE(OWNNAME =&gt;'RAJ',STATTAB =&gt;'STAT_TEST');
+</pre>
+<p><strong>13. View/modify statistics retention period:</strong></p>
+<pre>-- View current stats retention
+
+select dbms_stats.get_stats_history_retention from dual;
+
+-- Modify the stats retention
+
+exec DBMS_STATS.ALTER_STATS_HISTORY_RETENTION(60);
+
+</pre>
+<p><strong>14. create stats table:</strong></p>
+<pre>--- Create staging table to store the statistics data
+
+exec dbms_stats.create_stat_table(ownname =&gt; 'SCOTT', stattab =&gt; 'STAT_BACKUP',tblspace=&gt;'USERS');
+
+
+</pre>
+<p><strong>15. Export stats data:</strong></p>
+<pre>-- Export full database stats to a table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_database_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Export stats for table DBACLASS.EMP to a stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_table_stats(ownname=&gt;'DBACLASS', tabname=&gt;'EMP', statown =&gt;'SCOTT',stattab=&gt;'STAT_BACKUP', cascade=&gt;true);
+
+-- Export stats for schema DBACLASS to a stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_schema_stats(ownname=&gt;'DBACLASS', statown =&gt;'SCOTT' , stattab=&gt;'STAT_BACKUP');
+
+-- Export fixed object stats to table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_fixed_objects_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Export dictionary stats to table SCOTT.STAT_BACKUP
+
+exec dbms_stats.export_dictionary_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Export stats for index DBACLAS.EMP_UK1 to SCOTT.STAT_BACKUP table
+
+exec dbms_stats.export_index_stats(ownname=&gt;'DBACLASS', indname=&gt;'EMP_UK1', statown =&gt;'SCOTT',stattab=&gt;'STAT_BACKUP');
+
+
+</pre>
+<p><strong>16. Import stats table data:</strong></p>
+<pre class="">-- Import full database stats from stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_database_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Import stats for table DBACLASS.EMP from stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_table_stats(ownname=&gt;'DBACLASS', tabname=&gt;'EMP', statown =&gt;'SCOTT',stattab=&gt;'STAT_BACKUP', cascade=&gt;true);
+
+-- Import stats for schema DBACLASS from  stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_schema_stats(ownname=&gt;'DBACLASS', statown =&gt;'SCOTT' , stattab=&gt;'STAT_BACKUP');
+
+-- Import fixed object stats from stats table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_fixed_objects_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Import dictionary stats from  table SCOTT.STAT_BACKUP
+
+exec dbms_stats.import_dictionary_stats(statown =&gt; 'SCOTT' ,stattab=&gt;'STAT_BACKUP');
+
+-- Import stats for index DBACLAS.EMP_UK1 from  SCOTT.STAT_BACKUP table
+
+exec dbms_stats.import_index_stats(ownname=&gt;'DBACLASS', indname=&gt;'EMP_UK1', statown =&gt;'SCOTT',stattab=&gt;'STAT_BACKUP');
+
+</pre>
+<p><strong>17 . Few stats related sql queries:</strong></p>
+<pre>
+-- Check stale stats for table:
+
+select owner,table_name,STALE_STATS from dba_tab_statistics where owner='&amp;SCHEMA_NAME' and table_name='&amp;TABLE_NAME';
+
+--Check stale stats for index:
+
+select owner,INDEX_NAME,TABLE_NAME from DBA_IND_STATISTICS where owner='&amp;SCHEMA_NAME' and index_name='&amp;INDEX_NAME';
+
+
+-- For getting history of TABLE statistics
+setlines 200
+col owner for a12
+col table_name for a21
+select owner,TABLE_NAME,STATS_UPDATE_TIME from dba_tab_stats_history where table_name='&amp;TABLE_NAME';
+
+
+
+-- Space used to store statistic data in SYSAUX tablespace:
+
+
+SQL&gt; select occupant_desc, space_usage_kbytes from v$sysaux_occupants where OCCUPANT_DESC like '%Statistics%';
+
+
+-- Check whether table stats locked or not:
+
+select owner, table_name, stattype_locked from dba_tab_statistics where stattype_locked is not null and owner not in ('SYS','SYSTEM');
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/useful-gather-statistics-commands-oracle/">Useful gather statistics commands in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/useful-gather-statistics-commands-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>how to change archivelog destination in oracle</title>
+		<link>https://dbaclass.com/article/change-archivelog-destination-oracle/</link>
+					<comments>https://dbaclass.com/article/change-archivelog-destination-oracle/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 27 Mar 2019 07:18:57 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4186</guid>
+
+					<description><![CDATA[<p>If your present archivelog mountpoint is FULL or for any other reason, you want to change the archivelog destination in the database, then follow the below steps. NOTE &#8211; &#62; It can be done ,when the database up are running. No downtime required.  FOR STANDALONE DATABASE: 1. Find the current archivelog location: SQL&#62; archive log [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/change-archivelog-destination-oracle/">how to change archivelog destination in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>If your present archivelog mountpoint is FULL or for any other reason, you want to change the archivelog destination in the database, then follow the below steps.</p>
+<blockquote><p><strong>NOTE &#8211; &gt; It can be done ,when the database up are running. No downtime required. </strong></p></blockquote>
+<h4>FOR STANDALONE DATABASE:</h4>
+<p><strong>1. Find the current archivelog location:</strong></p>
+<pre>SQL&gt; archive log list
+Database log mode              Archive Mode
+Automatic archival             Enabled
+Archive destination            /dbaclass05/ORCLSIT2/Arch
+Oldest online log sequence     25626
+Next log sequence to archive   25628
+Current log sequence           25628
+
+
+SQL&gt;  select destination,STATUS from v$archive_dest where statuS='VALID';
+
+DESTINATION                    			    STATUS
+----------------------------------                ---------
+/dbaclass05/ORCLSIT2/Arch                             VALID
+
+</pre>
+<p><strong>create the new archive location:</strong></p>
+<pre>mkdir -p /dbaclass06/arch
+</pre>
+<p><strong>change the destination:</strong></p>
+<pre>SQL&gt; alter system set log_archive_dest_1='LOCATION=/dbaclass06/arch' scope=both;
+
+System altered.
+
+SQL&gt; archive log list
+Database log mode              Archive Mode
+Automatic archival             Enabled
+Archive destination            /dbaclass06/arch
+Oldest online log sequence     25626
+Next log sequence to archive   25628
+Current log sequence           25628
+
+SQL&gt;  select destination,STATUS from v$archive_dest where statuS='VALID';
+
+DESTINATION                    			    STATUS
+----------------------------------                ---------
+/dbaclass06/arch                                    VALID
+
+</pre>
+<p><strong>Check whether archives are getting generated at new location:</strong></p>
+<pre>
+SQL&gt; alter system switch logfile;
+
+System altered.
+
+SQL&gt; exit
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+
+$ cd /dbaclass06/arch
+$ ls -ltr
+total 11768
+-rw-r----- 1 oracle oinstall 12049920 Mar 22 15:17 1_25628_929882536.dbf
+
+</pre>
+<h3>For Real application cluster(RAC):</h3>
+<p><strong>In RAC, the archive destination is pointed to an ASM diskgroup.</strong></p>
+<pre>SQL&gt; show parameter log_archive_dest_1
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_archive_dest_1                   string      LOCATION=+CRMARCH
+</pre>
+<p><strong>Change the archive destination:</strong></p>
+<p>Before pointing the path to new ASM DG, make sure that Diskgroup exists.</p>
+<pre>-- Use sid='*', so that parameter will be changed across all the instance pfiles.
+
+alter system set log_archive_dest_1='LOCATION=+FRA' scope=both sid='*'
+
+System altered.
+
+
+SQL&gt; select destination,STATUS from v$archive_dest where statuS='VALID';
+
+DESTINATION        STATUS
+------------------ ---------
++CRMARCH           VALID
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/change-archivelog-destination-oracle/">how to change archivelog destination in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/change-archivelog-destination-oracle/feed/</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Invisible index in oracle database</title>
+		<link>https://dbaclass.com/article/invisible-index-in-oracle-database/</link>
+					<comments>https://dbaclass.com/article/invisible-index-in-oracle-database/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Wed, 27 Mar 2019 06:42:06 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=4183</guid>
+
+					<description><![CDATA[<p>Invisible index is introduced in oracle 11g. As the name suggest, this type of index will be ignored by database optimizer, as if it doesn&#8217;t exists. EXAMPLE: &#8212;  CREATE AN INDEX ( BY DEFAULT THE INDEX WILL BE A VISIBLE ONE) SQL&#62; desc emp Name Null? Type ----------------------------------------- -------- ---------------------------- OWNER VARCHAR2(30) OBJECT_NAME VARCHAR2(128) SUBOBJECT_NAME [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/invisible-index-in-oracle-database/">Invisible index in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Invisible index is introduced in oracle 11g. As the name suggest, this type of index will be ignored by database optimizer, as if it doesn&#8217;t exists.</p>
+<h3>EXAMPLE:</h3>
+<p>&#8212;  CREATE AN INDEX ( BY DEFAULT THE INDEX WILL BE A VISIBLE ONE)</p>
+<pre class="">SQL&gt; desc emp
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ OWNER                                              VARCHAR2(30)
+ OBJECT_NAME                                        VARCHAR2(128)
+ SUBOBJECT_NAME                                     VARCHAR2(30)
+ OBJECT_ID                                          NUMBER
+
+SQL&gt; select count(*) from emp;
+
+  COUNT(*)
+----------
+     90323
+
+
+SQL&gt;  create index EMP_ID1 on DBACLASS.EMP(OBJECT_ID);
+
+Index created.
+
+-- Check the visibility of the index 
+
+SQL&gt; select index_name,VISIBILITY from dba_indexes where index_NAME='EMP_ID1';
+
+INDEX_NAME          VISIBILIT
+------------------- ---------
+EMP_ID1             VISIBLE
+
+</pre>
+<h4>Check the explain plan:</h4>
+<pre class="">SQL&gt; explain plan for select count(*) from dbaclass.emp where object_id=1;
+
+Explained.
+
+SQL&gt; select * from table(dbms_xplan.display)
+  2  ;
+
+PLAN_TABLE_OUTPUT
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+Plan hash value: 853747123
+
+-----------------------------------------------------------------------------
+| Id  | Operation         | Name    | Rows  | Bytes | Cost (%CPU)| Time     |
+-----------------------------------------------------------------------------
+|   0 | SELECT STATEMENT  |         |     1 |     5 |     1   (0)| 00:00:01 |
+|   1 |  SORT AGGREGATE   |         |     1 |     5 |            |          |
+|*  2 |   INDEX RANGE SCAN| EMP_ID1 |     1 |     5 |     1   (0)| 00:00:01 | --&gt;&gt;&gt; INDEX USED 
+-----------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - access("OBJECT_ID"=1)
+
+14 rows selected.
+</pre>
+<p>As expected optimizer is using the index for the query.</p>
+<h3>When index is INVISIBLE:</h3>
+<p>Now make the INDEX invisible and check the explain plan for the same query.</p>
+<pre class="">SQL&gt; alter index EMP_ID1 invisible;
+
+Index altered.
+
+SQL&gt; select index_name,VISIBILITY from dba_indexes where index_NAME='EMP_ID1';
+
+INDEX_NAME          VISIBILIT
+------------------- ---------
+EMP_ID1             INVISIBLE
+
+SQL&gt; explain plan for select count(*) from dbaclass.emp where object_id=1;
+
+Explained.
+
+SQL&gt; select * from table(dbms_xplan.display);
+
+PLAN_TABLE_OUTPUT
+----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
+Plan hash value: 2083865914
+
+---------------------------------------------------------------------------
+| Id  | Operation          | Name | Rows  | Bytes | Cost (%CPU)| Time     |
+---------------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |      |     1 |     5 |   149   (2)| 00:00:01 |
+|   1 |  SORT AGGREGATE    |      |     1 |     5 |            |          |
+|*  2 |   TABLE ACCESS FULL| EMP  |     1 |     5 |   149   (2)| 00:00:01 | --&gt;&gt; FULL TABLE SCAN  
+---------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - filter("OBJECT_ID"=1)
+
+14 rows selected.
+
+</pre>
+<p>&nbsp;</p>
+<p>We can see, it is bypassing the index scan and doing <strong>full table scan</strong>, Despite the index is present.<br />
+Because the index is invisible.</p>
+<h4>Create an invisible index directly:</h4>
+<pre> SQL&gt; create index EMP_IDINV on DBACLASS.EMP(OBJECT_ID) invisble;
+
+SQL&gt; select index_name,VISIBILITY from dba_indexes where index_NAME='EMP_IDINV';
+
+INDEX_NAME          VISIBILIT
+------------------- ---------
+EMP_IDINV           INVISIBLE
+
+</pre>
+<h4>optimizer_use_invisible_indexes paramter and invisible index There is an parameter</h4>
+<p><em><strong>optimizer_user_invisible_indexes</strong></em>, which is by default set to <em><strong>FALSE</strong></em>, means, optimizer will ignore all the invisible indexes in the database.</p>
+<pre>SQL&gt; show parameter invi
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- --------------------
+optimizer_use_invisible_indexes      boolean     FALSE
+</pre>
+<p>To force the optimizer to use all invisible indexes at database level. then set it to <em><strong>TRUE</strong></em>.</p>
+<pre class="">SQL&gt; alter system set optimizer_use_invisible_indexes=TRUE scope=both;
+
+System altered.
+
+SQL&gt;  show parameter  optimizer_use_invisible_indexes
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+optimizer_use_invisible_indexes      boolean     TRUE
+SQL&gt;
+
+
+SQL&gt; select index_name,VISIBILITY from dba_indexes where index_NAME='EMP_ID1';
+
+INDEX_NAME          VISIBILIT
+------------------- ---------
+EMP_ID1             INVISIBLE
+
+SQL&gt; explain plan for select count(*) from dbaclass.emp where object_id=1;
+
+Explained.
+
+SQL&gt; select * from table(dbms_xplan.display);
+
+PLAN_TABLE_OUTPUT
+------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
+Plan hash value: 853747123
+
+-----------------------------------------------------------------------------
+| Id  | Operation         | Name    | Rows  | Bytes | Cost (%CPU)| Time     |
+-----------------------------------------------------------------------------
+|   0 | SELECT STATEMENT  |         |     1 |     5 |     1   (0)| 00:00:01 |
+|   1 |  SORT AGGREGATE   |         |     1 |     5 |            |          |
+|*  2 |   INDEX RANGE SCAN| EMP_ID1 |     1 |     5 |     1   (0)| 00:00:01 | --- &gt;&gt;&gt;&gt;&gt;&gt; INDEX USED
+-----------------------------------------------------------------------------
+
+Predicate Information (identified by operation id):
+---------------------------------------------------
+
+   2 - access("OBJECT_ID"=1)
+
+14 rows selected.
+
+</pre>
+<p>We can see the optimizer is using the INDEX, despite it is being invisible.</p>
+<h4>What is its use?</h4>
+<p>Most common use is while dropping the INDEX . If we are planning to drop index, then before dropping , keep the index in invisible mode and monitor for sometime. once things are good, we can drop it later.( Because post dropping, creating a index will take lot of time, if table size is huge).</p>
+<p>The post <a href="https://dbaclass.com/article/invisible-index-in-oracle-database/">Invisible index in oracle database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/invisible-index-in-oracle-database/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Restart MMON process in oracle  database</title>
+		<link>https://dbaclass.com/article/restart-mmon-process-oracle/</link>
+					<comments>https://dbaclass.com/article/restart-mmon-process-oracle/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Tue, 15 Jan 2019 08:40:50 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=4114</guid>
+
+					<description><![CDATA[<p>The job of MMON( Manageability Monitor) background process is to perform tasks like taking AWR snapshots and automatic diagnostic analysis. Sometime, MMON process crashes or get suspended . Follow below steps to restart the MMON process: 1. Grant restricted session to public: This grant is required to avoid any impact on the sessions connecting to [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/restart-mmon-process-oracle/">Restart MMON process in oracle  database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>The job of <strong>MMON</strong>( Manageability Monitor) background process is to perform tasks like taking AWR snapshots and automatic diagnostic analysis.</p>
+<p>Sometime, MMON process crashes or get suspended .</p>
+<h3>Follow below steps to restart the MMON process:</h3>
+<p><strong>1. Grant restricted session to public:</strong></p>
+<p>This grant is required to avoid any impact on the sessions connecting to database.</p>
+<pre>grant restricted session to public;
+
+</pre>
+<p><strong>2. Enable and disable restricted sessions</strong></p>
+<p>Enabling and disabling will start the MMON process.</p>
+<pre>alter system enable restricted session;
+
+alter system disable restricted session;
+</pre>
+<p><strong>3. Revoke the restricted session:</strong></p>
+<pre class="">revoke restricted session from  public;
+
+</pre>
+<p><strong>4. Check MMON process;</strong></p>
+<pre>ps -ef | grep mmon
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/restart-mmon-process-oracle/">Restart MMON process in oracle  database</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/restart-mmon-process-oracle/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to move controlfile to a new location in oracle</title>
+		<link>https://dbaclass.com/article/move-controlfile-new-location/</link>
+					<comments>https://dbaclass.com/article/move-controlfile-new-location/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 13 Jan 2019 12:41:51 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=4107</guid>
+
+					<description><![CDATA[<p>Below are steps to move or rename controlfile to a new location(Mount point or diskgroup). In ORACLE RAC:(Move from +ORACLDG diskgroup to +DATA diskgroup) 1. Get the current control_file location SQL&#62; show parameter control_files NAME TYPE VALUE ------------------------------------ -------------------------------- ------------------------------ control_files string +ORACLDG/DBACLASS/CONTROLFILE/control01.ctl 2. Set the new location of controlfile: SQL&#62; alter system set control_files='+DATA' [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/move-controlfile-new-location/">How to move controlfile to a new location in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>Below are steps to move or rename controlfile to a new location(Mount point or diskgroup).</p>
+<h3><span style="text-decoration: underline;"><strong>In ORACLE RAC:(Move from +ORACLDG diskgroup to +DATA diskgroup)</strong></span></h3>
+<p><strong>1. Get the current control_file location</strong></p>
+<pre>SQL&gt;  show parameter control_files
+
+NAME                                 TYPE                             VALUE
+------------------------------------ -------------------------------- ------------------------------
+control_files                        string                           +ORACLDG/DBACLASS/CONTROLFILE/control01.ctl</pre>
+<p><strong>2. Set the new location of controlfile:</strong></p>
+<pre class="">SQL&gt; alter system set control_files='+DATA' scope=spfile; System altered.</pre>
+<p><strong>3. start the database in nomount stage:</strong></p>
+<pre>srvctl stop database -d DBACLASS
+srvctl start database -d DBACLASS -o nomount
+
+</pre>
+<p><strong>4. Restore controlfile to new location:</strong></p>
+<pre>RMAN&gt;  restore controlfile from '+ORACLDG/DBACLASS/CONTROLFILE/control01.ctl';
+
+Starting restore at 13-JAN-19
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=2201 device type=DISK
+
+channel ORA_DISK_1: copied control file copy
+output file name=+DATA/DBACLASS/CONTROLFILE/current.349.997455411
+Finished restore at 13-JAN-19
+</pre>
+<p><strong>5. restart the database:</strong></p>
+<pre>srvctl stop database -d DBACLASS
+srvctl start database -d DBACLASS
+
+</pre>
+<p><strong>6. Check the control_file again:</strong></p>
+<pre>SQL&gt;  show parameter control_files
+
+
+NAME                                 TYPE                             VALUE
+------------------------------------ -------------------------------- ------------------------------
+control_files                        string                           +DATA/DBACLASS/CONTROLFILE/curren
+                                                                      t.349.997455411
+</pre>
+<h3><span style="text-decoration: underline;">FOR STANDALONE DB(SINGLE INSTANCE DB):</span></h3>
+<p>Follow below steps if controlfile resides inside file system(Move from /u01 mount point to /u03 )</p>
+<p><strong>1. Get the current control_file location</strong></p>
+<pre>SQL&gt;  show parameter control_files
+
+NAME                                 TYPE                             VALUE
+------------------------------------ -------------------------------- ------------------------------
+control_files                        string                           /u01/oracle/dbaclass/control01.ctl</pre>
+<p><strong>2. Set the new location of controfile:</strong></p>
+<pre>SQL&gt; alter system set control_files='/u03/oracle/dbaclass/control01.ctl' scope=spfile;
+
+System altered.
+</pre>
+<p><strong>3. start the database in nomount stage:</strong></p>
+<pre class="">shutdown immediate;
+startup nomount
+
+</pre>
+<p><strong>4. Restore controlfile to new location:</strong></p>
+<pre class="">RMAN&gt;  restore controlfile  from '/u01/oracle/dbaclass/control01.ctl';
+
+Starting restore at 13-JAN-19
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=2201 device type=DISK
+
+channel ORA_DISK_1: copied control file copy
+output file name=/u03/oracle/dbaclass/control01.ctl
+Finished restore at 13-JAN-19
+</pre>
+<p><strong>5. restart the database:</strong></p>
+<pre>alter database mount;
+alter database open;
+
+</pre>
+<p><strong>6. Check the control_file again:</strong></p>
+<pre>SQL&gt;  show parameter control_files
+
+
+NAME                                 TYPE                             VALUE
+------------------------------------ -------------------------------- ------------------------------
+control_files                        string                           /u03/oracle/dbaclass/control01.ctl
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/move-controlfile-new-location/">How to move controlfile to a new location in oracle</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/move-controlfile-new-location/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

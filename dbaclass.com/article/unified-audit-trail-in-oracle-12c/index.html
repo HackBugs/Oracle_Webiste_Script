@@ -1,0 +1,1554 @@
+<!DOCTYPE html><!--[if IE 7]>	<html class="ie ie7" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if IE 8]>	<html class="ie ie8" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if IE 9]>	<html class="ie ie9" lang="en-US" prefix="og: http://ogp.me/ns#">	<![endif]--><!--[if (gt IE 9)|!(IE)]><!--><html lang="en-US" prefix="og: http://ogp.me/ns#"><!--<![endif]-->
+<!-- Mirrored from dbaclass.com/article/unified-audit-trail-in-oracle-12c/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 17:49:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head><meta charset="UTF-8"/>
+<script>var __ezHttpConsent={setByCat:function(src,tagType,attributes,category,force){var setScript=function(){if(force||window.ezTcfConsent[category]){var scriptElement=document.createElement(tagType);scriptElement.src=src;attributes.forEach(function(attr){for(var key in attr){if(attr.hasOwnProperty(key)){scriptElement.setAttribute(key,attr[key]);}}});var firstScript=document.getElementsByTagName(tagType)[0];firstScript.parentNode.insertBefore(scriptElement,firstScript);}};if(force||(window.ezTcfConsent&&window.ezTcfConsent.loaded)){setScript();}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){setScript();}else{console.error("cannot get ez consent data");force=true;setScript();}});}else{force=true;setScript();console.error("getEzConsentData is not a function");}},};</script>
+<script>var ezTcfConsent=window.ezTcfConsent?window.ezTcfConsent:{loaded:false,store_info:false,develop_and_improve_services:false,measure_ad_performance:false,measure_content_performance:false,select_basic_ads:false,create_ad_profile:false,select_personalized_ads:false,create_content_profile:false,select_personalized_content:false,understand_audiences:false,use_limited_data_to_select_content:false,};function getEzConsentData(){return new Promise(function(resolve){document.addEventListener("ezConsentEvent",function(event){var ezTcfConsent=event.detail.ezTcfConsent;resolve(ezTcfConsent);});});}</script>
+<script>function _setEzCookies(ezConsentData){var cookies=[{name:"ezosuibasgeneris-1",value:"7a27c5d6-09a9-4dbb-7be3-20b5a9c426d6; Path=/; Domain=dbaclass.com; Expires=Sat, 13 Sep 2025 17:34:54 UTC; Secure; SameSite=None",tcfCategory:"understand_audiences",isEzoic:"true",}];for(var i=0;i<cookies.length;i++){var cookie=cookies[i];if(ezConsentData&&ezConsentData.loaded&&ezConsentData[cookie.tcfCategory]){document.cookie=cookie.name+"="+cookie.value;}}}
+if(window.ezTcfConsent&&window.ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else{console.error("cannot get ez consent data");_setEzCookies(window.ezTcfConsent);}});}else{console.error("getEzConsentData is not a function");_setEzCookies(window.ezTcfConsent);}</script>
+<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=true;window.__ezScriptHost="//www.ezojs.com";__ez.queue=function(){var e=0,i=0,t=[],n=!1,o=[],r=[],s=!0,a=function(e,i,n,o,r,s,a){var l=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,d=this;this.name=e,this.funcName=i,this.parameters=null===n?null:w(n)?n:[n],this.isBlock=o,this.blockedBy=r,this.deleteWhenComplete=s,this.isError=!1,this.isComplete=!1,this.isInitialized=!1,this.proceedIfError=a,this.fWindow=l,this.isTimeDelay=!1,this.process=function(){u("... func = "+e),d.isInitialized=!0,d.isComplete=!0,u("... func.apply: "+e);var i=d.funcName.split("."),n=null,o=this.fWindow||window;i.length>3||(n=3===i.length?o[i[0]][i[1]][i[2]]:2===i.length?o[i[0]][i[1]]:o[d.funcName]),null!=n&&n.apply(null,this.parameters),!0===d.deleteWhenComplete&&delete t[e],!0===d.isBlock&&(u("----- F'D: "+d.name),m())}},l=function(e,i,t,n,o,r,s){var a=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,l=this;this.name=e,this.path=i,this.async=o,this.defer=r,this.isBlock=t,this.blockedBy=n,this.isInitialized=!1,this.isError=!1,this.isComplete=!1,this.proceedIfError=s,this.fWindow=a,this.isTimeDelay=!1,this.isPath=function(e){return"/"===e[0]&&"/"!==e[1]},this.getSrc=function(e){return void 0!==window.__ezScriptHost&&this.isPath(e)&&"banger.js"!==this.name?window.__ezScriptHost+e:e},this.process=function(){l.isInitialized=!0,u("... file = "+e);var i=this.fWindow?this.fWindow.document:document,t=i.createElement("script");t.src=this.getSrc(this.path),!0===o?t.async=!0:!0===r&&(t.defer=!0),t.onerror=function(){var e={url:window.location.href,name:l.name,path:l.path,user_agent:window.navigator.userAgent};"undefined"!=typeof _ezaq&&(e.pageview_id=_ezaq.page_view_id);var i=encodeURIComponent(JSON.stringify(e)),t=new XMLHttpRequest;t.open("GET.html","//g.ezoic.net/ezqlog?d="+i,!0),t.send(),u("----- ERR'D: "+l.name),l.isError=!0,!0===l.isBlock&&m()},t.onreadystatechange=t.onload=function(){var e=t.readyState;u("----- F'D: "+l.name),e&&!/loaded|complete/.test(e)||(l.isComplete=!0,!0===l.isBlock&&m())},i.getElementsByTagName("head")[0].appendChild(t)}},d=function(e,i){this.name=e,this.path="",this.async=!1,this.defer=!1,this.isBlock=!1,this.blockedBy=[],this.isInitialized=!0,this.isError=!1,this.isComplete=i,this.proceedIfError=!1,this.isTimeDelay=!1,this.process=function(){}};function c(e,i,n,s,a,d,c,f,u){var m=new l(e,i,n,s,a,d,c,u);!0===f?o[e]=m:r[e]=m,t[e]=m,h(m)}function h(e){!0!==f(e)&&0!=s&&e.process()}function f(e){if(!0===e.isTimeDelay&&!1===n)return u(e.name+" blocked = TIME DELAY!"),!0;if(w(e.blockedBy))for(var i=0;i<e.blockedBy.length;i++){var o=e.blockedBy[i];if(!1===t.hasOwnProperty(o))return u(e.name+" blocked = "+o),!0;if(!0===e.proceedIfError&&!0===t[o].isError)return!1;if(!1===t[o].isComplete)return u(e.name+" blocked = "+o),!0}return!1}function u(e){var i=window.location.href,t=new RegExp("[?&]ezq=([^&#]*)","i").exec(i);"1"===(t?t[1]:null)&&console.debug(e)}function m(){++e>200||(u("let's go"),p(o),p(r))}function p(e){for(var i in e)if(!1!==e.hasOwnProperty(i)){var t=e[i];!0===t.isComplete||f(t)||!0===t.isInitialized||!0===t.isError?!0===t.isError?u(t.name+": error"):!0===t.isComplete?u(t.name+": complete already"):!0===t.isInitialized&&u(t.name+": initialized already"):t.process()}}function w(e){return"[object Array]"==Object.prototype.toString.call(e)}return window.addEventListener("load",(function(){setTimeout((function(){n=!0,u("TDELAY -----"),m()}),5e3)}),!1),{addFile:c,addFileOnce:function(e,i,n,o,r,s,a,l,d){t[e]||c(e,i,n,o,r,s,a,l,d)},addDelayFile:function(e,i){var n=new l(e,i,!1,[],!1,!1,!0);n.isTimeDelay=!0,u(e+" ...  FILE! TDELAY"),r[e]=n,t[e]=n,h(n)},addFunc:function(e,n,s,l,d,c,f,u,m,p){!0===c&&(e=e+"_"+i++);var w=new a(e,n,s,l,d,f,u,p);!0===m?o[e]=w:r[e]=w,t[e]=w,h(w)},addDelayFunc:function(e,i,n){var o=new a(e,i,n,!1,[],!0,!0);o.isTimeDelay=!0,u(e+" ...  FUNCTION! TDELAY"),r[e]=o,t[e]=o,h(o)},items:t,processAll:m,setallowLoad:function(e){s=e},markLoaded:function(e){if(e&&0!==e.length){if(e in t){var i=t[e];!0===i.isComplete?u(i.name+" "+e+": error loaded duplicate"):(i.isComplete=!0,i.isInitialized=!0)}else t[e]=new d(e,!0);u("markLoaded dummyfile: "+t[e].name)}},logWhatsBlocked:function(){for(var e in t)!1!==t.hasOwnProperty(e)&&f(t[e])}}}();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot={};__ez.queue.addFile('../../detroitchicago/boise.js', '../../detroitchicago/boisebb26.js?gcb=195-3&amp;cb=5', true, [], true, false, true, false);__ez.queue.addFile('../../parsonsmaize/abilene.js', '../../parsonsmaize/abilene96c6.js?gcb=195-3&amp;cb=35', true, [], true, false, true, false);</script>
+<script type="text/javascript">var _ez_send_requests_through_ezoic = true;</script>
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">window._ezaq = Object.assign({"ad_cache_level":1,"adpicker_placement_cnt":0,"ai_placeholder_cache_level":1,"ai_placeholder_placement_cnt":-1,"domain_id":179613,"ezcache_level":2,"ezcache_skip_code":0,"has_bad_image":0,"has_bad_words":0,"is_sitespeed":0,"lt_cache_level":0,"publish_date":"2017-02-17","response_size":117944,"response_size_orig":112442,"response_time_orig":122,"template_id":5,"url":"https://dbaclass.com/article/unified-audit-trail-in-oracle-12c/","word_count":0,"worst_bad_word_level":0}, typeof window._ezaq !== "undefined" ? window._ezaq : {});__ez.queue.markLoaded('ezaqBaseReady');</script>
+<script type='text/javascript' data-ezscrex='false' data-cfasync='false'>
+window.ezAnalyticsStatic = true;
+window._ez_send_requests_through_ezoic = true;
+function analyticsAddScript(script) {
+	var ezDynamic = document.createElement('script');
+	ezDynamic.type = 'text/javascript';
+	ezDynamic.innerHTML = script;
+	document.head.appendChild(ezDynamic);
+}
+function getCookiesWithPrefix() {
+    var allCookies = document.cookie.split(';');
+    var cookiesWithPrefix = {};
+
+    for (var i = 0; i < allCookies.length; i++) {
+        var cookie = allCookies[i].trim();
+
+        for (var j = 0; j < arguments.length; j++) {
+            var prefix = arguments[j];
+            if (cookie.indexOf(prefix) === 0) {
+                var cookieParts = cookie.split('=');
+                var cookieName = cookieParts[0];
+                var cookieValue = cookieParts.slice(1).join('=');
+                cookiesWithPrefix[cookieName] = decodeURIComponent(cookieValue);
+                break; // Once matched, no need to check other prefixes
+            }
+        }
+    }
+
+    return cookiesWithPrefix;
+}
+function productAnalytics() {
+	var d = {};
+	d.u = _ezaq.url;
+	d.p = _ezaq.page_view_id;
+	d.v = _ezaq.visit_uuid;
+	d.ab = _ezaq.ab_test_id;
+	d.e = JSON.stringify(_ezaq);
+	d.ref = document.referrer;
+	d.c = getCookiesWithPrefix('active_template', 'ez', 'lp_');
+	if(typeof ez_utmParams !== 'undefined') {
+		d.utm = ez_utmParams;
+	}
+
+	var dataText = JSON.stringify(d);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST.html','//g.ezoic.net/ezais/analytics?cb=1', true);
+	xhr.onload = function () {
+		if (xhr.status!=200) {
+            return;
+		}
+
+        if(document.readyState !== 'loading') {
+            analyticsAddScript(xhr.response);
+            return;
+        }
+
+        var eventFunc = function() {
+            if(document.readyState === 'loading') {
+                return;
+            }
+            document.removeEventListener('readystatechange', eventFunc, false);
+            analyticsAddScript(xhr.response);
+        };
+
+        document.addEventListener('readystatechange', eventFunc, false);
+	};
+	xhr.setRequestHeader('Content-Type','text/plain');
+	xhr.send(dataText);
+}
+__ez.queue.addFunc("productAnalytics", "productAnalytics", null, true, ['ezaqBaseReady'], false, false, false, true);
+</script><base />
+<meta name="google-site-verification" content="6dqsKA6lyLjaiKjPdMYqcSFkU7CVZS2mbDx3X3Oqff4"/>
+
+	
+	<title>Unified audit trail in Oracle 12c DBACLASS</title>
+
+	<!-- Pingback -->
+	<link rel="pingback" href="../../xmlrpc.php"/>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+
+	<!-- This site is optimized with the Yoast SEO plugin v22.7 - https://yoast.com/wordpress/plugins/seo/ -->
+	<meta name="description" content="Unified audit trail in Oracle 12c , Unified_audit_trail is having two modes. Mixed and pure mode. We can audit sys,rman,sqllder,datapump activities in Unified audit convert."/>
+	<link rel="canonical" href="index.html"/>
+	<meta property="og:locale" content="en_US"/>
+	<meta property="og:type" content="article"/>
+	<meta property="og:title" content="Unified audit trail in Oracle 12c"/>
+	<meta property="og:description" content="Unified audit trail in Oracle 12c , Unified_audit_trail is having two modes. Mixed and pure mode. We can audit sys,rman,sqllder,datapump activities in Unified audit convert."/>
+	<meta property="og:url" content="https://dbaclass.com/article/unified-audit-trail-in-oracle-12c/"/>
+	<meta property="og:site_name" content="DBACLASS"/>
+	<meta property="article:modified_time" content="2019-11-19T12:08:45+00:00"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:label1" content="Est. reading time"/>
+	<meta name="twitter:data1" content="15 minutes"/>
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://dbaclass.com/article/unified-audit-trail-in-oracle-12c/","url":"https://dbaclass.com/article/unified-audit-trail-in-oracle-12c/","name":"Unified audit trail in Oracle 12c","isPartOf":{"@id":"https://dbaclass.com/#website"},"datePublished":"2017-02-17T14:07:56+00:00","dateModified":"2019-11-19T12:08:45+00:00","description":"Unified audit trail in Oracle 12c , Unified_audit_trail is having two modes. Mixed and pure mode. We can audit sys,rman,sqllder,datapump activities in Unified audit convert.","breadcrumb":{"@id":"https://dbaclass.com/article/unified-audit-trail-in-oracle-12c/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://dbaclass.com/article/unified-audit-trail-in-oracle-12c/"]}]},{"@type":"BreadcrumbList","@id":"https://dbaclass.com/article/unified-audit-trail-in-oracle-12c/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dbaclass.com/"},{"@type":"ListItem","position":2,"name":"Unified audit trail in Oracle 12c"}]},{"@type":"WebSite","@id":"https://dbaclass.com/#website","url":"https://dbaclass.com/","name":"DBACLASS","description":"database administration","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://dbaclass.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Feed" href="../../feed/index.html"/>
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Comments Feed" href="../../comments/feed/index.html"/>
+<link rel="alternate" type="application/rss+xml" title="DBACLASS » Unified audit trail in Oracle 12c Comments Feed" href="feed/index.html"/>
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/dbaclass.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.5.5"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<link rel="stylesheet" id="mtq_CoreStyleSheets-css" href="../../wp-content/plugins/mtouch-quiz/mtq_core_style583f.css?ver=3.1.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="mtq_ThemeStyleSheets-css" href="../../wp-content/plugins/mtouch-quiz/mtq_theme_style583f.css?ver=3.1.3" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-style-css" href="../../wp-content/themes/flatbase/styleadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-fancybox-css" href="../../wp-content/themes/flatbase/includes/css/jquery.fancyboxadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-fontawesome-css" href="../../wp-content/themes/flatbase/includes/css/font-awesome.minadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="nice-bbpress-css" href="../../wp-content/themes/flatbase/bbpress/bbpressadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<!--[if IE 7]>
+<link rel='stylesheet' id='nice-fontawesome-ie7-css' href='https://dbaclass.com/wp-content/themes/flatbase/includes/css/font-awesome-ie7.min.css?ver=6.5.5' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="nice-options-styles-css" href="../../wp-content/themes/flatbase/includes/css/nice-optionsadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="nice-options-styles-inline-css" type="text/css">
+.entry blockquote{ border-left-color:#384047; }
+.nice-infoboxes .item:hover a.read-more{ border-bottom-color:#384047; }
+a, .wp-pagenavi span.current, #extended-footer a:hover, .liked i, .nice-knowledgebase ul li:hover i, span.required { color: #384047; }
+#navigation ul li a .bar, #navigation ul li a .bar:before, #navigation ul li a .bar:after, #navigation ul li a .bar, .nice-contact-form input[type="submit"]:hover, #commentform .button:hover, #respond input[type="submit"]:hover, .single .featured-image a, .post .featured-image a, .blog-masonry #posts-ajax-loader-button:hover, .nice-gallery .thumb a, #tabs .inside .tags a:hover{ background-color: #384047; }
+#header { background-color: #25304e; }
+#header { background-position : left top; }
+#header { background-repeat : repeat; }
+body, .bg-image { background-color : #f0f0f0; }
+body, .bg-image { background-position : left top; }
+body, .bg-image { background-repeat : repeat; }
+#header #top #logo #default-logo, #header #top #logo #retina-logo { height : 65px; }
+
+/* Nice Custom Fonts */
+
+body { font: normal 15px Arial, sans-serif; color: #070808 !important; }
+#navigation .nav li a { font: normal 15px 'Lato', arial, sans-serif; color: #eff2f3 !important; }
+#top #navigation .nav li ul li a { font: normal 12px 'Lato', arial, sans-serif; color: #FFFFFF !important; }
+h1, h2, h3, h4, h5, h6, #call-to-action { font-family: 'Nunito', arial, sans-serif; font-style: normal; color:  !important; }
+.button-primary, .button-blue, .button-secondary, .header .nav li.current-page a, .header .nav-callout, .cta-button, input[type="submit"], button, #commentform .button, #respond input[type="submit"], .nice-contact-form input[type="submit"], .blog-masonry #posts-ajax-loader-button { font-family: 'Nunito', arial, sans-serif; font-style: normal; color:  !important; }
+input, textarea { font-family: 'Lato', arial, sans-serif; font-style: normal; color:  !important; }
+.nice-infoboxes .infobox-title { font: normal 21px 'Nunito', arial, sans-serif; color: #4B4D4B !important; }
+.infobox .entry-excerpt{ font: normal 15px 'Lato', arial, sans-serif; color: #8B989E !important; }
+.welcome-message h2 { font: normal 32px 'Nunito', arial, sans-serif; color: #ffffff !important; }
+.welcome-message p, .welcome-message p a { font: normal 16px 'Lato', arial, sans-serif; color: #dddddd !important; }
+
+</style>
+<style id="wp-emoji-styles-inline-css" type="text/css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel="stylesheet" id="wp-block-library-css" href="../../wp-includes/css/dist/block-library/style.minadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<link rel="stylesheet" id="prismatic-blocks-css" href="../../wp-content/plugins/prismatic/css/styles-blocksadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="classic-theme-styles-inline-css" type="text/css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="popupaoc-public-style-css" href="../../wp-content/plugins/popup-anything-on-click/assets/css/popupaoc-public-style4b1d.css?ver=1.8" type="text/css" media="all"/>
+<link rel="stylesheet" id="theme-my-login-css" href="../../wp-content/plugins/theme-my-login/assets/styles/theme-my-login.min03db.css?ver=7.1.1" type="text/css" media="all"/>
+<link rel="stylesheet" id="wp-pagenavi-css" href="../../wp-content/plugins/wp-pagenavi/pagenavi-css44fd.css?ver=2.70" type="text/css" media="all"/>
+<link rel="stylesheet" id="dry_awp_theme_style-css" href="../../wp-content/plugins/advanced-wp-columns/assets/css/awp-columnsadc6.css?ver=6.5.5" type="text/css" media="all"/>
+<style id="dry_awp_theme_style-inline-css" type="text/css">
+@media screen and (max-width: 1024px) {	.csColumn {		clear: both !important;		float: none !important;		text-align: center !important;		margin-left:  10% !important;		margin-right: 10% !important;		width: 80% !important;	}	.csColumnGap {		display: none !important;	}}
+</style>
+<link rel="stylesheet" id="sccss_style-css" href="../../indexd1fa.html?sccss=1&amp;ver=6.5.5" type="text/css" media="all"/>
+<meta name="generator" content="Flatbase (shared on wplocker.com) 1.0.2"/>
+<meta name="generator" content="Nice Framework 1.1.5"/>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="../../wp-content/plugins/mtouch-quiz/script583f.js?ver=3.1.3" id="mtq_script-js"></script>
+<script type="text/javascript" src="../../wp-content/plugins/anything-popup/anything-popupadc6.js?ver=6.5.5" id="anything-popup-js-js"></script>
+<script type="text/javascript" id="nice-general-js-extra">
+/* <![CDATA[ */
+var php_data = {"admin_ajax_url":"https:\/\/dbaclass.com\/wp-admin\/admin-ajax.php","play_nice_nonce":"bcb784bd5e"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/themes/flatbase/includes/js/generaladc6.js?ver=6.5.5" id="nice-general-js"></script>
+<script type="text/javascript" src="../../wp-content/themes/flatbase/includes/js/jquery.fancyboxadc6.js?ver=6.5.5" id="nice-fancybox-js-js"></script>
+<script type="text/javascript" src="../../wp-content/themes/flatbase/includes/js/superfishadc6.js?ver=6.5.5" id="nice-superfish-js"></script>
+<script type="text/javascript" src="../../wp-content/themes/flatbase/includes/js/imagesloaded.minadc6.js?ver=6.5.5" id="nice-imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/ui/core.min3f14.js?ver=1.13.2" id="jquery-ui-core-js"></script>
+<script type="text/javascript" src="../../wp-content/themes/flatbase/includes/js/jquery.scrollTo-minadc6.js?ver=6.5.5" id="nice-scrollto-js-js"></script>
+<script type="text/javascript" src="../../wp-content/themes/flatbase/includes/js/jquery.localscroll-minadc6.js?ver=6.5.5" id="nice-localscroll-js-js"></script>
+<script type="text/javascript" src="../../wp-content/themes/flatbase/includes/js/jquery.livesearchadc6.js?ver=6.5.5" id="nice-livesearch-js-js"></script>
+<link rel="https://api.w.org/" href="../../wp-json/index.html"/><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../xmlrpc0db0.php?rsd"/>
+<meta name="generator" content="WordPress 6.5.5"/>
+<link rel="shortlink" href="../../index6dac.html?p=1813"/>
+<link rel="alternate" type="application/json+oembed" href="../../wp-json/oembed/1.0/embede3af.html?url=https%3A%2F%2Fdbaclass.com%2Farticle%2Funified-audit-trail-in-oracle-12c%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="../../wp-json/oembed/1.0/embed6e6f.html?url=https%3A%2F%2Fdbaclass.com%2Farticle%2Funified-audit-trail-in-oracle-12c%2F&amp;format=xml"/>
+
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			var ajaxurl = '../../wp-admin/admin-ajax.html';
+
+						/* ]]> */
+		</script>
+
+	<script>
+
+</script>
+
+        <script type="text/javascript">
+            var jQueryMigrateHelperHasSentDowngrade = false;
+
+			window.onerror = function( msg, url, line, col, error ) {
+				// Break out early, do not processing if a downgrade reqeust was already sent.
+				if ( jQueryMigrateHelperHasSentDowngrade ) {
+					return true;
+                }
+
+				var xhr = new XMLHttpRequest();
+				var nonce = '1d4a45bb2d';
+				var jQueryFunctions = [
+					'andSelf',
+					'browser',
+					'live',
+					'boxModel',
+					'support.boxModel',
+					'size',
+					'swap',
+					'clean',
+					'sub',
+                ];
+				var match_pattern = /\)\.(.+?) is not a function/;
+                var erroredFunction = msg.match( match_pattern );
+
+                // If there was no matching functions, do not try to downgrade.
+                if ( typeof erroredFunction !== 'object' || typeof erroredFunction[1] === "undefined" || -1 === jQueryFunctions.indexOf( erroredFunction[1] ) ) {
+                    return true;
+                }
+
+                // Set that we've now attempted a downgrade request.
+                jQueryMigrateHelperHasSentDowngrade = true;
+
+				xhr.open( 'POST.html', '../../wp-admin/admin-ajax.html' );
+				xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+				xhr.onload = function () {
+					var response,
+                        reload = false;
+
+					if ( 200 === xhr.status ) {
+                        try {
+                        	response = JSON.parse( xhr.response );
+
+                        	reload = response.data.reload;
+                        } catch ( e ) {
+                        	reload = false;
+                        }
+                    }
+
+					// Automatically reload the page if a deprecation caused an automatic downgrade, ensure visitors get the best possible experience.
+					if ( reload ) {
+						location.reload();
+                    }
+				};
+
+				xhr.send( encodeURI( 'action=jquery-migrate-downgrade-version&_wpnonce=' + nonce ) );
+
+				// Suppress error alerts in older browsers
+				return true;
+			}
+        </script>
+
+		
+<!-- Custom Favicon -->
+<link rel="shortcut icon" href="../../wp-content/uploads/2015/08/1439737892_database.ico"/>
+
+<!-- Custom CSS -->
+<link href="../../wp-content/themes/flatbase/custom.css" rel="stylesheet" type="text/css"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="Unified audit trail in Oracle 12c"/>
+<meta property="og:url" content="https://dbaclass.com/article/unified-audit-trail-in-oracle-12c/"/>
+<meta property="og:description" content="OVERVIEW:                 With oracle 12c, unified auditing has been introduced. It consolidates all audit trails into a single audit trail table. It will capture audit records from below sources. SYS audit records ( which was written to os trail in traditional method, will now be written to db […]"/>
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			jQuery(document).ready(function($) {
+
+				nicethemes_likes_handler();
+
+			});
+			/* ]]> */
+		</script>
+
+
+		<script type="text/javascript" data-pagespeed-no-defer="">
+		//<![CDATA[
+			jQuery(document).ready(function() {
+				jQuery('#live-search #s').liveSearch({url: 'https://dbaclass.com/?ajax=true&livesearch=true&s='});
+			});
+		//]]>
+		</script>
+
+		
+
+<!-- Nice Google fonts -->
+<link href="https://fonts.googleapis.com/css?family=Nunito|Lato:400,700,400italic" rel="stylesheet" type="text/css"/>
+
+
+<script src="../../../code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../../typeiii.github.io/jquery-csv/src/jquery.csv.html"></script>    
+<script type="text/javascript" src="../../../www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+
+$.get("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/archived_data/archived_time_series/time_series_2019-ncov-Confirmed.csv", function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      console.log(arrayData);
+  });
+      }
+    </script> <link rel="stylesheet" href="../../wp-includes/css/bootstrap.min.css"/>
+
+<style>
+.ui-mobile [data-role=page], .ui-mobile [data-role=dialog], .ui-page {
+    position: relative !important;
+}
+</style>
+
+<script type='text/javascript'>
+var ezoTemplate = 'orig_site';
+var ezouid = '1';
+var ezoFormfactor = '1';
+</script><script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 179613;
+var ezdomain = 'dbaclass.com';
+var ezoicSearchable = 1;
+</script></head>
+
+<body class="article-template-default single single-article postid-1813 single-format-standard sidebar-right chrome">
+
+<!-- BEGIN #wrapper -->
+<div id="wrapper">
+
+	<!-- BEGIN #header -->
+	<header id="header" class="clearfix">
+
+		<!-- BEGIN #top -->
+		<div id="top" class="col-full">
+
+			<!-- BEGIN #logo -->
+			<div id="logo" class="fl"><h1><a href="../../index.html" title="DBACLASS"><img id="default-logo" src="../../wp-content/uploads/2018/03/dba_crop.jpg" alt="DBACLASS"/><img id="retina-logo" src="../../wp-content/uploads/2018/03/dba_crop.jpg" alt="DBACLASS"/></a></h1></div>			<!-- END #logo -->
+
+			<a href="#" id="toggle-nav"><i class="fa fa-bars"></i></a>
+
+			<!-- BEGIN #navigation -->
+			<nav id="navigation">
+
+			
+			<div class="menu-menu1-container"><ul id="main-nav" class="nav fl clearfix"><li id="nav-menu-item-1996" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href="../../index.html" class="menu-link main-menu-link">ORACLE DBA<mark class="bar"></mark></a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-163" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-taxonomy menu-item-object-article-category menu-item-has-children"><a href="../../article-category/database/index.html" class="menu-link sub-menu-link">DATABASE</a>
+	<ul class="sub-menu">
+		<li id="nav-menu-item-1625" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../database-10g11g/index.html" class="menu-link sub-menu-link">ADMINISTRATION</a></li>
+		<li id="nav-menu-item-3013" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../performance-tuning/index.html" class="menu-link sub-menu-link">PERFORMANCE TUNING</a></li>
+		<li id="nav-menu-item-1562" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../dataguard/index.html" class="menu-link sub-menu-link">DATAGUARD</a></li>
+		<li id="nav-menu-item-1362" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-security/index.html" class="menu-link sub-menu-link">ORACLE SECURITY</a></li>
+		<li id="nav-menu-item-2448" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../backup-recovery/index.html" class="menu-link sub-menu-link">Backup &amp; Recovery</a></li>
+		<li id="nav-menu-item-1209" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../troubleshoot/index.html" class="menu-link sub-menu-link">TROUBLESHOOT</a></li>
+		<li id="nav-menu-item-4018" class="sub-menu-item sub-sub-menu-item menu-item-even menu-item-depth-2 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../quizzes/index.html" class="menu-link sub-menu-link">QUIZ</a></li>
+	</ul>
+</li>
+	<li id="nav-menu-item-1179" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-rac/index.html" class="menu-link sub-menu-link">ORACLE RAC</a></li>
+	<li id="nav-menu-item-1187" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-12c/index.html" class="menu-link sub-menu-link">ORACLE 12c-20c</a></li>
+	<li id="nav-menu-item-5465" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oracle-multitenant/index.html" class="menu-link sub-menu-link">ORACLE MULTITENANT</a></li>
+	<li id="nav-menu-item-1269" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../oem-12c13c/index.html" class="menu-link sub-menu-link">OEM 12C/13C</a></li>
+	<li id="nav-menu-item-3184" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../goldengate/index.html" class="menu-link sub-menu-link">GOLDENGATE</a></li>
+	<li id="nav-menu-item-3686" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../interview-qa/index.html" class="menu-link sub-menu-link">INTERVIEW QA</a></li>
+	<li id="nav-menu-item-4411" class="sub-menu-item  menu-item-odd menu-item-depth-1 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../dba-cheat-sheet/index.html" class="menu-link sub-menu-link">DBA CHEATSHEET</a></li>
+</ul>
+</li>
+<li id="nav-menu-item-1396" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-post_type menu-item-object-page"><a href="../../monitor-your-db/index.html" class="menu-link main-menu-link">DBA SCRIPTS<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-6323" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../postgres-database-articles/index.html" class="menu-link main-menu-link">POSTGRES<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-5946" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../postgres-db-scripts/index.html" class="menu-link main-menu-link">POSTGRES SCRIPTS<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-7092" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../mysql-db-scripts/index.html" class="menu-link main-menu-link">MYSQL<mark class="bar"></mark></a></li>
+<li id="nav-menu-item-6026" class="main-menu-item  menu-item-even menu-item-depth-0 menu-item menu-item-type-custom menu-item-object-custom"><a href="../../ansible/index.html" class="menu-link main-menu-link">DEVOPS<mark class="bar"></mark></a></li>
+</ul></div>
+			<!-- END #navigation -->
+			</nav>
+
+		<!-- END #top -->
+		</div>
+
+		<!-- #live-search -->
+	<section id="live-search" class="clearfix">
+		<div class="container col-full">
+
+			
+			<div id="search-wrap">
+				<form role="search" method="get" id="searchform" class="clearfix" action="https://dbaclass.com/" autocomplete="off">
+					<div class="input">
+					<label for="s">Search.....</label>
+					<input type="text" name="s" id="s"/>
+					<input type="submit" id="searchsubmit" value=""/>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!-- /#live-search -->
+
+
+	<!-- END #header -->
+	</header>
+
+<!-- BEGIN #container -->
+<div id="container" class="clearfix">
+
+<!-- BEGIN #content -->
+<section id="content">
+
+	
+		<article class="post-1813 article type-article status-publish format-standard hentry article-category-oracle-12c article-category-oracle-security article-tag-audit article-tag-oracle-12c article-tag-unified-audit">
+
+						
+			<header>
+					<div class="breadcrumb breadcrumbs nice-breadcrumb"><div class="breadcrumb-trail"><a href="../../index.html" title="DBACLASS" rel="home" class="trail-begin">Home</a> <span class="sep">/</span> <a href="../../article-category/oracle-12c/index.html" rel="tag">ORACLE 12C</a>, <a href="../../article-category/oracle-security/index.html" rel="tag">ORACLE SECURITY</a> <span class="sep">/</span> <span class="trail-end">Unified audit trail in Oracle 12c</span></div></div>
+					<h1 class="entry-title">Unified audit trail in Oracle 12c</h1>
+
+					
+	<div class="entry-meta">
+
+				<span class="nice-views">
+						<i class="fa fa-bullseye"></i>17960 views		</span>
+		
+				<span class="nice-reading-time">
+			<i class="fa fa-bookmark"></i> 10 min , 11 sec read		</span>
+		
+				<a class="nice-like" data-id="1813" href="#" title="Like this">
+			<i class="fa fa-heart"></i>
+			<span class="like-count">
+				3			</span>
+		</a>
+		
+		
+	</div>
+
+			</header>
+
+			<div class="entry">
+
+				
+					<div class="post-content">
+						<p><strong><u>OVERVIEW:</u></strong></p>
+<p><span style="color: #000000;">              <span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">  With oracle 12c, unified auditing has been introduced. It consolidates all audit trails into a single audit trail table.</span></span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">It will capture audit records from below sources.</span></p>
+<ol>
+<li><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">SYS audit records ( which was written to os trail in traditional method, will now be written to db table)</span></li>
+<li><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Unified audit policies for different action/privilege/statement/role etc.</span></li>
+<li><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">EXPDP/IMPDP events</span></li>
+<li><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">RMAN events</span></li>
+<li><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Sql loader</span></li>
+</ol>
+<p><strong><u>TRADITIONAL VS UNIFIED</u></strong></p>
+<p> </p>
+<table style="height: 426px; background-color: #b5d5e8; border-color: #030202;" width="715">
+<tbody>
+<tr>
+<td><strong>TRADITIONAL AUDITING</strong></td>
+<td><strong>UNIFIED_AUDITING</strong></td>
+</tr>
+<tr>
+<td>Depends on db init parameter like audit_trail,audit_sys_log</td>
+<td>Independent of db parameter,bydefault enabled</td>
+</tr>
+<tr>
+<td>writes audit records to different trails depending upon audit type</td>
+<td>all audit trails are writeen to single trail</td>
+</tr>
+<tr>
+<td>sys records are written to os .aud files</td>
+<td>sys records are written to unified_audit_trail</td>
+</tr>
+<tr>
+<td>auditing not possible for rman/expdp/sqllder</td>
+<td>auditing can be enabled for db compoenents like rman/datapump/sqlldr</td>
+</tr>
+<tr>
+<td>each audit record was written to disk immediately, which causes i/o issue</td>
+<td>If querywrite method is enabled(default), then all audit records will queued in sga<br/>
+and later will be flushed to disk , which improves performance</td>
+</tr>
+<tr>
+<td>auditing need to enabled for each action/statement individually.</td>
+<td>One policy can contain mulitiple actions/privilge/role audit option and<br/>
+which can enabled or disables easily</td>
+</tr>
+</tbody>
+</table>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">There are two types of unified auditing mode in oracle 12c.</span></p>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif; font-size: 14pt;"><strong><span style="color: #000000;">MODE OF UNIFIED_AUDITING:</span></strong></span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">1. <strong>Mixed auditing</strong> – By default it is enable in 12c. It enables to use both traditional auditing and unified auditing methods. I.e. apart from traditional auditing we can use all the features of unified auditing. Once we are comfortable with the unified concept, we can migrate exiting audit setup to unified policy , we can enable pure auditing.</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> This serves as a good mediator for an easy and hassle free switch to the preferred Unified auditing.</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> 2. <strong>Pure auditing</strong> – Once pure auditing is enabled. We cannot use the traditional auditing methods.</span></p>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">Which unified auditing mode enabled for my database</span></strong></span></p>
+<pre>SELECT value FROM v$option WHERE parameter = &#39;Unified Auditing&#39;;
+VALUE
+-----------------
+FALSE
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">FALSE – &gt; MIXED AUDTING</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> TRUE –&gt; PURE AUDITING:</span><br/>
+<span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif; font-size: 14pt;"> <strong><span style="color: #000000;">How to change from MIXED to PURE auditing:(relink library)</span></strong></span></p>
+<pre class="">SELECT value FROM v$option WHERE parameter = &#39;Unified Auditing&#39;;
+VALUE
+-----------------
+FALSE
+sqlplus / as sysdba 
+
+shutdown immediate;
+exit
+
+cd $ORACLE_HOME/rdbms/lib
+
+make -f ins_rdbms.mk unaiaud_on ioracle
+
+sqlplus / as sysdba
+
+startup</pre>
+<pre class="">SELECT value FROM v$option WHERE parameter = &#39;Unified Auditing&#39;;
+VALUE
+-----------------
+TRUE</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">NOTE – FOR RAC, linking need to be done all the nodes</span></p>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif; font-size: 14pt;"><strong><span style="color: #000000;">WHAT IS UNIFIED AUDIT POLICY AND HOW IT WORKS:</span></strong></span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Unified audit policy is like a group of audit options with different conditions. It is like a ROLE which is a group of privileges.</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> For enabling auditing , first need to create a policy with different audit options and then need to enable or disable for all or few users depending upon the requirement.</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> All the audit records will be stored in unified_audit_trail table. By default 7 audit policies will be present in a 12c database.</span><br/>
+<span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif; font-size: 14pt;"> <strong><span style="color: #000000;">DEFAULT POLICIES IN 12C DATABASE</span></strong></span></p>
+<pre>SQL&gt; select distinct POLICY_NAME from AUDIT_UNIFIED_POLICIES;
+
+POLICY_NAME
+-------------------------------------------------------------------------------
+ORA_CIS_RECOMMENDATIONS
+ORA_RAS_POLICY_MGMT
+ORA_RAS_SESSION_MGMT
+ORA_LOGON_FAILURES
+ORA_SECURECONFIG
+ORA_DATABASE_PARAMETER
+ORA_ACCOUNT_MGMT
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">But not all are enabled. Query AUDIT_UNIFIED_ENABLED_POLICIES to find, which policies are enabled.</span><br/>
+<span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> <strong><span style="color: #000000;"> Query to find which policies are enabled</span></strong></span></p>
+<pre class="">SQL&gt;  select distinct policy_name from AUDIT_UNIFIED_ENABLED_POLICIES;
+POLICY_NAME
+-----------------------------------------
+ORA_LOGON_FAILURES
+ORA_SECURECONFIG
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong> Query to check the audit options included in a policy:</strong></span></p>
+<pre class="">SQL&gt;  select AUDIT_OPTION from AUDIT_UNIFIED_POLICIES where POLICY_NAME=&#39;ORA_SECURECONFIG&#39;;
+
+LOGMINING
+TRANSLATE ANY SQL
+EXEMPT REDACTION POLICY
+PURGE DBA_RECYCLEBIN
+ADMINISTER KEY MANAGEMENT
+DROP ANY SQL TRANSLATION PROFILE
+ALTER ANY SQL TRANSLATION PROFILE
+CREATE ANY SQL TRANSLATION PROFILE
+CREATE SQL TRANSLATION PROFILE
+CREATE EXTERNAL JOB
+CREATE ANY JOB
+GRANT ANY OBJECT PRIVILEGE
+EXEMPT ACCESS POLICY
+CREATE ANY LIBRARY
+GRANT ANY PRIVILEGE
+DROP ANY PROCEDURE
+ALTER ANY PROCEDURE
+CREATE ANY PROCEDURE
+ALTER DATABASE
+GRANT ANY ROLE
+DROP PUBLIC SYNONYM
+CREATE PUBLIC SYNONYM
+DROP ANY TABLE
+ALTER ANY TABLE
+CREATE ANY TABLE
+DROP USER
+CREATE USER
+AUDIT SYSTEM
+ALTER SYSTEM
+CREATE DATABASE LINK
+DROP DATABASE LINK
+ALTER USER
+CREATE ROLE
+DROP ROLE
+SET ROLE
+CREATE PROFILE
+DROP PROFILE
+ALTER PROFILE
+ALTER ROLE
+CREATE DIRECTORY
+DROP DIRECTORY
+ALTER DATABASE LINK
+CREATE PLUGGABLE DATABASE
+ALTER PLUGGABLE DATABASE
+DROP PLUGGABLE DATABASE
+EXECUTE
+</pre>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><em><span style="color: #000000;">Even if no new policy is created in database, Audit action of the above audit options will be recorded in unified_audit_trail.</span></em></span></p>
+<p><span style="color: #000000; font-size: 14pt; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong>Below are few test cases on unified audit policy :</strong></span></p>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">TEST CASE 1 : ( default audit option):</span></strong></span></h4>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> DROP DIRECTORY , which is one of the audit option of the default policy ORA_SECURECONFIG.</span></p>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">Connect to bsstdba and drop a directory</span></strong></span></p>
+<pre>SQL&gt; show user
+USER is &#34;BSSTDBA&#34;
+SQL&gt; drop directory TEST;
+Directory dropped.
+</pre>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong>Check the audit report</strong></span></p>
+<pre>set lines 299
+col SQL_TEXT for a23
+col action_name for a18
+col UNIFIED_AUDIT_POLICIES for a23
+SQL&gt;  select action_name,SQL_TEXT,UNIFIED_AUDIT_POLICIES ,EVENT_TIMESTAMP from unified_AUDIT_trail where DBUSERNAME=&#39;BSSTDBA&#39; and EVENT_TIMESTAMP &gt; sysdate -1/24;
+
+
+ACTION_NAME        SQL_TEXT                UNIFIED_AUDIT_POLICIES  EVENT_TIMESTAMP
+------------------ ----------------------- ----------------------- ------------------------------
+LOGON                                      ORA_LOGON_FAILURES      16-FEB-17 11.29.03.981436 PM
+DROP DIRECTORY     drop directory TEST2    ORA_SECURECONFIG        16-FEB-17 11.29.59.924533 PM
+
+</pre>
+<h4><span style="font-size: 12pt; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">TEST CASE 2 : CREATE AUDIT POLICY WITH MULTIPLE AUDIT OPTIONS:</span></strong></span></h4>
+<pre class="">create audit policy test_case2
+  ACTIONS CREATE TABLE, 
+  INSERT ON classdba.EMP_TAB,
+  TRUNCATE TABLE,
+  select on classdba.PROD_TAB;
+</pre>
+<pre>set lines 299
+col POLICY_NAME for a23
+col AUDIT_OPTION for a12
+col AUDIT_CONDITION for a12
+col OBJECT_SCHEMA for a23
+col OBJECT_NAME for a14
+select POLICY_NAME,audit_option,AUDIT_CONDITION,OBJECT_SCHEMA,OBJECT_NAME FROM AUDIT_UNIFIED_POLICIES where POLICY_NAME=&#39;TEST_CASE2&#39;;
+
+POLICY_NAME  AUDIT_OPTION          AUDIT_CONDITION    OBJECT_SCHEMA   OBJECT_NAME
+------------ --------------------- ------------------ --------------- ------------------
+TEST_CASE2   CREATE TABLE          NONE               NONE            NONE
+TEST_CASE2   TRUNCATE TABLE        NONE               NONE            NONE
+TEST_CASE2   INSERT                NONE               BSSTDBA         EMP_TAB
+TEST_CASE2   SELECT                NONE               BSSTDBA         PROD_TAB
+
+
+SQL&gt; select distinct policy_name from AUDIT_UNIFIED_ENABLED_POLICIES where policy_name=&#39;TEST_CASE2&#39;;
+
+no rows selected
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Unless we enable the policy, auditing conditions wont be evaluated</span></p>
+<pre class="">SQL&gt; audit policy TEST_CASE2;
+
+Audit succeeded.
+
+SQL&gt; select distinct policy_name from AUDIT_UNIFIED_ENABLED_POLICIES where policy_name=&#39;TEST_CASE2&#39;;
+
+
+POLICY_NAME
+------------
+TEST_CASE2
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Do some changes and generate audit report:</span></p>
+<pre class="">SQL&gt; select action_name,SQL_TEXT,UNIFIED_AUDIT_POLICIES ,EVENT_TIMESTAMP from unified_AUDIT_trail where DBUSERNAME=&#39;STCDBA&#39; and EVENT_TIMESTAMP &gt; sysdate -1/24;
+
+ACTION_NAME        SQL_TEXT                UNIFIED_AUDIT_POLICIES  EVENT_TIMESTAMP
+------------------ ----------------------- ----------------------- --------------------------------
+CREATE TABLE       create table EMP_NUM as TEST_CASE2              17-FEB-17 09.19.16.054209 AM
+                    select * from classdba.
+                   emp_tab
+</pre>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">EXCLUDE ONE USER FROM THE POLICY:</span></strong></span></p>
+<pre class="">SQL&gt; select USER_NAME,POLICY_NAME,ENABLED_OPT from AUDIT_UNIFIED_ENABLED_POLICIES where POLICY_NAME=&#39;TEST_CASE2&#39;;
+
+
+USER_NAME     POLICY_NAME  ENABLED_OPT
+------------- ------------ -----------------------
+ALL USERS     TEST_CASE2   BY
+
+
+SQL&gt; audit policy TEST_CASE2 except proddba;
+audit policy TEST_CASE2 except proddba
+*
+ERROR at line 1:
+ORA-46350: Audit policy TEST_CASE2 already applied with the BY clause.
+</pre>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><span style="color: #000000;">Once audit policy is enabled, if we try to enable again, it will throw error. </span><span style="color: #000000;">So to change the audit condition, disable and enable with new condition.</span></span></p>
+<pre class="">SQL&gt; noaudit policy TEST_CASE2;
+
+Noaudit succeeded.
+
+SQL&gt; audit policy TEST_CASE2 except stcdba;
+
+Audit succeeded.
+
+SQL&gt; select USER_NAME,POLICY_NAME,ENABLED_OPT from AUDIT_UNIFIED_ENABLED_POLICIES where POLICY_NAME=&#39;TEST_CASE2&#39;;
+
+USER_NAME     POLICY_NAME  ENABLED_OPT
+------------- ------------ -----------------------
+PRODDBA        TEST_CASE2   EXCEPT
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Now create a table from stcdba.</span></p>
+<pre class="">SQL&gt; SQL&gt; connect stcdba
+Enter password:
+Connected.
+SQL&gt; create table TEST4 ( empnum number);
+
+Table created.
+
+SQL&gt; conn / as sysdba
+Connected.
+SQL&gt;  select action_name,SQL_TEXT,UNIFIED_AUDIT_POLICIES ,EVENT_TIMESTAMP from unified_AUDIT_trail where DBUSERNAME=&#39;STCDBA&#39; and EVENT_TIMESTAMP &gt; sysdate -1/24;
+
+ACTION_NAME        SQL_TEXT                UNIFIED_AUDIT_POLICIES  EVENT_TIMESTAMP
+------------------ ----------------------- ----------------------- ---------------------------------------------------------------------------
+CREATE TABLE       create table EMP_NUM as TEST_CASE2              17-FEB-17 09.19.16.054209 AM
+                    select * from classdba.
+                   emp_tab
+
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">We can see the new audit action ( CREATE TABLE TEST4 is not recorded in audit trail table) as expected.</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> We can mention success/failure condition similar to traditional auditing:</span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">audit policy TEST_CASE2 whenever successful;</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> audit policy TEST_CASE2 Whenever not successful;</span></p>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">3. TEST_CASE 3 :</span></strong></span></h4>
+<p><strong><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Create an audit policy, to audit delete on table bsstdba.EMP_TAB,insert on bsstdba.PROD_TAB and update on bsstdba.SAL_TAB TABLE BY user STCDBA.</span></strong></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">This can be achieved by using the same method of test_case2, But here we will define the condition in the audit policy itself, instead of mentioning it while enabling audit.</span></p>
+<pre class="">SQL&gt; create AUDIT POLICY test_case3
+  ACTIONS DELETE ON classdba.EMP_TAB,
+          INSERT ON classdba.PROD_TAB,
+          UPDATE ON classdba.SAL_TAB
+  WHEN    &#39;SYS_CONTEXT(&#39;&#39;USERENV&#39;&#39;, &#39;&#39;SESSION_USER&#39;&#39;) = &#39;&#39;STCDBA&#39;&#39;&#39;
+    EVALUATE PER SESSION;  2    3    4    5    6
+
+Audit policy created.
+
+SQL&gt;  audit policy TEST_CASE3;
+
+Audit succeeded.
+</pre>
+<blockquote><p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">EVALUATE PER refers to the following options:</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">  STATEMENT evaluates the condition for each relevant auditable statement that</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> occurs.</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">  SESSION evaluates the condition only once during the session, and then caches</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> and re-uses the result during the remainder of the session. Oracle Database</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> evaluates the condition the first time the policy is used, and then stores the result</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> in UGA memory afterward.</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">  INSTANCE evaluates the condition only once during the database instance</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> lifetime. After Oracle Database evaluates the condition, it caches and re-uses the</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> result for the remainder of the instance lifetime. As with the SESSION evaluation,</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> the evaluation takes place the first time it is needed, and then the results are stored</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> in UGA memory afterward</span></p></blockquote>
+<pre class="">SQL&gt; select POLICY_NAME,audit_option,AUDIT_CONDITION,OBJECT_SCHEMA,OBJECT_NAME,CONDITION_EVAL_OPT FROM AUDIT_UNIFIED_POLICIES where POLICY_NAME=&#39;TEST_CASE3&#39;;
+
+POLICY_NAME  AUDIT_OPTION          AUDIT_CONDITION    OBJECT_SCHEMA   OBJECT_NAME        CONDITION
+------------ --------------------- ------------------ --------------- ------------------ ---------
+TEST_CASE3   UPDATE                SYS_CONTEXT(&#39;USERE CLASSDBA         SAL_TAB            SESSION
+                                   NV&#39;, &#39;SESSION_USER
+                                   &#39;) = &#39;PRODDBA&#39;
+
+TEST_CASE3   DELETE                SYS_CONTEXT(&#39;USERE CLASSDBA         EMP_TAB            SESSION
+                                   NV&#39;, &#39;SESSION_USER
+                                   &#39;) = &#39;PRODDBA&#39;
+
+TEST_CASE3   INSERT                SYS_CONTEXT(&#39;USERE CLASSDBA         PROD_TAB           SESSION
+                                   NV&#39;, &#39;SESSION_USER
+                                   &#39;) = &#39;PRODDBA&#39;
+
+
+
+SQL&gt; select USER_NAME,POLICY_NAME,ENABLED_OPT from AUDIT_UNIFIED_ENABLED_POLICIES where POLICY_NAME=&#39;TEST_CASE3&#39;;
+
+USER_NAME     POLICY_NAME  ENABLED_OPT
+------------- ------------ -----------------------
+ALL USERS     TEST_CASE3   BY
+
+</pre>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">TESTCASE_4:</span></strong></span></h4>
+<p><strong><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Create an audit policy, to audit insert on bsstdba.PROD_TAB and update on bsstdba.SAL_TAB TABLE WHEN USER_NAME NOT IN (‘STCDBA’,’TCSDBA’)</span></strong></p>
+<pre class="">SQL&gt;
+  CREATE AUDIT POLICY test_case4
+ACTIONS insert on classdba.PROD_TAB,
+        update on classdba.SAL_TAB
+WHEN &#39;sys_context(&#39;&#39;userenv&#39;&#39;,&#39;&#39;SESSION_USER&#39;&#39;) not in ( &#39;&#39;STCDBA&#39;&#39;,&#39;&#39;TCSDBA&#39;&#39;)&#39;
+  EVALUATE PER STATEMENT;SQL&gt;   2    3    4    5
+
+Audit policy created.
+
+
+SQL&gt; AUDIT POLICY test_case4;
+Audit succeeded.
+
+SQL&gt; SQL&gt; select POLICY_NAME,audit_option,AUDIT_CONDITION,OBJECT_SCHEMA,OBJECT_NAME,CONDITION_EVAL_OPT FROM AUDIT_UNIFIED_POLICIES where POLICY_NAME=&#39;TEST_CASE4&#39;;
+
+POLICY_NAME  AUDIT_OPTION          AUDIT_CONDITION    OBJECT_SCHEMA   OBJECT_NAME        CONDITION
+------------ --------------------- ------------------ --------------- ------------------ ---------
+TEST_CASE4   UPDATE                sys_context(&#39;usere BSSTDBA         SAL_TAB            STATEMENT
+                                   nv&#39;,&#39;SESSION_USER&#39;
+                                   ) not in ( &#39;PRODDBA
+                                   &#39;,&#39;DEVDBA&#39;)
+
+TEST_CASE4   INSERT                sys_context(&#39;usere BSSTDBA         PROD_TAB           STATEMENT
+                                   nv&#39;,&#39;SESSION_USER&#39;
+                                   ) not in ( &#39;PRODDBA
+                                   &#39;,&#39;DEVDBA&#39;)
+
+
+								   
+SQL&gt; connect stcdba
+Enter password:
+Connected.
+SQL&gt; insert into BSSTDBA.PROD_TAB select * from BSSTDBA.PROD_TAB;
+
+
+4 rows created.
+
+SQL&gt; SQL&gt; commit;
+
+Commit complete. 
+								   
+							   
+SQL&gt; select action_name,SQL_TEXT,UNIFIED_AUDIT_POLICIES ,EVENT_TIMESTAMP from unified_AUDIT_trail where UNIFIED_AUDIT_POLICIES=&#39;TEST_CASE4&#39;;
+
+no rows selected
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">No audit record found for stcdba as expected.</span></p>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">TEST_CASE 5 ( AUDITING ROLE)</span></strong></span></h4>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">It will audit all users using a particular ROLE</span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Create an user with dba privs</span></p>
+<pre>CREATE USER TCSDBA IDENTIFIED BY TCSDBA;
+GRANT DBA TO TCSDBA;
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> Enable audit for the role DBA</span></p>
+<pre>CREATE AUDIT POLICY ROLE_AUDIT roles dba;
+audit policy ROLE_AUDIT;
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> Do any dba activity and check report</span></p>
+<pre class="">SQL&gt; show user
+USER is &#34;DEVDBA&#34;
+SQL&gt;
+SQL&gt;
+SQL&gt; truncate table bsstdba.emp_tab&#39;;
+
+SQL&gt; select action_name,SQL_TEXT,UNIFIED_AUDIT_POLICIES ,EVENT_TIMESTAMP from unified_AUDIT_trail where DBUSERNAME=&#39;DEVDBA&#39; and action_name like &#39;TRUNCATE%&#39;;
+
+ACTION_NAME        SQL_TEXT                           UNIFIED_AUDIT_POLICIES  EVENT_TIMESTAMP
+------------------ ---------------------------------- ----------------------- --------------------------------
+TRUNCATE TABLE     truncate table bsstdba.emp_tab     ORA_SECURECONFIG, ROLE_ 17-FEB-17 01.31.58.862039 PM
+                                                     AUDIT
+
+</pre>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">TEST CASE 6 ( FILTER BY HOSTNAME)</span></strong></span></h4>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Now we can define to exclude auditing for few hosts</span></p>
+<pre class="">CREATE AUDIT POLICY test_case6
+ACTIONS UPDATE ON OE.ORDERS, DELETE ON SALES.ORDERS
+WHEN &#39;SYS_CONTEXT (&#39;&#39;USERENV&#39;&#39;, &#39;&#39;HOST&#39;&#39;) NOT IN
+(&#39;&#39;sedbhost1&#39;&#39;,&#39;&#39;sedbhost2&#39;&#39;)&#39;
+EVALUATE PER STATEMENT;
+</pre>
+<h4><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong>DATAPUMP AUDITING:</strong></span></h4>
+<pre>SQL&gt; create audit policy expdp_aduit actions component=datapump export;
+ Audit policy created.
+ 
+ 
+ SQL&gt; audit policy expdp_aduit;
+ Audit succeeded.
+
+SQL&gt; set lines 299
+col POLICY_NAME for a23
+col AUDIT_OPTION for a12
+col AUDIT_CONDITION for a12
+col OBJECT_SCHEMA for a23
+col OBJECT_NAME for a14
+
+SQL&gt; select POLICY_NAME,audit_option,AUDIT_CONDITION,OBJECT_SCHEMA,OBJECT_NAME FROM AUDIT_UNIFIED_POLICIES where POLICY_NAME=&#39;EXPDP_ADUIT&#39;;
+
+POLICY_NAME             AUDIT_OPTION AUDIT_CONDIT OBJECT_SCHEMA           OBJECT_NAME
+----------------------- ------------ ------------ ----------------------- --------------
+EXPDP_ADUIT             EXPORT       NONE         NONE                    NONE
+
+
+
+expdp dumpfile=test.dmp logfile=test.log directory=T tables=catalog.TRANSACTIONS
+Export: Release 12.1.0.2.0 - Production on Fri Feb 17 11:38:41 2017
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
+Username: / as sysdba
+Connected to: Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+Starting &#34;SYS&#34;.&#34;SYS_EXPORT_TABLE_01&#34;:  /******** AS SYSDBA dumpfile=test.dmp logfile=test.log directory=T tables=catalog.TRANSACTIONS
+Estimate in progress using BLOCKS method...
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Total estimation using BLOCKS method: 128 KB
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/INDEX/INDEX
+Processing object type TABLE_EXPORT/TABLE/INDEX/FUNCTIONAL_INDEX/INDEX
+Processing object type TABLE_EXPORT/TABLE/CONSTRAINT/CONSTRAINT
+Processing object type TABLE_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/INDEX/STATISTICS/FUNCTIONAL_INDEX/INDEX_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/CONSTRAINT/REF_CONSTRAINT
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+. . exported &#34;CATALOG&#34;.&#34;TRANSACTIONS&#34;                    63.94 KB     689 rows
+Master table &#34;SYS&#34;.&#34;SYS_EXPORT_TABLE_01&#34; successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYS.SYS_EXPORT_TABLE_01 is:
+  /export/home/oracle/test.dmp
+Job &#34;SYS&#34;.&#34;SYS_EXPORT_TABLE_01&#34; successfully completed at Fri Feb 17 11:39:19 2017 elapsed 0 00:00:34
+
+
+
+SQL&gt; select DBUSERNAME,DP_TEXT_PARAMETERS1 from UNIFIED_AUDIT_TRAIL where DP_TEXT_PARAMETERS1 is not null;
+
+DBUSERNAME                     DP_TEXT_PARAMETERS1
+------------------------------ ------------------------------------------------------------------------------
+SYS                            MASTER TABLE:  &#34;SYS&#34;.&#34;SYS_EXPORT_TABLE_01&#34; , JOB_TYPE: EXPORT, METADATA_JOB_MO
+                               DE: TABLE_EXPORT, JOB VERSION: 12.1.0.2.0, ACCESS METHOD: AUTOMATIC, DATA OPTI
+                               ONS: 0, DUMPER DIRECTORY: NULL  REMOTE LINK: NULL, TABLE EXISTS: NULL, PARTITI
+                               ON OPTIONS: NONE
+
+</pre>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">TEST_CASE7 ( AUDITING FOR SYSTEM PRIVILEGES):</span></strong></span></h4>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">We can enable auditing for system privileges as below.</span></p>
+<pre class="">create audit policy aud_syspriv_pol 
+  PRIVILEGES alter any table;
+</pre>
+<blockquote><p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">NOTE- Instead of privilege keyword , I have created policy with action keyword in test_case2 , and it is showing similar result.</span></p></blockquote>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">SYS AUDITING:</span></strong></span></h4>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">With mix auditing, sys audit records will be written to both os level and unified_trail also if audit action policy is enable.</span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">As per Oracle doc:</span><br/>
+<span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> <strong><em><span style="color: #000000;"> FOR MIXED AUDITING</span></em></strong></span><br/>
+<span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> <span style="color: #000000;"> Administrative user sessions generate SYS audit records. These records are written if the AUDIT_SYS_OPERATIONS initialization parameter is set to TRUE.</span><span style="color: #000000;">This process writes the records only to the traditional audit trails. However, when unified audit policies are enabled for administrative users,</span></span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> these unified audit records are also written to unified audit trail.</span></p>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><em><strong><span style="color: #000000;">FOR PURE UNIFIED AUDITING:</span></strong></em></span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> All sys audit records will be written to UNIFIED_AUDIT_TRAIL TABLE ONLY</span></p>
+<pre><span style="color: #000000;">set lines 299</span>
+col SQL_TEXT for a23
+col action_name for a18
+col UNIFIED_AUDIT_POLICIES for a23
+select action_name,SQL_TEXT,UNIFIED_AUDIT_POLICIES ,EVENT_TIMESTAMP from unified_AUDIT_trail where DBUSERNAME=&#39;SYS&#39; and EVENT_TIMESTAMP &gt; sysdate -1/24;
+</pre>
+<h4><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong>DROPPING AUDIT POLICY:</strong></span></h4>
+<pre>SQL&gt; DROP AUDIT POLICY TEST_CASE5;
+DROP AUDIT POLICY TEST_CASE5
+*
+ERROR at line 1:
+ORA-46361: Audit policy cannot be dropped as it is currently enabled.
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">We can’t drop a policy when it is enabled.</span></p>
+<pre class="">SQL&gt; NOAUDIT POLICY TEST_CASE5;
+
+Noaudit succeeded.
+
+SQL&gt; DROP AUDIT POLICY TEST_CASE5;
+
+Audit Policy dropped.
+
+</pre>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">PURGE AUDIT TRAIL:</span></strong></span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Purging mechanism is similar to that of previous dbms_audit_mgmt(11g) , Only we need to set the audit_trail_type to unified</span></p>
+<pre class="">exec DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP ( -
+AUDIT_TRAIL_TYPE =&gt; DBMS_AUDIT_MGMT.AUDIT_TRAIL_UNIFIED, -
+LAST_ARCHIVE_TIME =&gt; sysdate-30)
+
+exec DBMS_AUDIT_MGMT.CLEAN_AUDIT_TRAIL( -
+AUDIT_TRAIL_TYPE =&gt; DBMS_AUDIT_MGMT.AUDIT_TRAIL_UNIFIED, -
+USE_LAST_ARCH_TIMESTAMP =&gt; TRUE)
+</pre>
+<h4>Refer – <a href="../purge-aud-table-using-dbms_audit_mgmt/index.html" target="_blank" rel="noopener noreferrer">Purge audit table using dbms_mgmt</a></h4>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">AUDIT WRITE MODE:</span></strong></span></h4>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Oracle 12c writes audit records first to SGA. And then periodically flush the queue to AUDSYS schema audit table in sysaux table.</span></p>
+<p><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">MODES:</span></strong></span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">1. QUEUED-WRITE MODE (DEFAULT) – PERIODICALLY FLUSHED TO DISK</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> 2. IMMEDIATE-WRITE MODE – IMMEDIATELY FLUSHED ( PRE 12C MODE, NOT RECOMMENDED)</span></p>
+<pre>set lines 2999
+col PARAMETER_NAME for a31
+col PARAMETER_VALUE for a34
+select * from dba_audit_mgmt_config_params;
+
+PARAMETER_NAME PARAMETER_VALUE AUDIT_TRAIL
+------------------------------- ---------------------------------- ------------------------
+DB AUDIT TABLESPACE SYSAUX STANDARD AUDIT TRAIL
+DB AUDIT TABLESPACE SYSAUX FGA AUDIT TRAIL
+DB AUDIT TABLESPACE SYSAUX UNIFIED AUDIT TRAIL
+AUDIT FILE MAX SIZE 10000 OS AUDIT TRAIL
+AUDIT FILE MAX SIZE 10000 XML AUDIT TRAIL
+AUDIT FILE MAX AGE 5 OS AUDIT TRAIL
+AUDIT FILE MAX AGE 5 XML AUDIT TRAIL
+DB AUDIT CLEAN BATCH SIZE 10000 STANDARD AUDIT TRAIL
+DB AUDIT CLEAN BATCH SIZE 10000 FGA AUDIT TRAIL
+OS FILE CLEAN BATCH SIZE 1000 OS AUDIT TRAIL
+OS FILE CLEAN BATCH SIZE 1000 XML AUDIT TRAIL
+AUDIT WRITE MODE QUEUED WRITE MODE UNIFIED AUDIT TRAIL
+AUDIT FILE MAX SIZE 10000 UNIFIED AUDIT TRAIL
+AUDIT FILE MAX AGE 5 UNIFIED AUDIT TRAIL
+</pre>
+<h4><span style="font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"><strong><span style="color: #000000;">Role segregation:</span></strong></span></h4>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">AUDYS is the schema, which keeps audit trail info. No user can connect to this user including SYS.</span></p>
+<pre class="">SQL&gt; show user
+USER is &#34;SYS&#34;
+SQL&gt; connect AUDSYS/AUDSYS
+ERROR:
+ORA-46370: cannot connect as AUDSYS user
+
+Warning: You are no longer connected to ORACLE.
+</pre>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">Below two new roles are present in 12c</span></p>
+<p><span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;">AUDIT_ADMIN – For creating and managing audit policies</span><br/>
+<span style="color: #000000; font-family: &#39;trebuchet ms&#39;, geneva, sans-serif;"> AUDIT_VIEWER – For viewing audit reports ( Mostly for auditors)</span></p>
+					</div>
+
+					<footer class="entry-meta">
+
+						<span class="tag-links">
+							<i class="fa fa-tags"></i><a href="../../article-tag/audit/index.html" rel="tag">Audit</a><a href="../../article-tag/oracle-12c/index.html" rel="tag">oracle 12c</a><a href="../../article-tag/unified-audit/index.html" rel="tag">UNIFIED AUDIT</a>						</span>
+
+						<span class="category-links">
+							<i class="fa fa-archive"></i><a href="../../article-category/oracle-12c/index.html" rel="tag">ORACLE 12C</a><a href="../../article-category/oracle-security/index.html" rel="tag">ORACLE SECURITY</a>						</span>
+
+					</footer>
+
+			</div>
+
+		</article>
+
+ 
+<script type="text/javascript">
+    google_ad_client = "ca-pub-6186075803958446";
+    google_ad_slot = "9656071019";
+    google_ad_width = 336;
+    google_ad_height = 280;
+</script>
+<!-- ad3 -->
+<script type="text/javascript" src="../../../pagead2.googlesyndication.com/pagead/f.txt">
+</script>
+ 
+		
+		<div id="post-author">
+			<div class="profile-image thumb"><img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=70&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=140&amp;d=mm&amp;r=g 2x" class="avatar avatar-70 photo" height="70" width="70" decoding="async"/></div>
+				<div class="profile-content">
+					<h4 class="title">About Admin</h4>
+										<div class="profile-link">
+						<a href="../../author/admin/index.html">
+							View all posts by Admin <span class="meta-nav">→</span>						</a>
+					</div><!-- #profile-link	-->
+			</div><!-- .post-entries -->
+			<div class="fix"></div>
+		</div><!-- #post-author -->
+<section id="related-posts" class="clearfix"><h3>Related Articles</h3><ul class="clearfix">
+<li class="format-article"><a href="../how-to-encrypt-a-table-using-dbm_redef-with-zero-down-time/index.html" rel="bookmark" title="How to encrypt a table using dbm_redef with zero down time"><i class="fa fa-database"></i>How to encrypt a table using dbm_redef with zero down time</a></li><li class="format-article"><a href="../recreate-mgmt-database-oracle-rac/index.html" rel="bookmark" title="How to recreate MGMT database in ORACLE 12C GRID"><i class="fa fa-database"></i>How to recreate MGMT database in ORACLE 12C GRID</a></li><li class="format-article"><a href="../flashback-pluggable-database-pdb-oracle-12-2/index.html" rel="bookmark" title="How to flashback a Pluggable database ( PDB)  in oracle 12.2"><i class="fa fa-database"></i>How to flashback a Pluggable database ( PDB)  in oracle 12.2</a></li><li class="format-article"><a href="../create-encrypted-tablespace-pdb-oracle-12c/index.html" rel="bookmark" title="How to create encrypted tablespace in PDB( oracle 12c)"><i class="fa fa-database"></i>How to create encrypted tablespace in PDB( oracle 12c)</a></li><li class="format-article"><a href="../get-export-dump-pluggable-database/index.html" rel="bookmark" title="How to run expdp in pluggable database(PDB)"><i class="fa fa-database"></i>How to run expdp in pluggable database(PDB)</a></li><li class="format-article"><a href="../rollback-database-patch-oracle-12c/index.html" rel="bookmark" title="Rollback database patch in oracle 12c"><i class="fa fa-database"></i>Rollback database patch in oracle 12c</a></li><li class="format-article"><a href="../apply-patch-oracle-12-2-database/index.html" rel="bookmark" title="Apply patch on oracle 12.2 database ( Release update)"><i class="fa fa-database"></i>Apply patch on oracle 12.2 database ( Release update)</a></li><li class="format-article"><a href="../performance-flashback-pluggable-databasepdb-oracle-12-2/index.html" rel="bookmark" title="Perform Flashback in pluggable database(PDB) in oracle 12.2"><i class="fa fa-database"></i>Perform Flashback in pluggable database(PDB) in oracle 12.2</a></li></ul>
+</section>
+<div id="comments" class="comments-area">
+
+	
+	<h3 class="comments-title">
+		6 thoughts on “Unified audit trail in Oracle 12c”	</h3>
+
+	
+	<ol class="comment-list">
+				<li id="comment-2149" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-2149" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/f3dd92117001f679557669dabf2b9930?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/f3dd92117001f679557669dabf2b9930?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" decoding="async"/>						<b class="fn">srikanth samayamantri</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-2149"><time datetime="2017-02-18T15:00:21+00:00">February 18, 2017 at 3:00 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Nice and detailed</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-2149" data-commentid="2149" data-postid="1813" data-belowelement="div-comment-2149" data-respondelement="respond" data-replyto="Reply to srikanth samayamantri" aria-label="Reply to srikanth samayamantri">Reply</a></div>			</article><!-- .comment-body -->
+		<ol class="children">
+		<li id="comment-2150" class="comment byuser comment-author-admin bypostauthor odd alt depth-2">
+			<article id="div-comment-2150" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/223336b4be9ca942e119a9e1ff597713?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" decoding="async"/>						<b class="fn">Admin</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-2150"><time datetime="2017-02-18T19:48:32+00:00">February 18, 2017 at 7:48 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks Srikanth.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-2150" data-commentid="2150" data-postid="1813" data-belowelement="div-comment-2150" data-respondelement="respond" data-replyto="Reply to Admin" aria-label="Reply to Admin">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-49924" class="comment even thread-odd thread-alt depth-1">
+			<article id="div-comment-49924" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/2af496d0a5cd156dc57cbdeccc748413?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/2af496d0a5cd156dc57cbdeccc748413?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Dinh</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-49924"><time datetime="2019-06-15T02:58:24+00:00">June 15, 2019 at 2:58 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Great article but there is typo error </p>
+<p>make -f ins_rdbms.mk unaiaud_on ioracle</p>
+<p>should be<br/>
+make -f ins_rdbms.mk uniaud_on ioracle</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-49924" data-commentid="49924" data-postid="1813" data-belowelement="div-comment-49924" data-respondelement="respond" data-replyto="Reply to Dinh" aria-label="Reply to Dinh">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-51717" class="comment odd alt thread-even depth-1">
+			<article id="div-comment-51717" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/a0619f2a11b00f3bfe31d83087391521?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/a0619f2a11b00f3bfe31d83087391521?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">John</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-51717"><time datetime="2019-08-02T13:04:04+00:00">August 2, 2019 at 1:04 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>so what is the purpouse of AUDSYS table when we have UNIFIED_AUDIT_TRAIL view?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-51717" data-commentid="51717" data-postid="1813" data-belowelement="div-comment-51717" data-respondelement="respond" data-replyto="Reply to John" aria-label="Reply to John">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-81452" class="comment even thread-odd thread-alt depth-1">
+			<article id="div-comment-81452" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/8cc7e7eee34a0b2c95fd892784f87b3a?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/8cc7e7eee34a0b2c95fd892784f87b3a?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Srinivas</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-81452"><time datetime="2020-02-20T07:16:35+00:00">February 20, 2020 at 7:16 am</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks for this post. Very informative !!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-81452" data-commentid="81452" data-postid="1813" data-belowelement="div-comment-81452" data-respondelement="respond" data-replyto="Reply to Srinivas" aria-label="Reply to Srinivas">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-117858" class="comment odd alt thread-even depth-1">
+			<article id="div-comment-117858" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="https://secure.gravatar.com/avatar/90889241bab0f0833f503191d2e276be?s=50&amp;d=mm&amp;r=g" srcset="https://secure.gravatar.com/avatar/90889241bab0f0833f503191d2e276be?s=100&amp;d=mm&amp;r=g 2x" class="avatar avatar-50 photo" height="50" width="50" loading="lazy" decoding="async"/>						<b class="fn">Warren</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="index.html#comment-117858"><time datetime="2021-07-27T17:35:04+00:00">July 27, 2021 at 5:35 pm</time></a>					</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>we used to select from this DBA_AUDIT_STATEMENT view to find info about grants of privileges on an object. currently we are now in 19c and using the unified auditing — UNIFIED_AUDIT_TRAIL.</p>
+<p>every time we issue the command for example:</p>
+<p>grant select on table1 to user1;<br/>
+grant select on table1 to role1;</p>
+<p>this didn’t appears recording into the UNIFIED_AUDIT_TRAIL view. we don’t see any rows that are related to the granting of an objects.</p>
+<p>checking the v$option returns true for the parameter ‘Unified Auditing’:</p>
+<p>select value from v$option where parameter=’Unified Auditing’;</p>
+<p>we also tried to enable the audits by this:</p>
+<p>audit grant procedure;<br/>
+audit grant sequence;<br/>
+audit grant table;</p>
+<p>still not working.</p>
+<p>how do we set or turn on the audits to grants of privileges on an object? please help.</p>
+<p>thank you</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="#comment-117858" data-commentid="117858" data-postid="1813" data-belowelement="div-comment-117858" data-respondelement="respond" data-replyto="Reply to Warren" aria-label="Reply to Warren">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+	</ol><!-- .comment-list -->
+
+	
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="index.html#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://dbaclass.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p><p class="comment-form-comment"><label for="comment">Comment <span class="required">*</span></label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required="required"/></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required="required"/></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200" autocomplete="url"/></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"/> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"/> <input type="hidden" name="comment_post_ID" value="1813" id="comment_post_ID"/>
+<input type="hidden" name="comment_parent" id="comment_parent" value="0"/>
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="683b45df6d"/></p><input type="hidden" id="ak_js" name="ak_js" value="98"/><textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100" style="display: none !important;"></textarea></form>	</div><!-- #respond -->
+	<p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p>
+</div><!-- #comments -->
+
+
+	
+<!-- END #content -->
+</section>
+
+<!-- BEGIN #sidebar -->
+<aside id="sidebar" role="complementary">
+	<div class="box widget widget_text clearfix">			<div class="textwidget"><style type="text/css">
+@import url(../../../cse.google.com/cse/api/branding.css);
+</style>
+<div class="cse-branding-bottom" style="background-color:#FFFFFF;color:#000000">
+  <div class="cse-branding-form">
+    <form action="https://www.google.co.in/" id="cse-search-box" target="_blank">
+      <div>
+        <input type="hidden" name="cx" value="partner-pub-6186075803958446:4803819411"/>
+        <input type="hidden" name="ie" value="UTF-8"/>
+        <input type="text" name="q" size="26"/>
+        <input type="submit" name="sa" value="Search"/>
+      </div>
+    </form>
+  </div>
+  <div class="cse-branding-logo">
+    <img src="../../../www.google.com/images/poweredby_transparent/poweredby_FFFFFF.gif" alt="Google"/>
+  </div>
+  <div class="cse-branding-text">
+    Custom Search
+  </div>
+</div>
+<script type="text/javascript" src="../../../cse.google.com/cse/f.txt"></script>
+<div id="queries"></div>
+<script src="https://www.google.com/cse/api/partner-pub-6186075803958446/cse/4803819411/queries/js?oe=UTF-8&amp;callback=(new+PopularQueryRenderer(document.getElementById(%22queries%22))).render"></script>
+</div>
+		</div>			<div class="box widget widget_nice_article_categories clearfix">			
+			<ul><li><div><span>5</span><a href="../../article-category/ansible/index.html" title="View all posts in ansible">ansible</a> </div></li> <li><div><span>48</span><a href="../../article-category/backup-recovery/index.html" title="View all posts in BACKUP &amp; RECOVERY">BACKUP &amp; RECOVERY</a> </div></li> <li><div><span>6</span><a href="../../article-category/blog/index.html" title="View all posts in BLOG">BLOG</a> </div></li> <li><div><span>16</span><a href="../../article-category/cloud/index.html" title="View all posts in CLOUD">CLOUD</a> </div></li> <li><div><span>59</span><a href="../../article-category/database/index.html" title="View all posts in DATABASE">DATABASE</a> </div></li> <li><div><span>40</span><a href="../../article-category/database-scripts/index.html" title="View all posts in DATABASE SCRIPTS">DATABASE SCRIPTS</a> </div></li> <li><div><span>10</span><a href="../../article-category/database-wiki/index.html" title="View all posts in Database-Wiki">Database-Wiki</a> </div></li> <li><div><span>28</span><a href="../../article-category/dataguard/index.html" title="View all posts in DATAGUARD">DATAGUARD</a> </div></li> <li><div><span>9</span><a href="../../article-category/db-tools/index.html" title="View all posts in DB TOOLS">DB TOOLS</a> </div></li> <li><div><span>18</span><a href="../../article-category/goldengate/index.html" title="View all posts in GOLDENGATE">GOLDENGATE</a> </div></li> <li><div><span>3</span><a href="../../article-category/hadoop/index.html" title="View all posts in HADOOP">HADOOP</a> </div></li> <li><div><span>47</span><a href="../../article-category/how-to/index.html" title="View all posts in HOW TO">HOW TO</a> </div></li> <li><div><span>11</span><a href="../../article-category/interview-qa/index.html" title="View all posts in INTERVIEW QA">INTERVIEW QA</a> </div></li> <li><div><span>61</span><a href="../../article-category/oracle-12c/index.html" title="View all posts in ORACLE 12C">ORACLE 12C</a> </div></li> <li><div><span>5</span><a href="../../article-category/oracle-18c/index.html" title="View all posts in ORACLE 18C">ORACLE 18C</a> </div></li> <li><div><span>12</span><a href="../../article-category/oracle-19c/index.html" title="View all posts in ORACLE 19C">ORACLE 19C</a> </div></li> <li><div><span>59</span><a href="../../article-category/oracle-rac/index.html" title="View all posts in ORACLE RAC">ORACLE RAC</a> </div></li> <li><div><span>13</span><a href="../../article-category/oracle-security/index.html" title="View all posts in ORACLE SECURITY">ORACLE SECURITY</a> </div></li> <li><div><span>30</span><a href="../../article-category/performance-tuning/index.html" title="View all posts in PERFORMANCE TUNING">PERFORMANCE TUNING</a> </div></li> <li><div><span>29</span><a href="../../article-category/postgres/index.html" title="View all posts in POSTGRES">POSTGRES</a> </div></li> <li><div><span>4</span><a href="../../article-category/r-studio/index.html" title="View all posts in R-STUDIO">R-STUDIO</a> </div></li> <li><div><span>13</span><a href="../../article-category/shell-script/index.html" title="View all posts in SHELL SCRIPT">SHELL SCRIPT</a> </div></li> <li><div><span>152</span><a href="../../article-category/troubleshooting/index.html" title="View all posts in TROUBLESHOOTING">TROUBLESHOOTING</a> </div></li> <li><div><span>3</span><a href="../../article-category/weblogic/index.html" title="View all posts in WEBLOGIC">WEBLOGIC</a> </div></li> </ul>
+			</div>					<div class="box widget nice_popular_articles clearfix">			
+			<ul class="clearfix">
+
+															<li class="clearfix format-standard">
+						<a href="../upgrade-database-from-11g-to-12c-manually/index.html" rel="bookmark">Upgrade database from 11g to 12c manually</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 108481 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">16</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../upgrade-database-from-12-1-0-2-to-12-2-0-1/index.html" rel="bookmark">Upgrade database from 12.1.0.2 to 12.2.0.1</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 80840 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">9</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-04036-pga-memory-used-by-the-instance-exceeds-pga_aggregate_limit/index.html" rel="bookmark">ORA-04036: PGA memory used by the instance exceeds PGA_AGGREGATE_LIMIT</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 79611 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">3</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../prerequisite-check-checkactivefilesandexecutables-failed/index.html" rel="bookmark">Prerequisite check “CheckActiveFilesAndExecutables” failed</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 68692 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">3</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../install-oracle-goldengate-12c-on-linux-7/index.html" rel="bookmark">install oracle goldengate 12c on linux 7</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 66826 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">0</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../how-to-run-sql-tuning-advisor-for-a-sql_id/index.html" rel="bookmark">How to run SQL tuning advisor for a sql_id</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 64604 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">9</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../transparent-data-encryption-tde-in-oracle-12c/index.html" rel="bookmark">Transparent Data Encryption (TDE) in oracle 12c</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 54719 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">2</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../how-to-drop-and-recreate-temp-tablespace-in-oracle/index.html" rel="bookmark">How to drop and recreate temp tablespace in oracle</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 54641 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">8</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-01624-log-1-needed-for-crash-recovery-of-instance/index.html" rel="bookmark">ORA-01624: log 1 needed for crash recovery of instance</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 49838 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">2</span></span>
+															</span>
+												</li>
+										<li class="clearfix format-standard">
+						<a href="../ora-24247-network-access-denied-by-access-control-list-acl/index.html" rel="bookmark">ORA-24247: network access denied by access control list (ACL)</a>
+
+														<span class="meta">
+																<span class="nice-views"><i class="fa fa-bullseye"></i> 49802 </span>
+								
+																<span class="nice-likes"><i class="fa fa-heart"></i> <span class="like-count">0</span></span>
+															</span>
+												</li>
+					
+					
+				</ul>
+
+
+			</div>		<div class="box widget widget_tag_cloud clearfix"><h4 class="widgettitle">Tags</h4><div class="tagcloud"><a href="../../article-tag/12c/index.html" class="tag-cloud-link tag-link-54 tag-link-position-1" style="font-size: 13.169230769231pt;" aria-label="12c (14 items)">12c</a>
+<a href="../../article-tag/19c/index.html" class="tag-cloud-link tag-link-239 tag-link-position-2" style="font-size: 9.6153846153846pt;" aria-label="19C (6 items)">19C</a>
+<a href="../../article-tag/archive/index.html" class="tag-cloud-link tag-link-31 tag-link-position-3" style="font-size: 8pt;" aria-label="archive (4 items)">archive</a>
+<a href="../../article-tag/archivelog/index.html" class="tag-cloud-link tag-link-33 tag-link-position-4" style="font-size: 9.6153846153846pt;" aria-label="archivelog (6 items)">archivelog</a>
+<a href="../../article-tag/asm/index.html" class="tag-cloud-link tag-link-39 tag-link-position-5" style="font-size: 14.892307692308pt;" aria-label="ASM (21 items)">ASM</a>
+<a href="../../article-tag/audit/index.html" class="tag-cloud-link tag-link-53 tag-link-position-6" style="font-size: 9.6153846153846pt;" aria-label="Audit (6 items)">Audit</a>
+<a href="../../article-tag/awr/index.html" class="tag-cloud-link tag-link-153 tag-link-position-7" style="font-size: 10.153846153846pt;" aria-label="AWR (7 items)">AWR</a>
+<a href="../../article-tag/backup/index.html" class="tag-cloud-link tag-link-19 tag-link-position-8" style="font-size: 8.8615384615385pt;" aria-label="backup (5 items)">backup</a>
+<a href="../../article-tag/cloning/index.html" class="tag-cloud-link tag-link-129 tag-link-position-9" style="font-size: 8.8615384615385pt;" aria-label="cloning (5 items)">cloning</a>
+<a href="../../article-tag/cloud/index.html" class="tag-cloud-link tag-link-67 tag-link-position-10" style="font-size: 11.661538461538pt;" aria-label="cloud (10 items)">cloud</a>
+<a href="../../article-tag/cluster/index.html" class="tag-cloud-link tag-link-283 tag-link-position-11" style="font-size: 8.8615384615385pt;" aria-label="cluster (5 items)">cluster</a>
+<a href="../../article-tag/database/index.html" class="tag-cloud-link tag-link-89 tag-link-position-12" style="font-size: 8.8615384615385pt;" aria-label="database (5 items)">database</a>
+<a href="../../article-tag/dataguard/index.html" class="tag-cloud-link tag-link-24 tag-link-position-13" style="font-size: 14.892307692308pt;" aria-label="dataguard (21 items)">dataguard</a>
+<a href="../../article-tag/dgmgrl/index.html" class="tag-cloud-link tag-link-227 tag-link-position-14" style="font-size: 10.153846153846pt;" aria-label="dgmgrl (7 items)">dgmgrl</a>
+<a href="../../article-tag/diskgroup/index.html" class="tag-cloud-link tag-link-119 tag-link-position-15" style="font-size: 8.8615384615385pt;" aria-label="DISKGROUP (5 items)">DISKGROUP</a>
+<a href="../../article-tag/edb/index.html" class="tag-cloud-link tag-link-282 tag-link-position-16" style="font-size: 9.6153846153846pt;" aria-label="EDB (6 items)">EDB</a>
+<a href="../../article-tag/expdp/index.html" class="tag-cloud-link tag-link-30 tag-link-position-17" style="font-size: 16.076923076923pt;" aria-label="EXPDP (27 items)">EXPDP</a>
+<a href="../../article-tag/failover/index.html" class="tag-cloud-link tag-link-285 tag-link-position-18" style="font-size: 8.8615384615385pt;" aria-label="failover (5 items)">failover</a>
+<a href="../../article-tag/flashback/index.html" class="tag-cloud-link tag-link-64 tag-link-position-19" style="font-size: 12.092307692308pt;" aria-label="flashback (11 items)">flashback</a>
+<a href="../../article-tag/goldengate/index.html" class="tag-cloud-link tag-link-72 tag-link-position-20" style="font-size: 13.707692307692pt;" aria-label="goldengate (16 items)">goldengate</a>
+<a href="../../article-tag/grid/index.html" class="tag-cloud-link tag-link-40 tag-link-position-21" style="font-size: 11.230769230769pt;" aria-label="grid (9 items)">grid</a>
+<a href="../../article-tag/impdp/index.html" class="tag-cloud-link tag-link-73 tag-link-position-22" style="font-size: 11.230769230769pt;" aria-label="impdp (9 items)">impdp</a>
+<a href="../../article-tag/multitenant/index.html" class="tag-cloud-link tag-link-151 tag-link-position-23" style="font-size: 11.230769230769pt;" aria-label="multitenant (9 items)">multitenant</a>
+<a href="../../article-tag/opatch/index.html" class="tag-cloud-link tag-link-124 tag-link-position-24" style="font-size: 10.692307692308pt;" aria-label="OPATCH (8 items)">OPATCH</a>
+<a href="../../article-tag/ora/index.html" class="tag-cloud-link tag-link-29 tag-link-position-25" style="font-size: 22pt;" aria-label="ORA- (99 items)">ORA-</a>
+<a href="../../article-tag/oracle/index.html" class="tag-cloud-link tag-link-58 tag-link-position-26" style="font-size: 10.153846153846pt;" aria-label="oracle (7 items)">oracle</a>
+<a href="../../article-tag/oracle-12-2/index.html" class="tag-cloud-link tag-link-131 tag-link-position-27" style="font-size: 12.846153846154pt;" aria-label="oracle 12.2. (13 items)">oracle 12.2.</a>
+<a href="../../article-tag/oracle-12c/index.html" class="tag-cloud-link tag-link-86 tag-link-position-28" style="font-size: 11.661538461538pt;" aria-label="oracle 12c (10 items)">oracle 12c</a>
+<a href="../../article-tag/partition/index.html" class="tag-cloud-link tag-link-117 tag-link-position-29" style="font-size: 10.692307692308pt;" aria-label="partition (8 items)">partition</a>
+<a href="../../article-tag/patch/index.html" class="tag-cloud-link tag-link-84 tag-link-position-30" style="font-size: 10.153846153846pt;" aria-label="patch (7 items)">patch</a>
+<a href="../../article-tag/patching/index.html" class="tag-cloud-link tag-link-27 tag-link-position-31" style="font-size: 9.6153846153846pt;" aria-label="patching (6 items)">patching</a>
+<a href="../../article-tag/pdb/index.html" class="tag-cloud-link tag-link-63 tag-link-position-32" style="font-size: 10.692307692308pt;" aria-label="PDB (8 items)">PDB</a>
+<a href="../../article-tag/pluggable/index.html" class="tag-cloud-link tag-link-56 tag-link-position-33" style="font-size: 8pt;" aria-label="pluggable (4 items)">pluggable</a>
+<a href="../../article-tag/postgres/index.html" class="tag-cloud-link tag-link-246 tag-link-position-34" style="font-size: 14.892307692308pt;" aria-label="postgres (21 items)">postgres</a>
+<a href="../../article-tag/rac/index.html" class="tag-cloud-link tag-link-76 tag-link-position-35" style="font-size: 16.830769230769pt;" aria-label="RAC (32 items)">RAC</a>
+<a href="../../article-tag/replication/index.html" class="tag-cloud-link tag-link-187 tag-link-position-36" style="font-size: 11.230769230769pt;" aria-label="replication (9 items)">replication</a>
+<a href="../../article-tag/rman/index.html" class="tag-cloud-link tag-link-18 tag-link-position-37" style="font-size: 15.538461538462pt;" aria-label="rman (24 items)">rman</a>
+<a href="../../article-tag/script/index.html" class="tag-cloud-link tag-link-157 tag-link-position-38" style="font-size: 8.8615384615385pt;" aria-label="SCRIPT (5 items)">SCRIPT</a>
+<a href="../../article-tag/security/index.html" class="tag-cloud-link tag-link-15 tag-link-position-39" style="font-size: 8pt;" aria-label="security (4 items)">security</a>
+<a href="../../article-tag/shell-script/index.html" class="tag-cloud-link tag-link-141 tag-link-position-40" style="font-size: 11.661538461538pt;" aria-label="SHELL script (10 items)">SHELL script</a>
+<a href="../../article-tag/standby/index.html" class="tag-cloud-link tag-link-22 tag-link-position-41" style="font-size: 14.676923076923pt;" aria-label="standby (20 items)">standby</a>
+<a href="../../article-tag/tablespace/index.html" class="tag-cloud-link tag-link-23 tag-link-position-42" style="font-size: 11.230769230769pt;" aria-label="tablespace (9 items)">tablespace</a>
+<a href="../../article-tag/temp/index.html" class="tag-cloud-link tag-link-20 tag-link-position-43" style="font-size: 10.153846153846pt;" aria-label="temp (7 items)">temp</a>
+<a href="../../article-tag/undo/index.html" class="tag-cloud-link tag-link-21 tag-link-position-44" style="font-size: 8pt;" aria-label="undo (4 items)">undo</a>
+<a href="../../article-tag/upgrade/index.html" class="tag-cloud-link tag-link-26 tag-link-position-45" style="font-size: 10.153846153846pt;" aria-label="upgrade (7 items)">upgrade</a></div>
+</div><!-- END #sidebar -->
+</aside>
+
+			<!-- END #container -->
+		</div>
+	
+	
+	<!-- BEGIN #footer -->
+	<footer id="footer">
+
+		
+		<!-- BEGIN #footer-widget --><div id="footer-widgets" class="col-full">
+			<div class="grid footer-grid">
+				<div class="widget-section first  columns-3">
+							<div class="box widget widget_nice_social">				
+				<div class="social-links clearfix">
+
+					<ul id="social">
+						<li id="facebook"><a href="https://www.facebook.com/dbaclass"><i class="fa fa-facebook"></i></a></li><li id="twitter"><a href="https://twitter.com/SupportDbaclass"><i class="fa fa-twitter"></i></a></li><li id="linkedin"><a href="https://www.linkedin.com/in/dbaclass"><i class="fa fa-linkedin"></i></a></li>					</ul>
+
+				</div>
+				
+			</div>
+
+	<div class="box widget widget_text"><h4 class="widgettitle">About DBACLASS</h4>			<div class="textwidget">DBACLASS.COM is a knowledgebase for Oracle Database administrators</div>
+		</div>				</div>
+				<div class="widget-section even  columns-3">
+									</div>
+												<div class="widget-section odd  columns-3 last">
+					<div class="box widget widget_nav_menu"><div class="menu-privacy-policy-container"><ul id="menu-privacy-policy" class="menu"><li id="menu-item-1932" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1932"><a href="../../privacy-policy/index.html">Privacy policy</a></li>
+<li id="menu-item-1992" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1992"><a href="../../terms/index.html">Terms &amp; Conditions</a></li>
+<li id="menu-item-1977" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1977"><a href="../../contactus/index.html">Contact us</a></li>
+<li id="menu-item-1995" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1995"><a href="../../about/index.html">About Us</a></li>
+<li id="menu-item-2979" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2979"><a href="../../write-for-us/index.html">Write for us</a></li>
+<li id="menu-item-3111" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3111"><a href="http://forum.dbaclass.com/">Q&amp;A Forum</a></li>
+</ul></div></div>				</div>
+											</div>
+
+		</div><!-- /#footer-widgets -->
+		
+		<div id="extended-footer">
+			<div class="col-full">
+
+				<p></p>
+				<nav id="footer-navigation">
+									</nav>
+
+			</div>
+
+		</div>
+
+	<!-- END #footer -->
+	</footer>
+
+<!-- END #wrapper -->
+</div>
+
+<script>
+
+jQuery(document).ready(function (e) {
+  jQuery(".AnyBoxFooter").click(function(){
+    jQuery(".AnyBoxFooter:visible").hide();
+    jQuery(".AnyBoxContainer:visible").hide();
+  });
+});
+jQuery(document).ready(function(){
+  jQuery("#footer-navigation").text("©Copyright 2020 The DbaClass Group  ®ALL RIGHTS RESERVED.");
+  jQuery("body>div>a:first").attr("href", "../../about/index.html");
+
+
+});
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66394967-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+			<a href="#" class="backtotop">
+				<i class="fa fa-angle-up"></i>
+			</a>
+		<script type="text/javascript" id="theme-my-login-js-extra">
+/* <![CDATA[ */
+var themeMyLogin = {"action":"","errors":[]};
+/* ]]> */
+</script>
+<script type="text/javascript" src="../../wp-content/plugins/theme-my-login/assets/scripts/theme-my-login.min03db.js?ver=7.1.1" id="theme-my-login-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/comment-reply.minadc6.js?ver=6.5.5" id="comment-reply-js" async="async" data-wp-strategy="async"></script>
+<script type="text/javascript" src="../../wp-includes/js/imagesloaded.minbb93.js?ver=5.0.0" id="imagesloaded-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/masonry.min3a05.js?ver=4.2.2" id="masonry-js"></script>
+<script type="text/javascript" src="../../wp-includes/js/jquery/jquery.masonry.minef70.js?ver=3.1.2b" id="jquery-masonry-js"></script>
+<script async="async" type="text/javascript" src="../../wp-content/plugins/akismet/_inc/form5fa1.js?ver=4.1.9" id="akismet-form-js"></script>
+
+<script data-cfasync="false">function _emitEzConsentEvent(){var customEvent=new CustomEvent("ezConsentEvent",{detail:{ezTcfConsent:window.ezTcfConsent},bubbles:true,cancelable:true,});document.dispatchEvent(customEvent);}
+(function(window,document){function _setAllEzConsentTrue(){window.ezTcfConsent.loaded=true;window.ezTcfConsent.store_info=true;window.ezTcfConsent.develop_and_improve_services=true;window.ezTcfConsent.measure_ad_performance=true;window.ezTcfConsent.measure_content_performance=true;window.ezTcfConsent.select_basic_ads=true;window.ezTcfConsent.create_ad_profile=true;window.ezTcfConsent.select_personalized_ads=true;window.ezTcfConsent.create_content_profile=true;window.ezTcfConsent.select_personalized_content=true;window.ezTcfConsent.understand_audiences=true;window.ezTcfConsent.use_limited_data_to_select_content=true;window.ezTcfConsent.select_personalized_content=true;}
+function _clearEzConsentCookie(){document.cookie="ezCMPCookieConsent=tcf2;Domain=.dbaclass.com;Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";}
+_clearEzConsentCookie();if(typeof window.__tcfapi!=="undefined"){window.ezgconsent=false;var amazonHasRun=false;function _ezAllowed(tcdata,purpose){return(tcdata.purpose.consents[purpose]||tcdata.purpose.legitimateInterests[purpose]);}
+function _reloadAds(){if(typeof window.ezorefgsl==="function"&&typeof window.ezslots==="object"){if(typeof __ezapsFetchBids=="function"&&amazonHasRun===false){ezapsFetchBids(__ezaps);if(typeof __ezapsVideo!="undefined"){ezapsFetchBids(__ezapsVideo,"video");}
+amazonHasRun=true;}
+var slots=[];for(var i=0;i<window.ezslots.length;i++){if(window[window.ezslots[i]]&&typeof window[window.ezslots[i]]==="object"){slots.push(window[window.ezslots[i]]);}else{setTimeout(_reloadAds,100);return false;}}
+for(var i=0;i<slots.length;i++){window.ezorefgsl(slots[i]);}}else if(!window.ezadtimeoutset){window.ezadtimeoutset=true;setTimeout(_reloadAds,100);}}
+function _handleConsentDecision(tcdata){window.ezTcfConsent.loaded=true;if(!tcdata.vendor.consents["347"]&&!tcdata.vendor.legitimateInterests["347"]){window._emitEzConsentEvent();return;}
+window.ezTcfConsent.store_info=_ezAllowed(tcdata,"1");window.ezTcfConsent.develop_and_improve_services=_ezAllowed(tcdata,"10");window.ezTcfConsent.measure_content_performance=_ezAllowed(tcdata,"8");window.ezTcfConsent.select_basic_ads=_ezAllowed(tcdata,"2");window.ezTcfConsent.create_ad_profile=_ezAllowed(tcdata,"3");window.ezTcfConsent.select_personalized_ads=_ezAllowed(tcdata,"4");window.ezTcfConsent.create_content_profile=_ezAllowed(tcdata,"5");window.ezTcfConsent.measure_ad_performance=_ezAllowed(tcdata,"7");window.ezTcfConsent.use_limited_data_to_select_content=_ezAllowed(tcdata,"11");window.ezTcfConsent.select_personalized_content=_ezAllowed(tcdata,"6");window.ezTcfConsent.understand_audiences=_ezAllowed(tcdata,"9");window._emitEzConsentEvent();}
+function _handleGoogleConsentV2(tcdata){if(!tcdata||!tcdata.purpose||!tcdata.purpose.consents){return;}
+var googConsentV2={};if(tcdata.purpose.consents[1]){googConsentV2.ad_storage='granted';googConsentV2.analytics_storage='granted';}
+if(tcdata.purpose.consents[3]&&tcdata.purpose.consents[4]){googConsentV2.ad_personalization='granted';}
+if(tcdata.purpose.consents[1]&&tcdata.purpose.consents[7]){googConsentV2.ad_user_data='granted';}
+if(googConsentV2.analytics_storage=='denied'){gtag('set','url_passthrough',true);}
+gtag('consent','update',googConsentV2);}
+__tcfapi("addEventListener",2,function(tcdata,success){if(!success||!tcdata){window._emitEzConsentEvent();return;}
+if(!tcdata.gdprApplies){_setAllEzConsentTrue();window._emitEzConsentEvent();return;}
+if(tcdata.eventStatus==="useractioncomplete"||tcdata.eventStatus==="tcloaded"){if(typeof gtag!='undefined'){_handleGoogleConsentV2(tcdata);}
+_handleConsentDecision(tcdata);if(tcdata.purpose.consents["1"]===true&&tcdata.vendor.consents["755"]!==false){window.ezgconsent=true;(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=0;_reloadAds();}else{_reloadAds();}
+if(window.__ezconsent){__ezconsent.setEzoicConsentSettings(ezConsentCategories);}
+__tcfapi("removeEventListener",2,function(success){return null;},tcdata.listenerId);if(!(tcdata.purpose.consents["1"]===true&&_ezAllowed(tcdata,"2")&&_ezAllowed(tcdata,"3")&&_ezAllowed(tcdata,"4"))){if(typeof __ez=="object"&&typeof __ez.bit=="object"&&typeof window["_ezaq"]=="object"&&typeof window["_ezaq"]["page_view_id"]=="string"){__ez.bit.AddAndFire(window["_ezaq"]["page_view_id"],[new __ezDotData("non_personalized_ads",true),]);}}}});}else{_setAllEzConsentTrue();window._emitEzConsentEvent();}})(window,document);</script></body>
+<!-- Mirrored from dbaclass.com/article/unified-audit-trail-in-oracle-12c/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 17:49:05 GMT -->
+</html>

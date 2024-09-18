@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>rollback Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/rollback/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/rollback/</link>
+	<description>database administration</description>
+	<lastBuildDate>Thu, 05 Apr 2018 09:20:55 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>Rollback database patch in oracle 12c</title>
+		<link>https://dbaclass.com/article/rollback-database-patch-oracle-12c/</link>
+					<comments>https://dbaclass.com/article/rollback-database-patch-oracle-12c/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Thu, 05 Apr 2018 09:20:55 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3722</guid>
+
+					<description><![CDATA[<p>In this article , we will provide steps for rolling back a patch in non-rac standalone database. PATCH TO BE ROLLED BACK &#8211; 27105253 &#8211; Database Jan 2018 Release Update (DB RU) 12.2.0.1.180116 &#160; 1. Check the existence of patch in oracle home inventory. $ORACLE_HOME/OPatch/opatch lsinventory &#124; grep 27105253 Patch 27105253 : applied on Thu [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/rollback-database-patch-oracle-12c/">Rollback database patch in oracle 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>In this article , we will provide steps for rolling back a patch in non-rac standalone database.</p>
+<p><em><strong>PATCH TO BE ROLLED BACK &#8211; 27105253 &#8211; Database Jan 2018 Release Update (DB RU) 12.2.0.1.180116</strong></em></p>
+<p>&nbsp;</p>
+<h4><strong>1. Check the existence of patch in oracle home inventory.</strong></h4>
+<pre>$ORACLE_HOME/OPatch/opatch lsinventory | grep 27105253
+Patch  27105253     : applied on Thu Apr 05 10:04:50 AST 2018
+Patch description:  "Database Release Update : 12.2.0.1.180116 (27105253)"
+</pre>
+<h4><strong>2. Shutdown services running from oracle_home(database , listener)</strong></h4>
+<pre>shutdown immediate;
+
+lsnrctl stop LISTENER_TEST
+
+</pre>
+<h4><strong>3. Rollback the patch.</strong></h4>
+<p><em><strong>$ORACLE_HOME/OPatch/opatch rollback -id 27105253</strong></em></p>
+<pre>
+$ORACLE_HOME/OPatch/opatch rollback -id 27105253
+
+Oracle Interim Patch Installer version 12.2.0.1.12
+Copyright (c) 2018, Oracle Corporation.  All rights reserved.
+
+
+Oracle Home       : /oracle/app/oracle/product/12.2.0/dbhome_3
+Central Inventory : /oracle/app/oraInventory
+   from           : /oracle/app/oracle/product/12.2.0/dbhome_3/oraInst.loc
+OPatch version    : 12.2.0.1.12
+OUI version       : 12.2.0.1.4
+Log file location : /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_12-03-38PM_1.log
+
+
+Patches will be rolled back in the following order:
+   27105253
+The following patch(es) will be rolled back: 27105253
+
+Please shutdown Oracle instances running out of this ORACLE_HOME on the local system.
+(Oracle Home = '/oracle/app/oracle/product/12.2.0/dbhome_3')
+
+
+Is the local system ready for patching? [y|n]
+y
+User Responded with: Y
+
+Rolling back patch 27105253...
+
+RollbackSession rolling back interim patch '27105253' from OH '/oracle/app/oracle/product/12.2.0/dbhome_3'
+
+Patching component oracle.network.rsf, 12.2.0.1.0...
+
+Patching component oracle.rdbms.deconfig, 12.2.0.1.0...
+
+Patching component oracle.tfa, 12.2.0.1.0...
+
+Patching component oracle.rdbms, 12.2.0.1.0...
+
+
+
+Patching component oracle.rdbms.util, 12.2.0.1.0...
+
+Patching component oracle.rdbms.dbscripts, 12.2.0.1.0...
+
+Patching component oracle.xdk.parser.java, 12.2.0.1.0...
+
+Patching component oracle.has.deconfig, 12.2.0.1.0...
+
+Patching component oracle.xdk.rsf, 12.2.0.1.0...
+
+Patching component oracle.ctx.rsf, 12.2.0.1.0...
+
+Patching component oracle.rdbms.rman, 12.2.0.1.0...
+
+Patching component oracle.rdbms.dv, 12.2.0.1.0...
+
+Patching component oracle.rdbms.oci, 12.2.0.1.0...
+
+Patching component oracle.rdbms.crs, 12.2.0.1.0...
+
+Patching component oracle.precomp.common, 12.2.0.1.0...
+
+Patching component oracle.oracore.rsf, 12.2.0.1.0...
+
+Patching component oracle.ctx, 12.2.0.1.0...
+
+Patching component oracle.xdk, 12.2.0.1.0...
+
+Patching component oracle.nlsrtl.rsf, 12.2.0.1.0...
+
+Patching component oracle.rdbms.rsf, 12.2.0.1.0...
+Deleting "kgcs.o" from archive "/oracle/app/oracle/product/12.2.0/dbhome_3/lib/libgeneric12.a"
+
+Patching component oracle.ons, 12.2.0.1.0...
+
+Patching component oracle.rdbms.lbac, 12.2.0.1.0...
+
+Patching component oracle.precomp.lang, 12.2.0.1.0...
+
+Patching component oracle.rdbms.rsf.ic, 12.2.0.1.0...
+
+Patching component oracle.sdo, 12.2.0.1.0...
+RollbackSession removing interim patch '27105253' from inventory
+Log file location: /oracle/app/oracle/product/12.2.0/dbhome_3/cfgtoollogs/opatch/opatch2018-04-05_12-03-38PM_1.log
+
+OPatch succeeded.
+
+
+</pre>
+<h4>4. Now start the database:</h4>
+<pre>
+startup 
+
+lsnrctl start LISTENER_TEST
+
+
+</pre>
+<h4>5. Now run the post rollback script.</h4>
+<p><span style="font-family: 'andale mono', monospace;">cd $ORACLE_HOME/OPatch</span></p>
+<p><span style="font-family: 'andale mono', monospace;">./datapatch -verbose</span></p>
+<pre>./datapatch -verbose
+
+
+SQL Patching tool version 12.2.0.1.0 Production on Thu Apr  5 12:08:00 2018
+Copyright (c) 2012, 2017, Oracle.  All rights reserved.
+
+Log file for this invocation: /oracle/app/oracle/cfgtoollogs/sqlpatch/sqlpatch_18582_2018_04_05_12_08_00/sqlpatch_invocation.log
+
+Connecting to database...OK
+Bootstrapping registry and package to current versions...done
+Determining current state...done
+
+Current state of SQL patches:
+Bundle series DBRU:
+  Not installed in the binary registry and ID 180116 in the SQL registry
+
+Adding patches to installation queue and performing prereq checks...
+Installation queue:
+  The following patches will be rolled back:
+    27105253 (DATABASE RELEASE UPDATE 12.2.0.1.180116)
+  Nothing to apply
+
+Installing patches...
+Patch installation complete.  Total patches installed: 1
+
+Validating logfiles...
+Patch 27105253 rollback: SUCCESS
+  logfile: /oracle/app/oracle/cfgtoollogs/sqlpatch/27105253/21862380/27105253_rollback_POCD_2018Apr05_12_08_15.log (no errors)
+SQL Patching tool complete on Thu Apr  5 12:10:33 2018
+
+</pre>
+<h4><strong>6. Check the registry table for the status:</strong></h4>
+<pre>
+SQL&gt; select patch_id,status,action,description from dba_registry_sqlpatch;
+
+  PATCH_ID STATUS          ACTION
+---------- --------------- ---------------
+DESCRIPTION
+--------------------------------------------------------------------------------
+  27105253 SUCCESS         APPLY
+DATABASE RELEASE UPDATE 12.2.0.1.180116
+
+  27105253 SUCCESS         ROLLBACK
+DATABASE RELEASE UPDATE 12.2.0.1.180116
+
+
+</pre>
+<p>Rollback is successful.:)</p>
+<p>The post <a href="https://dbaclass.com/article/rollback-database-patch-oracle-12c/">Rollback database patch in oracle 12c</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/rollback-database-patch-oracle-12c/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

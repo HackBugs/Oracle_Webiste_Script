@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>oracleasm Archives - DBACLASS</title>
+	<atom:link href="https://dbaclass.com/article-tag/oracleasm/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/article-tag/oracleasm/</link>
+	<description>database administration</description>
+	<lastBuildDate>Fri, 04 Nov 2022 10:16:59 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>How to create asm disk using asm filter driver(AFD)</title>
+		<link>https://dbaclass.com/article/how-to-create-asm-disk-using-asm-filter-driverafd/</link>
+					<comments>https://dbaclass.com/article/how-to-create-asm-disk-using-asm-filter-driverafd/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 04 Nov 2022 10:14:44 +0000</pubDate>
+				<guid isPermaLink="false">https://dbaclass.com/?post_type=article&#038;p=7923</guid>
+
+					<description><![CDATA[<p>If you are working on RHEL, then to use the disk in ASM diskgroup, the disks need to be labeled with ASM. Earlier oracleasm utility was used for this purpose. But oracle developed its own ASM filter driver(AFD), which can be used for this . SEE ALSO : Oracleasm utility in oracle 1. First check [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/how-to-create-asm-disk-using-asm-filter-driverafd/">How to create asm disk using asm filter driver(AFD)</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>If you are working on RHEL, then to use the disk in ASM diskgroup, the disks need to be labeled with ASM.<br />
+Earlier <a href="https://dbaclass.com/article/oracleasm-utility-asmlib/" target="_blank" rel="noopener noreferrer">oracleasm</a> utility was used for this purpose. But oracle developed its own ASM filter driver(AFD), which can be used for this .</p>
+<blockquote><p><em><strong>SEE ALSO</strong> : <a href="https://dbaclass.com/article/oracleasm-utility-asmlib/" target="_blank" rel="noopener noreferrer">Oracleasm utility in oracle</a></em></p></blockquote>
+<h4>1. First check afd is enabled or not?</h4>
+<pre><code class="language-">
+[root]# export ORACLE_HOME=/u01/app/19.0.0/grid
+[root]# export ORACLE_BASE=/u01/app/grid
+[root]# export PATH=$ORACLE_HOME/bin:$PATH
+[root]#<span style="color: #993300;"><strong> asmcmd</strong></span>
+ASMCMD&gt;<span style="color: #993300;"><strong> afd_state</strong></span>
+ASMCMD-9526: The AFD state is 'LOADED' and filtering is 'ENABLED' on host 'ECAEEDBTL0123'
+</code></pre>
+<h4>2. Find list of existing asm labeled disks:</h4>
+<pre><code class="language-">
+[root]# <span style="color: #993300;"><strong>/u01/app/19.0.0/grid/bin/asmcmd afd_lslbl</strong></span>
+--------------------------------------------------------------------------------
+Label                     Duplicate  Path
+================================================================================
+DATA1                                 /dev/sde
+FRA1                                  /dev/sdf
+GIMR1                                 /dev/sdg
+GIMR2                                 /dev/sdh
+OCR_VOTING1                           /dev/sdi
+OCR_VOTING2                           /dev/sdj
+OCR_VOTING3                           /dev/sdk
+
+</code></pre>
+<h4>3. List down the raw disks you need to label with asm:</h4>
+<pre><code class="language-">
+/dev/sds
+/dev/sdr 
+
+
+[rootdev]# <span style="color: #993300;"><strong> lsblk -f</strong></span>
+NAME          FSTYPE      LABEL       UUID                                   MOUNTPOINT
+.
+.
+sde           oracleasm   DATA1
+sdf           oracleasm   FRA1
+sdg           oracleasm   GIMR1
+sdh           oracleasm   GIMR2
+sdi           oracleasm   OCR_VOTING1
+sdj           oracleasm   OCR_VOTING2
+sdk           oracleasm   OCR_VOTING3
+sdr
+sds           
+
+
+</code></pre>
+<h4>4. Label the raw disks:</h4>
+<p><em><strong>Note</strong> &#8211; in case of multi-node RAC, you need to label this disk only on one node.</em></p>
+<pre><code class="language-">
+[root]# <span style="color: #993300;"><strong>/u01/app/19.0.0/grid/bin/asmcmd afd_label REDO1 /dev/sdr</strong></span>
+[root]# <span style="color: #993300;"><strong>/u01/app/19.0.0/grid/bin/asmcmd afd_label REDO2 /dev/sds</strong></span>
+
+[root]# <span style="color: #993300;"><strong> /u01/app/19.0.0/grid/bin/asmcmd afd_lslbl</strong></span>
+--------------------------------------------------------------------------------
+Label                     Duplicate  Path
+================================================================================
+DATA1                                 /dev/sde
+FRA1                                  /dev/sdf
+GIMR1                                 /dev/sdg
+GIMR2                                 /dev/sdh
+OCR_VOTING1                           /dev/sdi
+OCR_VOTING2                           /dev/sdj
+OCR_VOTING3                           /dev/sdk
+REDO1                                 /dev/sdr
+REDO2                                 /dev/sds
+
+
+[root]# <span style="color: #993300;"><strong>/u01/app/19.0.0/grid/bin/asmcmd afd_lsdsk</strong></span>
+--------------------------------------------------------------------------------
+Label                     Filtering   Path
+================================================================================
+DATA1                       ENABLED   /dev/sde
+FRA1                        ENABLED   /dev/sdf
+GIMR1                       ENABLED   /dev/sdg
+GIMR2                       ENABLED   /dev/sdh
+OCR_VOTING1                 ENABLED   /dev/sdi
+OCR_VOTING2                 ENABLED   /dev/sdj
+OCR_VOTING3                 ENABLED   /dev/sdk
+REDO1                       ENABLED   /dev/sds
+REDO2                       ENABLED   /dev/sdr
+</code></pre>
+<p>run the same afd_lsdsk command on other rac nodes also. In case you are unable to see the disks, then<br />
+run below command.</p>
+<pre><span style="color: #993300;"><strong><code class="language-">
+/u01/app/19.0.0/grid/bin/asmcmd <span style="color: #993300;">afd_scan
+</span></code></strong></span></pre>
+<h4>5. Now you can create asm diskgroup using this disks:</h4>
+<pre><span style="color: #993300;"><code class="language-">
+SQL&gt; <span style="color: #993300;"><strong>CREATE DISKGROUP REDO1 EXTERNAL REDUNDANCY DISK 'AFD:REDO1', 'AFD:REDO2' attribute 'compatible.asm'='19.0.0.0.0',
+'compatible.rdbms'='10.1.0.0.0','compatible.advm'='19.0.0.0.0','au_size'='4M';
+</strong></span></code></span></pre>
+<h4><span style="text-decoration: underline;">How to unlabel a disk:</span></h4>
+<p>If you to release a disk, then you can unlabel the disk with below command.</p>
+<pre><code class="language-">
+[root]# <strong><span style="color: #993300;">/u01/app/19.0.0/grid/bin/asmcmd afd_unlabel REDO1
+</span></strong></code></pre>
+<p>The post <a href="https://dbaclass.com/article/how-to-create-asm-disk-using-asm-filter-driverafd/">How to create asm disk using asm filter driver(AFD)</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/how-to-create-asm-disk-using-asm-filter-driverafd/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>oracleasm utility for ASMLIB</title>
+		<link>https://dbaclass.com/article/oracleasm-utility-asmlib/</link>
+					<comments>https://dbaclass.com/article/oracleasm-utility-asmlib/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sat, 02 Sep 2017 06:18:02 +0000</pubDate>
+				<guid isPermaLink="false">http://dbaclass.com/?post_type=article&#038;p=3381</guid>
+
+					<description><![CDATA[<p>ASMlib driver is required on  Linux operating systems, to enable a disk readable by ASM. Without ASMLIB, disks can&#8217;t be used at asm disks. Below are the steps for configuring ASMlib and marking disks as ASM. &#160; Download Asmlib: You can download these rpm packages directly from OTN: http://www.oracle.com/technetwork/server-storage/linux/downloads/index-088143.html Else, if your system is registered [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/article/oracleasm-utility-asmlib/">oracleasm utility for ASMLIB</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><strong>ASMlib</strong> driver is required on  Linux operating systems, to enable a disk readable by ASM. Without ASMLIB, disks can&#8217;t be used at asm disks.</p>
+<p>Below are the steps for configuring <strong>ASMlib</strong> and marking disks as ASM.</p>
+<p>&nbsp;</p>
+<ol>
+<li><strong>Download Asmlib:</strong></li>
+</ol>
+<p>You can download these rpm packages directly from OTN:</p>
+<p><a href="http://www.oracle.com/technetwork/server-storage/linux/downloads/index-088143.html" target="_blank" rel="noopener noreferrer">http://www.oracle.com/technetwork/server-storage/linux/downloads/index-088143.html</a></p>
+<p>Else, if your system is registered with ULN, then you can download directly using yum as below.</p>
+<pre>- Run as root on the database server
+
+yum install oracleasm-support oracleasmlib oracleasm-`uname -r` 
+</pre>
+<p><strong>       2. Configure oracleasm:[ Do on all nodes if RAC]</strong></p>
+<p>&nbsp;</p>
+<pre class="">
+[root$mapper]#  /etc/init.d/oracleasm init
+[root$mapper]#  /etc/init.d/oracleasm configure -i
+Configuring the Oracle ASM library driver.
+
+This will configure the on-boot properties of the Oracle ASM library
+driver.  The following questions will determine whether the driver is
+loaded on boot and what permissions it will have.  The current values
+will be shown in brackets ('[]').  Hitting  without typing an
+answer will keep that current value.  Ctrl-C will abort.
+
+Default user to own the driver interface []: oracle
+Default group to own the driver interface []: oinstall
+Start Oracle ASM library driver on boot (y/n) [n]: y
+Scan for Oracle ASM disks on boot (y/n) [y]: y
+Writing Oracle ASM library driver configuration: done
+Initializing the Oracle ASMLib driver:                     [  OK  ]
+Scanning the system for Oracle ASMLib disks:               [  OK  ]
+
+</pre>
+<p><strong>       3. Start oracleasm:[ Do on all nodes ]</strong></p>
+<pre># /etc/init.d/oracleasm start
+Initializing the Oracle ASMLib driver:                     [  OK  ]
+Scanning the system for Oracle ASMLib disks:               [  OK  ]
+</pre>
+<p>Now as we have configured and started the <strong>oracleasm</strong>, we can proceed with making the disks as ASM disk.</p>
+<blockquote><p>NOTE &#8211; &gt; IF <em><strong>oracleasm start</strong></em> command is not working, then use <span style="color: #993300;"><em><strong>oracleasm init</strong></em></span> command.</p></blockquote>
+<p><strong>    4.Create ASM disk [ Do only from one node ]</strong></p>
+<p>Createdisk need to be run only from one node</p>
+<pre class=""># /etc/init.d/oracleasm createdisk MGMTP1 /dev/mapper/mpathup1
+Marking disk "MGMTP1" as an ASM disk:                      [  OK  ]
+</pre>
+<p><strong>   5.Now list and scan the disks [ On all the nodes ]</strong></p>
+<p>Once disk is created, you need to scan the disks using scandisks on all the nodes,</p>
+<pre>#  /etc/init.d/oracleasm scandisks
+#  /etc/init.d/oracleasm listdisks
+</pre>
+<p>Now, these ASM disks are ready to be added to ASM disk group.</p>
+<p><strong>automatic start can be enabled or disabled with the &#8216;enable&#8217; and &#8216;disable&#8217; options to /etc/init.d/oracleasm:</strong></p>
+<pre>      
+-- Enable 
+                                     
+# /etc/init.d/oracleasm disable
+  Writing Oracle ASM library driver configuration            [  OK  ]
+  Unmounting ASMlib driver filesystem                        [  OK  ]
+  Unloading module "oracleasm"                               [  OK  ]
+
+-- Disable 
+
+# /etc/init.d/oracleasm enable
+  Writing Oracle ASM library driver configuration            [  OK  ]
+  Loading module "oracleasm"                                 [  OK  ]
+  Mounting ASMlib driver filesystem                          [  OK  ]
+  Scanning system for ASM disks                              [  OK  ]
+
+</pre>
+<p><strong>Delete asmdisk</strong></p>
+<p>Disks that are no longer used by ASM can be unmarked using deletedisk command</p>
+<p><em>oracleasm deletedisk</em></p>
+<pre class=""> oracleasm deletedisk OCRVD1
+</pre>
+<p><strong>Check whether a disk is already marked for asm or not:</strong></p>
+<pre class="">[root~]# oracleasm querydisk /dev/emcpowerac1
+Device "/dev/emcpowerac1" is marked an ASM disk with the label "REDO1"
+
+</pre>
+<p><strong>Get physical disk details with ASM DISK NAMES:</strong></p>
+<p>blkid command will give information about the physical disks and respective asmdisk label name</p>
+<pre>[rootmapper]# /sbin/blkid 
+/dev/sdm1: LABEL="REDO06" TYPE="oracleasm"
+/dev/sdp1: LABEL="REDO04" TYPE="oracleasm"
+/dev/sds1: LABEL="REDO03" TYPE="oracleasm"
+/dev/sdv1: LABEL="REDO01" TYPE="oracleasm"
+/dev/sdy1: LABEL="REDO05" TYPE="oracleasm"
+/dev/sdab1: LABEL="REDO02" TYPE="oracleasm"
+/dev/sdjn1: LABEL="REDO04" TYPE="oracleasm"
+/dev/sdjk1: LABEL="REDO06" TYPE="oracleasm"
+/dev/sdjq1: LABEL="REDO03" TYPE="oracleasm"
+/dev/sdjt1: LABEL="REDO01" TYPE="oracleasm"
+/dev/sdjw1: LABEL="REDO05" TYPE="oracleasm"
+/dev/sdjz1: LABEL="REDO02" TYPE="oracleasm"
+/dev/mapper/mpathop1: LABEL="REDO04" TYPE="oracleasm"
+/dev/mapper/mpathup1: LABEL="REDO01" TYPE="oracleasm"
+/dev/mapper/mpathyp1: LABEL="REDO05" TYPE="oracleasm"
+/dev/mapper/mpathsp1: LABEL="REDO03" TYPE="oracleasm"
+/dev/mapper/mpathmp1: LABEL="REDO06" TYPE="oracleasm"
+/dev/mapper/mpathalp1: LABEL="REDO02" TYPE="oracleasm"
+
+
+</pre>
+<p>The post <a href="https://dbaclass.com/article/oracleasm-utility-asmlib/">oracleasm utility for ASMLIB</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/article/oracleasm-utility-asmlib/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

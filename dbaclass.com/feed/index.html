@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>DBACLASS</title>
+	<atom:link href="https://dbaclass.com/feed/" rel="self" type="application/rss+xml" />
+	<link>https://dbaclass.com/</link>
+	<description>database administration</description>
+	<lastBuildDate>Sun, 02 Dec 2018 12:30:54 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+	<item>
+		<title>TESTING</title>
+		<link>https://dbaclass.com/testing/</link>
+					<comments>https://dbaclass.com/testing/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 02 Dec 2018 12:30:54 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">http://dbaclass.com/?p=3988</guid>
+
+					<description><![CDATA[<p>[HDquiz quiz = &#8220;229&#8221;]</p>
+<p>The post <a href="https://dbaclass.com/testing/">TESTING</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p>[HDquiz quiz = &#8220;229&#8221;]</p>
+<p>The post <a href="https://dbaclass.com/testing/">TESTING</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/testing/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>ORA-01157: cannot identify ORA-01110: data file with dba_temp_file</title>
+		<link>https://dbaclass.com/ora-01157-cannot-identify-ora-01110-data-file-with-dba_temp_file/</link>
+					<comments>https://dbaclass.com/ora-01157-cannot-identify-ora-01110-data-file-with-dba_temp_file/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 30 Oct 2016 14:07:31 +0000</pubDate>
+				<category><![CDATA[Uncategorized]]></category>
+		<guid isPermaLink="false">http://dbaclass.com/?p=1230</guid>
+
+					<description><![CDATA[<p>                                 Recently one of our database was migrated. After migration DB is up and running, But we found below errors in the alert log. &#160; Errors in file /oracle/app/oracle/admin/test/diag/rdbms/b2btrn/TEST/trace/test_ora_20464.trc: ORA-01157: cannot identify/lock data file 205 &#8211; see DBWR trace file [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/ora-01157-cannot-identify-ora-01110-data-file-with-dba_temp_file/">ORA-01157: cannot identify ORA-01110: data file with dba_temp_file</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">                                 Recently one of our database was migrated. After migration DB is up and running, But we found below errors in the alert log.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">Errors in file /oracle/app/oracle/admin/test/diag/rdbms/b2btrn/TEST/trace/test_ora_20464.trc:</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">ORA-01157: cannot identify/lock data file 205 &#8211; see DBWR trace file</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">ORA-01110: data file 205: &#8216;/test/oradata/b2btrn/tempfile/temp1.304.921456819&#8217;</span></p>
+<p><span style="color: #000000;">Now I queried dba_temp_files, and got the same error.</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">SQL&gt; select file_name from dba_temp_fileS;</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">ERROR:</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">ORA-01157: cannot identify/lock data file 205 &#8211; see DBWR trace file</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">ORA-01110: data file 205: &#8216;/test/oradata/b2btrn/tempfile/temp1.304.921456819&#8217;</span></p>
+<p><span style="color: #000000;">And the file is not present physically also:</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">ls -ltr /test/oradata/b2btrn/tempfile/temp1.304.921456819</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">/test/oradata/test/tempfile/temp1.304.921456819: No such file or directory</span></p>
+<p>&nbsp;<br />
+<script type="text/javascript">
+    google_ad_client = "ca-pub-6186075803958446";
+    google_ad_slot = "6828843412";
+    google_ad_width = 300;
+    google_ad_height = 600;
+</script><br />
+<!-- sidebar --><br />
+<script type="text/javascript"
+src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+</script><br />
+&nbsp;<br />
+<strong><span style="color: #000000;">To fix it , I have dropped the temp file:</span></strong></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">SQL&gt;select file#,name from v$tempfile</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> FILE# NAME</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">&#8212;&#8212;&#8212;- &#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> 1 /test/oradata/temp03.dbf</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> 3 /test/oradata/b2bsit1_iastemp.dbf</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> 4 /test/oradata/sit1b2b_iastemp.dbf</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> 2 /test/oradata/b2btrn/tempfile/temp1.304.</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">SQL&gt; alter database tempfile &#8216;/test/oradata/b2btrn/tempfile/temp1.304.921456819&#8217; drop;</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">Database altered.</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">SQL&gt;select file_name from dba_temp_fileS</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">FILE_NAME</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">/test/oradata/b2bsit1_iastemp.dbf</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">/test/oradata/sit1b2b_iastemp.dbf</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">/test/oradata/temp03.dbf</span></p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/ora-01157-cannot-identify-ora-01110-data-file-with-dba_temp_file/">ORA-01157: cannot identify ORA-01110: data file with dba_temp_file</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/ora-01157-cannot-identify-ora-01110-data-file-with-dba_temp_file/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>ORA-38301: can not perform DDL/DML over objects in Recycle Bin</title>
+		<link>https://dbaclass.com/ora-38301-can-not-perform-ddldml-over-objects-in-recycle-bin/</link>
+					<comments>https://dbaclass.com/ora-38301-can-not-perform-ddldml-over-objects-in-recycle-bin/#comments</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Sun, 30 Oct 2016 12:44:43 +0000</pubDate>
+				<category><![CDATA[TROUBLESHOOTING]]></category>
+		<guid isPermaLink="false">http://dbaclass.com/?p=1225</guid>
+
+					<description><![CDATA[<p>           While dropping a tablespace, getting error ORA-38301: can not perform DDL/DML over objects in Recycle Bin . SQL&#62; drop tablespace DATA including contents and datafiles; drop tablespace DATA including contents and datafiles * ERROR at line 1: ORA-00604: error occurred at recursive SQL level 1 ORA-38301: can not perform DDL/DML over [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/ora-38301-can-not-perform-ddldml-over-objects-in-recycle-bin/">ORA-38301: can not perform DDL/DML over objects in Recycle Bin</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">           While dropping a tablespace, getting error ORA-38301: can not perform DDL/DML over objects in Recycle Bin .</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">SQL&gt; drop tablespace DATA including contents and datafiles;</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> drop tablespace DATA including contents and datafiles</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> *</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> ERROR at line 1:</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> ORA-00604: error occurred at recursive SQL level 1</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;"> ORA-38301: can not perform DDL/DML over objects in Recycle Bin</span></p>
+<p>&nbsp;</p>
+<h4><span style="color: #000000;">Solution:</span></h4>
+<p><span style="color: #000000;">Before dropping the tablespace, disable recyclbin . </span></p>
+<p><strong><span style="color: #000000;">1. Disable recyclebin:</span></strong></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">SQL&gt; ALTER SYSTEM SET <em>recyclebin = OFF DEFERRED</em>;</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">System altered.</span></p>
+<p><strong><span style="color: #000000;">2. Drop tablespace:</span></strong></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">SQL&gt; drop tablespace DATA including contents and datafiles;</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">Tablespace dropped.</span></p>
+<p><strong><span style="color: #000000;">3.  Enable recyclebin </span></strong></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">SQL &gt; ALTER SYSTEM SET <em>recyclebin = ON DEFERRED</em>;</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">System altered.</span></p>
+<p>&nbsp;</p>
+<p>The post <a href="https://dbaclass.com/ora-38301-can-not-perform-ddldml-over-objects-in-recycle-bin/">ORA-38301: can not perform DDL/DML over objects in Recycle Bin</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/ora-38301-can-not-perform-ddldml-over-objects-in-recycle-bin/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>RMAN-20005: target database name is ambiguous</title>
+		<link>https://dbaclass.com/rman-20005-target-database-name-is-ambiguous/</link>
+					<comments>https://dbaclass.com/rman-20005-target-database-name-is-ambiguous/#respond</comments>
+		
+		<dc:creator><![CDATA[Admin]]></dc:creator>
+		<pubDate>Fri, 14 Oct 2016 08:00:40 +0000</pubDate>
+				<category><![CDATA[TROUBLESHOOTING]]></category>
+		<guid isPermaLink="false">http://dbaclass.com/?p=1140</guid>
+
+					<description><![CDATA[<p>                          While running rman commands from the catalog database, you might get the error RMAN-20005: target database name is ambiguous. , if the database was restored from another database. ERROR: rman target sys/oracle#51234@RMANBKP catalog rman_b2ccrmpd/rman@catdb Recovery Manager: Release 12.1.0.2.0 &#8211; Production on Fri Oct [&#8230;]</p>
+<p>The post <a href="https://dbaclass.com/rman-20005-target-database-name-is-ambiguous/">RMAN-20005: target database name is ambiguous</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p><span style="color: #000000;">                          While running rman commands from the catalog database, you might get the error RMAN-20005: target database name is ambiguous. , if the database was restored from another database.</span></p>
+<h4><span style="color: #000000;">ERROR:</span></h4>
+<p><span style="font-family: 'andale mono', monospace; color: #000000;">rman target sys/oracle#51234@RMANBKP catalog rman_b2ccrmpd/rman@catdb</span></p>
+<p><span style="font-family: 'andale mono', monospace; color: #000000;">Recovery Manager: Release 12.1.0.2.0 &#8211; Production on Fri Oct 14 10:34:05 2016</span></p>
+<p><span style="font-family: 'andale mono', monospace; color: #000000;">Copyright (c) 1982, 2014, Oracle and/or its affiliates. All rights reserved.</span></p>
+<p><span style="font-family: 'andale mono', monospace; color: #000000;">connected to target database: B2CCRMPD (DBID=1927730802, not open)</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">connected to recovery catalog database</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">RMAN&gt; list backup;</span></p>
+<p><span style="font-family: 'andale mono', monospace; color: #000000;">RMAN-00571: ===========================================================</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">RMAN-00571: ===========================================================</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">RMAN-03002: failure of list command at 10/11/2016 06:13:34</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">RMAN-06004: ORACLE error from recovery catalog database: RMAN-20005: target database name is ambiguous</span></p>
+<h4><span style="color: #000000;">SOLUTION:</span></h4>
+<p><span style="color: #000000;">1. connect to the catalog database , check the dbid.</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">oracle@sec86-5:~/RMAN$ sqlplus rman_b2ccrmpd/rman@catdb</span></p>
+<p><span style="font-family: 'andale mono', monospace; color: #000000;">SQL*Plus: Release 12.1.0.2.0 Production on Tue Oct 11 06:14:17 2016</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">Copyright (c) 1982, 2014, Oracle. All rights reserved.</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">Connected to:</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">Oracle Database 11g Enterprise Edition Release 11.2.0.4.0 &#8211; 64bit Production</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">With the Partitioning, OLAP, Data Mining and Real Application Testing options</span></p>
+<p><span style="font-family: 'andale mono', monospace; color: #000000;">SQL&gt; select db_key,dbid,name from rc_database;</span></p>
+<p><span style="font-family: 'andale mono', monospace; color: #000000;">DB_KEY DBID NAME</span><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">&#8212;&#8212;&#8212;- &#8212;&#8212;&#8212;- &#8212;&#8212;&#8211;</span><br />
+<strong><em><span style="font-family: 'andale mono', monospace; color: #000000;"> 96243 1927730802 B2CCRMPD</span></em></strong><br />
+<span style="font-family: 'andale mono', monospace; color: #000000;">    1 1924697918 B2CCRMPD</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000;">We can see there are two dbid entries in the catalog. Now <strong><em>set the correct db id of the target db</em></strong> and run rman commands.</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">rman target sys/oracle#51234@RMANBKP catalog rman_b2ccrmpd/rman@catdb</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">Recovery Manager: Release 12.1.0.2.0 &#8211; Production on Fri Oct 14 10:34:05 2016</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">Copyright (c) 1982, 2014, Oracle and/or its affiliates. All rights reserved.</span></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">connected to target database: B2CCRMPD (DBID=1927730802, not open)</span><br />
+<span style="color: #000000; font-family: 'andale mono', monospace;">connected to recovery catalog database</span><br />
+<em><strong><span style="color: #000000; font-family: 'andale mono', monospace;">RMAN&gt; set DBID=1927730802;</span></strong></em></p>
+<p><span style="color: #000000; font-family: 'andale mono', monospace;">RMAN&gt; list backup;</span></p>
+<p><span style="color: #000000;">it will work</span></p>
+<p>The post <a href="https://dbaclass.com/rman-20005-target-database-name-is-ambiguous/">RMAN-20005: target database name is ambiguous</a> appeared first on <a href="https://dbaclass.com">DBACLASS</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://dbaclass.com/rman-20005-target-database-name-is-ambiguous/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
